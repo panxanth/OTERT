@@ -1,0 +1,100 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Inside.master.cs" Inherits="OTERT_Telerik.Masters.Inside" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head runat="server">
+    <title><asp:ContentPlaceHolder ID="PHTitle" runat="server" /></title>
+    <telerik:RadStyleSheetManager id="RadStyleSheetManager1" runat="server" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/Site.css" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/mbcsmbmcp.css" />
+    <asp:ContentPlaceHolder ID="PHHead" runat="server" />
+</head>
+<body>
+    <div id="mbmcpebul_wrapper">
+        <ul id="mbmcpebul_table" class="mbmcpebul_menulist css_menu">
+        <li>
+            <div class="buttonbg gradient_button gradient33" style="width: 49px;"><a href="test.aspx">Home</a></div>
+        </li>
+        <li>
+            <div class="buttonbg gradient_button gradient33" style="width: 80px;">
+                <div class="arrow"><a class="button_2">Έργα</a></div>
+            </div>
+            <ul class="gradient_menu gradient99">
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Έργο Τυπου 1</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Λίστα</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">Προσθήκη</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Λίστα Έργων Τύπου 2</a></li>
+                <li class="gradient_menuitem gradient27 last_item"><a title="">Προσθήκη Έργου Τύπου 2</a></li>
+            </ul>
+        </li>
+        <li>
+            <div class="buttonbg gradient_button gradient33" style="width: 80px;">
+                <div class="arrow"><a class="button_2">Products</a></div>
+            </div>
+            <ul class="gradient_menu gradient99">
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Menu Item</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Item 1</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">Item 2</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Another Menu Item</a></li>
+                <li class="gradient_menuitem gradient27 last_item"><a title="">Yet Another</a></li>
+            </ul>
+        </li>
+        <% if (groupID == "1") {%>
+        <li>
+            <div class="buttonbg gradient_button gradient33" style="width: 100px;">
+                <div class="arrow"><a class="button_2">Διαχείριση</a></div>
+            </div>
+            <ul class="gradient_menu gradient99">
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Χρήστες Εφαρμογής</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/UsersList.aspx">Χρήστες</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/UserGroupsList.aspx">Ομάδες Χρηστών</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Γεωγραφικά Δεδομένα</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/CountriesList.aspx">Χώρες</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/languagesList.aspx">Γλώσσες</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/PlacesList.aspx">Τοποθεσίες</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/EventsList.aspx">Γεγονότα</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Τεχνικά Δεδομένα</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/LineTypesList.aspx">Είδη Γραμμών</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Πελάτες</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/CustomerTypesList.aspx">Τύποι Πελάτη</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Λίστα Έργων Τύπου 2</a></li>
+                <li class="gradient_menuitem gradient27 last_item"><a title="">Προσθήκη Έργου Τύπου 2</a></li>
+            </ul>
+        </li>
+        <%}%>
+        <li>
+            <div class="gradient33" style="width: 400px; text-align: right;"><a class="button_666"><span class="fa fa-user" style="font-size: 18px;"></span>&nbsp;&nbsp;&nbsp;<% =userName %></a></div>
+        </li>
+        <li>
+            <div class="buttonbg gradient_button gradient33" style="width: 100px;"><a href="/Default.aspx">Αποσύνδεση</a></div>
+        </li>
+        </ul>
+    </div>
+    <br />
+    <form id="form1" runat="server">
+    <div>
+        <asp:ContentPlaceHolder ID="PHContent" runat="server" />
+    </div>
+    </form>
+</body>
+</html>

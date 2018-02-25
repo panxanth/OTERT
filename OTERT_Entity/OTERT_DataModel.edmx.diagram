@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="874c5265a1124d12a9e45e46a5e3c369" Name="Diagram1">
+        <EntityTypeShape EntityType="OTERT_Model.Countries" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.CountryPricelist" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.Customers" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.CustomerTypes" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.Distances" Width="1.5" PointX="14" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.DistanceTypes" Width="1.5" PointX="11.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.Events" Width="1.5" PointX="5.25" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.FormulaAttributes" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.Formulas" Width="1.5" PointX="12.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.FormulaTypes" Width="1.5" PointX="10.5" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.Jobs" Width="1.5" PointX="7.5" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.Languages" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.LineTypes" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.Orders" Width="1.5" PointX="7.5" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.OrderTypes" Width="1.5" PointX="5.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.Places" Width="1.5" PointX="3" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.RequestedPositions" Width="1.5" PointX="7.5" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.SateliteFrequencies" Width="1.5" PointX="7.5" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.Satelites" Width="1.5" PointX="11.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.Tasks" Width="1.5" PointX="9.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.UIControlsVisibility" Width="1.5" PointX="7.5" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.UserGroups" Width="1.5" PointX="1.5" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.Users" Width="1.5" PointX="0.75" PointY="14.125" IsExpanded="true" />
+        <AssociationConnector Association="OTERT_Model.fk_Customers_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Places_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_CountryPricelist_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_CountryPricelist_LineTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Customers_CustomerTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Customers_Languages" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Customers_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Orders_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Tasks_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Distances_DistanceTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Events_Places" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Orders_Events" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Formulas_FormulaTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Formulas_Jobs" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Tasks_Jobs" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Orders_OrderTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Tasks_Orders" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_UIControlsVisibility_OrderTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Tasks_RequestedPositions" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Tasks_SateliteFrequencies" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Users_UserGroups" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

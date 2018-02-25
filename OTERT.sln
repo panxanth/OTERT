@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OTERT", "OTERT\OTERT.csproj", "{09186405-15EE-459F-AF94-2591A2548E03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OTERT_Entity", "OTERT_Entity\OTERT_Entity.csproj", "{A91964D9-441C-40B4-9AD3-BE1D1F0DA814}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OTERT_Telerik", "OTERT_Telerik\OTERT_Telerik.csproj", "{DA48C3E9-FE8F-4519-951C-0C62C56F3FE8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09186405-15EE-459F-AF94-2591A2548E03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09186405-15EE-459F-AF94-2591A2548E03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09186405-15EE-459F-AF94-2591A2548E03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09186405-15EE-459F-AF94-2591A2548E03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A91964D9-441C-40B4-9AD3-BE1D1F0DA814}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A91964D9-441C-40B4-9AD3-BE1D1F0DA814}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A91964D9-441C-40B4-9AD3-BE1D1F0DA814}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A91964D9-441C-40B4-9AD3-BE1D1F0DA814}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA48C3E9-FE8F-4519-951C-0C62C56F3FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA48C3E9-FE8F-4519-951C-0C62C56F3FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA48C3E9-FE8F-4519-951C-0C62C56F3FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA48C3E9-FE8F-4519-951C-0C62C56F3FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
