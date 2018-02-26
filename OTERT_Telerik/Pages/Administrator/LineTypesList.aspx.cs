@@ -22,6 +22,7 @@ namespace OTERT.Pages.Administrator {
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Ειδών Γραμμής";
+                gridMain.MasterTableView.Caption = "Είδη Γραμμών";
             }
         }
 
@@ -29,9 +30,9 @@ namespace OTERT.Pages.Administrator {
             int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
             int recTake = gridMain.PageSize;
             try {
-                CustomerTypesController cont = new CustomerTypesController();
-                gridMain.VirtualItemCount = cont.CountCustomerTypes();
-                gridMain.DataSource = cont.GetCustomerTypes(recSkip, recTake);
+                LineTypesController cont = new LineTypesController();
+                gridMain.VirtualItemCount = cont.CountLineTypes();
+                gridMain.DataSource = cont.GetLineTypes(recSkip, recTake);
             }
             catch (Exception ex) { }
 
@@ -43,7 +44,7 @@ namespace OTERT.Pages.Administrator {
 
         private void ShowErrorMessage(int errCode) {
             if (errCode == 1) {
-                RadWindowManager1.RadAlert("Ο συγκεκριμένος Τύπος Πελάτη σχετίζεται με κάποιον Πελάτη και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
+                RadWindowManager1.RadAlert("Το συγκεκριμένο Είδος Γραμμής σχετίζεται με κάποιο Τιμοκατάλογο Χώρας και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
             } else {
                 RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
             }
@@ -53,9 +54,9 @@ namespace OTERT.Pages.Administrator {
             var editableItem = ((GridEditableItem)e.Item);
             var ID = (int)editableItem.GetDataKeyValue("ID");
             using (var dbContext = new OTERTConnStr()) {
-                var custType = dbContext.CustomerTypes.Where(n => n.ID == ID).FirstOrDefault();
-                if (custType != null) {
-                    editableItem.UpdateValues(custType);
+                var lineType = dbContext.LineTypes.Where(n => n.ID == ID).FirstOrDefault();
+                if (lineType != null) {
+                    editableItem.UpdateValues(lineType);
                     try { dbContext.SaveChanges(); }
                     catch (Exception ex) { ShowErrorMessage(-1); }
                 }
@@ -65,12 +66,11 @@ namespace OTERT.Pages.Administrator {
         protected void gridMain_InsertCommand(object source, GridCommandEventArgs e) {
             var editableItem = ((GridEditableItem)e.Item);
             using (var dbContext = new OTERTConnStr()) {
-                var custType = new CustomerTypes();
+                var lineType = new LineTypes();
                 Hashtable values = new Hashtable();
                 editableItem.ExtractValues(values);
-                custType.NameGR = (string)values["NameGR"];
-                custType.NameEN = (string)values["NameEN"];
-                dbContext.CustomerTypes.Add(custType);
+                lineType.Name = (string)values["Name"];
+                dbContext.LineTypes.Add(lineType);
                 try { dbContext.SaveChanges(); }
                 catch (System.Exception) { ShowErrorMessage(-1); }
             }
@@ -79,9 +79,9 @@ namespace OTERT.Pages.Administrator {
         protected void gridMain_DeleteCommand(object source, GridCommandEventArgs e) {
             var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
             using (var dbContext = new OTERTConnStr()) {
-                var custType = dbContext.CustomerTypes.Where(n => n.ID == ID).FirstOrDefault();
-                if (custType != null) {
-                    dbContext.CustomerTypes.Remove(custType);
+                var lineType = dbContext.LineTypes.Where(n => n.ID == ID).FirstOrDefault();
+                if (lineType != null) {
+                    dbContext.LineTypes.Remove(lineType);
                     try { dbContext.SaveChanges(); }
                     catch (Exception ex) {
                         string err = ex.InnerException.InnerException.Message;

@@ -93,6 +93,7 @@
     <Compile Include="App_Code\Utilities.cs" />
     <Compile Include="App_Code\FilterData.cs" />
     <Compile Include="App_Code\StaticUtilities.cs" />
+    <Compile Include="Controller\LineTypesController.cs" />
     <Compile Include="Controller\CustomerTypesController.cs" />
     <Compile Include="Controller\LanguagesController.cs" />
     <Compile Include="Controller\CountriesController.cs" />

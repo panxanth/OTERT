@@ -27,6 +27,11 @@ namespace OTERT.Model {
         public string NameEN { get; set; }
     }
 
+    public class LineTypeB {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+
     public class CustomerTypeB {
         public int ID { get; set; }
         public string NameGR { get; set; }
