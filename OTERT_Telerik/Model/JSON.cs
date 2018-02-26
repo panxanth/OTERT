@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 
-namespace OTERT_Telerik.Model {
+namespace OTERT.Model {
 
     public class JSON2WS {
         [JsonProperty("skip")]

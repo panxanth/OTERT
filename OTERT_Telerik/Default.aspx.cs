@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Web.UI.WebControls;
 using Telerik.Web.UI;
-using OTERT_Telerik.Model;
+using OTERT.Model;
 using OTERT_Entity;
 
 public partial class Default : System.Web.UI.Page  {

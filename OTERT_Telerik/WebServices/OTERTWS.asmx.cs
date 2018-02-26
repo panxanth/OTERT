@@ -5,10 +5,10 @@ using System.Linq.Dynamic;
 using System.Web.Services;
 using System.Web.Script.Serialization;
 using System.Web.Script.Services;
-using OTERT_Telerik.Model;
+using OTERT.Model;
 using OTERT_Entity;
 
-namespace OTERT_Telerik.WebServices {
+namespace OTERT.WebServices {
 
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]

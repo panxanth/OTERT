@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace OTERT_Telerik.Model {
+namespace OTERT.Model {
 
     public class UserGroupDTO {
         public int ID { get; set; }

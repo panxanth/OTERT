@@ -6,12 +6,12 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Web.UI.WebControls;
 using Telerik.Web.UI;
-using OTERT_Telerik.Model;
-using OTERT_Telerik.Controller;
+using OTERT.Model;
+using OTERT.Controller;
 using OTERT_Entity;
 using System.Collections.Generic;
 
-namespace OTERT_Telerik.Pages.Administrator {
+namespace OTERT.Pages.Administrator {
 
     public partial class UsersList : System.Web.UI.Page {
 

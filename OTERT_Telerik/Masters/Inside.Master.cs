@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace OTERT_Telerik.Masters {
+namespace OTERT.Masters {
 
     public partial class Inside : System.Web.UI.MasterPage {
 

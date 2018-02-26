@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Web;
-using OTERT_Telerik.Model;
+using OTERT.Model;
 using OTERT_Entity;
 
-namespace OTERT_Telerik.Controller {
+namespace OTERT.Controller {
 
     public class UsersController {
 

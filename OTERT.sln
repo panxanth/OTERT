@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OTERT_Entity", "OTERT_Entity\OTERT_Entity.csproj", "{A91964D9-441C-40B4-9AD3-BE1D1F0DA814}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OTERT_Telerik", "OTERT_Telerik\OTERT_Telerik.csproj", "{DA48C3E9-FE8F-4519-951C-0C62C56F3FE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OTERT", "OTERT_Telerik\OTERT.csproj", "{DA48C3E9-FE8F-4519-951C-0C62C56F3FE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
