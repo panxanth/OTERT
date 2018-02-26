@@ -19,6 +19,7 @@ namespace OTERT.Model {
         public int CountryID { get; set; }
         public string NameGR { get; set; }
         public string NameEN { get; set; }
+        //τεστ
     }
 
     public class CountryB {

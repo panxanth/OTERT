@@ -25,7 +25,7 @@ namespace OTERT.Pages.Administrator {
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Γεγονότων";
-                //gridMain.PageSize = 10;
+                gridMain.MasterTableView.Caption = "Γεγονότα";
                 newID = -1;
                 Session.Remove("PlaceID");
                 //Session.Remove("FilterRecords");

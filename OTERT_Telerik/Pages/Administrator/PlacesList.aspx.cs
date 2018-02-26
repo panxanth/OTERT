@@ -24,7 +24,7 @@ namespace OTERT.Pages.Administrator {
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Τοποθεσιών";
-                //gridMain.PageSize = 10;
+                gridMain.MasterTableView.Caption = "Τοποθεσίες";
                 newID = -1;
                 Session.Remove("CountryID");
             }

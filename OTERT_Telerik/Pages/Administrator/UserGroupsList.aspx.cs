@@ -22,7 +22,7 @@ namespace OTERT.Pages.Administrator {
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Ομάδων Χρηστών";
-                //gridMain.PageSize = 10;
+                gridMain.MasterTableView.Caption = "Ομάδες Χρηστών";
             }
         }
 

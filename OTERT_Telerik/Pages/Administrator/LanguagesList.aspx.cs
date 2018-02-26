@@ -22,6 +22,7 @@ namespace OTERT.Pages.Administrator {
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Γλωσσών";
+                gridMain.MasterTableView.Caption = "Γλώσσες";
             }
         }
 

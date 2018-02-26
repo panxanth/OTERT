@@ -24,7 +24,7 @@ namespace OTERT.Pages.Administrator {
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Χρηστών";
-                //gridMain.PageSize = 10;
+                gridMain.MasterTableView.Caption = "Χρήστες Εφαρμογής";
                 newID = -1;
                 Session.Remove("UserGroupID");
             }
