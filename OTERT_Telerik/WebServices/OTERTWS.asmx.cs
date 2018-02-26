@@ -92,7 +92,7 @@ namespace OTERT.WebServices {
                     }
                     return new JavaScriptSerializer().Serialize(responseObj);
                 }
-                catch (Exception ex) { return null; }
+                catch (Exception) { return null; }
             }
         }
 

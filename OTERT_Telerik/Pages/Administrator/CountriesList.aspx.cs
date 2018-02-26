@@ -34,7 +34,7 @@ namespace OTERT.Pages.Administrator {
                 gridMain.VirtualItemCount = cont.CountCountries();
                 gridMain.DataSource = cont.GetCountries(recSkip, recTake);
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
 
         }
 
@@ -58,7 +58,7 @@ namespace OTERT.Pages.Administrator {
                 if (country != null) {
                     editableItem.UpdateValues(country);
                     try { dbContext.SaveChanges(); }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                 }
             }
         }
@@ -73,7 +73,7 @@ namespace OTERT.Pages.Administrator {
                 country.NameEN = (string)values["NameEN"];
                 dbContext.Countries.Add(country);
                 try { dbContext.SaveChanges(); }
-                catch (System.Exception) { ShowErrorMessage(-1); }
+                catch (Exception) { ShowErrorMessage(-1); }
             }
         }
 

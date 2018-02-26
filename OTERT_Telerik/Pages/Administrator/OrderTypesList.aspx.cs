@@ -34,7 +34,7 @@ namespace OTERT.Pages.Administrator {
                 gridMain.VirtualItemCount = cont.CountOrderTypes();
                 gridMain.DataSource = cont.GetOrderTypes(recSkip, recTake);
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
 
         }
 
@@ -58,7 +58,7 @@ namespace OTERT.Pages.Administrator {
                 if (orderType != null) {
                     editableItem.UpdateValues(orderType);
                     try { dbContext.SaveChanges(); }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace OTERT.Pages.Administrator {
                 orderType.Name = (string)values["Name"];
                 dbContext.OrderTypes.Add(orderType);
                 try { dbContext.SaveChanges(); }
-                catch (System.Exception) { ShowErrorMessage(-1); }
+                catch (Exception) { ShowErrorMessage(-1); }
             }
         }
 

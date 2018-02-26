@@ -18,17 +18,13 @@ namespace OTERT_Entity
         public Customers()
         {
             this.CountryPricelist = new HashSet<CountryPricelist>();
-            this.Orders = new HashSet<Orders>();
             this.Tasks = new HashSet<Tasks>();
+            this.Orders1 = new HashSet<Orders>();
+            this.Orders11 = new HashSet<Orders>();
         }
     
         public int ID { get; set; }
-        public string Name1GR { get; set; }
-        public string Name1EN { get; set; }
-        public string Name2GR { get; set; }
-        public string Name2EN { get; set; }
         public int CountryID { get; set; }
-        public string ZIPCoode { get; set; }
         public string CityGR { get; set; }
         public string CityEN { get; set; }
         public string ChargeTelephone { get; set; }
@@ -51,6 +47,9 @@ namespace OTERT_Entity
         public Nullable<int> UserID { get; set; }
         public string Comments { get; set; }
         public Nullable<bool> IsProvider { get; set; }
+        public string ZIPCode { get; set; }
+        public string NameGR { get; set; }
+        public string NameEN { get; set; }
     
         public virtual Countries Countries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -59,8 +58,10 @@ namespace OTERT_Entity
         public virtual Languages Languages { get; set; }
         public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tasks> Tasks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Orders> Orders1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Orders> Orders11 { get; set; }
     }
 }

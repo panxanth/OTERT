@@ -14,7 +14,7 @@ namespace OTERT.Controller {
                 try {
                     return dbContext.Languages.Count();
                 }
-                catch (Exception ex) { return -1; }
+                catch (Exception) { return -1; }
             }
         }
 
@@ -30,7 +30,7 @@ namespace OTERT.Controller {
                                              }).OrderBy(o => o.Name).ToList();
                     return data;
                 }
-                catch (Exception ex) { return null; }
+                catch (Exception) { return null; }
             }
         }
 
@@ -46,7 +46,7 @@ namespace OTERT.Controller {
                                             }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
-                catch (Exception ex) { return null; }
+                catch (Exception) { return null; }
             }
         }
 

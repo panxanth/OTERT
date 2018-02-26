@@ -22,14 +22,16 @@ namespace OTERT_Entity
     
         public int ID { get; set; }
         public int OrderTypeID { get; set; }
-        public int CustomerID { get; set; }
         public string RegNo { get; set; }
-        public int PlaceID { get; set; }
+        public int Customer1ID { get; set; }
+        public Nullable<int> Customer2ID { get; set; }
+        public int EventID { get; set; }
     
-        public virtual Customers Customers { get; set; }
-        public virtual Events Events { get; set; }
         public virtual OrderTypes OrderTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual Customers Customers1 { get; set; }
+        public virtual Customers Customers11 { get; set; }
+        public virtual Events Events { get; set; }
     }
 }

@@ -17,10 +17,8 @@ namespace OTERT.Model {
         public int ID { get; set; }
         public CountryDTO Country { get; set; }
         public int CountryID { get; set; }
-        public string Name1GR { get; set; }
-        public string Name1EN { get; set; }
-        public string Name2GR { get; set; }
-        public string Name2EN { get; set; }
+        public string NameGR { get; set; }
+        public string NameEN { get; set; }
         public string ZIPCode { get; set; }
         public string CityGR { get; set; }
         public string CityEN { get; set; }

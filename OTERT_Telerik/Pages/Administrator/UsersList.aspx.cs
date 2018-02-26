@@ -38,7 +38,7 @@ namespace OTERT.Pages.Administrator {
                 gridMain.VirtualItemCount = cont.CountUsers();
                 gridMain.DataSource = cont.GetUsers(recSkip, recTake);
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
 
         }
 
@@ -63,7 +63,7 @@ namespace OTERT.Pages.Administrator {
                         Session["UserGroupID"] = list.SelectedItem.Value;
                     }
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
             }
         }
 
@@ -93,7 +93,7 @@ namespace OTERT.Pages.Administrator {
                         Session.Remove("UserGroupID");
                     }
                     try { dbContext.SaveChanges(); }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                 }
             }
         }
@@ -118,7 +118,7 @@ namespace OTERT.Pages.Administrator {
                         dbContext.Users.Add(user);
                         dbContext.SaveChanges();
                     }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                     finally {
                         newID = -1;
                         Session.Remove("UserGroupID");
@@ -149,7 +149,7 @@ namespace OTERT.Pages.Administrator {
                 newID = int.Parse(e.Value);
                 Session["UserGroupID"] = newID;
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
 
     }

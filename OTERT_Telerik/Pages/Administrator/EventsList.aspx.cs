@@ -40,7 +40,7 @@ namespace OTERT.Pages.Administrator {
                 gridMain.VirtualItemCount = cont.CountEvents();
                 gridMain.DataSource = cont.GetEvents(recSkip, recTake);
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
 
         }
 
@@ -65,7 +65,7 @@ namespace OTERT.Pages.Administrator {
                         Session["PlaceID"] = list.SelectedItem.Value;
                     }
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
             }
         }
 
@@ -87,7 +87,7 @@ namespace OTERT.Pages.Administrator {
                         filterData.RemoveRecord(filterPair.First.ToString(), filterPair.Second.ToString());
                     }
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
 
                 /*
                 TextBox filterBox = (e.Item as GridFilteringItem)[filterPair.Second.ToString()].Controls[0] as TextBox;
@@ -131,7 +131,7 @@ namespace OTERT.Pages.Administrator {
                         Session.Remove("PlaceID");
                     }
                     try { dbContext.SaveChanges(); }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                 }
             }
         }
@@ -151,7 +151,7 @@ namespace OTERT.Pages.Administrator {
                         dbContext.Events.Add(selEvent);
                         dbContext.SaveChanges();   
                     }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                     finally {
                         newID = -1;
                         Session.Remove("PlaceID");
@@ -182,7 +182,7 @@ namespace OTERT.Pages.Administrator {
                 newID = int.Parse(e.Value);
                 Session["PlaceID"] = newID;
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
 
         }
 

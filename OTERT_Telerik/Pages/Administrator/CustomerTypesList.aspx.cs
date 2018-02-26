@@ -34,7 +34,7 @@ namespace OTERT.Pages.Administrator {
                 gridMain.VirtualItemCount = cont.CountCustomerTypes();
                 gridMain.DataSource = cont.GetCustomerTypes(recSkip, recTake);
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
 
         }
 
@@ -58,7 +58,7 @@ namespace OTERT.Pages.Administrator {
                 if (custType != null) {
                     editableItem.UpdateValues(custType);
                     try { dbContext.SaveChanges(); }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                 }
             }
         }
@@ -73,7 +73,7 @@ namespace OTERT.Pages.Administrator {
                 custType.NameEN = (string)values["NameEN"];
                 dbContext.CustomerTypes.Add(custType);
                 try { dbContext.SaveChanges(); }
-                catch (System.Exception) { ShowErrorMessage(-1); }
+                catch (Exception) { ShowErrorMessage(-1); }
             }
         }
 

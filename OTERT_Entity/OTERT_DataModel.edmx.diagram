@@ -35,11 +35,9 @@
         <AssociationConnector Association="OTERT_Model.fk_Customers_CustomerTypes" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Customers_Languages" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Customers_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="OTERT_Model.fk_Orders_Customers" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Tasks_Customers" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Distances_DistanceTypes" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Events_Places" ManuallyRouted="false" />
-        <AssociationConnector Association="OTERT_Model.fk_Orders_Events" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Formulas_FormulaTypes" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Formulas_Jobs" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Tasks_Jobs" ManuallyRouted="false" />
@@ -49,6 +47,9 @@
         <AssociationConnector Association="OTERT_Model.fk_Tasks_RequestedPositions" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Tasks_SateliteFrequencies" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Users_UserGroups" ManuallyRouted="false" />
+        <AssociationConnector Association="OTERT_Model.fk_Orders_Customers_1" />
+        <AssociationConnector Association="OTERT_Model.FK_Orders_Customers_2" />
+        <AssociationConnector Association="OTERT_Model.fk_Orders_Events" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

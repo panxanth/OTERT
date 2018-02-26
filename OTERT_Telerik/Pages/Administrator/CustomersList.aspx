@@ -49,14 +49,12 @@
                 <Columns>
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
                     <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" AllowFiltering="false" />
-                    <telerik:GridBoundColumn DataField="Name1GR" HeaderText="Όνομα (GR)" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true">
+                    <telerik:GridBoundColumn DataField="NameGR" HeaderText="Όνομα (GR)" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true">
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn DataField="Name1EN" HeaderText="Όνομα (EN)" Visible="false" />
-                    <telerik:GridBoundColumn DataField="Name2GR" HeaderText="Όνομα 2 (GR)" Visible="false" />
-                    <telerik:GridBoundColumn DataField="Name2EN" HeaderText="Όνομα 2 (EN)" Visible="false" />
+                    <telerik:GridBoundColumn DataField="NameEN" HeaderText="Όνομα (EN)" Visible="false" />
                     <telerik:GridTemplateColumn HeaderText="Χώρα" HeaderStyle-Width="180px" UniqueName="CountryID" DataField="CountryID" AllowFiltering="false">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Country.NameGR") %>' runat="server" /> 

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="OTERT_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="OTERT_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Countries">
           <Key>
             <PropertyRef Name="ID" />
@@ -30,12 +30,10 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name1GR" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Name1EN" Type="nvarchar" MaxLength="255" />
-          <Property Name="Name2GR" Type="nvarchar" MaxLength="255" />
-          <Property Name="Name2EN" Type="nvarchar" MaxLength="255" />
+          <Property Name="NameGR" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="NameEN" Type="nvarchar" MaxLength="255" />
           <Property Name="CountryID" Type="int" Nullable="false" />
-          <Property Name="ZIPCoode" Type="varchar" MaxLength="10" />
+          <Property Name="ZIPCode" Type="varchar" MaxLength="10" />
           <Property Name="CityGR" Type="nvarchar" MaxLength="100" />
           <Property Name="CityEN" Type="nvarchar" MaxLength="100" />
           <Property Name="ChargeTelephone" Type="varchar" MaxLength="50" />
@@ -150,9 +148,10 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderTypeID" Type="int" Nullable="false" />
-          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="Customer1ID" Type="int" Nullable="false" />
+          <Property Name="Customer2ID" Type="int" />
           <Property Name="RegNo" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="PlaceID" Type="int" Nullable="false" />
+          <Property Name="EventID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OrderTypes">
           <Key>
@@ -381,7 +380,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Orders_Customers">
+        <Association Name="fk_Orders_Customers_1">
           <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -389,7 +388,19 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Orders">
-              <PropertyRef Name="CustomerID" />
+              <PropertyRef Name="Customer1ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Customers_2">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Customer2ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -401,7 +412,7 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Orders">
-              <PropertyRef Name="PlaceID" />
+              <PropertyRef Name="EventID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -577,7 +588,11 @@
             <End Role="Jobs" EntitySet="Jobs" />
             <End Role="Formulas" EntitySet="Formulas" />
           </AssociationSet>
-          <AssociationSet Name="fk_Orders_Customers" Association="Self.fk_Orders_Customers">
+          <AssociationSet Name="fk_Orders_Customers_1" Association="Self.fk_Orders_Customers_1">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Customers_2" Association="Self.FK_Orders_Customers_2">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
@@ -622,8 +637,7 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="OTERT_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -656,12 +670,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name1GR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name1EN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Name2GR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Name2EN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="CountryID" Type="Int32" Nullable="false" />
-          <Property Name="ZIPCoode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="CityGR" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CityEN" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ChargeTelephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -689,8 +698,12 @@
           <NavigationProperty Name="CustomerTypes" Relationship="Self.fk_Customers_CustomerTypes" FromRole="Customers" ToRole="CustomerTypes" />
           <NavigationProperty Name="Languages" Relationship="Self.fk_Customers_Languages" FromRole="Customers" ToRole="Languages" />
           <NavigationProperty Name="Users" Relationship="Self.fk_Customers_Users" FromRole="Customers" ToRole="Users" />
-          <NavigationProperty Name="Orders" Relationship="Self.fk_Orders_Customers" FromRole="Customers" ToRole="Orders" />
           <NavigationProperty Name="Tasks" Relationship="Self.fk_Tasks_Customers" FromRole="Customers" ToRole="Tasks" />
+          <Property Name="ZIPCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Orders1" Relationship="OTERT_Model.fk_Orders_Customers_1" FromRole="Customers" ToRole="Orders" />
+          <NavigationProperty Name="Orders11" Relationship="OTERT_Model.FK_Orders_Customers_2" FromRole="Customers" ToRole="Orders" />
+          <Property Name="NameGR" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NameEN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CustomerTypes">
           <Key>
@@ -729,7 +742,7 @@
           <Property Name="NameGR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="NameEN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Places" Relationship="Self.fk_Events_Places" FromRole="Events" ToRole="Places" />
-          <NavigationProperty Name="Orders" Relationship="Self.fk_Orders_Events" FromRole="Events" ToRole="Orders" />
+          <NavigationProperty Name="Orders" Relationship="OTERT_Model.fk_Orders_Events" FromRole="Events" ToRole="Orders" />
         </EntityType>
         <EntityType Name="FormulaAttributes">
           <Key>
@@ -795,13 +808,15 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderTypeID" Type="Int32" Nullable="false" />
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
           <Property Name="RegNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PlaceID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Customers" Relationship="Self.fk_Orders_Customers" FromRole="Orders" ToRole="Customers" />
-          <NavigationProperty Name="Events" Relationship="Self.fk_Orders_Events" FromRole="Orders" ToRole="Events" />
           <NavigationProperty Name="OrderTypes" Relationship="Self.fk_Orders_OrderTypes" FromRole="Orders" ToRole="OrderTypes" />
           <NavigationProperty Name="Tasks" Relationship="Self.fk_Tasks_Orders" FromRole="Orders" ToRole="Tasks" />
+          <Property Name="Customer1ID" Type="Int32" Nullable="false" />
+          <Property Name="Customer2ID" Type="Int32" />
+          <NavigationProperty Name="Customers1" Relationship="OTERT_Model.fk_Orders_Customers_1" FromRole="Orders" ToRole="Customers" />
+          <NavigationProperty Name="Customers11" Relationship="OTERT_Model.FK_Orders_Customers_2" FromRole="Orders" ToRole="Customers" />
+          <Property Name="EventID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Events" Relationship="OTERT_Model.fk_Orders_Events" FromRole="Orders" ToRole="Events" />
         </EntityType>
         <EntityType Name="OrderTypes">
           <Key>
@@ -1009,18 +1024,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Orders_Customers">
-          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customers">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="CustomerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_Tasks_Customers">
           <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
@@ -1053,18 +1056,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Events">
-              <PropertyRef Name="PlaceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Orders_Events">
-          <End Role="Events" Type="Self.Events" Multiplicity="1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Events">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Orders">
               <PropertyRef Name="PlaceID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1229,10 +1220,6 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Customers" EntitySet="Customers" />
           </AssociationSet>
-          <AssociationSet Name="fk_Orders_Customers" Association="Self.fk_Orders_Customers">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="fk_Tasks_Customers" Association="Self.fk_Tasks_Customers">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Tasks" EntitySet="Tasks" />
@@ -1244,10 +1231,6 @@
           <AssociationSet Name="fk_Events_Places" Association="Self.fk_Events_Places">
             <End Role="Places" EntitySet="Places" />
             <End Role="Events" EntitySet="Events" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Orders_Events" Association="Self.fk_Orders_Events">
-            <End Role="Events" EntitySet="Events" />
-            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="fk_Formulas_FormulaTypes" Association="Self.fk_Formulas_FormulaTypes">
             <End Role="FormulaTypes" EntitySet="FormulaTypes" />
@@ -1285,7 +1268,55 @@
             <End Role="UserGroups" EntitySet="UserGroups" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="fk_Orders_Customers_1" Association="OTERT_Model.fk_Orders_Customers_1">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Customers_2" Association="OTERT_Model.FK_Orders_Customers_2">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Orders_Events" Association="OTERT_Model.fk_Orders_Events">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="fk_Orders_Customers_1">
+          <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
+          <End Type="OTERT_Model.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Customer1ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Customers_2">
+          <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="0..1" />
+          <End Type="OTERT_Model.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Customer2ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Orders_Events">
+          <End Type="OTERT_Model.Events" Role="Events" Multiplicity="1" />
+          <End Type="OTERT_Model.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1317,13 +1348,11 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="OTERT_Model.Customers">
               <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="NameEN" ColumnName="NameEN" />
+                <ScalarProperty Name="NameGR" ColumnName="NameGR" />
+                <ScalarProperty Name="ZIPCode" ColumnName="ZIPCode" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name1GR" ColumnName="Name1GR" />
-                <ScalarProperty Name="Name1EN" ColumnName="Name1EN" />
-                <ScalarProperty Name="Name2GR" ColumnName="Name2GR" />
-                <ScalarProperty Name="Name2EN" ColumnName="Name2EN" />
                 <ScalarProperty Name="CountryID" ColumnName="CountryID" />
-                <ScalarProperty Name="ZIPCoode" ColumnName="ZIPCoode" />
                 <ScalarProperty Name="CityGR" ColumnName="CityGR" />
                 <ScalarProperty Name="CityEN" ColumnName="CityEN" />
                 <ScalarProperty Name="ChargeTelephone" ColumnName="ChargeTelephone" />
@@ -1447,11 +1476,12 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="OTERT_Model.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="Customer2ID" ColumnName="Customer2ID" />
+                <ScalarProperty Name="Customer1ID" ColumnName="Customer1ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="OrderTypeID" ColumnName="OrderTypeID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="RegNo" ColumnName="RegNo" />
-                <ScalarProperty Name="PlaceID" ColumnName="PlaceID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

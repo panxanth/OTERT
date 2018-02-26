@@ -14,7 +14,7 @@ namespace OTERT.Controller {
                 try {
                     return dbContext.Customers.Count();
                 }
-                catch (Exception ex) { return -1; }
+                catch (Exception) { return -1; }
             }
         }
 
@@ -31,11 +31,9 @@ namespace OTERT.Controller {
                                                     NameGR = us.Countries.NameGR,
                                                     NameEN = us.Countries.NameEN
                                                 },
-                                                Name1GR = us.Name1GR,
-                                                Name1EN = us.Name1EN,
-                                                Name2GR = us.Name2GR,
-                                                Name2EN = us.Name2EN,
-                                                ZIPCode = us.ZIPCoode,
+                                                NameGR = us.NameGR,
+                                                NameEN = us.NameEN,
+                                                ZIPCode = us.ZIPCode,
                                                 CityGR = us.CityGR,
                                                 CityEN = us.CityEN,
                                                 ChargeTelephone = us.ChargeTelephone,
@@ -84,10 +82,10 @@ namespace OTERT.Controller {
                                                 },
                                                 Comments = us.Comments,
                                                 IsProvider = us.IsProvider
-                                            }).OrderBy(o => o.Name1GR).ToList();
+                                            }).OrderBy(o => o.NameGR).ToList();
                     return data;
                 }
-                catch (Exception ex) { return null; }
+                catch (Exception) { return null; }
             }
         }
 
@@ -104,11 +102,9 @@ namespace OTERT.Controller {
                                                     NameGR = us.Countries.NameGR,
                                                     NameEN = us.Countries.NameEN
                                                 },
-                                                Name1GR = us.Name1GR,
-                                                Name1EN = us.Name1EN,
-                                                Name2GR = us.Name2GR,
-                                                Name2EN = us.Name2EN,
-                                                ZIPCode = us.ZIPCoode,
+                                                NameGR = us.NameGR,
+                                                NameEN = us.NameEN,
+                                                ZIPCode = us.ZIPCode,
                                                 CityGR = us.CityGR,
                                                 CityEN = us.CityEN,
                                                 ChargeTelephone = us.ChargeTelephone,
@@ -160,7 +156,7 @@ namespace OTERT.Controller {
                                             }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
-                catch (Exception ex) { return null; }
+                catch (Exception) { return null; }
             }
         }
 

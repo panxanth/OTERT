@@ -44,7 +44,7 @@ namespace OTERT.Pages.Administrator {
                 gridMain.VirtualItemCount = cont.CountCustomers();
                 gridMain.DataSource = cont.GetCustomers(recSkip, recTake);
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
 
         }
 
@@ -114,7 +114,7 @@ namespace OTERT.Pages.Administrator {
                         Session["UserID"] = ddlUsers.SelectedItem.Value;
                     }
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
             }
         }
 
@@ -172,7 +172,7 @@ namespace OTERT.Pages.Administrator {
                         Session.Remove("UserID");
                     }
                     try { dbContext.SaveChanges(); }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                 }
             }
         }
@@ -190,11 +190,9 @@ namespace OTERT.Pages.Administrator {
                 if (countryID > 0 && customerTypeID > 0 && languageID > 0 && userID > 0) {
                     try {
                         selCustomer.CountryID = countryID;
-                        selCustomer.Name1GR = (string)values["Name1GR"];
-                        selCustomer.Name1EN = (string)values["Name1EN"];
-                        selCustomer.Name2GR = (string)values["Name2GR"];
-                        selCustomer.Name2EN = (string)values["Name2EN"];
-                        selCustomer.ZIPCoode = (string)values["ZIPCode"];
+                        selCustomer.NameGR = (string)values["NameGR"];
+                        selCustomer.NameEN = (string)values["NameEN"];
+                        selCustomer.ZIPCode = (string)values["ZIPCode"];
                         selCustomer.CityGR = (string)values["CityGR"];
                         selCustomer.CityEN = (string)values["CityEN"];
                         selCustomer.ChargeTelephone = (string)values["ChargeTelephone"];
@@ -220,7 +218,7 @@ namespace OTERT.Pages.Administrator {
                         dbContext.Customers.Add(selCustomer);
                         dbContext.SaveChanges();   
                     }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                     finally {
                         countryID = -1;
                         Session.Remove("CountryID");
@@ -257,7 +255,7 @@ namespace OTERT.Pages.Administrator {
                 countryID = int.Parse(e.Value);
                 Session["CountryID"] = countryID;
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
 
         protected void ddlCustomerTypes_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
@@ -265,7 +263,7 @@ namespace OTERT.Pages.Administrator {
                 customerTypeID = int.Parse(e.Value);
                 Session["CustomerTypeID"] = customerTypeID;
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
 
         protected void ddlLanguages_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
@@ -273,7 +271,7 @@ namespace OTERT.Pages.Administrator {
                 languageID = int.Parse(e.Value);
                 Session["LanguageID"] = languageID;
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
 
         protected void ddlUsers_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
@@ -281,7 +279,7 @@ namespace OTERT.Pages.Administrator {
                 userID = int.Parse(e.Value);
                 Session["UserID"] = userID;
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
 
     }

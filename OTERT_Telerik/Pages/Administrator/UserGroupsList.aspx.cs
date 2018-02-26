@@ -34,7 +34,7 @@ namespace OTERT.Pages.Administrator {
                 gridMain.VirtualItemCount = cont.CountUserGroups();
                 gridMain.DataSource = cont.GetUserGroups(recSkip, recTake);
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
 
         }
 
@@ -58,7 +58,7 @@ namespace OTERT.Pages.Administrator {
                 if (ugroup != null) {
                     editableItem.UpdateValues(ugroup);
                     try { dbContext.SaveChanges(); }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace OTERT.Pages.Administrator {
                 ugroup.Name = (string)values["Name"];
                 dbContext.UserGroups.Add(ugroup);
                 try { dbContext.SaveChanges(); }
-                catch (System.Exception) { ShowErrorMessage(-1); }
+                catch (Exception) { ShowErrorMessage(-1); }
             }
         }
 

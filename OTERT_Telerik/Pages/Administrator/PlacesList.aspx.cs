@@ -38,7 +38,7 @@ namespace OTERT.Pages.Administrator {
                 gridMain.VirtualItemCount = cont.CountPlaces();
                 gridMain.DataSource = cont.GetPlaces(recSkip, recTake);
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
 
         }
 
@@ -63,7 +63,7 @@ namespace OTERT.Pages.Administrator {
                         Session["CountryID"] = list.SelectedItem.Value;
                     }
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
             }
         }
 
@@ -93,7 +93,7 @@ namespace OTERT.Pages.Administrator {
                         Session.Remove("CountryID");
                     }
                     try { dbContext.SaveChanges(); }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                 }
             }
         }
@@ -113,7 +113,7 @@ namespace OTERT.Pages.Administrator {
                         dbContext.Places.Add(place);
                         dbContext.SaveChanges();
                     }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                     finally {
                         newID = -1;
                         Session.Remove("CountryID");
@@ -144,7 +144,7 @@ namespace OTERT.Pages.Administrator {
                 newID = int.Parse(e.Value);
                 Session["CountryID"] = newID;
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
 
         }
 
