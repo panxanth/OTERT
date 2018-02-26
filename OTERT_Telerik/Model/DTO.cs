@@ -13,6 +13,7 @@ namespace OTERT.Model {
     public class UserDTO {
         public int ID { get; set; }
         public int UserGroupID { get; set; }
+        public UserGroupDTO UserGroup { get; set; }
         public string NameGR { get; set; }
         public string NameEN { get; set; }
         public string Telephone { get; set; }
@@ -34,6 +35,18 @@ namespace OTERT.Model {
         public int CountryID { get; set; }
         public string NameGR { get; set; }
         public string NameEN { get; set; }
+    }
+
+    public class CustomerTypeDTO {
+        public int ID { get; set; }
+        public string NameGR { get; set; }
+        public string NameEN { get; set; }
+    }
+
+    public class LanguageDTO {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
     }
 
 }

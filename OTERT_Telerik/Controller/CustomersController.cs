@@ -1,0 +1,169 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using OTERT.Model;
+using OTERT_Entity;
+
+namespace OTERT.Controller {
+
+    public class CustomersController {
+
+        public int CountCustomers() {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    return dbContext.Customers.Count();
+                }
+                catch (Exception ex) { return -1; }
+            }
+        }
+
+        public List<CustomerB> GetCustomers() {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<CustomerB> data = (from us in dbContext.Customers
+                                            select new CustomerB {
+                                                ID = us.ID,
+                                                CountryID = us.CountryID,
+                                                Country = new CountryDTO {
+                                                    ID = us.Countries.ID,
+                                                    NameGR = us.Countries.NameGR,
+                                                    NameEN = us.Countries.NameEN
+                                                },
+                                                Name1GR = us.Name1GR,
+                                                Name1EN = us.Name1EN,
+                                                Name2GR = us.Name2GR,
+                                                Name2EN = us.Name2EN,
+                                                ZIPCode = us.ZIPCoode,
+                                                CityGR = us.CityGR,
+                                                CityEN = us.CityEN,
+                                                ChargeTelephone = us.ChargeTelephone,
+                                                Telephone1 = us.Telephone1,
+                                                Telephone2 = us.Telephone2,
+                                                FAX1 = us.FAX1,
+                                                FAX2 = us.FAX2,
+                                                Address1GR = us.Address1GR,
+                                                Address1EN = us.Address1EN,
+                                                Address2GR = us.Address2GR,
+                                                Address2EN = us.Address2EN,
+                                                ContactPersonGR = us.ContactPersonGR,
+                                                ContactPersonEN = us.ContactPersonEN,
+                                                CustomerTypeID = us.CustomerTypeID,
+                                                CustomerType = new CustomerTypeDTO {
+                                                    ID = us.CustomerTypes.ID,
+                                                    NameGR = us.CustomerTypes.NameGR,
+                                                    NameEN = us.CustomerTypes.NameEN
+                                                },
+                                                LanguageID = us.LanguageID,
+                                                Language = new LanguageDTO {
+                                                    ID = us.Languages.ID,
+                                                    Name = us.Languages.Name,
+                                                    Code = us.Languages.Code
+                                                },
+                                                Email = us.Email,
+                                                URL = us.URL,
+                                                AFM = us.AFM,
+                                                DOY = us.DOY,
+                                                UserID = us.UserID,
+                                                User = new UserDTO {
+                                                    ID = us.Users.ID,
+                                                    UserGroupID = us.Users.UserGroupID,
+                                                    UserGroup = new UserGroupDTO {
+                                                        ID = us.Users.UserGroups.ID,
+                                                        Name = us.Users.UserGroups.Name
+                                                    },
+                                                    NameGR = us.Users.NameGR,
+                                                    NameEN = us.Users.NameEN,
+
+                                                    Telephone = us.Users.Telephone,
+                                                    FAX = us.Users.FAX,
+                                                    Email = us.Users.Email,
+                                                    UserName = us.Users.UserName,
+                                                    Password = us.Users.Password
+                                                },
+                                                Comments = us.Comments,
+                                                IsProvider = us.IsProvider
+                                            }).OrderBy(o => o.Name1GR).ToList();
+                    return data;
+                }
+                catch (Exception ex) { return null; }
+            }
+        }
+
+        public List<CustomerB> GetCustomers(int recSkip, int recTake) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<CustomerB> data = (from us in dbContext.Customers
+                                            select new CustomerB {
+                                                ID = us.ID,
+                                                CountryID = us.CountryID,
+                                                Country = new CountryDTO {
+                                                    ID = us.Countries.ID,
+                                                    NameGR = us.Countries.NameGR,
+                                                    NameEN = us.Countries.NameEN
+                                                },
+                                                Name1GR = us.Name1GR,
+                                                Name1EN = us.Name1EN,
+                                                Name2GR = us.Name2GR,
+                                                Name2EN = us.Name2EN,
+                                                ZIPCode = us.ZIPCoode,
+                                                CityGR = us.CityGR,
+                                                CityEN = us.CityEN,
+                                                ChargeTelephone = us.ChargeTelephone,
+                                                Telephone1 = us.Telephone1,
+                                                Telephone2 = us.Telephone2,
+                                                FAX1 = us.FAX1,
+                                                FAX2 = us.FAX2,
+                                                Address1GR = us.Address1GR,
+                                                Address1EN = us.Address1EN,
+                                                Address2GR = us.Address2GR,
+                                                Address2EN = us.Address2EN,
+                                                ContactPersonGR = us.ContactPersonGR,
+                                                ContactPersonEN = us.ContactPersonEN,
+                                                CustomerTypeID = us.CustomerTypeID,
+                                                CustomerType = new CustomerTypeDTO {
+                                                    ID = us.CustomerTypes.ID,
+                                                    NameGR = us.CustomerTypes.NameGR,
+                                                    NameEN = us.CustomerTypes.NameEN
+                                                },
+                                                LanguageID = us.LanguageID,
+                                                Language = new LanguageDTO {
+                                                    ID = us.Languages.ID,
+                                                    Name = us.Languages.Name,
+                                                    Code = us.Languages.Code
+                                                },
+                                                Email = us.Email,
+                                                URL = us.URL,
+                                                AFM = us.AFM,
+                                                DOY = us.DOY,
+                                                UserID = us.UserID,
+                                                User = new UserDTO {
+                                                    ID = us.Users.ID,
+                                                    UserGroupID = us.Users.UserGroupID,
+                                                    UserGroup = new UserGroupDTO {
+                                                        ID = us.Users.UserGroups.ID,
+                                                        Name = us.Users.UserGroups.Name
+                                                    },
+                                                    NameGR = us.Users.NameGR,
+                                                    NameEN = us.Users.NameEN,
+
+                                                    Telephone = us.Users.Telephone,
+                                                    FAX = us.Users.FAX,
+                                                    Email = us.Users.Email,
+                                                    UserName = us.Users.UserName,
+                                                    Password = us.Users.Password
+                                                },
+                                                Comments = us.Comments,
+                                                IsProvider = us.IsProvider
+                                            }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                    return data;
+                }
+                catch (Exception ex) { return null; }
+            }
+        }
+
+    }
+
+}
