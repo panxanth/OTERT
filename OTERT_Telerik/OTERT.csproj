@@ -93,6 +93,7 @@
     <Compile Include="App_Code\Utilities.cs" />
     <Compile Include="App_Code\FilterData.cs" />
     <Compile Include="App_Code\StaticUtilities.cs" />
+    <Compile Include="Controller\OrderTypesController.cs" />
     <Compile Include="Controller\LineTypesController.cs" />
     <Compile Include="Controller\CustomerTypesController.cs" />
     <Compile Include="Controller\LanguagesController.cs" />
@@ -112,6 +113,10 @@
     <Compile Include="Model\Business.cs" />
     <Compile Include="Model\DTO.cs" />
     <Compile Include="Model\JSON.cs" />
+    <Compile Include="Pages\Administrator\OrderTypesList.aspx.cs">
+      <DependentUpon>OrderTypesList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Administrator\LineTypesList.aspx.cs">
       <DependentUpon>LineTypesList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -192,6 +197,7 @@
     <Content Include="App_Data\RadCaptcha\Y.wav" />
     <Content Include="App_Data\RadCaptcha\Z.wav" />
     <Content Include="Default.aspx" />
+    <Content Include="Pages\Administrator\OrderTypesList.aspx" />
     <Content Include="Pages\Administrator\LineTypesList.aspx" />
     <Content Include="Pages\Administrator\CustomerTypesList.aspx" />
     <Content Include="Pages\Administrator\LanguagesList.aspx" />

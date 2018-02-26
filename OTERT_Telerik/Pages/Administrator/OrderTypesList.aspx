@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="CountriesList.aspx.cs" Inherits="OTERT.Pages.Administrator.CountriesList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="OrderTypesList.aspx.cs" Inherits="OTERT.Pages.Administrator.OrderTypesList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 
@@ -40,13 +40,12 @@
                 <Columns>
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
                     <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
-                    <telerik:GridBoundColumn DataField="NameGR" HeaderText="Όνομα (GR)" >
+                    <telerik:GridBoundColumn DataField="Name" HeaderText="Όνομα" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn DataField="NameEN" HeaderText="Όνομα (EN)" />
-                    <telerik:GridButtonColumn ConfirmText="Να διαγραφεί αυτή η Χώρα;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" />
+                    <telerik:GridButtonColumn ConfirmText="Να διαγραφεί αυτό το Είδος Παραγγελίας;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" />
                 </Columns>
                 <EditFormSettings>
                     <EditColumn UpdateText="Ενημέρωση" InsertText="Εισαγωγή" CancelText="Ακύρωση" />                          

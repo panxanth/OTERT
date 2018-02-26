@@ -19,7 +19,6 @@ namespace OTERT.Model {
         public int CountryID { get; set; }
         public string NameGR { get; set; }
         public string NameEN { get; set; }
-        //τεστ
     }
 
     public class CountryB {
@@ -29,6 +28,11 @@ namespace OTERT.Model {
     }
 
     public class LineTypeB {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class OrderTypeB {
         public int ID { get; set; }
         public string Name { get; set; }
     }

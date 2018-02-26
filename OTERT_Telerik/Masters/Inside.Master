@@ -77,6 +77,11 @@
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/CustomerTypesList.aspx">Τύποι Πελάτη</a></li>
                     </ul>
                 </li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Παραγγελίες</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/OrderTypesList.aspx">Είδη Παραγγελιών</a></li>
+                    </ul>
+                </li>
                 <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Λίστα Έργων Τύπου 2</a></li>
                 <li class="gradient_menuitem gradient27 last_item"><a title="">Προσθήκη Έργου Τύπου 2</a></li>
             </ul>
