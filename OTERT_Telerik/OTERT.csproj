@@ -93,6 +93,12 @@
     <Compile Include="App_Code\Utilities.cs" />
     <Compile Include="App_Code\FilterData.cs" />
     <Compile Include="App_Code\StaticUtilities.cs" />
+    <Compile Include="Controller\JobCancelPricesController.cs" />
+    <Compile Include="Controller\JobFormulasController.cs" />
+    <Compile Include="Controller\JobsController.cs" />
+    <Compile Include="Controller\SalesFormulasController.cs" />
+    <Compile Include="Controller\SalesController.cs" />
+    <Compile Include="Controller\SatelitesController.cs" />
     <Compile Include="Controller\CustomersController.cs" />
     <Compile Include="Controller\OrderTypesController.cs" />
     <Compile Include="Controller\LineTypesController.cs" />
@@ -114,6 +120,18 @@
     <Compile Include="Model\Business.cs" />
     <Compile Include="Model\DTO.cs" />
     <Compile Include="Model\JSON.cs" />
+    <Compile Include="Pages\Administrator\JobsList.aspx.cs">
+      <DependentUpon>JobsList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Administrator\SalesList.aspx.cs">
+      <DependentUpon>SalesList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Administrator\SatelitesList.aspx.cs">
+      <DependentUpon>SatelitesList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Administrator\CustomersList.aspx.cs">
       <DependentUpon>CustomersList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -202,6 +220,9 @@
     <Content Include="App_Data\RadCaptcha\Y.wav" />
     <Content Include="App_Data\RadCaptcha\Z.wav" />
     <Content Include="Default.aspx" />
+    <Content Include="Pages\Administrator\JobsList.aspx" />
+    <Content Include="Pages\Administrator\SalesList.aspx" />
+    <Content Include="Pages\Administrator\SatelitesList.aspx" />
     <Content Include="Pages\Administrator\CustomersList.aspx" />
     <Content Include="Pages\Administrator\OrderTypesList.aspx" />
     <Content Include="Pages\Administrator\LineTypesList.aspx" />
@@ -304,7 +325,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

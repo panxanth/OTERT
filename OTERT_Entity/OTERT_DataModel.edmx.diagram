@@ -22,9 +22,8 @@
         <EntityTypeShape EntityType="OTERT_Model.OrderTypes" Width="1.5" PointX="5.25" PointY="12.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.Places" Width="1.5" PointX="3" PointY="16.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.RequestedPositions" Width="1.5" PointX="7.5" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="OTERT_Model.SateliteFrequencies" Width="1.5" PointX="7.5" PointY="14.375" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.Satelites" Width="1.5" PointX="11.75" PointY="13.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="OTERT_Model.Tasks" Width="1.5" PointX="9.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTERT_Model.Tasks" Width="1.75" PointX="9.75" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.UIControlsVisibility" Width="1.5" PointX="7.5" PointY="17.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.UserGroups" Width="1.5" PointX="1.5" PointY="19.875" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.Users" Width="1.5" PointX="0.75" PointY="14.125" IsExpanded="true" />
@@ -45,11 +44,19 @@
         <AssociationConnector Association="OTERT_Model.fk_Tasks_Orders" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_UIControlsVisibility_OrderTypes" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Tasks_RequestedPositions" ManuallyRouted="false" />
-        <AssociationConnector Association="OTERT_Model.fk_Tasks_SateliteFrequencies" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Users_UserGroups" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Orders_Customers_1" />
         <AssociationConnector Association="OTERT_Model.FK_Orders_Customers_2" />
         <AssociationConnector Association="OTERT_Model.fk_Orders_Events" />
+        <AssociationConnector Association="OTERT_Model.fk_Tasks_Satelite" />
+        <EntityTypeShape EntityType="OTERT_Model.Sales" Width="1.5" PointX="14.375" PointY="14" />
+        <EntityTypeShape EntityType="OTERT_Model.SalesFormulas" Width="1.5" PointX="16.625" PointY="13.875" />
+        <AssociationConnector Association="OTERT_Model.FK_SalesFormulas_Sales" />
+        <AssociationConnector Association="OTERT_Model.FK_Jobs_Sales" />
+        <EntityTypeShape EntityType="OTERT_Model.JobCancelPrices" Width="1.5" PointX="9.75" PointY="16.875" />
+        <EntityTypeShape EntityType="OTERT_Model.JobFormulas" Width="1.5" PointX="9.75" PointY="19.375" />
+        <AssociationConnector Association="OTERT_Model.FK_JobCancelPrices_Jobs" />
+        <AssociationConnector Association="OTERT_Model.FK_JobFormulas_Jobs" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -42,11 +42,14 @@ namespace OTERT_Entity
         public virtual DbSet<OrderTypes> OrderTypes { get; set; }
         public virtual DbSet<Places> Places { get; set; }
         public virtual DbSet<RequestedPositions> RequestedPositions { get; set; }
-        public virtual DbSet<SateliteFrequencies> SateliteFrequencies { get; set; }
         public virtual DbSet<Satelites> Satelites { get; set; }
         public virtual DbSet<Tasks> Tasks { get; set; }
         public virtual DbSet<UIControlsVisibility> UIControlsVisibility { get; set; }
         public virtual DbSet<UserGroups> UserGroups { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Sales> Sales { get; set; }
+        public virtual DbSet<SalesFormulas> SalesFormulas { get; set; }
+        public virtual DbSet<JobCancelPrices> JobCancelPrices { get; set; }
+        public virtual DbSet<JobFormulas> JobFormulas { get; set; }
     }
 }

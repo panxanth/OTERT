@@ -19,17 +19,24 @@ namespace OTERT_Entity
         {
             this.Formulas = new HashSet<Formulas>();
             this.Tasks = new HashSet<Tasks>();
+            this.JobCancelPrices = new HashSet<JobCancelPrices>();
+            this.JobFormulas = new HashSet<JobFormulas>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
-        public Nullable<int> DiscountID { get; set; }
         public Nullable<int> MinimumTime { get; set; }
         public string InvoiceCode { get; set; }
+        public Nullable<int> SalesID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Formulas> Formulas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual Sales Sales { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JobCancelPrices> JobCancelPrices { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JobFormulas> JobFormulas { get; set; }
     }
 }

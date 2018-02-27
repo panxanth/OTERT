@@ -117,13 +117,30 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="JobCancelPrices">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobsID" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JobFormulas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobsID" Type="int" Nullable="false" />
+          <Property Name="Condition" Type="varchar" MaxLength="255" />
+          <Property Name="Formula" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
         <EntityType Name="Jobs">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="DiscountID" Type="int" />
+          <Property Name="SalesID" Type="int" />
           <Property Name="MinimumTime" Type="int" />
           <Property Name="InvoiceCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -177,12 +194,22 @@
           <Property Name="NameGR" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="NameEN" Type="nvarchar" MaxLength="255" />
         </EntityType>
-        <EntityType Name="SateliteFrequencies">
+        <EntityType Name="Sales">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Frequency" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalesFormulas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SalesID" Type="int" Nullable="false" />
+          <Property Name="Distance" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="SalePercent" Type="numeric" Precision="7" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="Satelites">
           <Key>
@@ -190,6 +217,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Frequency" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Tasks">
           <Key>
@@ -205,7 +233,7 @@
           <Property Name="PlaceFrom" Type="nvarchar" MaxLength="150" />
           <Property Name="PlaceTo" Type="nvarchar" MaxLength="150" />
           <Property Name="PlaceDistanceKm" Type="int" />
-          <Property Name="SateliteFrequencyID" Type="int" />
+          <Property Name="SateliteID" Type="int" />
           <Property Name="DateTimeStartOrder" Type="datetime" />
           <Property Name="DateTimeEndOrder" Type="datetime" />
           <Property Name="DateTimeDurationOrder" Type="int" Nullable="false" />
@@ -380,6 +408,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_JobCancelPrices_Jobs">
+          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
+          <End Role="JobCancelPrices" Type="Self.JobCancelPrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="JobCancelPrices">
+              <PropertyRef Name="JobsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JobFormulas_Jobs">
+          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
+          <End Role="JobFormulas" Type="Self.JobFormulas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="JobFormulas">
+              <PropertyRef Name="JobsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Jobs_Sales">
+          <End Role="Sales" Type="Self.Sales" Multiplicity="0..1" />
+          <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sales">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Jobs">
+              <PropertyRef Name="SalesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Orders_Customers_1">
           <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -440,6 +504,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SalesFormulas_Sales">
+          <End Role="Sales" Type="Self.Sales" Multiplicity="1" />
+          <End Role="SalesFormulas" Type="Self.SalesFormulas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sales">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SalesFormulas">
+              <PropertyRef Name="SalesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Tasks_Customers">
           <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
@@ -488,15 +564,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Tasks_SateliteFrequencies">
-          <End Role="SateliteFrequencies" Type="Self.SateliteFrequencies" Multiplicity="0..1" />
+        <Association Name="fk_Tasks_Satelite">
+          <End Role="Satelites" Type="Self.Satelites" Multiplicity="0..1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SateliteFrequencies">
+            <Principal Role="Satelites">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Tasks">
-              <PropertyRef Name="SateliteFrequencyID" />
+              <PropertyRef Name="SateliteID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -535,6 +611,8 @@
           <EntitySet Name="FormulaAttributes" EntityType="Self.FormulaAttributes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Formulas" EntityType="Self.Formulas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FormulaTypes" EntityType="Self.FormulaTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobCancelPrices" EntityType="Self.JobCancelPrices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobFormulas" EntityType="Self.JobFormulas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LineTypes" EntityType="Self.LineTypes" Schema="dbo" store:Type="Tables" />
@@ -542,7 +620,8 @@
           <EntitySet Name="OrderTypes" EntityType="Self.OrderTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Places" EntityType="Self.Places" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RequestedPositions" EntityType="Self.RequestedPositions" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SateliteFrequencies" EntityType="Self.SateliteFrequencies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesFormulas" EntityType="Self.SalesFormulas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Satelites" EntityType="Self.Satelites" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UIControlsVisibility" EntityType="Self.UIControlsVisibility" Schema="dbo" store:Type="Tables" />
@@ -588,6 +667,18 @@
             <End Role="Jobs" EntitySet="Jobs" />
             <End Role="Formulas" EntitySet="Formulas" />
           </AssociationSet>
+          <AssociationSet Name="FK_JobCancelPrices_Jobs" Association="Self.FK_JobCancelPrices_Jobs">
+            <End Role="Jobs" EntitySet="Jobs" />
+            <End Role="JobCancelPrices" EntitySet="JobCancelPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JobFormulas_Jobs" Association="Self.FK_JobFormulas_Jobs">
+            <End Role="Jobs" EntitySet="Jobs" />
+            <End Role="JobFormulas" EntitySet="JobFormulas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Jobs_Sales" Association="Self.FK_Jobs_Sales">
+            <End Role="Sales" EntitySet="Sales" />
+            <End Role="Jobs" EntitySet="Jobs" />
+          </AssociationSet>
           <AssociationSet Name="fk_Orders_Customers_1" Association="Self.fk_Orders_Customers_1">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Orders" EntitySet="Orders" />
@@ -608,6 +699,10 @@
             <End Role="Countries" EntitySet="Countries" />
             <End Role="Places" EntitySet="Places" />
           </AssociationSet>
+          <AssociationSet Name="FK_SalesFormulas_Sales" Association="Self.FK_SalesFormulas_Sales">
+            <End Role="Sales" EntitySet="Sales" />
+            <End Role="SalesFormulas" EntitySet="SalesFormulas" />
+          </AssociationSet>
           <AssociationSet Name="fk_Tasks_Customers" Association="Self.fk_Tasks_Customers">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Tasks" EntitySet="Tasks" />
@@ -624,8 +719,8 @@
             <End Role="RequestedPositions" EntitySet="RequestedPositions" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
-          <AssociationSet Name="fk_Tasks_SateliteFrequencies" Association="Self.fk_Tasks_SateliteFrequencies">
-            <End Role="SateliteFrequencies" EntitySet="SateliteFrequencies" />
+          <AssociationSet Name="fk_Tasks_Satelite" Association="Self.fk_Tasks_Satelite">
+            <End Role="Satelites" EntitySet="Satelites" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
           <AssociationSet Name="fk_UIControlsVisibility_OrderTypes" Association="Self.fk_UIControlsVisibility_OrderTypes">
@@ -779,11 +874,14 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DiscountID" Type="Int32" />
           <Property Name="MinimumTime" Type="Int32" />
           <Property Name="InvoiceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Formulas" Relationship="Self.fk_Formulas_Jobs" FromRole="Jobs" ToRole="Formulas" />
           <NavigationProperty Name="Tasks" Relationship="Self.fk_Tasks_Jobs" FromRole="Jobs" ToRole="Tasks" />
+          <Property Name="SalesID" Type="Int32" />
+          <NavigationProperty Name="Sales" Relationship="OTERT_Model.FK_Jobs_Sales" FromRole="Jobs" ToRole="Sales" />
+          <NavigationProperty Name="JobCancelPrices" Relationship="OTERT_Model.FK_JobCancelPrices_Jobs" FromRole="Jobs" ToRole="JobCancelPrices" />
+          <NavigationProperty Name="JobFormulas" Relationship="OTERT_Model.FK_JobFormulas_Jobs" FromRole="Jobs" ToRole="JobFormulas" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -847,20 +945,14 @@
           <Property Name="NameEN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Tasks" Relationship="Self.fk_Tasks_RequestedPositions" FromRole="RequestedPositions" ToRole="Tasks" />
         </EntityType>
-        <EntityType Name="SateliteFrequencies">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Frequency" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Tasks" Relationship="Self.fk_Tasks_SateliteFrequencies" FromRole="SateliteFrequencies" ToRole="Tasks" />
-        </EntityType>
         <EntityType Name="Satelites">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Frequency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tasks" Relationship="OTERT_Model.fk_Tasks_Satelite" FromRole="Satelites" ToRole="Tasks" />
         </EntityType>
         <EntityType Name="Tasks">
           <Key>
@@ -876,7 +968,6 @@
           <Property Name="PlaceFrom" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="PlaceTo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="PlaceDistanceKm" Type="Int32" />
-          <Property Name="SateliteFrequencyID" Type="Int32" />
           <Property Name="DateTimeStartOrder" Type="DateTime" Precision="3" />
           <Property Name="DateTimeEndOrder" Type="DateTime" Precision="3" />
           <Property Name="DateTimeDurationOrder" Type="Int32" Nullable="false" />
@@ -905,7 +996,8 @@
           <NavigationProperty Name="Jobs" Relationship="Self.fk_Tasks_Jobs" FromRole="Tasks" ToRole="Jobs" />
           <NavigationProperty Name="Orders" Relationship="Self.fk_Tasks_Orders" FromRole="Tasks" ToRole="Orders" />
           <NavigationProperty Name="RequestedPositions" Relationship="Self.fk_Tasks_RequestedPositions" FromRole="Tasks" ToRole="RequestedPositions" />
-          <NavigationProperty Name="SateliteFrequencies" Relationship="Self.fk_Tasks_SateliteFrequencies" FromRole="Tasks" ToRole="SateliteFrequencies" />
+          <Property Name="SateliteID" Type="Int32" />
+          <NavigationProperty Name="Satelites" Relationship="OTERT_Model.fk_Tasks_Satelite" FromRole="Tasks" ToRole="Satelites" />
         </EntityType>
         <EntityType Name="UIControlsVisibility">
           <Key>
@@ -1144,18 +1236,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Tasks_SateliteFrequencies">
-          <End Role="SateliteFrequencies" Type="Self.SateliteFrequencies" Multiplicity="0..1" />
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SateliteFrequencies">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Tasks">
-              <PropertyRef Name="SateliteFrequencyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_Users_UserGroups">
           <End Role="UserGroups" Type="Self.UserGroups" Multiplicity="1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -1186,7 +1266,6 @@
           <EntitySet Name="OrderTypes" EntityType="Self.OrderTypes" />
           <EntitySet Name="Places" EntityType="Self.Places" />
           <EntitySet Name="RequestedPositions" EntityType="Self.RequestedPositions" />
-          <EntitySet Name="SateliteFrequencies" EntityType="Self.SateliteFrequencies" />
           <EntitySet Name="Satelites" EntityType="Self.Satelites" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" />
           <EntitySet Name="UIControlsVisibility" EntityType="Self.UIControlsVisibility" />
@@ -1260,10 +1339,6 @@
             <End Role="RequestedPositions" EntitySet="RequestedPositions" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
-          <AssociationSet Name="fk_Tasks_SateliteFrequencies" Association="Self.fk_Tasks_SateliteFrequencies">
-            <End Role="SateliteFrequencies" EntitySet="SateliteFrequencies" />
-            <End Role="Tasks" EntitySet="Tasks" />
-          </AssociationSet>
           <AssociationSet Name="fk_Users_UserGroups" Association="Self.fk_Users_UserGroups">
             <End Role="UserGroups" EntitySet="UserGroups" />
             <End Role="Users" EntitySet="Users" />
@@ -1279,6 +1354,30 @@
           <AssociationSet Name="fk_Orders_Events" Association="OTERT_Model.fk_Orders_Events">
             <End Role="Events" EntitySet="Events" />
             <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Tasks_Satelite" Association="OTERT_Model.fk_Tasks_Satelite">
+            <End Role="Satelites" EntitySet="Satelites" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <EntitySet Name="Sales" EntityType="OTERT_Model.Sales" />
+          <EntitySet Name="SalesFormulas" EntityType="OTERT_Model.SalesFormulas" />
+          <AssociationSet Name="FK_SalesFormulas_Sales" Association="OTERT_Model.FK_SalesFormulas_Sales">
+            <End Role="Sales" EntitySet="Sales" />
+            <End Role="SalesFormulas" EntitySet="SalesFormulas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Jobs_Sales" Association="OTERT_Model.FK_Jobs_Sales">
+            <End Role="Sales" EntitySet="Sales" />
+            <End Role="Jobs" EntitySet="Jobs" />
+          </AssociationSet>
+          <EntitySet Name="JobCancelPrices" EntityType="OTERT_Model.JobCancelPrices" />
+          <EntitySet Name="JobFormulas" EntityType="OTERT_Model.JobFormulas" />
+          <AssociationSet Name="FK_JobCancelPrices_Jobs" Association="OTERT_Model.FK_JobCancelPrices_Jobs">
+            <End Role="Jobs" EntitySet="Jobs" />
+            <End Role="JobCancelPrices" EntitySet="JobCancelPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JobFormulas_Jobs" Association="OTERT_Model.FK_JobFormulas_Jobs">
+            <End Role="Jobs" EntitySet="Jobs" />
+            <End Role="JobFormulas" EntitySet="JobFormulas" />
           </AssociationSet>
         </EntityContainer>
         <Association Name="fk_Orders_Customers_1">
@@ -1314,6 +1413,105 @@
             </Principal>
             <Dependent Role="Orders">
               <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Tasks_Satelite">
+          <End Type="OTERT_Model.Satelites" Role="Satelites" Multiplicity="0..1" />
+          <End Type="OTERT_Model.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Satelites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="SateliteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Sales">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SalesFormulas" Relationship="OTERT_Model.FK_SalesFormulas_Sales" FromRole="Sales" ToRole="SalesFormulas" />
+          <NavigationProperty Name="Jobs" Relationship="OTERT_Model.FK_Jobs_Sales" FromRole="Sales" ToRole="Jobs" />
+        </EntityType>
+        <EntityType Name="SalesFormulas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SalesID" Type="Int32" Nullable="false" />
+          <Property Name="Distance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SalePercent" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <NavigationProperty Name="Sales" Relationship="OTERT_Model.FK_SalesFormulas_Sales" FromRole="SalesFormulas" ToRole="Sales" />
+        </EntityType>
+        <Association Name="FK_SalesFormulas_Sales">
+          <End Type="OTERT_Model.Sales" Role="Sales" Multiplicity="1" />
+          <End Type="OTERT_Model.SalesFormulas" Role="SalesFormulas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sales">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SalesFormulas">
+              <PropertyRef Name="SalesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Jobs_Sales">
+          <End Type="OTERT_Model.Sales" Role="Sales" Multiplicity="0..1" />
+          <End Type="OTERT_Model.Jobs" Role="Jobs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sales">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Jobs">
+              <PropertyRef Name="SalesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="JobCancelPrices">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobsID" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Jobs" Relationship="OTERT_Model.FK_JobCancelPrices_Jobs" FromRole="JobCancelPrices" ToRole="Jobs" />
+        </EntityType>
+        <EntityType Name="JobFormulas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobsID" Type="Int32" Nullable="false" />
+          <Property Name="Condition" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Formula" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Jobs" Relationship="OTERT_Model.FK_JobFormulas_Jobs" FromRole="JobFormulas" ToRole="Jobs" />
+        </EntityType>
+        <Association Name="FK_JobCancelPrices_Jobs">
+          <End Type="OTERT_Model.Jobs" Role="Jobs" Multiplicity="1" />
+          <End Type="OTERT_Model.JobCancelPrices" Role="JobCancelPrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="JobCancelPrices">
+              <PropertyRef Name="JobsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JobFormulas_Jobs">
+          <End Type="OTERT_Model.Jobs" Role="Jobs" Multiplicity="1" />
+          <End Type="OTERT_Model.JobFormulas" Role="JobFormulas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="JobFormulas">
+              <PropertyRef Name="JobsID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1448,9 +1646,9 @@
           <EntitySetMapping Name="Jobs">
             <EntityTypeMapping TypeName="OTERT_Model.Jobs">
               <MappingFragment StoreEntitySet="Jobs">
+                <ScalarProperty Name="SalesID" ColumnName="SalesID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="DiscountID" ColumnName="DiscountID" />
                 <ScalarProperty Name="MinimumTime" ColumnName="MinimumTime" />
                 <ScalarProperty Name="InvoiceCode" ColumnName="InvoiceCode" />
               </MappingFragment>
@@ -1512,17 +1710,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SateliteFrequencies">
-            <EntityTypeMapping TypeName="OTERT_Model.SateliteFrequencies">
-              <MappingFragment StoreEntitySet="SateliteFrequencies">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Satelites">
             <EntityTypeMapping TypeName="OTERT_Model.Satelites">
               <MappingFragment StoreEntitySet="Satelites">
+                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
@@ -1531,6 +1722,7 @@
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="OTERT_Model.Tasks">
               <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="SateliteID" ColumnName="SateliteID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="RegNo" ColumnName="RegNo" />
@@ -1541,7 +1733,6 @@
                 <ScalarProperty Name="PlaceFrom" ColumnName="PlaceFrom" />
                 <ScalarProperty Name="PlaceTo" ColumnName="PlaceTo" />
                 <ScalarProperty Name="PlaceDistanceKm" ColumnName="PlaceDistanceKm" />
-                <ScalarProperty Name="SateliteFrequencyID" ColumnName="SateliteFrequencyID" />
                 <ScalarProperty Name="DateTimeStartOrder" ColumnName="DateTimeStartOrder" />
                 <ScalarProperty Name="DateTimeEndOrder" ColumnName="DateTimeEndOrder" />
                 <ScalarProperty Name="DateTimeDurationOrder" ColumnName="DateTimeDurationOrder" />
@@ -1598,6 +1789,44 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sales">
+            <EntityTypeMapping TypeName="OTERT_Model.Sales">
+              <MappingFragment StoreEntitySet="Sales">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesFormulas">
+            <EntityTypeMapping TypeName="OTERT_Model.SalesFormulas">
+              <MappingFragment StoreEntitySet="SalesFormulas">
+                <ScalarProperty Name="SalePercent" ColumnName="SalePercent" />
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
+                <ScalarProperty Name="SalesID" ColumnName="SalesID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobCancelPrices">
+            <EntityTypeMapping TypeName="OTERT_Model.JobCancelPrices">
+              <MappingFragment StoreEntitySet="JobCancelPrices">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="JobsID" ColumnName="JobsID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobFormulas">
+            <EntityTypeMapping TypeName="OTERT_Model.JobFormulas">
+              <MappingFragment StoreEntitySet="JobFormulas">
+                <ScalarProperty Name="Formula" ColumnName="Formula" />
+                <ScalarProperty Name="Condition" ColumnName="Condition" />
+                <ScalarProperty Name="JobsID" ColumnName="JobsID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

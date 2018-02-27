@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace OTERT.Pages.Administrator {
 
-    public partial class PlacesList : System.Web.UI.Page {
+    public partial class PlacesList : Page {
 
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
@@ -145,7 +145,6 @@ namespace OTERT.Pages.Administrator {
                 Session["CountryID"] = newID;
             }
             catch (Exception) { }
-
         }
 
     }

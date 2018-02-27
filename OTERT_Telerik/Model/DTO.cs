@@ -49,4 +49,10 @@ namespace OTERT.Model {
         public string Code { get; set; }
     }
 
+    public class SaleDTO {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int Type { get; set; }
+    }
+
 }

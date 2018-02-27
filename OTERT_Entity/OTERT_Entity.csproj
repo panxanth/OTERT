@@ -80,6 +80,12 @@
     <Compile Include="FormulaTypes.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="JobCancelPrices.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JobFormulas.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Jobs.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
@@ -117,7 +123,10 @@
     <Compile Include="RequestedPositions.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="SateliteFrequencies.cs">
+    <Compile Include="Sales.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesFormulas.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Satelites.cs">

@@ -24,7 +24,6 @@ namespace OTERT_Entity
         public string PlaceFrom { get; set; }
         public string PlaceTo { get; set; }
         public Nullable<int> PlaceDistanceKm { get; set; }
-        public Nullable<int> SateliteFrequencyID { get; set; }
         public Nullable<System.DateTime> DateTimeStartOrder { get; set; }
         public Nullable<System.DateTime> DateTimeEndOrder { get; set; }
         public int DateTimeDurationOrder { get; set; }
@@ -49,11 +48,12 @@ namespace OTERT_Entity
         public Nullable<decimal> CancelPrice { get; set; }
         public string Comments { get; set; }
         public string InvoceComments { get; set; }
+        public Nullable<int> SateliteID { get; set; }
     
         public virtual Customers Customers { get; set; }
         public virtual Jobs Jobs { get; set; }
         public virtual Orders Orders { get; set; }
         public virtual RequestedPositions RequestedPositions { get; set; }
-        public virtual SateliteFrequencies SateliteFrequencies { get; set; }
+        public virtual Satelites Satelites { get; set; }
     }
 }

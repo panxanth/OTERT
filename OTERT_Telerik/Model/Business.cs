@@ -61,6 +61,25 @@ namespace OTERT.Model {
         public string NameEN { get; set; }
     }
 
+    public class SalesFormulaB {
+        public int ID { get; set; }
+        public int SalesID { get; set; }
+        public decimal? Distance { get; set; }
+        public decimal SalePercent { get; set; }
+    }
+
+    public class SaleB {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int Type { get; set; }
+    }
+
+    public class SateliteB {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Frequency { get; set; }
+    }
+
     public class LineTypeB {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -99,6 +118,28 @@ namespace OTERT.Model {
     public class UserGroupB {
         public int ID { get; set; }
         public string Name { get; set; }
+    }
+
+    public class JobB {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int? MinimumTime { get; set; }
+        public string InvoiceCode { get; set; }
+        public int? SalesID { get; set; }
+        public SaleDTO Sale { get; set; }
+    }
+
+    public class JobCancelPriceB {
+        public int ID { get; set; }
+        public int JobsID { get; set; }
+        public decimal Price { get; set; }
+    }
+
+    public class JobFormulaB {
+        public int ID { get; set; }
+        public int JobsID { get; set; }
+        public string Condition { get; set; }
+        public string Formula { get; set; }
     }
 
 }

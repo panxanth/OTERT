@@ -69,13 +69,20 @@
                 </li>
                 <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Τεχνικά Δεδομένα</a>
                     <ul class="gradient_menu gradient67">
-                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/LineTypesList.aspx">Είδη Γραμμών</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/LineTypesList.aspx">Είδη Γραμμών</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/SatelitesList.aspx">Δορυφόροι</a></li>
                     </ul>
                 </li>
                 <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Πελάτες</a>
                     <ul class="gradient_menu gradient67">
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/CustomerTypesList.aspx">Τύποι Πελάτη</a></li>
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/CustomersList.aspx">Πελάτες</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Τιμές</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/JobsList.aspx">Κατηγορίες Έργων</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/SalesList.aspx">Εκπτώσεις</a></li>
                     </ul>
                 </li>
                 <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Παραγγελίες</a>

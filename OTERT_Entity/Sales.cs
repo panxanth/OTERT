@@ -12,19 +12,22 @@ namespace OTERT_Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class Satelites
+    public partial class Sales
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Satelites()
+        public Sales()
         {
-            this.Tasks = new HashSet<Tasks>();
+            this.SalesFormulas = new HashSet<SalesFormulas>();
+            this.Jobs = new HashSet<Jobs>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
-        public string Frequency { get; set; }
+        public int Type { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual ICollection<SalesFormulas> SalesFormulas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Jobs> Jobs { get; set; }
     }
 }
