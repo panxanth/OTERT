@@ -86,7 +86,7 @@
                     </telerik:GridBoundColumn>
                     <telerik:GridTemplateColumn UniqueName="Sale" DataField="Type" HeaderText="Κατηγορία Έκπτωσης" >
                         <ItemTemplate>
-                            <asp:Label Text='<% #Eval("Sale.Name") %>' runat="server" />
+                            <asp:Label ID="lblSale" runat="server" /> 
                         </ItemTemplate>
                         <EditItemTemplate>
                             <telerik:RadDropDownList runat="server" ID="ddlSale" RenderMode="Lightweight" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlSale_SelectedIndexChanged" />

@@ -64,7 +64,7 @@ namespace OTERT.Controller {
                                                 AFM = us.AFM,
                                                 DOY = us.DOY,
                                                 UserID = us.UserID,
-                                                User = new UserDTO {
+                                                User = us.UserID == null ? null : new UserDTO {
                                                     ID = us.Users.ID,
                                                     UserGroupID = us.Users.UserGroupID,
                                                     UserGroup = new UserGroupDTO {
@@ -135,7 +135,7 @@ namespace OTERT.Controller {
                                                 AFM = us.AFM,
                                                 DOY = us.DOY,
                                                 UserID = us.UserID,
-                                                User = new UserDTO {
+                                                User = us.UserID == null ? null : new UserDTO {
                                                     ID = us.Users.ID,
                                                     UserGroupID = us.Users.UserGroupID,
                                                     UserGroup = new UserGroupDTO {

@@ -29,7 +29,7 @@ namespace OTERT.Controller {
                                             MinimumTime = us.MinimumTime,
                                             InvoiceCode = us.InvoiceCode,
                                             SalesID = us.SalesID,
-                                            Sale = new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
+                                            Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
                                         }).OrderBy(o => o.Name).ToList();
                     return data;
                 }
@@ -48,7 +48,7 @@ namespace OTERT.Controller {
                                             MinimumTime = us.MinimumTime,
                                             InvoiceCode = us.InvoiceCode,
                                             SalesID = us.SalesID,
-                                            Sale = new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
+                                            Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
                                         }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }

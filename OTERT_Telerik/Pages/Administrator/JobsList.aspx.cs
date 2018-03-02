@@ -76,7 +76,7 @@ namespace OTERT.Pages.Administrator {
                         list.DataTextField = "Name";
                         list.DataValueField = "ID";
                         list.DataBind();
-                        list.Items.Insert(0, new DropDownListItem("Χωρίς Έκπτωση", "-1"));
+                        list.Items.Insert(0, new DropDownListItem("Χωρίς Έκπτωση", "0"));
                         if (currJob != null) {
                             list.SelectedIndex = list.FindItemByValue(currJob.SalesID.ToString()).Index;
                             Session["SalesID"] = currJob.SalesID;
@@ -86,6 +86,11 @@ namespace OTERT.Pages.Administrator {
                         }
                     }
                     catch (Exception) { }
+                } else if (e.Item is GridDataItem) {
+                    GridDataItem item = e.Item as GridDataItem;
+                    Label lblST = item.FindControl("lblSale") as Label;
+                    JobB currJob = e.Item.DataItem as JobB;
+                    if (currJob.SalesID == null) { lblST.Text = "Χωρίς Έκπτωση"; } else { lblST.Text = currJob.Sale.Name; }
                 }
             }
         }
@@ -129,13 +134,13 @@ namespace OTERT.Pages.Administrator {
                     if (curJob != null) {
                         editableItem.UpdateValues(curJob);
                         if (Session["SalesID"] != null) { SalesID = int.Parse(Session["SalesID"].ToString()); }
-                        if (SalesID > 0) {
-                            curJob.SalesID = SalesID;
+                        if (SalesID > -1) {
+                            if (SalesID == 0) { curJob.SalesID = null; } else { curJob.SalesID = SalesID; }
                             SalesID = -1;
                             Session.Remove("SalesID");
                         }
                         try { dbContext.SaveChanges(); }
-                        catch (Exception) { ShowErrorMessage(-1); }
+                        catch (Exception ex) { ShowErrorMessage(-1); }
                     }
                 }
             } else if (e.Item.OwnerTableView.Name == "FormulaDetails") {
@@ -171,10 +176,10 @@ namespace OTERT.Pages.Administrator {
                     Hashtable values = new Hashtable();
                     editableItem.ExtractValues(values);
                     if (Session["SalesID"] != null) { SalesID = int.Parse(Session["SalesID"].ToString()); }
-                    if (SalesID > 0) {
+                    if (SalesID > -1) {
                         try {
                             curJob.Name = (string)values["Name"];
-                            curJob.SalesID = SalesID;
+                            if (SalesID==0) { curJob.SalesID = null; } else { curJob.SalesID = SalesID; }
                             curJob.MinimumTime = int.Parse((string)values["MinimumTime"]);
                             curJob.InvoiceCode = (string)values["InvoiceCode"];
                             dbContext.Jobs.Add(curJob);
