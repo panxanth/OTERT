@@ -125,12 +125,12 @@ namespace OTERT.Pages.Administrator {
                 var editableItem = ((GridEditableItem)e.Item);
                 var ID = (int)editableItem.GetDataKeyValue("ID");
                 using (var dbContext = new OTERTConnStr()) {
-                    var curSale = dbContext.Sales.Where(n => n.ID == ID).FirstOrDefault();
-                    if (curSale != null) {
-                        editableItem.UpdateValues(curSale);
+                    var curJob = dbContext.Jobs.Where(n => n.ID == ID).FirstOrDefault();
+                    if (curJob != null) {
+                        editableItem.UpdateValues(curJob);
                         if (Session["SalesID"] != null) { SalesID = int.Parse(Session["SalesID"].ToString()); }
                         if (SalesID > 0) {
-                            curSale.Type = SalesID;
+                            curJob.SalesID = SalesID;
                             SalesID = -1;
                             Session.Remove("SalesID");
                         }
@@ -138,13 +138,24 @@ namespace OTERT.Pages.Administrator {
                         catch (Exception) { ShowErrorMessage(-1); }
                     }
                 }
-            } else if (e.Item.OwnerTableView.Name == "Details") {
+            } else if (e.Item.OwnerTableView.Name == "FormulaDetails") {
                 var editableItem = ((GridEditableItem)e.Item);
                 var ID = (int)editableItem.GetDataKeyValue("ID");
                 using (var dbContext = new OTERTConnStr()) {
-                    var curSaleFurmula = dbContext.SalesFormulas.Where(n => n.ID == ID).FirstOrDefault();
-                    if (curSaleFurmula != null) {
-                        editableItem.UpdateValues(curSaleFurmula);
+                    var curJobFurmula = dbContext.JobFormulas.Where(n => n.ID == ID).FirstOrDefault();
+                    if (curJobFurmula != null) {
+                        editableItem.UpdateValues(curJobFurmula);
+                        try { dbContext.SaveChanges(); }
+                        catch (Exception) { ShowErrorMessage(-1); }
+                    }
+                }
+            } else if (e.Item.OwnerTableView.Name == "CancelDetails") {
+                var editableItem = ((GridEditableItem)e.Item);
+                var ID = (int)editableItem.GetDataKeyValue("ID");
+                using (var dbContext = new OTERTConnStr()) {
+                    var curCancel = dbContext.JobCancelPrices.Where(n => n.ID == ID).FirstOrDefault();
+                    if (curCancel != null) {
+                        editableItem.UpdateValues(curCancel);
                         try { dbContext.SaveChanges(); }
                         catch (Exception) { ShowErrorMessage(-1); }
                     }
@@ -156,15 +167,17 @@ namespace OTERT.Pages.Administrator {
             if (e.Item.OwnerTableView.Name == "Master") {
                 var editableItem = ((GridEditableItem)e.Item);
                 using (var dbContext = new OTERTConnStr()) {
-                    var curSale = new Sales();
+                    var curJob = new Jobs();
                     Hashtable values = new Hashtable();
                     editableItem.ExtractValues(values);
                     if (Session["SalesID"] != null) { SalesID = int.Parse(Session["SalesID"].ToString()); }
                     if (SalesID > 0) {
                         try {
-                            curSale.Name = (string)values["Name"];
-                            curSale.Type = SalesID;
-                            dbContext.Sales.Add(curSale);
+                            curJob.Name = (string)values["Name"];
+                            curJob.SalesID = SalesID;
+                            curJob.MinimumTime = int.Parse((string)values["MinimumTime"]);
+                            curJob.InvoiceCode = (string)values["InvoiceCode"];
+                            dbContext.Jobs.Add(curJob);
                             dbContext.SaveChanges();
                         }
                         catch (Exception) { ShowErrorMessage(-1); }
@@ -174,19 +187,34 @@ namespace OTERT.Pages.Administrator {
                         }
                     } else { ShowErrorMessage(-1); }
                 }
-            } else if (e.Item.OwnerTableView.Name == "Details") {
+            } else if (e.Item.OwnerTableView.Name == "FormulaDetails") {
                 GridTableView detailtabl = (GridTableView)e.Item.OwnerTableView;
                 GridDataItem parentItem = (GridDataItem)detailtabl.ParentItem;
-                int salesID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
+                int jobsID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
                 var editableItem = ((GridEditableItem)e.Item);
                 using (var dbContext = new OTERTConnStr()) {
-                    var curSaleFurmula = new SalesFormulas();
+                    var curJobFurmula = new JobFormulas();
                     Hashtable values = new Hashtable();
                     editableItem.ExtractValues(values);
-                    curSaleFurmula.SalesID = salesID;
-                    curSaleFurmula.Distance = decimal.Parse((string)values["Distance"]);
-                    curSaleFurmula.SalePercent = decimal.Parse((string)values["SalePercent"]);
-                    dbContext.SalesFormulas.Add(curSaleFurmula);
+                    curJobFurmula.JobsID = jobsID;
+                    curJobFurmula.Formula = (string)values["Formula"];
+                    curJobFurmula.Condition = (string)values["Condition"];
+                    dbContext.JobFormulas.Add(curJobFurmula);
+                    try { dbContext.SaveChanges(); }
+                    catch (Exception) { ShowErrorMessage(-1); }
+                }
+            } else if (e.Item.OwnerTableView.Name == "CancelDetails") {
+                GridTableView detailtabl = (GridTableView)e.Item.OwnerTableView;
+                GridDataItem parentItem = (GridDataItem)detailtabl.ParentItem;
+                int jobsID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
+                var editableItem = ((GridEditableItem)e.Item);
+                using (var dbContext = new OTERTConnStr()) {
+                    var curCancel = new JobCancelPrices();
+                    Hashtable values = new Hashtable();
+                    editableItem.ExtractValues(values);
+                    curCancel.JobsID = jobsID;
+                    curCancel.Price = decimal.Parse((string)values["Price"]);
+                    dbContext.JobCancelPrices.Add(curCancel);
                     try { dbContext.SaveChanges(); }
                     catch (Exception) { ShowErrorMessage(-1); }
                 }
@@ -197,9 +225,9 @@ namespace OTERT.Pages.Administrator {
             if (e.Item.OwnerTableView.Name == "Master") {
                 var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
                 using (var dbContext = new OTERTConnStr()) {
-                    var curSale = dbContext.Sales.Where(n => n.ID == ID).FirstOrDefault();
-                    if (curSale != null) {
-                        dbContext.Sales.Remove(curSale);
+                    var curJob = dbContext.Jobs.Where(n => n.ID == ID).FirstOrDefault();
+                    if (curJob != null) {
+                        dbContext.Jobs.Remove(curJob);
                         try { dbContext.SaveChanges(); }
                         catch (Exception ex) {
                             string err = ex.InnerException.InnerException.Message;
@@ -209,17 +237,27 @@ namespace OTERT.Pages.Administrator {
                         }
                     }
                 }
-            } else if (e.Item.OwnerTableView.Name == "Details") {
+            } else if (e.Item.OwnerTableView.Name == "FormulaDetails") {
                 var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
                 using (var dbContext = new OTERTConnStr()) {
-                    var curSaleFurmula = dbContext.SalesFormulas.Where(n => n.ID == ID).FirstOrDefault();
-                    if (curSaleFurmula != null) {
-                        dbContext.SalesFormulas.Remove(curSaleFurmula);
+                    var curJobFurmula = dbContext.JobFormulas.Where(n => n.ID == ID).FirstOrDefault();
+                    if (curJobFurmula != null) {
+                        dbContext.JobFormulas.Remove(curJobFurmula);
                         try { dbContext.SaveChanges(); }
                         catch (Exception) { ShowErrorMessage(-1); }
                     }
                 }
-            } 
+            } else if (e.Item.OwnerTableView.Name == "CancelDetails") {
+                var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
+                using (var dbContext = new OTERTConnStr()) {
+                    var curCancel = dbContext.JobCancelPrices.Where(n => n.ID == ID).FirstOrDefault();
+                    if (curCancel != null) {
+                        dbContext.JobCancelPrices.Remove(curCancel);
+                        try { dbContext.SaveChanges(); }
+                        catch (Exception) { ShowErrorMessage(-1); }
+                    }
+                }
+            }
         }
 
         protected void ddlSale_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
