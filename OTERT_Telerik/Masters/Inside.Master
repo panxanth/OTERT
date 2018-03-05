@@ -14,24 +14,34 @@
 <body>
     <div id="mbmcpebul_wrapper">
         <ul id="mbmcpebul_table" class="mbmcpebul_menulist css_menu">
+        <%--
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 49px;"><a href="test.aspx">Home</a></div>
         </li>
+        --%>
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 80px;">
                 <div class="arrow"><a class="button_2">Έργα</a></div>
             </div>
             <ul class="gradient_menu gradient99">
-                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Έργο Τυπου 1</a>
+                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Προσωρινά</a></li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Έκτακτα</a>
                     <ul class="gradient_menu gradient67">
-                        <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Λίστα</a></li>
-                        <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">Προσθήκη</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Επίγεια</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Δορυφορικά</a>
+                            <ul class="gradient_menu gradient67">
+                                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Uplink</a></li>
+                                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Uplink (Cosmote TV)</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">Downlink</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
-                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Λίστα Έργων Τύπου 2</a></li>
-                <li class="gradient_menuitem gradient27 last_item"><a title="">Προσθήκη Έργου Τύπου 2</a></li>
+                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">ΠΤΣ προς Ελλάδα</a></li>
+                <li class="gradient_menuitem gradient27 last_item"><a title="">ΠΤΣ προς Εξωτερικό</a></li>
             </ul>
         </li>
+        <%--
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 80px;">
                 <div class="arrow"><a class="button_2">Products</a></div>
@@ -47,6 +57,7 @@
                 <li class="gradient_menuitem gradient27 last_item"><a title="">Yet Another</a></li>
             </ul>
         </li>
+        --%>
         <% if (groupID == "1") {%>
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 100px;">
@@ -64,7 +75,8 @@
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/CountriesList.aspx">Χώρες</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/languagesList.aspx">Γλώσσες</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/PlacesList.aspx">Τοποθεσίες</a></li>
-                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/EventsList.aspx">Γεγονότα</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/EventsList.aspx">Γεγονότα</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/RequestedPositionsList.aspx">Αιτούμενες Θέσεις</a></li>
                     </ul>
                 </li>
                 <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Τεχνικά Δεδομένα</a>
@@ -85,13 +97,15 @@
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/SalesList.aspx">Εκπτώσεις</a></li>
                     </ul>
                 </li>
-                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Παραγγελίες</a>
+                <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Παραγγελίες</a>
                     <ul class="gradient_menu gradient67">
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/OrderTypesList.aspx">Είδη Παραγγελιών</a></li>
                     </ul>
                 </li>
+                <%--
                 <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Λίστα Έργων Τύπου 2</a></li>
                 <li class="gradient_menuitem gradient27 last_item"><a title="">Προσθήκη Έργου Τύπου 2</a></li>
+                --%>
             </ul>
         </li>
         <%}%>

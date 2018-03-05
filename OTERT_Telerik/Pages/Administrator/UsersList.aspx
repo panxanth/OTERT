@@ -75,6 +75,19 @@
                     </telerik:GridBoundColumn>
                     <telerik:GridButtonColumn ConfirmText="Να διαγραφεί αυτή η εγγραφή;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" />
                 </Columns>
+                <NestedViewTemplate>
+	                <div class="contactWrap">
+		                <fieldset style="padding: 10px;">
+			                <legend style="padding: 5px;"><b>Συνολική εικόνα χρήστη: <%#Eval("NameGR") %></b></legend>
+			                <table>
+				                <tr>
+					                <td>Email: </td>
+					                <td><asp:Label ID="addressLabel" Text='<%#Bind("Email") %>' runat="server" /></td>
+				                </tr>
+			                </table>
+		                </fieldset>
+	                </div>
+                </NestedViewTemplate>
                 <EditFormSettings>
                     <EditColumn UpdateText="Ενημέρωση" InsertText="Εισαγωγή" CancelText="Ακύρωση" />                          
                 </EditFormSettings>

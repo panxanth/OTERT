@@ -3,6 +3,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PHHead" runat="server">
+    <script type="text/javascript">
+        function addValue(txtTarget, txtVal) {
+            document.getElementById(txtTarget).value += txtVal;
+        }
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PHContent" runat="server">
@@ -35,6 +40,7 @@
             OnDeleteCommand="gridMain_DeleteCommand"
             OnInsertCommand="gridMain_InsertCommand" 
             OnItemDataBound="gridMain_ItemDataBound"
+            OnItemCommand="RadGrid1_ItemCommand"
             OnDetailTableDataBind="gridMain_DetailTableDataBind" >
             <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές" Name="Master">
                 <CommandItemSettings AddNewRecordText="Προσθήκη νέας εγγραφής" RefreshText="Ανανέωση" />
@@ -56,6 +62,63 @@
                             </telerik:GridBoundColumn>
                             <telerik:GridButtonColumn UniqueName="btnDelete2" ConfirmText="Να διαγραφεί αυτός ο Τύπος;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                         </Columns>
+                        <EditFormSettings EditFormType="Template" >
+	                        <FormTemplate>
+		                        <table id="Table2" cellspacing="2" cellpadding="1" width="100%" border="0" rules="none" style="border-collapse: collapse;">
+			                        <tr>
+				                        <td>
+					                        <table id="Table3" width="450px" border="0" class="module">
+						                        <tr>
+							                        <td>Προϋπόθεση:</td>
+							                        <td><asp:TextBox ID="txtCondition" ClientIDMode="Static" runat="server" Text='<%# Bind("Condition") %>' /></td>
+						                        </tr>
+						                        <tr>
+							                        <td>Τύπος:</td>
+							                        <td><asp:TextBox ID="txtFormula" ClientIDMode="Static" runat="server" Text='<%# Bind("Formula") %>' TabIndex="1" /></td>
+						                        </tr>
+					                        </table>
+				                        </td>
+				                        <td style="vertical-align: top">
+					                        <table id="Table1" cellspacing="1" cellpadding="1" border="0" class="module">
+						                        <tr>
+							                        <td></td>
+						                        </tr>
+						                        <tr>
+							                        <td>
+                                                        <button type="button" title="Click Me!2" onclick="addValue('txtCondition', '#BANDWIDTH#');">BANDWIDTH</button>&nbsp;&nbsp;
+                                                        <button type="button" title="Click Me!2" onclick="addValue('txtCondition', '#DISTANCE#');">ΑΠΟΣΤΑΣΗ (ΧΛΜ)</button>&nbsp;&nbsp;
+                                                        <button type="button" title="Click Me!2" onclick="addValue('txtCondition', '#TIME#');">ΧΡΟΝΟΣ</button>
+							                        </td>
+						                        </tr>
+						                        <tr>
+							                        <td></td>
+						                        </tr>
+						                        <tr>
+							                        <td>
+                                                        <button type="button" title="Click Me!2" onclick="addValue('txtFormula', '#BANDWIDTH#');">BANDWIDTH</button>&nbsp;&nbsp;
+                                                        <button type="button" title="Click Me!2" onclick="addValue('txtFormula', '#DISTANCE#');">ΑΠΟΣΤΑΣΗ (ΧΛΜ)</button>&nbsp;&nbsp;
+                                                        <button type="button" title="Click Me!2" onclick="addValue('txtFormula', '#TIME#');">ΧΡΟΝΟΣ</button>
+							                        </td>
+						                        </tr>
+					                        </table>
+				                        </td>
+			                        </tr>
+			                        <tr>
+				                        <td colspan="2"></td>
+			                        </tr>
+			                        <tr>
+				                        <td></td>
+				                        <td></td>
+			                        </tr>
+			                        <tr>
+				                        <td align="right" colspan="2">
+					                        <asp:Button ID="btnUpdate" Text='<%# (Container is GridEditFormInsertItem) ? "Εισαγωγή" : "Ενημέρωση" %>' runat="server" CommandName='<%# (Container is GridEditFormInsertItem) ? "PerformInsert" : "Update" %>' />&nbsp;
+					                        <asp:Button ID="btnCancel" Text="Ακύρωση" runat="server" CausesValidation="False" CommandName="Cancel" />
+				                        </td>
+			                        </tr>
+		                        </table>
+	                        </FormTemplate>
+                        </EditFormSettings>
                     </telerik:GridTableView>
                 </DetailTables>
                 <DetailTables>

@@ -113,6 +113,19 @@
                     <telerik:GridCheckBoxColumn DataField="IsProvider" HeaderText="Πάροχος" DataType="System.Boolean" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon="true" />
                     <telerik:GridButtonColumn ConfirmText="Να διαγραφεί αυτή η εγγραφή;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" />
                 </Columns>
+                <NestedViewTemplate>
+	                <div class="contactWrap">
+		                <fieldset style="padding: 10px;">
+			                <legend style="padding: 5px;"><b>Συνολική εικόνα πελάτη: <%#Eval("NameGR") %></b></legend>
+			                <table>
+				                <tr>
+					                <td>Διεύθυνση: </td>
+					                <td><asp:Label ID="addressLabel" Text='<%#Bind("Address1GR") %>' runat="server" /></td>
+				                </tr>
+			                </table>
+		                </fieldset>
+	                </div>
+                </NestedViewTemplate>
                 <EditFormSettings>
                     <EditColumn UpdateText="Ενημέρωση" InsertText="Εισαγωγή" CancelText="Ακύρωση" />                          
                 </EditFormSettings>

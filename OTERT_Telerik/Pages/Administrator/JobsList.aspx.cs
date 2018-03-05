@@ -20,6 +20,27 @@ namespace OTERT.Pages.Administrator {
         protected string pageTitle;
         protected int SalesID;
 
+        protected void RadGrid1_ItemCommand(object source, GridCommandEventArgs e) {
+            /*
+            if (e.Item.OwnerTableView.Name == "FormulaDetails") {
+                if (e.CommandName == RadGrid.InitInsertCommandName) {  //"Add new" button clicked
+                    GridEditCommandColumn editColumn = (GridEditCommandColumn)gridMain.MasterTableView.GetColumn("EditCommandColumn");
+                    editColumn.Visible = false;
+
+                    e.Canceled = true;
+                    gridMain.EditIndexes.Clear();
+                    e.Item.OwnerTableView.EditFormSettings.UserControlName = "InsertForm.ascx";
+                    e.Item.OwnerTableView.InsertItem();
+                } else if (e.CommandName == RadGrid.RebindGridCommandName && e.Item.OwnerTableView.IsItemInserted) {
+                    e.Canceled = true;
+                } else {
+                    GridEditCommandColumn editColumn = (GridEditCommandColumn)gridMain.MasterTableView.GetColumn("EditCommandColumn");
+                    if (!editColumn.Visible) { editColumn.Visible = true; }
+                }
+            }
+            */
+        }
+
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Κατηγοριών Έργων";
