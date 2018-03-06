@@ -93,6 +93,7 @@
                 </li>
                 <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Τιμές</a>
                     <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/JobsMainList.aspx">Κύριες Κατηγορίες Έργων</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/JobsList.aspx">Κατηγορίες Έργων</a></li>
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/SalesList.aspx">Εκπτώσεις</a></li>
                     </ul>

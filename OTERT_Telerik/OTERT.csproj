@@ -170,6 +170,10 @@
       <DependentUpon>PlacesList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Administrator\JobsMainList.aspx.cs">
+      <DependentUpon>JobsMainList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Administrator\UsersList.aspx.cs">
       <DependentUpon>UsersList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -238,6 +242,7 @@
     <Content Include="Pages\Administrator\CountriesList.aspx" />
     <Content Include="Pages\Administrator\EventsList.aspx" />
     <Content Include="Pages\Administrator\PlacesList.aspx" />
+    <Content Include="Pages\Administrator\JobsMainList.aspx" />
     <Content Include="Pages\Administrator\UsersList.aspx" />
     <Content Include="WebServices\OTERTWS.asmx" />
     <Content Include="WebServices\test.asmx" />

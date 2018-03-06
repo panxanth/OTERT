@@ -146,7 +146,7 @@
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridBoundColumn>
-                    <telerik:GridTemplateColumn HeaderText="Κύρια Κατηγορία Έργου" HeaderStyle-Width="180px" UniqueName="JobsMainID" DataField="JobsMainID" AllowFiltering="false">
+                    <telerik:GridTemplateColumn HeaderText="Κύρια Κατηγορία Έργου" UniqueName="JobsMainID" DataField="JobsMainID" AllowFiltering="false">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("JobsMain.Name") %>' runat="server" /> 
                         </ItemTemplate>
