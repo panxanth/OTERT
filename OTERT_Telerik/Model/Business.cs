@@ -155,4 +155,59 @@ namespace OTERT.Model {
         public string Formula { get; set; }
     }
 
+    public class TaskB {
+        public int ID { get; set; }
+        public int? OrderID { get; set; }
+        public OrderDTO Order { get; set; }
+        public string RegNo { get; set; }
+        public DateTime OrderDate { get; set; }
+        public int CustomerID { get; set; }
+        public CustomerDTO Customer { get; set; }
+        public int? RequestedPositionID { get; set; }
+        public RequestedPositionDTO RequestedPosition { get; set; }
+        public int? JobID { get; set; }
+        public JobDTO Job { get; set; }
+        public string PlaceFrom { get; set; }
+        public string PlaceTo { get; set; }
+        public int? PlaceDistanceKm { get; set; }
+        public DateTime? DateTimeStartOrder { get; set; }
+        public DateTime? DateTimeEndOrder { get; set; }
+        public int DateTimeDurationOrder { get; set; }
+        public bool IsDurationInDays { get; set; }
+        public DateTime? DateTimeStartActual { get; set; }
+        public DateTime? DateTimeEndActual { get; set; }
+        public int? DateTimeDurationActual { get; set; }
+        public decimal? CostCalculated { get; set; }
+        public bool InstallationCharges { get; set; }
+        public bool MonthlyCharges { get; set; }
+        public decimal? CallCharges { get; set; }
+        public string TelephoneNumber { get; set; }
+        public decimal? TechnicalSupport { get; set; }
+        public decimal? AddedCharges { get; set; }
+        public decimal? CostActual { get; set; }
+        public DateTime? PaymentDateOrder { get; set; }
+        public DateTime? PaymentDateCalculated { get; set; }
+        public DateTime? PaymentDateActual { get; set; }
+        public bool IsForHelpers { get; set; }
+        public bool IsLocked { get; set; }
+        public bool IsCanceled { get; set; }
+        public decimal? CancelPrice { get; set; }
+        public string Comments { get; set; }
+        public string InvoceComments { get; set; }
+        public int? SateliteID { get; set; }
+    }
+
+    public class OrderB {
+        public int ID { get; set; }
+        public int OrderTypeID { get; set; }
+        public OrderTypeDTO OrderType { get; set; }
+        public string RegNo { get; set; }
+        public int Customer1ID { get; set; }
+        public CustomerDTO Customer1 { get; set; }
+        public int? Customer2ID { get; set; }
+        public CustomerDTO Customer2 { get; set; }
+        public int EventID { get; set; }
+        public EventDTO Event { get; set; }
+    }
+
 }

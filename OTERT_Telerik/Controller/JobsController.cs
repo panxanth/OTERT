@@ -60,6 +60,27 @@ namespace OTERT.Controller {
             }
         }
 
+        public List<JobB> GetJobsForMainCategory(int JobsMainID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<JobB> data = (from us in dbContext.Jobs
+                                       select new JobB {
+                                           ID = us.ID,
+                                           JobsMainID = us.JobsMainID,
+                                           JobsMain = new JobMainDTO { ID = us.JobsMain.ID, Name = us.JobsMain.Name },
+                                           Name = us.Name,
+                                           MinimumTime = us.MinimumTime,
+                                           InvoiceCode = us.InvoiceCode,
+                                           SalesID = us.SalesID,
+                                           Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
+                                       }).Where(k => k.JobsMainID == JobsMainID).OrderBy(o => o.Name).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
     }
 
 }
