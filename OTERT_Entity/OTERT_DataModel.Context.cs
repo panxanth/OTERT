@@ -32,9 +32,6 @@ namespace OTERT_Entity
         public virtual DbSet<Distances> Distances { get; set; }
         public virtual DbSet<DistanceTypes> DistanceTypes { get; set; }
         public virtual DbSet<Events> Events { get; set; }
-        public virtual DbSet<FormulaAttributes> FormulaAttributes { get; set; }
-        public virtual DbSet<Formulas> Formulas { get; set; }
-        public virtual DbSet<FormulaTypes> FormulaTypes { get; set; }
         public virtual DbSet<Jobs> Jobs { get; set; }
         public virtual DbSet<Languages> Languages { get; set; }
         public virtual DbSet<LineTypes> LineTypes { get; set; }
@@ -51,5 +48,6 @@ namespace OTERT_Entity
         public virtual DbSet<SalesFormulas> SalesFormulas { get; set; }
         public virtual DbSet<JobCancelPrices> JobCancelPrices { get; set; }
         public virtual DbSet<JobFormulas> JobFormulas { get; set; }
+        public virtual DbSet<JobsMain> JobsMain { get; set; }
     }
 }

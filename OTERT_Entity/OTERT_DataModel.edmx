@@ -91,32 +91,6 @@
           <Property Name="NameGR" Type="nvarchar(max)" Nullable="false" />
           <Property Name="NameEN" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="FormulaAttributes">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Template" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="UIField" Type="varchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Formulas">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="JobID" Type="int" Nullable="false" />
-          <Property Name="FormulaType" Type="int" Nullable="false" />
-          <Property Name="Condition" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="Formula" Type="varchar" MaxLength="255" Nullable="false" />
-        </EntityType>
-        <EntityType Name="FormulaTypes">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-        </EntityType>
         <EntityType Name="JobCancelPrices">
           <Key>
             <PropertyRef Name="ID" />
@@ -139,10 +113,18 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobsMainID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="SalesID" Type="int" />
           <Property Name="MinimumTime" Type="int" />
           <Property Name="InvoiceCode" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="JobsMain">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -384,30 +366,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Formulas_FormulaTypes">
-          <End Role="FormulaTypes" Type="Self.FormulaTypes" Multiplicity="1" />
-          <End Role="Formulas" Type="Self.Formulas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FormulaTypes">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Formulas">
-              <PropertyRef Name="FormulaType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Formulas_Jobs">
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
-          <End Role="Formulas" Type="Self.Formulas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Jobs">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Formulas">
-              <PropertyRef Name="JobID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_JobCancelPrices_Jobs">
           <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
           <End Role="JobCancelPrices" Type="Self.JobCancelPrices" Multiplicity="*" />
@@ -429,6 +387,18 @@
             </Principal>
             <Dependent Role="JobFormulas">
               <PropertyRef Name="JobsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Jobs_JobsMain">
+          <End Role="JobsMain" Type="Self.JobsMain" Multiplicity="1" />
+          <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobsMain">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Jobs">
+              <PropertyRef Name="JobsMainID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -608,12 +578,10 @@
           <EntitySet Name="Distances" EntityType="Self.Distances" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DistanceTypes" EntityType="Self.DistanceTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="FormulaAttributes" EntityType="Self.FormulaAttributes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Formulas" EntityType="Self.Formulas" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="FormulaTypes" EntityType="Self.FormulaTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobCancelPrices" EntityType="Self.JobCancelPrices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobFormulas" EntityType="Self.JobFormulas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobsMain" EntityType="Self.JobsMain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LineTypes" EntityType="Self.LineTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
@@ -659,14 +627,6 @@
             <End Role="Places" EntitySet="Places" />
             <End Role="Events" EntitySet="Events" />
           </AssociationSet>
-          <AssociationSet Name="fk_Formulas_FormulaTypes" Association="Self.fk_Formulas_FormulaTypes">
-            <End Role="FormulaTypes" EntitySet="FormulaTypes" />
-            <End Role="Formulas" EntitySet="Formulas" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Formulas_Jobs" Association="Self.fk_Formulas_Jobs">
-            <End Role="Jobs" EntitySet="Jobs" />
-            <End Role="Formulas" EntitySet="Formulas" />
-          </AssociationSet>
           <AssociationSet Name="FK_JobCancelPrices_Jobs" Association="Self.FK_JobCancelPrices_Jobs">
             <End Role="Jobs" EntitySet="Jobs" />
             <End Role="JobCancelPrices" EntitySet="JobCancelPrices" />
@@ -674,6 +634,10 @@
           <AssociationSet Name="FK_JobFormulas_Jobs" Association="Self.FK_JobFormulas_Jobs">
             <End Role="Jobs" EntitySet="Jobs" />
             <End Role="JobFormulas" EntitySet="JobFormulas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Jobs_JobsMain" Association="Self.FK_Jobs_JobsMain">
+            <End Role="JobsMain" EntitySet="JobsMain" />
+            <End Role="Jobs" EntitySet="Jobs" />
           </AssociationSet>
           <AssociationSet Name="FK_Jobs_Sales" Association="Self.FK_Jobs_Sales">
             <End Role="Sales" EntitySet="Sales" />
@@ -839,35 +803,6 @@
           <NavigationProperty Name="Places" Relationship="Self.fk_Events_Places" FromRole="Events" ToRole="Places" />
           <NavigationProperty Name="Orders" Relationship="OTERT_Model.fk_Orders_Events" FromRole="Events" ToRole="Orders" />
         </EntityType>
-        <EntityType Name="FormulaAttributes">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Template" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UIField" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Formulas">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="JobID" Type="Int32" Nullable="false" />
-          <Property Name="FormulaType" Type="Int32" Nullable="false" />
-          <Property Name="Condition" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Formula" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="FormulaTypes" Relationship="Self.fk_Formulas_FormulaTypes" FromRole="Formulas" ToRole="FormulaTypes" />
-          <NavigationProperty Name="Jobs" Relationship="Self.fk_Formulas_Jobs" FromRole="Formulas" ToRole="Jobs" />
-        </EntityType>
-        <EntityType Name="FormulaTypes">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Formulas" Relationship="Self.fk_Formulas_FormulaTypes" FromRole="FormulaTypes" ToRole="Formulas" />
-        </EntityType>
         <EntityType Name="Jobs">
           <Key>
             <PropertyRef Name="ID" />
@@ -876,12 +811,13 @@
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MinimumTime" Type="Int32" />
           <Property Name="InvoiceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Formulas" Relationship="Self.fk_Formulas_Jobs" FromRole="Jobs" ToRole="Formulas" />
           <NavigationProperty Name="Tasks" Relationship="Self.fk_Tasks_Jobs" FromRole="Jobs" ToRole="Tasks" />
           <Property Name="SalesID" Type="Int32" />
           <NavigationProperty Name="Sales" Relationship="OTERT_Model.FK_Jobs_Sales" FromRole="Jobs" ToRole="Sales" />
           <NavigationProperty Name="JobCancelPrices" Relationship="OTERT_Model.FK_JobCancelPrices_Jobs" FromRole="Jobs" ToRole="JobCancelPrices" />
           <NavigationProperty Name="JobFormulas" Relationship="OTERT_Model.FK_JobFormulas_Jobs" FromRole="Jobs" ToRole="JobFormulas" />
+          <Property Name="JobsMainID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JobsMain" Relationship="OTERT_Model.FK_Jobs_JobsMain" FromRole="Jobs" ToRole="JobsMain" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -1152,30 +1088,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Formulas_FormulaTypes">
-          <End Role="FormulaTypes" Type="Self.FormulaTypes" Multiplicity="1" />
-          <End Role="Formulas" Type="Self.Formulas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FormulaTypes">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Formulas">
-              <PropertyRef Name="FormulaType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Formulas_Jobs">
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
-          <End Role="Formulas" Type="Self.Formulas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Jobs">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Formulas">
-              <PropertyRef Name="JobID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_Tasks_Jobs">
           <End Role="Jobs" Type="Self.Jobs" Multiplicity="0..1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
@@ -1256,9 +1168,6 @@
           <EntitySet Name="Distances" EntityType="Self.Distances" />
           <EntitySet Name="DistanceTypes" EntityType="Self.DistanceTypes" />
           <EntitySet Name="Events" EntityType="Self.Events" />
-          <EntitySet Name="FormulaAttributes" EntityType="Self.FormulaAttributes" />
-          <EntitySet Name="Formulas" EntityType="Self.Formulas" />
-          <EntitySet Name="FormulaTypes" EntityType="Self.FormulaTypes" />
           <EntitySet Name="Jobs" EntityType="Self.Jobs" />
           <EntitySet Name="Languages" EntityType="Self.Languages" />
           <EntitySet Name="LineTypes" EntityType="Self.LineTypes" />
@@ -1310,14 +1219,6 @@
           <AssociationSet Name="fk_Events_Places" Association="Self.fk_Events_Places">
             <End Role="Places" EntitySet="Places" />
             <End Role="Events" EntitySet="Events" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Formulas_FormulaTypes" Association="Self.fk_Formulas_FormulaTypes">
-            <End Role="FormulaTypes" EntitySet="FormulaTypes" />
-            <End Role="Formulas" EntitySet="Formulas" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Formulas_Jobs" Association="Self.fk_Formulas_Jobs">
-            <End Role="Jobs" EntitySet="Jobs" />
-            <End Role="Formulas" EntitySet="Formulas" />
           </AssociationSet>
           <AssociationSet Name="fk_Tasks_Jobs" Association="Self.fk_Tasks_Jobs">
             <End Role="Jobs" EntitySet="Jobs" />
@@ -1378,6 +1279,11 @@
           <AssociationSet Name="FK_JobFormulas_Jobs" Association="OTERT_Model.FK_JobFormulas_Jobs">
             <End Role="Jobs" EntitySet="Jobs" />
             <End Role="JobFormulas" EntitySet="JobFormulas" />
+          </AssociationSet>
+          <EntitySet Name="JobsMain" EntityType="OTERT_Model.JobsMain" />
+          <AssociationSet Name="FK_Jobs_JobsMain" Association="OTERT_Model.FK_Jobs_JobsMain">
+            <End Role="JobsMain" EntitySet="JobsMain" />
+            <End Role="Jobs" EntitySet="Jobs" />
           </AssociationSet>
         </EntityContainer>
         <Association Name="fk_Orders_Customers_1">
@@ -1515,6 +1421,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="JobsMain">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Jobs" Relationship="OTERT_Model.FK_Jobs_JobsMain" FromRole="JobsMain" ToRole="Jobs" />
+        </EntityType>
+        <Association Name="FK_Jobs_JobsMain">
+          <End Type="OTERT_Model.JobsMain" Role="JobsMain" Multiplicity="1" />
+          <End Type="OTERT_Model.Jobs" Role="Jobs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobsMain">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Jobs">
+              <PropertyRef Name="JobsMainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1614,38 +1540,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="FormulaAttributes">
-            <EntityTypeMapping TypeName="OTERT_Model.FormulaAttributes">
-              <MappingFragment StoreEntitySet="FormulaAttributes">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Template" ColumnName="Template" />
-                <ScalarProperty Name="UIField" ColumnName="UIField" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Formulas">
-            <EntityTypeMapping TypeName="OTERT_Model.Formulas">
-              <MappingFragment StoreEntitySet="Formulas">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="JobID" ColumnName="JobID" />
-                <ScalarProperty Name="FormulaType" ColumnName="FormulaType" />
-                <ScalarProperty Name="Condition" ColumnName="Condition" />
-                <ScalarProperty Name="Formula" ColumnName="Formula" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FormulaTypes">
-            <EntityTypeMapping TypeName="OTERT_Model.FormulaTypes">
-              <MappingFragment StoreEntitySet="FormulaTypes">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Jobs">
             <EntityTypeMapping TypeName="OTERT_Model.Jobs">
               <MappingFragment StoreEntitySet="Jobs">
+                <ScalarProperty Name="JobsMainID" ColumnName="JobsMainID" />
                 <ScalarProperty Name="SalesID" ColumnName="SalesID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1826,6 +1724,14 @@
                 <ScalarProperty Name="Formula" ColumnName="Formula" />
                 <ScalarProperty Name="Condition" ColumnName="Condition" />
                 <ScalarProperty Name="JobsID" ColumnName="JobsID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobsMain">
+            <EntityTypeMapping TypeName="OTERT_Model.JobsMain">
+              <MappingFragment StoreEntitySet="JobsMain">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

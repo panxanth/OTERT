@@ -128,11 +128,18 @@ namespace OTERT.Model {
 
     public class JobB {
         public int ID { get; set; }
+        public int JobsMainID { get; set; }
+        public JobMainDTO JobsMain { get; set; }
         public string Name { get; set; }
         public int? MinimumTime { get; set; }
         public string InvoiceCode { get; set; }
         public int? SalesID { get; set; }
         public SaleDTO Sale { get; set; }
+    }
+
+    public class JobMainB {
+        public int ID { get; set; }
+        public string Name { get; set; }
     }
 
     public class JobCancelPriceB {

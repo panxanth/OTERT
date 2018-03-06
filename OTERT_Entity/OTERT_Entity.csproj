@@ -71,15 +71,6 @@
     <Compile Include="Events.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="FormulaAttributes.cs">
-      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Formulas.cs">
-      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FormulaTypes.cs">
-      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="JobCancelPrices.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
@@ -87,6 +78,9 @@
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Jobs.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JobsMain.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Languages.cs">

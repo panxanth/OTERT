@@ -18,28 +18,7 @@ namespace OTERT.Pages.Administrator {
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
         protected string pageTitle;
-        protected int SalesID;
-
-        protected void RadGrid1_ItemCommand(object source, GridCommandEventArgs e) {
-            /*
-            if (e.Item.OwnerTableView.Name == "FormulaDetails") {
-                if (e.CommandName == RadGrid.InitInsertCommandName) {  //"Add new" button clicked
-                    GridEditCommandColumn editColumn = (GridEditCommandColumn)gridMain.MasterTableView.GetColumn("EditCommandColumn");
-                    editColumn.Visible = false;
-
-                    e.Canceled = true;
-                    gridMain.EditIndexes.Clear();
-                    e.Item.OwnerTableView.EditFormSettings.UserControlName = "InsertForm.ascx";
-                    e.Item.OwnerTableView.InsertItem();
-                } else if (e.CommandName == RadGrid.RebindGridCommandName && e.Item.OwnerTableView.IsItemInserted) {
-                    e.Canceled = true;
-                } else {
-                    GridEditCommandColumn editColumn = (GridEditCommandColumn)gridMain.MasterTableView.GetColumn("EditCommandColumn");
-                    if (!editColumn.Visible) { editColumn.Visible = true; }
-                }
-            }
-            */
-        }
+        protected int SalesID, JobsMainID;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
@@ -47,6 +26,8 @@ namespace OTERT.Pages.Administrator {
                 gridMain.MasterTableView.Caption = "Κατηγορίες Έργων";
                 SalesID = -1;
                 Session.Remove("SalesID");
+                JobsMainID = -1;
+                Session.Remove("JobsMainID");
             }
         }
 
@@ -88,22 +69,39 @@ namespace OTERT.Pages.Administrator {
                 if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                     SalesID = -1;
                     Session.Remove("SalesID");
+                    JobsMainID = -1;
+                    Session.Remove("JobsMainID");
                     GridEditableItem item = e.Item as GridEditableItem;
-                    RadDropDownList list = item.FindControl("ddlSale") as RadDropDownList;
+                    RadDropDownList ddlSale = item.FindControl("ddlSale") as RadDropDownList;
+                    RadDropDownList ddlJobsMain = item.FindControl("ddlJobsMain") as RadDropDownList;
                     try {
                         JobB currJob = e.Item.DataItem as JobB;
                         SalesController cont = new SalesController();
-                        list.DataSource = cont.GetSales();
-                        list.DataTextField = "Name";
-                        list.DataValueField = "ID";
-                        list.DataBind();
-                        list.Items.Insert(0, new DropDownListItem("Χωρίς Έκπτωση", "0"));
+                        ddlSale.DataSource = cont.GetSales();
+                        ddlSale.DataTextField = "Name";
+                        ddlSale.DataValueField = "ID";
+                        ddlSale.DataBind();
+                        ddlSale.Items.Insert(0, new DropDownListItem("Χωρίς Έκπτωση", "0"));
+                        JobsMainController cont2 = new JobsMainController();
+                        ddlJobsMain.DataSource = cont2.GetJobsMain();
+                        ddlJobsMain.DataTextField = "Name";
+                        ddlJobsMain.DataValueField = "ID";
+                        ddlJobsMain.DataBind();
                         if (currJob != null) {
-                            list.SelectedIndex = list.FindItemByValue(currJob.SalesID.ToString()).Index;
-                            Session["SalesID"] = currJob.SalesID;
+                            if (currJob.SalesID != null) {
+                                ddlSale.SelectedIndex = ddlSale.FindItemByValue(currJob.SalesID.ToString()).Index;
+                                Session["SalesID"] = currJob.SalesID;
+                            } else {
+                                ddlSale.SelectedIndex = 0;
+                                Session["SalesID"] = ddlSale.SelectedItem.Value;
+                            }
+                            ddlJobsMain.SelectedIndex = ddlJobsMain.FindItemByValue(currJob.JobsMainID.ToString()).Index;
+                            Session["JobsMainID"] = currJob.JobsMainID;
                         } else {
-                            list.SelectedIndex = 0;
-                            Session["SalesID"] = list.SelectedItem.Value;
+                            ddlSale.SelectedIndex = 0;
+                            Session["SalesID"] = ddlSale.SelectedItem.Value;
+                            ddlJobsMain.SelectedIndex = 0;
+                            Session["JobsMainID"] = ddlJobsMain.SelectedItem.Value;
                         }
                     }
                     catch (Exception) { }
@@ -160,8 +158,14 @@ namespace OTERT.Pages.Administrator {
                             SalesID = -1;
                             Session.Remove("SalesID");
                         }
+                        if (Session["JobsMainID"] != null) { JobsMainID = int.Parse(Session["JobsMainID"].ToString()); }
+                        if (JobsMainID > 0) {
+                            curJob.JobsMainID = JobsMainID;
+                            JobsMainID = -1;
+                            Session.Remove("JobsMainID");
+                        }
                         try { dbContext.SaveChanges(); }
-                        catch (Exception ex) { ShowErrorMessage(-1); }
+                        catch (Exception) { ShowErrorMessage(-1); }
                     }
                 }
             } else if (e.Item.OwnerTableView.Name == "FormulaDetails") {
@@ -197,10 +201,12 @@ namespace OTERT.Pages.Administrator {
                     Hashtable values = new Hashtable();
                     editableItem.ExtractValues(values);
                     if (Session["SalesID"] != null) { SalesID = int.Parse(Session["SalesID"].ToString()); }
-                    if (SalesID > -1) {
+                    if (Session["JobsMainID"] != null) { JobsMainID = int.Parse(Session["JobsMainID"].ToString()); }
+                    if (SalesID>-1 && JobsMainID>0) {
                         try {
                             curJob.Name = (string)values["Name"];
                             if (SalesID==0) { curJob.SalesID = null; } else { curJob.SalesID = SalesID; }
+                            curJob.JobsMainID = JobsMainID;
                             curJob.MinimumTime = int.Parse((string)values["MinimumTime"]);
                             curJob.InvoiceCode = (string)values["InvoiceCode"];
                             dbContext.Jobs.Add(curJob);
@@ -210,6 +216,8 @@ namespace OTERT.Pages.Administrator {
                         finally {
                             SalesID = -1;
                             Session.Remove("SalesID");
+                            JobsMainID = -1;
+                            Session.Remove("JobsMainID");
                         }
                     } else { ShowErrorMessage(-1); }
                 }
@@ -290,6 +298,14 @@ namespace OTERT.Pages.Administrator {
             try {
                 SalesID = int.Parse(e.Value);
                 Session["SalesID"] = SalesID;
+            }
+            catch (Exception) { }
+        }
+
+        protected void ddlJobsMain_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                JobsMainID = int.Parse(e.Value);
+                Session["JobsMainID"] = JobsMainID;
             }
             catch (Exception) { }
         }

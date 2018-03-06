@@ -25,6 +25,8 @@ namespace OTERT.Controller {
                     List<JobB> data = (from us in dbContext.Jobs
                                         select new JobB {
                                             ID = us.ID,
+                                            JobsMainID = us.JobsMainID,
+                                            JobsMain = new JobMainDTO { ID = us.JobsMain.ID, Name = us.JobsMain.Name },
                                             Name = us.Name,
                                             MinimumTime = us.MinimumTime,
                                             InvoiceCode = us.InvoiceCode,
@@ -44,6 +46,8 @@ namespace OTERT.Controller {
                     List<JobB> data = (from us in dbContext.Jobs
                                         select new JobB {
                                             ID = us.ID,
+                                            JobsMainID = us.JobsMainID,
+                                            JobsMain = new JobMainDTO { ID = us.JobsMain.ID, Name = us.JobsMain.Name },
                                             Name = us.Name,
                                             MinimumTime = us.MinimumTime,
                                             InvoiceCode = us.InvoiceCode,

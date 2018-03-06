@@ -55,4 +55,9 @@ namespace OTERT.Model {
         public int Type { get; set; }
     }
 
+    public class JobMainDTO {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+
 }

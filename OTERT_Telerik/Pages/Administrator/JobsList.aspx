@@ -40,7 +40,6 @@
             OnDeleteCommand="gridMain_DeleteCommand"
             OnInsertCommand="gridMain_InsertCommand" 
             OnItemDataBound="gridMain_ItemDataBound"
-            OnItemCommand="RadGrid1_ItemCommand"
             OnDetailTableDataBind="gridMain_DetailTableDataBind" >
             <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές" Name="Master">
                 <CommandItemSettings AddNewRecordText="Προσθήκη νέας εγγραφής" RefreshText="Ανανέωση" />
@@ -147,7 +146,15 @@
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridBoundColumn>
-                    <telerik:GridTemplateColumn UniqueName="Sale" DataField="Type" HeaderText="Κατηγορία Έκπτωσης" >
+                    <telerik:GridTemplateColumn HeaderText="Κύρια Κατηγορία Έργου" HeaderStyle-Width="180px" UniqueName="JobsMainID" DataField="JobsMainID" AllowFiltering="false">
+                        <ItemTemplate>
+                            <asp:Label Text='<% #Eval("JobsMain.Name") %>' runat="server" /> 
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <telerik:RadDropDownList runat="server" ID="ddlJobsMain" RenderMode="Lightweight" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlJobsMain_SelectedIndexChanged" />
+                        </EditItemTemplate>
+                    </telerik:GridTemplateColumn>
+                    <telerik:GridTemplateColumn UniqueName="Sale" DataField="SaleID" HeaderText="Κατηγορία Έκπτωσης" >
                         <ItemTemplate>
                             <asp:Label ID="lblSale" runat="server" /> 
                         </ItemTemplate>

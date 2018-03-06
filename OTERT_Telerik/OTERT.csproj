@@ -108,6 +108,7 @@
     <Compile Include="Controller\CountriesController.cs" />
     <Compile Include="Controller\EventsController.cs" />
     <Compile Include="Controller\PlacesController.cs" />
+    <Compile Include="Controller\JobsMainController.cs" />
     <Compile Include="Controller\UsersController.cs" />
     <Compile Include="Controller\UserGroupsController.cs" />
     <Compile Include="Default.aspx.cs">
@@ -331,7 +332,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

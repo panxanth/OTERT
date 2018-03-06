@@ -17,7 +17,6 @@ namespace OTERT_Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Jobs()
         {
-            this.Formulas = new HashSet<Formulas>();
             this.Tasks = new HashSet<Tasks>();
             this.JobCancelPrices = new HashSet<JobCancelPrices>();
             this.JobFormulas = new HashSet<JobFormulas>();
@@ -28,9 +27,8 @@ namespace OTERT_Entity
         public Nullable<int> MinimumTime { get; set; }
         public string InvoiceCode { get; set; }
         public Nullable<int> SalesID { get; set; }
+        public int JobsMainID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Formulas> Formulas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tasks> Tasks { get; set; }
         public virtual Sales Sales { get; set; }
@@ -38,5 +36,6 @@ namespace OTERT_Entity
         public virtual ICollection<JobCancelPrices> JobCancelPrices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobFormulas> JobFormulas { get; set; }
+        public virtual JobsMain JobsMain { get; set; }
     }
 }

@@ -12,18 +12,18 @@ namespace OTERT_Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class FormulaTypes
+    public partial class JobsMain
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public FormulaTypes()
+        public JobsMain()
         {
-            this.Formulas = new HashSet<Formulas>();
+            this.Jobs = new HashSet<Jobs>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Formulas> Formulas { get; set; }
+        public virtual ICollection<Jobs> Jobs { get; set; }
     }
 }
