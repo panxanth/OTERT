@@ -111,65 +111,98 @@ namespace OTERT.Pages.UserPages {
         }
 
         protected void gridMain_UpdateCommand(object source, GridCommandEventArgs e) {
-            /*
             var editableItem = ((GridEditableItem)e.Item);
             var ID = (int)editableItem.GetDataKeyValue("ID");
             using (var dbContext = new OTERTConnStr()) {
-                var curJob = dbContext.Jobs.Where(n => n.ID == ID).FirstOrDefault();
-                if (curJob != null) {
-                    editableItem.UpdateValues(curJob);
-                    if (Session["SalesID"] != null) { SalesID = int.Parse(Session["SalesID"].ToString()); }
-                    if (SalesID > -1) {
-                        if (SalesID == 0) { curJob.SalesID = null; } else { curJob.SalesID = SalesID; }
-                        SalesID = -1;
-                        Session.Remove("SalesID");
+                var curTask = dbContext.Tasks.Where(n => n.ID == ID).FirstOrDefault();
+                if (curTask != null) {
+                    editableItem.UpdateValues(curTask);
+                    if (Session["JobsID"] != null) { JobsID = int.Parse(Session["JobsID"].ToString()); }
+                    if (JobsID > 0) {
+                        curTask.JobID = JobsID;
+                        JobsID = -1;
+                        Session.Remove("JobsID");
                     }
-                    if (Session["JobsMainID"] != null) { JobsMainID = int.Parse(Session["JobsMainID"].ToString()); }
-                    if (JobsMainID > 0) {
-                        curJob.JobsMainID = JobsMainID;
-                        JobsMainID = -1;
-                        Session.Remove("JobsMainID");
+                    if (Session["CustomersID"] != null) { CustomersID = int.Parse(Session["CustomersID"].ToString()); }
+                    if (CustomersID > 0) {
+                        curTask.CustomerID = CustomersID;
+                        CustomersID = -1;
+                        Session.Remove("CustomersID");
+                    }
+                    if (Session["SatelitesID"] != null) { SatelitesID = int.Parse(Session["SatelitesID"].ToString()); }
+                    if (SatelitesID > 0) {
+                        curTask.SateliteID = SatelitesID;
+                        SatelitesID = -1;
+                        Session.Remove("SatelitesID");
                     }
                     try { dbContext.SaveChanges(); }
                     catch (Exception) { ShowErrorMessage(-1); }
                 }
             }
-            */
         }
 
         protected void gridMain_InsertCommand(object source, GridCommandEventArgs e) {
-            /*
             var editableItem = ((GridEditableItem)e.Item);
             using (var dbContext = new OTERTConnStr()) {
-                var curJob = new Jobs();
+                var curTask = new Tasks();
                 Hashtable values = new Hashtable();
                 editableItem.ExtractValues(values);
-                if (Session["SalesID"] != null) { SalesID = int.Parse(Session["SalesID"].ToString()); }
-                if (Session["JobsMainID"] != null) { JobsMainID = int.Parse(Session["JobsMainID"].ToString()); }
-                if (SalesID > -1 && JobsMainID > 0) {
+                if (Session["JobsID"] != null) { JobsID = int.Parse(Session["JobsID"].ToString()); }
+                if (Session["CustomersID"] != null) { CustomersID = int.Parse(Session["CustomersID"].ToString()); }
+                if (Session["SatelitesID"] != null) { SatelitesID = int.Parse(Session["SatelitesID"].ToString()); }
+                if (JobsID > 0 && CustomersID > 0 && SatelitesID > 0) {
                     try {
-                        curJob.Name = (string)values["Name"];
-                        if (SalesID == 0) { curJob.SalesID = null; } else { curJob.SalesID = SalesID; }
-                        curJob.JobsMainID = JobsMainID;
-                        curJob.MinimumTime = int.Parse((string)values["MinimumTime"]);
-                        curJob.InvoiceCode = (string)values["InvoiceCode"];
-                        dbContext.Jobs.Add(curJob);
+                        curTask.OrderID = -1;
+                        curTask.RegNo = (string)values["RegNo"];
+                        curTask.OrderDate = DateTime.Parse((string)values["OrderDate"]);
+                        curTask.CustomerID = CustomersID;
+                        curTask.RequestedPositionID = -1;
+                        curTask.JobID = JobsID;
+                        curTask.PlaceFrom = "";
+                        curTask.PlaceTo = "";
+                        curTask.PlaceDistanceKm = 0;
+                        curTask.DateTimeStartOrder = DateTime.Parse((string)values["DateTimeStartOrder"]);
+                        curTask.DateTimeEndOrder = DateTime.Parse((string)values["DateTimeEndOrder"]);
+                        curTask.DateTimeDurationOrder = int.Parse((string)values["DateTimeDurationOrder"]);
+                        curTask.IsDurationInDays = (bool)values["IsDurationInDays"];
+                        curTask.DateTimeStartActual = DateTime.Parse((string)values["DateTimeStartActual"]);
+                        curTask.DateTimeEndActual = DateTime.Parse((string)values["DateTimeEndActual"]);
+                        curTask.DateTimeDurationActual = int.Parse((string)values["DateTimeDurationActual"]);
+                        curTask.CostCalculated = decimal.Parse((string)values["CostCalculated"]);
+                        curTask.InstallationCharges = (bool)values["InstallationCharges"];
+                        curTask.MonthlyCharges = (bool)values["MonthlyCharges"];
+                        curTask.CallCharges = decimal.Parse((string)values["CallCharges"]);
+                        curTask.TelephoneNumber = (string)values["TelephoneNumber"];
+                        curTask.TechnicalSupport = decimal.Parse((string)values["TechnicalSupport"]);
+                        curTask.AddedCharges = decimal.Parse((string)values["AddedCharges"]);
+                        curTask.CostActual = decimal.Parse((string)values["CostActual"]);
+                        curTask.PaymentDateOrder = DateTime.Parse((string)values["PaymentDateOrder"]);
+                        curTask.PaymentDateCalculated = DateTime.Parse((string)values["PaymentDateCalculated"]);
+                        curTask.PaymentDateActual = DateTime.Parse((string)values["PaymentDateActual"]);
+                        curTask.IsForHelpers = (bool)values["IsForHelpers"];
+                        curTask.IsLocked = (bool)values["IsLocked"];
+                        curTask.IsCanceled = (bool)values["IsCanceled"];
+                        curTask.CancelPrice = 0;
+                        curTask.Comments = (string)values["Comments"];
+                        curTask.InvoceComments = (string)values["InvoceComments"];
+                        curTask.SateliteID = SatelitesID;
+                        dbContext.Tasks.Add(curTask);
                         dbContext.SaveChanges();
                     }
                     catch (Exception) { ShowErrorMessage(-1); }
                     finally {
-                        SalesID = -1;
-                        Session.Remove("SalesID");
-                        JobsMainID = -1;
-                        Session.Remove("JobsMainID");
+                        JobsID = -1;
+                        Session.Remove("JobsID");
+                        CustomersID = -1;
+                        Session.Remove("CustomersID");
+                        SatelitesID = -1;
+                        Session.Remove("SatelitesID");
                     }
                 } else { ShowErrorMessage(-1); }
             }
-            */
         }
 
         protected void gridMain_DeleteCommand(object source, GridCommandEventArgs e) {
-            /*
             var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
             using (var dbContext = new OTERTConnStr()) {
                 var curTask = dbContext.Tasks.Where(n => n.ID == ID).FirstOrDefault();
@@ -184,7 +217,6 @@ namespace OTERT.Pages.UserPages {
                     }
                 }
             }
-            */
         }
 
         protected void ddlJobs_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
