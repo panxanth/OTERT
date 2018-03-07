@@ -61,7 +61,7 @@
                         success: function (response) {
                             var returnedLogin = JSON.parse(response.d);
                             if (returnedLogin.result == "OK") {
-                                $(location).attr("href", "/Pages/Administrator/UsersList.aspx");
+                                $(location).attr("href", "/Pages/Users/SateliteUplink.aspx");
                             } else {
                                 hideErrors();
                                 $("#div_error").fadeIn("slow");

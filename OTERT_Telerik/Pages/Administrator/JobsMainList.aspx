@@ -37,15 +37,12 @@
                 <Columns>
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
                     <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
+                    <telerik:GridBoundColumn DataField="PageID" HeaderText="Κωδικός Σελίδας" ReadOnly="true" Visible="false" />
                     <telerik:GridBoundColumn DataField="Name" HeaderText="Όνομα">
-                        <ColumnValidationSettings EnableRequiredFieldValidation="true">
-                            <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
-                        </ColumnValidationSettings>
+                        <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridBoundColumn>
                 </Columns>
-                <EditFormSettings>
-                    <EditColumn UpdateText="Ενημέρωση" CancelText="Ακύρωση" />                          
-                </EditFormSettings>
+                <EditFormSettings EditColumn-UpdateText="Ενημέρωση" EditColumn-CancelText="Ακύρωση" />
             </MasterTableView>
         </telerik:RadGrid>
         <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" />

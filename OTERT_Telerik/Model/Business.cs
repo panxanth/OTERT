@@ -196,12 +196,13 @@ namespace OTERT.Model {
         public string Comments { get; set; }
         public string InvoceComments { get; set; }
         public int? SateliteID { get; set; }
+        public SateliteDTO Satelite { get; set; }
     }
 
     public class OrderB {
         public int ID { get; set; }
-        public int OrderTypeID { get; set; }
-        public OrderTypeDTO OrderType { get; set; }
+        public int OrderID { get; set; }
+        public OrderDTO Order { get; set; }
         public string RegNo { get; set; }
         public int Customer1ID { get; set; }
         public CustomerDTO Customer1 { get; set; }

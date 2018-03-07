@@ -20,7 +20,7 @@ namespace OTERT_Entity
         public System.DateTime OrderDate { get; set; }
         public int CustomerID { get; set; }
         public Nullable<int> RequestedPositionID { get; set; }
-        public Nullable<int> JobID { get; set; }
+        public int JobID { get; set; }
         public string PlaceFrom { get; set; }
         public string PlaceTo { get; set; }
         public Nullable<int> PlaceDistanceKm { get; set; }

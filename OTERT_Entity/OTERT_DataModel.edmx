@@ -4,55 +4,55 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="OTERT_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Alias="Self" Namespace="OTERT_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008">
         <EntityType Name="Countries">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NameGR" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="NameEN" Type="nvarchar" MaxLength="100" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="NameGR" Nullable="false" MaxLength="100" Type="nvarchar" />
+          <Property Name="NameEN" MaxLength="100" Type="nvarchar" />
         </EntityType>
         <EntityType Name="CountryPricelist">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CustomerID" Type="int" Nullable="false" />
-          <Property Name="LineTypeID" Type="int" Nullable="false" />
-          <Property Name="InstallationCost" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="MonthlyCharges" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="Internet" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="MSN" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="CustomerID" Nullable="false" Type="int" />
+          <Property Name="LineTypeID" Nullable="false" Type="int" />
+          <Property Name="InstallationCost" Precision="18" Scale="0" Type="decimal" />
+          <Property Name="MonthlyCharges" Precision="18" Scale="0" Type="decimal" />
+          <Property Name="Internet" Precision="18" Scale="0" Type="decimal" />
+          <Property Name="MSN" Precision="18" Scale="0" Type="decimal" />
         </EntityType>
         <EntityType Name="Customers">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NameGR" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="NameEN" Type="nvarchar" MaxLength="255" />
-          <Property Name="CountryID" Type="int" Nullable="false" />
-          <Property Name="ZIPCode" Type="varchar" MaxLength="10" />
-          <Property Name="CityGR" Type="nvarchar" MaxLength="100" />
-          <Property Name="CityEN" Type="nvarchar" MaxLength="100" />
-          <Property Name="ChargeTelephone" Type="varchar" MaxLength="50" />
-          <Property Name="Telephone1" Type="varchar" MaxLength="50" />
-          <Property Name="Telephone2" Type="varchar" MaxLength="50" />
-          <Property Name="FAX1" Type="varchar" MaxLength="50" />
-          <Property Name="FAX2" Type="varchar" MaxLength="50" />
-          <Property Name="Address1GR" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Address1EN" Type="nvarchar" MaxLength="255" />
-          <Property Name="Address2GR" Type="nvarchar" MaxLength="255" />
-          <Property Name="Address2EN" Type="nvarchar" MaxLength="255" />
-          <Property Name="ContactPersonGR" Type="nvarchar" MaxLength="255" />
-          <Property Name="ContactPersonEN" Type="nvarchar" MaxLength="255" />
-          <Property Name="CustomerTypeID" Type="int" Nullable="false" />
-          <Property Name="LanguageID" Type="int" Nullable="false" />
-          <Property Name="Email" Type="nvarchar" MaxLength="255" />
-          <Property Name="URL" Type="nvarchar" MaxLength="255" />
-          <Property Name="AFM" Type="nvarchar" MaxLength="20" />
-          <Property Name="DOY" Type="nvarchar" MaxLength="255" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="NameGR" Nullable="false" MaxLength="255" Type="nvarchar" />
+          <Property Name="NameEN" MaxLength="255" Type="nvarchar" />
+          <Property Name="CountryID" Nullable="false" Type="int" />
+          <Property Name="ZIPCode" MaxLength="10" Type="varchar" />
+          <Property Name="CityGR" MaxLength="100" Type="nvarchar" />
+          <Property Name="CityEN" MaxLength="100" Type="nvarchar" />
+          <Property Name="ChargeTelephone" MaxLength="50" Type="varchar" />
+          <Property Name="Telephone1" MaxLength="50" Type="varchar" />
+          <Property Name="Telephone2" MaxLength="50" Type="varchar" />
+          <Property Name="FAX1" MaxLength="50" Type="varchar" />
+          <Property Name="FAX2" MaxLength="50" Type="varchar" />
+          <Property Name="Address1GR" Nullable="false" MaxLength="255" Type="nvarchar" />
+          <Property Name="Address1EN" MaxLength="255" Type="nvarchar" />
+          <Property Name="Address2GR" MaxLength="255" Type="nvarchar" />
+          <Property Name="Address2EN" MaxLength="255" Type="nvarchar" />
+          <Property Name="ContactPersonGR" MaxLength="255" Type="nvarchar" />
+          <Property Name="ContactPersonEN" MaxLength="255" Type="nvarchar" />
+          <Property Name="CustomerTypeID" Nullable="false" Type="int" />
+          <Property Name="LanguageID" Nullable="false" Type="int" />
+          <Property Name="Email" MaxLength="255" Type="nvarchar" />
+          <Property Name="URL" MaxLength="255" Type="nvarchar" />
+          <Property Name="AFM" MaxLength="20" Type="nvarchar" />
+          <Property Name="DOY" MaxLength="255" Type="nvarchar" />
           <Property Name="UserID" Type="int" />
           <Property Name="Comments" Type="nvarchar(max)" />
           <Property Name="IsProvider" Type="bit" />
@@ -61,184 +61,184 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NameGR" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="NameEN" Type="nvarchar" MaxLength="100" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="NameGR" Nullable="false" MaxLength="100" Type="nvarchar" />
+          <Property Name="NameEN" MaxLength="100" Type="nvarchar" />
         </EntityType>
         <EntityType Name="Distances">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DistanceTypeID" Type="int" Nullable="false" />
-          <Property Name="Position1" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Position2" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="KM" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="DistanceTypeID" Nullable="false" Type="int" />
+          <Property Name="Position1" Nullable="false" MaxLength="255" Type="nvarchar" />
+          <Property Name="Position2" Nullable="false" MaxLength="255" Type="nvarchar" />
+          <Property Name="KM" Nullable="false" Precision="18" Scale="0" Type="decimal" />
         </EntityType>
         <EntityType Name="DistanceTypes">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Name" Nullable="false" MaxLength="100" Type="nvarchar" />
         </EntityType>
         <EntityType Name="Events">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PlaceID" Type="int" Nullable="false" />
-          <Property Name="NameGR" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="PlaceID" Nullable="false" Type="int" />
+          <Property Name="NameGR" Nullable="false" Type="nvarchar(max)" />
           <Property Name="NameEN" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="JobCancelPrices">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="JobsID" Type="int" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="JobsID" Nullable="false" Type="int" />
+          <Property Name="Price" Nullable="false" Precision="18" Scale="2" Type="decimal" />
         </EntityType>
         <EntityType Name="JobFormulas">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="JobsID" Type="int" Nullable="false" />
-          <Property Name="Condition" Type="varchar" MaxLength="255" />
-          <Property Name="Formula" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="JobsID" Nullable="false" Type="int" />
+          <Property Name="Condition" MaxLength="255" Type="varchar" />
+          <Property Name="Formula" Nullable="false" MaxLength="255" Type="varchar" />
         </EntityType>
         <EntityType Name="Jobs">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="JobsMainID" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="JobsMainID" Nullable="false" Type="int" />
+          <Property Name="Name" Nullable="false" MaxLength="100" Type="nvarchar" />
           <Property Name="SalesID" Type="int" />
           <Property Name="MinimumTime" Type="int" />
-          <Property Name="InvoiceCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="InvoiceCode" MaxLength="50" Type="nvarchar" />
         </EntityType>
         <EntityType Name="JobsMain">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PageID" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="PageID" Nullable="false" Type="int" />
+          <Property Name="Name" Nullable="false" MaxLength="255" Type="nvarchar" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Code" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Name" Nullable="false" MaxLength="50" Type="nvarchar" />
+          <Property Name="Code" Nullable="false" MaxLength="10" Type="varchar" />
         </EntityType>
         <EntityType Name="LineTypes">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Name" Nullable="false" MaxLength="100" Type="nvarchar" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="OrderTypeID" Type="int" Nullable="false" />
-          <Property Name="Customer1ID" Type="int" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="OrderTypeID" Nullable="false" Type="int" />
+          <Property Name="Customer1ID" Nullable="false" Type="int" />
           <Property Name="Customer2ID" Type="int" />
-          <Property Name="RegNo" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="EventID" Type="int" Nullable="false" />
+          <Property Name="RegNo" Nullable="false" MaxLength="100" Type="nvarchar" />
+          <Property Name="EventID" Nullable="false" Type="int" />
         </EntityType>
         <EntityType Name="OrderTypes">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Name" Nullable="false" MaxLength="100" Type="nvarchar" />
         </EntityType>
         <EntityType Name="Places">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CountryID" Type="int" Nullable="false" />
-          <Property Name="NameGR" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="NameEN" Type="nvarchar" MaxLength="255" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="CountryID" Nullable="false" Type="int" />
+          <Property Name="NameGR" Nullable="false" MaxLength="255" Type="nvarchar" />
+          <Property Name="NameEN" MaxLength="255" Type="nvarchar" />
         </EntityType>
         <EntityType Name="RequestedPositions">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NameGR" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="NameEN" Type="nvarchar" MaxLength="255" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="NameGR" Nullable="false" MaxLength="255" Type="nvarchar" />
+          <Property Name="NameEN" MaxLength="255" Type="nvarchar" />
         </EntityType>
         <EntityType Name="Sales">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Name" Nullable="false" MaxLength="255" Type="nvarchar" />
+          <Property Name="Type" Nullable="false" Type="int" />
         </EntityType>
         <EntityType Name="SalesFormulas">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SalesID" Type="int" Nullable="false" />
-          <Property Name="Distance" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="SalePercent" Type="numeric" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="SalesID" Nullable="false" Type="int" />
+          <Property Name="Distance" Precision="18" Scale="2" Type="numeric" />
+          <Property Name="SalePercent" Nullable="false" Precision="7" Scale="2" Type="numeric" />
         </EntityType>
         <EntityType Name="Satelites">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Frequency" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Name" Nullable="false" MaxLength="255" Type="nvarchar" />
+          <Property Name="Frequency" Nullable="false" MaxLength="50" Type="varchar" />
         </EntityType>
         <EntityType Name="Tasks">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
           <Property Name="OrderID" Type="int" />
-          <Property Name="RegNo" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="OrderDate" Type="datetime" Nullable="false" />
-          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="RegNo" Nullable="false" MaxLength="100" Type="nvarchar" />
+          <Property Name="OrderDate" Nullable="false" Type="datetime" />
+          <Property Name="CustomerID" Nullable="false" Type="int" />
           <Property Name="RequestedPositionID" Type="int" />
-          <Property Name="JobID" Type="int" />
-          <Property Name="PlaceFrom" Type="nvarchar" MaxLength="150" />
-          <Property Name="PlaceTo" Type="nvarchar" MaxLength="150" />
+          <Property Name="JobID" Nullable="false" Type="int" />
+          <Property Name="PlaceFrom" MaxLength="150" Type="nvarchar" />
+          <Property Name="PlaceTo" MaxLength="150" Type="nvarchar" />
           <Property Name="PlaceDistanceKm" Type="int" />
           <Property Name="SateliteID" Type="int" />
           <Property Name="DateTimeStartOrder" Type="datetime" />
           <Property Name="DateTimeEndOrder" Type="datetime" />
-          <Property Name="DateTimeDurationOrder" Type="int" Nullable="false" />
+          <Property Name="DateTimeDurationOrder" Nullable="false" Type="int" />
           <Property Name="IsDurationInDays" Type="bit" />
           <Property Name="DateTimeStartActual" Type="datetime" />
           <Property Name="DateTimeEndActual" Type="datetime" />
           <Property Name="DateTimeDurationActual" Type="int" />
-          <Property Name="CostCalculated" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CostCalculated" Precision="18" Scale="0" Type="decimal" />
           <Property Name="InstallationCharges" Type="bit" />
           <Property Name="MonthlyCharges" Type="bit" />
-          <Property Name="CallCharges" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="TelephoneNumber" Type="varchar" MaxLength="100" />
-          <Property Name="TechnicalSupport" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="AddedCharges" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="CostActual" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CallCharges" Precision="18" Scale="0" Type="decimal" />
+          <Property Name="TelephoneNumber" MaxLength="100" Type="varchar" />
+          <Property Name="TechnicalSupport" Precision="18" Scale="0" Type="decimal" />
+          <Property Name="AddedCharges" Precision="18" Scale="0" Type="decimal" />
+          <Property Name="CostActual" Precision="18" Scale="0" Type="decimal" />
           <Property Name="PaymentDateOrder" Type="datetime" />
           <Property Name="PaymentDateCalculated" Type="datetime" />
           <Property Name="PaymentDateActual" Type="datetime" />
           <Property Name="IsForHelpers" Type="bit" />
           <Property Name="IsLocked" Type="bit" />
           <Property Name="IsCanceled" Type="bit" />
-          <Property Name="CancelPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CancelPrice" Precision="18" Scale="0" Type="decimal" />
           <Property Name="Comments" Type="nvarchar(max)" />
           <Property Name="InvoceComments" Type="nvarchar(max)" />
         </EntityType>
@@ -246,34 +246,34 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UIControlID" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="OrderTypeID" Type="int" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="UIControlID" Nullable="false" MaxLength="100" Type="varchar" />
+          <Property Name="OrderTypeID" Nullable="false" Type="int" />
         </EntityType>
         <EntityType Name="UserGroups">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Name" Nullable="false" MaxLength="100" Type="nvarchar" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserGroupID" Type="int" Nullable="false" />
-          <Property Name="NameGR" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="NameEN" Type="nvarchar" MaxLength="255" />
-          <Property Name="Telephone" Type="nvarchar" MaxLength="50" />
-          <Property Name="FAX" Type="nvarchar" MaxLength="50" />
-          <Property Name="Email" Type="nvarchar" MaxLength="100" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="UserGroupID" Nullable="false" Type="int" />
+          <Property Name="NameGR" Nullable="false" MaxLength="255" Type="nvarchar" />
+          <Property Name="NameEN" MaxLength="255" Type="nvarchar" />
+          <Property Name="Telephone" MaxLength="50" Type="nvarchar" />
+          <Property Name="FAX" MaxLength="50" Type="nvarchar" />
+          <Property Name="Email" MaxLength="100" Type="nvarchar" />
+          <Property Name="UserName" Nullable="false" MaxLength="50" Type="nvarchar" />
+          <Property Name="Password" Nullable="false" MaxLength="50" Type="nvarchar" />
         </EntityType>
         <Association Name="fk_CountryPricelist_Customers">
-          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
-          <End Role="CountryPricelist" Type="Self.CountryPricelist" Multiplicity="*" />
+          <End Type="Self.Customers" Multiplicity="1" Role="Customers" />
+          <End Type="Self.CountryPricelist" Multiplicity="*" Role="CountryPricelist" />
           <ReferentialConstraint>
             <Principal Role="Customers">
               <PropertyRef Name="ID" />
@@ -284,8 +284,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_CountryPricelist_LineTypes">
-          <End Role="LineTypes" Type="Self.LineTypes" Multiplicity="1" />
-          <End Role="CountryPricelist" Type="Self.CountryPricelist" Multiplicity="*" />
+          <End Type="Self.LineTypes" Multiplicity="1" Role="LineTypes" />
+          <End Type="Self.CountryPricelist" Multiplicity="*" Role="CountryPricelist" />
           <ReferentialConstraint>
             <Principal Role="LineTypes">
               <PropertyRef Name="ID" />
@@ -296,8 +296,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Customers_Countries">
-          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
-          <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+          <End Type="Self.Countries" Multiplicity="1" Role="Countries" />
+          <End Type="Self.Customers" Multiplicity="*" Role="Customers" />
           <ReferentialConstraint>
             <Principal Role="Countries">
               <PropertyRef Name="ID" />
@@ -308,8 +308,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Customers_CustomerTypes">
-          <End Role="CustomerTypes" Type="Self.CustomerTypes" Multiplicity="1" />
-          <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+          <End Type="Self.CustomerTypes" Multiplicity="1" Role="CustomerTypes" />
+          <End Type="Self.Customers" Multiplicity="*" Role="Customers" />
           <ReferentialConstraint>
             <Principal Role="CustomerTypes">
               <PropertyRef Name="ID" />
@@ -320,8 +320,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Customers_Languages">
-          <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
-          <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+          <End Type="Self.Languages" Multiplicity="1" Role="Languages" />
+          <End Type="Self.Customers" Multiplicity="*" Role="Customers" />
           <ReferentialConstraint>
             <Principal Role="Languages">
               <PropertyRef Name="ID" />
@@ -332,8 +332,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Customers_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-          <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+          <End Type="Self.Users" Multiplicity="0..1" Role="Users" />
+          <End Type="Self.Customers" Multiplicity="*" Role="Customers" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="ID" />
@@ -344,8 +344,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Distances_DistanceTypes">
-          <End Role="DistanceTypes" Type="Self.DistanceTypes" Multiplicity="1" />
-          <End Role="Distances" Type="Self.Distances" Multiplicity="*" />
+          <End Type="Self.DistanceTypes" Multiplicity="1" Role="DistanceTypes" />
+          <End Type="Self.Distances" Multiplicity="*" Role="Distances" />
           <ReferentialConstraint>
             <Principal Role="DistanceTypes">
               <PropertyRef Name="ID" />
@@ -356,8 +356,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Events_Places">
-          <End Role="Places" Type="Self.Places" Multiplicity="1" />
-          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <End Type="Self.Places" Multiplicity="1" Role="Places" />
+          <End Type="Self.Events" Multiplicity="*" Role="Events" />
           <ReferentialConstraint>
             <Principal Role="Places">
               <PropertyRef Name="ID" />
@@ -368,8 +368,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JobCancelPrices_Jobs">
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
-          <End Role="JobCancelPrices" Type="Self.JobCancelPrices" Multiplicity="*" />
+          <End Type="Self.Jobs" Multiplicity="1" Role="Jobs" />
+          <End Type="Self.JobCancelPrices" Multiplicity="*" Role="JobCancelPrices" />
           <ReferentialConstraint>
             <Principal Role="Jobs">
               <PropertyRef Name="ID" />
@@ -380,8 +380,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JobFormulas_Jobs">
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
-          <End Role="JobFormulas" Type="Self.JobFormulas" Multiplicity="*" />
+          <End Type="Self.Jobs" Multiplicity="1" Role="Jobs" />
+          <End Type="Self.JobFormulas" Multiplicity="*" Role="JobFormulas" />
           <ReferentialConstraint>
             <Principal Role="Jobs">
               <PropertyRef Name="ID" />
@@ -392,8 +392,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Jobs_JobsMain">
-          <End Role="JobsMain" Type="Self.JobsMain" Multiplicity="1" />
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
+          <End Type="Self.JobsMain" Multiplicity="1" Role="JobsMain" />
+          <End Type="Self.Jobs" Multiplicity="*" Role="Jobs" />
           <ReferentialConstraint>
             <Principal Role="JobsMain">
               <PropertyRef Name="ID" />
@@ -404,8 +404,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Jobs_Sales">
-          <End Role="Sales" Type="Self.Sales" Multiplicity="0..1" />
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
+          <End Type="Self.Sales" Multiplicity="0..1" Role="Sales" />
+          <End Type="Self.Jobs" Multiplicity="*" Role="Jobs" />
           <ReferentialConstraint>
             <Principal Role="Sales">
               <PropertyRef Name="ID" />
@@ -416,8 +416,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Orders_Customers_1">
-          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <End Type="Self.Customers" Multiplicity="1" Role="Customers" />
+          <End Type="Self.Orders" Multiplicity="*" Role="Orders" />
           <ReferentialConstraint>
             <Principal Role="Customers">
               <PropertyRef Name="ID" />
@@ -428,8 +428,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Orders_Customers_2">
-          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <End Type="Self.Customers" Multiplicity="0..1" Role="Customers" />
+          <End Type="Self.Orders" Multiplicity="*" Role="Orders" />
           <ReferentialConstraint>
             <Principal Role="Customers">
               <PropertyRef Name="ID" />
@@ -440,8 +440,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Orders_Events">
-          <End Role="Events" Type="Self.Events" Multiplicity="1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <End Type="Self.Events" Multiplicity="1" Role="Events" />
+          <End Type="Self.Orders" Multiplicity="*" Role="Orders" />
           <ReferentialConstraint>
             <Principal Role="Events">
               <PropertyRef Name="ID" />
@@ -452,8 +452,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Orders_OrderTypes">
-          <End Role="OrderTypes" Type="Self.OrderTypes" Multiplicity="1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <End Type="Self.OrderTypes" Multiplicity="1" Role="OrderTypes" />
+          <End Type="Self.Orders" Multiplicity="*" Role="Orders" />
           <ReferentialConstraint>
             <Principal Role="OrderTypes">
               <PropertyRef Name="ID" />
@@ -464,8 +464,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Places_Countries">
-          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
-          <End Role="Places" Type="Self.Places" Multiplicity="*" />
+          <End Type="Self.Countries" Multiplicity="1" Role="Countries" />
+          <End Type="Self.Places" Multiplicity="*" Role="Places" />
           <ReferentialConstraint>
             <Principal Role="Countries">
               <PropertyRef Name="ID" />
@@ -476,8 +476,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SalesFormulas_Sales">
-          <End Role="Sales" Type="Self.Sales" Multiplicity="1" />
-          <End Role="SalesFormulas" Type="Self.SalesFormulas" Multiplicity="*" />
+          <End Type="Self.Sales" Multiplicity="1" Role="Sales" />
+          <End Type="Self.SalesFormulas" Multiplicity="*" Role="SalesFormulas" />
           <ReferentialConstraint>
             <Principal Role="Sales">
               <PropertyRef Name="ID" />
@@ -488,8 +488,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Tasks_Customers">
-          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <End Type="Self.Customers" Multiplicity="1" Role="Customers" />
+          <End Type="Self.Tasks" Multiplicity="*" Role="Tasks" />
           <ReferentialConstraint>
             <Principal Role="Customers">
               <PropertyRef Name="ID" />
@@ -500,8 +500,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Tasks_Jobs">
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="0..1" />
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <End Type="Self.Jobs" Multiplicity="1" Role="Jobs" />
+          <End Type="Self.Tasks" Multiplicity="*" Role="Tasks" />
           <ReferentialConstraint>
             <Principal Role="Jobs">
               <PropertyRef Name="ID" />
@@ -512,8 +512,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Tasks_Orders">
-          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <End Type="Self.Orders" Multiplicity="0..1" Role="Orders" />
+          <End Type="Self.Tasks" Multiplicity="*" Role="Tasks" />
           <ReferentialConstraint>
             <Principal Role="Orders">
               <PropertyRef Name="ID" />
@@ -524,8 +524,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Tasks_RequestedPositions">
-          <End Role="RequestedPositions" Type="Self.RequestedPositions" Multiplicity="0..1" />
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <End Type="Self.RequestedPositions" Multiplicity="0..1" Role="RequestedPositions" />
+          <End Type="Self.Tasks" Multiplicity="*" Role="Tasks" />
           <ReferentialConstraint>
             <Principal Role="RequestedPositions">
               <PropertyRef Name="ID" />
@@ -536,8 +536,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Tasks_Satelite">
-          <End Role="Satelites" Type="Self.Satelites" Multiplicity="0..1" />
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <End Type="Self.Satelites" Multiplicity="0..1" Role="Satelites" />
+          <End Type="Self.Tasks" Multiplicity="*" Role="Tasks" />
           <ReferentialConstraint>
             <Principal Role="Satelites">
               <PropertyRef Name="ID" />
@@ -548,8 +548,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_UIControlsVisibility_OrderTypes">
-          <End Role="OrderTypes" Type="Self.OrderTypes" Multiplicity="1" />
-          <End Role="UIControlsVisibility" Type="Self.UIControlsVisibility" Multiplicity="*" />
+          <End Type="Self.OrderTypes" Multiplicity="1" Role="OrderTypes" />
+          <End Type="Self.UIControlsVisibility" Multiplicity="*" Role="UIControlsVisibility" />
           <ReferentialConstraint>
             <Principal Role="OrderTypes">
               <PropertyRef Name="ID" />
@@ -560,8 +560,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Users_UserGroups">
-          <End Role="UserGroups" Type="Self.UserGroups" Multiplicity="1" />
-          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <End Type="Self.UserGroups" Multiplicity="1" Role="UserGroups" />
+          <End Type="Self.Users" Multiplicity="*" Role="Users" />
           <ReferentialConstraint>
             <Principal Role="UserGroups">
               <PropertyRef Name="ID" />
@@ -597,104 +597,104 @@
           <EntitySet Name="UserGroups" EntityType="Self.UserGroups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_CountryPricelist_Customers" Association="Self.fk_CountryPricelist_Customers">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="CountryPricelist" EntitySet="CountryPricelist" />
+            <End EntitySet="Customers" Role="Customers" />
+            <End EntitySet="CountryPricelist" Role="CountryPricelist" />
           </AssociationSet>
           <AssociationSet Name="fk_CountryPricelist_LineTypes" Association="Self.fk_CountryPricelist_LineTypes">
-            <End Role="LineTypes" EntitySet="LineTypes" />
-            <End Role="CountryPricelist" EntitySet="CountryPricelist" />
+            <End EntitySet="LineTypes" Role="LineTypes" />
+            <End EntitySet="CountryPricelist" Role="CountryPricelist" />
           </AssociationSet>
           <AssociationSet Name="fk_Customers_Countries" Association="Self.fk_Customers_Countries">
-            <End Role="Countries" EntitySet="Countries" />
-            <End Role="Customers" EntitySet="Customers" />
+            <End EntitySet="Countries" Role="Countries" />
+            <End EntitySet="Customers" Role="Customers" />
           </AssociationSet>
           <AssociationSet Name="fk_Customers_CustomerTypes" Association="Self.fk_Customers_CustomerTypes">
-            <End Role="CustomerTypes" EntitySet="CustomerTypes" />
-            <End Role="Customers" EntitySet="Customers" />
+            <End EntitySet="CustomerTypes" Role="CustomerTypes" />
+            <End EntitySet="Customers" Role="Customers" />
           </AssociationSet>
           <AssociationSet Name="fk_Customers_Languages" Association="Self.fk_Customers_Languages">
-            <End Role="Languages" EntitySet="Languages" />
-            <End Role="Customers" EntitySet="Customers" />
+            <End EntitySet="Languages" Role="Languages" />
+            <End EntitySet="Customers" Role="Customers" />
           </AssociationSet>
           <AssociationSet Name="fk_Customers_Users" Association="Self.fk_Customers_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Customers" EntitySet="Customers" />
+            <End EntitySet="Users" Role="Users" />
+            <End EntitySet="Customers" Role="Customers" />
           </AssociationSet>
           <AssociationSet Name="fk_Distances_DistanceTypes" Association="Self.fk_Distances_DistanceTypes">
-            <End Role="DistanceTypes" EntitySet="DistanceTypes" />
-            <End Role="Distances" EntitySet="Distances" />
+            <End EntitySet="DistanceTypes" Role="DistanceTypes" />
+            <End EntitySet="Distances" Role="Distances" />
           </AssociationSet>
           <AssociationSet Name="fk_Events_Places" Association="Self.fk_Events_Places">
-            <End Role="Places" EntitySet="Places" />
-            <End Role="Events" EntitySet="Events" />
+            <End EntitySet="Places" Role="Places" />
+            <End EntitySet="Events" Role="Events" />
           </AssociationSet>
           <AssociationSet Name="FK_JobCancelPrices_Jobs" Association="Self.FK_JobCancelPrices_Jobs">
-            <End Role="Jobs" EntitySet="Jobs" />
-            <End Role="JobCancelPrices" EntitySet="JobCancelPrices" />
+            <End EntitySet="Jobs" Role="Jobs" />
+            <End EntitySet="JobCancelPrices" Role="JobCancelPrices" />
           </AssociationSet>
           <AssociationSet Name="FK_JobFormulas_Jobs" Association="Self.FK_JobFormulas_Jobs">
-            <End Role="Jobs" EntitySet="Jobs" />
-            <End Role="JobFormulas" EntitySet="JobFormulas" />
+            <End EntitySet="Jobs" Role="Jobs" />
+            <End EntitySet="JobFormulas" Role="JobFormulas" />
           </AssociationSet>
           <AssociationSet Name="FK_Jobs_JobsMain" Association="Self.FK_Jobs_JobsMain">
-            <End Role="JobsMain" EntitySet="JobsMain" />
-            <End Role="Jobs" EntitySet="Jobs" />
+            <End EntitySet="JobsMain" Role="JobsMain" />
+            <End EntitySet="Jobs" Role="Jobs" />
           </AssociationSet>
           <AssociationSet Name="FK_Jobs_Sales" Association="Self.FK_Jobs_Sales">
-            <End Role="Sales" EntitySet="Sales" />
-            <End Role="Jobs" EntitySet="Jobs" />
+            <End EntitySet="Sales" Role="Sales" />
+            <End EntitySet="Jobs" Role="Jobs" />
           </AssociationSet>
           <AssociationSet Name="fk_Orders_Customers_1" Association="Self.fk_Orders_Customers_1">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="Orders" EntitySet="Orders" />
+            <End EntitySet="Customers" Role="Customers" />
+            <End EntitySet="Orders" Role="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_Customers_2" Association="Self.FK_Orders_Customers_2">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="Orders" EntitySet="Orders" />
+            <End EntitySet="Customers" Role="Customers" />
+            <End EntitySet="Orders" Role="Orders" />
           </AssociationSet>
           <AssociationSet Name="fk_Orders_Events" Association="Self.fk_Orders_Events">
-            <End Role="Events" EntitySet="Events" />
-            <End Role="Orders" EntitySet="Orders" />
+            <End EntitySet="Events" Role="Events" />
+            <End EntitySet="Orders" Role="Orders" />
           </AssociationSet>
           <AssociationSet Name="fk_Orders_OrderTypes" Association="Self.fk_Orders_OrderTypes">
-            <End Role="OrderTypes" EntitySet="OrderTypes" />
-            <End Role="Orders" EntitySet="Orders" />
+            <End EntitySet="OrderTypes" Role="OrderTypes" />
+            <End EntitySet="Orders" Role="Orders" />
           </AssociationSet>
           <AssociationSet Name="fk_Places_Countries" Association="Self.fk_Places_Countries">
-            <End Role="Countries" EntitySet="Countries" />
-            <End Role="Places" EntitySet="Places" />
+            <End EntitySet="Countries" Role="Countries" />
+            <End EntitySet="Places" Role="Places" />
           </AssociationSet>
           <AssociationSet Name="FK_SalesFormulas_Sales" Association="Self.FK_SalesFormulas_Sales">
-            <End Role="Sales" EntitySet="Sales" />
-            <End Role="SalesFormulas" EntitySet="SalesFormulas" />
+            <End EntitySet="Sales" Role="Sales" />
+            <End EntitySet="SalesFormulas" Role="SalesFormulas" />
           </AssociationSet>
           <AssociationSet Name="fk_Tasks_Customers" Association="Self.fk_Tasks_Customers">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="Tasks" EntitySet="Tasks" />
+            <End EntitySet="Customers" Role="Customers" />
+            <End EntitySet="Tasks" Role="Tasks" />
           </AssociationSet>
           <AssociationSet Name="fk_Tasks_Jobs" Association="Self.fk_Tasks_Jobs">
-            <End Role="Jobs" EntitySet="Jobs" />
-            <End Role="Tasks" EntitySet="Tasks" />
+            <End EntitySet="Jobs" Role="Jobs" />
+            <End EntitySet="Tasks" Role="Tasks" />
           </AssociationSet>
           <AssociationSet Name="fk_Tasks_Orders" Association="Self.fk_Tasks_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="Tasks" EntitySet="Tasks" />
+            <End EntitySet="Orders" Role="Orders" />
+            <End EntitySet="Tasks" Role="Tasks" />
           </AssociationSet>
           <AssociationSet Name="fk_Tasks_RequestedPositions" Association="Self.fk_Tasks_RequestedPositions">
-            <End Role="RequestedPositions" EntitySet="RequestedPositions" />
-            <End Role="Tasks" EntitySet="Tasks" />
+            <End EntitySet="RequestedPositions" Role="RequestedPositions" />
+            <End EntitySet="Tasks" Role="Tasks" />
           </AssociationSet>
           <AssociationSet Name="fk_Tasks_Satelite" Association="Self.fk_Tasks_Satelite">
-            <End Role="Satelites" EntitySet="Satelites" />
-            <End Role="Tasks" EntitySet="Tasks" />
+            <End EntitySet="Satelites" Role="Satelites" />
+            <End EntitySet="Tasks" Role="Tasks" />
           </AssociationSet>
           <AssociationSet Name="fk_UIControlsVisibility_OrderTypes" Association="Self.fk_UIControlsVisibility_OrderTypes">
-            <End Role="OrderTypes" EntitySet="OrderTypes" />
-            <End Role="UIControlsVisibility" EntitySet="UIControlsVisibility" />
+            <End EntitySet="OrderTypes" Role="OrderTypes" />
+            <End EntitySet="UIControlsVisibility" Role="UIControlsVisibility" />
           </AssociationSet>
           <AssociationSet Name="fk_Users_UserGroups" Association="Self.fk_Users_UserGroups">
-            <End Role="UserGroups" EntitySet="UserGroups" />
-            <End Role="Users" EntitySet="Users" />
+            <End EntitySet="UserGroups" Role="UserGroups" />
+            <End EntitySet="Users" Role="Users" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -901,7 +901,7 @@
           <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CustomerID" Type="Int32" Nullable="false" />
           <Property Name="RequestedPositionID" Type="Int32" />
-          <Property Name="JobID" Type="Int32" />
+          <Property Name="JobID" Type="Int32" Nullable="false" />
           <Property Name="PlaceFrom" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="PlaceTo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="PlaceDistanceKm" Type="Int32" />
@@ -930,7 +930,7 @@
           <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InvoceComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customers" Relationship="Self.fk_Tasks_Customers" FromRole="Tasks" ToRole="Customers" />
-          <NavigationProperty Name="Jobs" Relationship="Self.fk_Tasks_Jobs" FromRole="Tasks" ToRole="Jobs" />
+          <NavigationProperty Name="Jobs" Relationship="OTERT_Model.fk_Tasks_Jobs" FromRole="Tasks" ToRole="Jobs" />
           <NavigationProperty Name="Orders" Relationship="Self.fk_Tasks_Orders" FromRole="Tasks" ToRole="Orders" />
           <NavigationProperty Name="RequestedPositions" Relationship="Self.fk_Tasks_RequestedPositions" FromRole="Tasks" ToRole="RequestedPositions" />
           <Property Name="SateliteID" Type="Int32" />
@@ -1090,7 +1090,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Tasks_Jobs">
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="0..1" />
+          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jobs">

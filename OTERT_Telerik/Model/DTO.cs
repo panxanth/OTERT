@@ -138,4 +138,10 @@ namespace OTERT.Model {
         public EventDTO Event { get; set; }
     }
 
+    public class SateliteDTO {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Frequency { get; set; }
+    }
+
 }
