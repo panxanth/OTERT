@@ -152,11 +152,11 @@ namespace OTERT.Pages.UserPages {
                 if (Session["SatelitesID"] != null) { SatelitesID = int.Parse(Session["SatelitesID"].ToString()); }
                 if (JobsID > 0 && CustomersID > 0 && SatelitesID > 0) {
                     try {
-                        curTask.OrderID = -1;
+                        curTask.OrderID = null;
                         curTask.RegNo = (string)values["RegNo"];
                         curTask.OrderDate = DateTime.Parse((string)values["OrderDate"]);
                         curTask.CustomerID = CustomersID;
-                        curTask.RequestedPositionID = -1;
+                        curTask.RequestedPositionID = null;
                         curTask.JobID = JobsID;
                         curTask.PlaceFrom = "";
                         curTask.PlaceTo = "";
@@ -169,11 +169,11 @@ namespace OTERT.Pages.UserPages {
                         curTask.DateTimeEndActual = DateTime.Parse((string)values["DateTimeEndActual"]);
                         curTask.DateTimeDurationActual = int.Parse((string)values["DateTimeDurationActual"]);
                         curTask.CostCalculated = decimal.Parse((string)values["CostCalculated"]);
-                        curTask.InstallationCharges = (bool)values["InstallationCharges"];
-                        curTask.MonthlyCharges = (bool)values["MonthlyCharges"];
-                        curTask.CallCharges = decimal.Parse((string)values["CallCharges"]);
-                        curTask.TelephoneNumber = (string)values["TelephoneNumber"];
-                        curTask.TechnicalSupport = decimal.Parse((string)values["TechnicalSupport"]);
+                        curTask.InstallationCharges = false;
+                        curTask.MonthlyCharges = false;
+                        curTask.CallCharges = 0;
+                        curTask.TelephoneNumber = "";
+                        curTask.TechnicalSupport = 0;
                         curTask.AddedCharges = decimal.Parse((string)values["AddedCharges"]);
                         curTask.CostActual = decimal.Parse((string)values["CostActual"]);
                         curTask.PaymentDateOrder = DateTime.Parse((string)values["PaymentDateOrder"]);
@@ -189,7 +189,7 @@ namespace OTERT.Pages.UserPages {
                         dbContext.Tasks.Add(curTask);
                         dbContext.SaveChanges();
                     }
-                    catch (Exception) { ShowErrorMessage(-1); }
+                    catch (Exception ex) { ShowErrorMessage(-1); }
                     finally {
                         JobsID = -1;
                         Session.Remove("JobsID");
