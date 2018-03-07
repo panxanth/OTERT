@@ -24,9 +24,10 @@ namespace OTERT.Controller {
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     List<JobMainB> data = (from us in dbContext.JobsMain
                                            select new JobMainB {
-                                                 ID = us.ID,
-                                                 Name = us.Name
-                                             }).OrderBy(o => o.Name).ToList();
+                                               ID = us.ID,
+                                               PageID = us.PageID,
+                                               Name = us.Name
+                                           }).OrderBy(o => o.Name).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -39,9 +40,10 @@ namespace OTERT.Controller {
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     List<JobMainB> data = (from us in dbContext.JobsMain
                                            select new JobMainB {
-                                                 ID = us.ID,
-                                                 Name = us.Name
-                                             }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                                               ID = us.ID,
+                                               PageID = us.PageID,
+                                               Name = us.Name
+                                           }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

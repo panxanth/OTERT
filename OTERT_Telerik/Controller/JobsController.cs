@@ -26,7 +26,7 @@ namespace OTERT.Controller {
                                         select new JobB {
                                             ID = us.ID,
                                             JobsMainID = us.JobsMainID,
-                                            JobsMain = new JobMainDTO { ID = us.JobsMain.ID, Name = us.JobsMain.Name },
+                                            JobsMain = new JobMainDTO { ID = us.JobsMain.ID, PageID=us.JobsMain.PageID, Name = us.JobsMain.Name },
                                             Name = us.Name,
                                             MinimumTime = us.MinimumTime,
                                             InvoiceCode = us.InvoiceCode,
@@ -47,7 +47,7 @@ namespace OTERT.Controller {
                                         select new JobB {
                                             ID = us.ID,
                                             JobsMainID = us.JobsMainID,
-                                            JobsMain = new JobMainDTO { ID = us.JobsMain.ID, Name = us.JobsMain.Name },
+                                            JobsMain = new JobMainDTO { ID = us.JobsMain.ID, PageID = us.JobsMain.PageID, Name = us.JobsMain.Name },
                                             Name = us.Name,
                                             MinimumTime = us.MinimumTime,
                                             InvoiceCode = us.InvoiceCode,
@@ -68,13 +68,34 @@ namespace OTERT.Controller {
                                        select new JobB {
                                            ID = us.ID,
                                            JobsMainID = us.JobsMainID,
-                                           JobsMain = new JobMainDTO { ID = us.JobsMain.ID, Name = us.JobsMain.Name },
+                                           JobsMain = new JobMainDTO { ID = us.JobsMain.ID, PageID = us.JobsMain.PageID, Name = us.JobsMain.Name },
                                            Name = us.Name,
                                            MinimumTime = us.MinimumTime,
                                            InvoiceCode = us.InvoiceCode,
                                            SalesID = us.SalesID,
                                            Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
                                        }).Where(k => k.JobsMainID == JobsMainID).OrderBy(o => o.Name).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
+        public List<JobB> GetJobsForPageID(int PageID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<JobB> data = (from us in dbContext.Jobs
+                                       select new JobB {
+                                           ID = us.ID,
+                                           JobsMainID = us.JobsMainID,
+                                           JobsMain = new JobMainDTO { ID = us.JobsMain.ID, PageID = us.JobsMain.PageID, Name = us.JobsMain.Name },
+                                           Name = us.Name,
+                                           MinimumTime = us.MinimumTime,
+                                           InvoiceCode = us.InvoiceCode,
+                                           SalesID = us.SalesID,
+                                           Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
+                                       }).Where(k => k.JobsMain.PageID == PageID).OrderBy(o => o.Name).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

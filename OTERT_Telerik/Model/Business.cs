@@ -139,6 +139,7 @@ namespace OTERT.Model {
 
     public class JobMainB {
         public int ID { get; set; }
+        public int PageID { get; set; }
         public string Name { get; set; }
     }
 

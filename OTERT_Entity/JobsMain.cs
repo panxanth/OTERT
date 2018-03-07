@@ -22,6 +22,7 @@ namespace OTERT_Entity
     
         public int ID { get; set; }
         public string Name { get; set; }
+        public int PageID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Jobs> Jobs { get; set; }

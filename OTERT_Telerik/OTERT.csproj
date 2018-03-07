@@ -95,6 +95,7 @@
     <Compile Include="App_Code\StaticUtilities.cs" />
     <Compile Include="Controller\JobCancelPricesController.cs" />
     <Compile Include="Controller\JobFormulasController.cs" />
+    <Compile Include="Controller\TasksController.cs" />
     <Compile Include="Controller\JobsController.cs" />
     <Compile Include="Controller\RequestedPositionsController.cs" />
     <Compile Include="Controller\SalesFormulasController.cs" />
@@ -306,6 +307,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\Users\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -337,7 +341,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

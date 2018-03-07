@@ -124,6 +124,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PageID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Languages">
@@ -1428,6 +1429,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Jobs" Relationship="OTERT_Model.FK_Jobs_JobsMain" FromRole="JobsMain" ToRole="Jobs" />
+          <Property Name="PageID" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_Jobs_JobsMain">
           <End Type="OTERT_Model.JobsMain" Role="JobsMain" Multiplicity="1" />
@@ -1731,6 +1733,7 @@
           <EntitySetMapping Name="JobsMain">
             <EntityTypeMapping TypeName="OTERT_Model.JobsMain">
               <MappingFragment StoreEntitySet="JobsMain">
+                <ScalarProperty Name="PageID" ColumnName="PageID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
