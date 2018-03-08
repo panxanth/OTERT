@@ -44,7 +44,7 @@
                     <telerik:GridBoundColumn DataField="RegNo" HeaderText="Αριθμός Πρωτοκόλλου" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridBoundColumn>
-                    <telerik:GridDateTimeColumn DataField="OrderDate" HeaderText="Ημ/νία Παραγγελίας" DataType="System.DateTime" PickerType="DatePicker" >
+                    <telerik:GridDateTimeColumn UniqueName="OrderDate" DataField="OrderDate" HeaderText="Ημ/νία Παραγγελίας" DataType="System.DateTime" PickerType="DatePicker" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridDateTimeColumn>
                     <telerik:GridTemplateColumn DataField="CustomerID" HeaderText="Πελάτης" >
@@ -83,10 +83,10 @@
                             <telerik:RadDropDownList runat="server" ID="ddlSatelites" RenderMode="Lightweight" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlSatelites_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridDateTimeColumn DataField="DateTimeStartOrder" HeaderText="Προγραμματισμένη Ημ/νία Έναρξης" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" >
+                    <telerik:GridDateTimeColumn UniqueName="DateTimeStartOrder" DataField="DateTimeStartOrder" HeaderText="Προγραμματισμένη Ημ/νία Έναρξης" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridDateTimeColumn>
-                    <telerik:GridDateTimeColumn DataField="DateTimeEndOrder" HeaderText="Προγραμματισμένη Ημ/νία Λήξης" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" >
+                    <telerik:GridDateTimeColumn UniqueName="DateTimeEndOrder" DataField="DateTimeEndOrder" HeaderText="Προγραμματισμένη Ημ/νία Λήξης" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridDateTimeColumn>
                     <telerik:GridBoundColumn DataField="DateTimeDurationOrder" HeaderText="Προγραμματισμένη Διάρκεια" Visible="false" >

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Web.UI;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Web.UI.WebControls;
 using Telerik.Web.UI;
+using Telerik.Web.UI.Calendar;
 using OTERT.Model;
 using OTERT.Controller;
 using OTERT_Entity;
@@ -51,54 +53,125 @@ namespace OTERT.Pages.UserPages {
                 ElasticButton img = (ElasticButton)item["btnDelete"].Controls[0];
                 img.ToolTip = "Διαγραφή";
             }
+            if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
+                GridEditableItem item = e.Item as GridEditableItem;
+                RadDateTimePicker dpDateTimeStartOrder = (RadDateTimePicker)item["DateTimeStartOrder"].Controls[0];
+                dpDateTimeStartOrder.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
+                dpDateTimeStartOrder.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDateTimeStartOrder_SelectedIndexChanged);
+                RadDateTimePicker dpDateTimeEndOrder = (RadDateTimePicker)item["DateTimeEndOrder"].Controls[0];
+                dpDateTimeEndOrder.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
+                dpDateTimeEndOrder.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDateTimeEndOrder_SelectedIndexChanged);
+                RadDateTimePicker dpDateTimeStartActual = (RadDateTimePicker)item["DateTimeStartActual"].Controls[0];
+                dpDateTimeStartActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
+                dpDateTimeStartActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDateTimeStartActual_SelectedIndexChanged);
+                RadDateTimePicker dpDateTimeEndActual = (RadDateTimePicker)item["DateTimeEndActual"].Controls[0];
+                dpDateTimeEndActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
+                dpDateTimeEndActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDateTimeEndActual_SelectedIndexChanged);
+            }
+        }
+
+        private void dpDateTimeStartOrder_SelectedIndexChanged(object sender, SelectedDateChangedEventArgs e) {
+            DateTime startDate = e.NewDate ?? DateTime.Now;
+            RadDateTimePicker dpStartDate = (RadDateTimePicker)sender;
+            GridEditableItem eitem = (GridEditableItem)dpStartDate.NamingContainer;
+            RadDateTimePicker dpEndDate = (RadDateTimePicker)eitem["DateTimeEndOrder"].Controls[0];
+            DateTime endDate = dpEndDate.SelectedDate ?? DateTime.Now;
+            if (endDate > startDate) {
+                TimeSpan span = endDate.Subtract(startDate);
+                TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
+                txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
+                int jobID = -1;
+                if (Session["JobsID"] != null) {
+                    jobID = int.Parse(Session["JobsID"].ToString());
+                    JobFormulasController cont = new JobFormulasController();
+                    List<JobFormulaB> curJob = cont.GetJobFormulas(jobID);
+                }
+            }
+        }
+
+        private void dpDateTimeEndOrder_SelectedIndexChanged(object sender, SelectedDateChangedEventArgs e) {
+            DateTime endDate = e.NewDate ?? DateTime.Now;
+            RadDateTimePicker dpEndDate = (RadDateTimePicker)sender;
+            GridEditableItem eitem = (GridEditableItem)dpEndDate.NamingContainer;
+            RadDateTimePicker dpStartDate = (RadDateTimePicker)eitem["DateTimeStartOrder"].Controls[0];
+            DateTime startDate = dpStartDate.SelectedDate ?? DateTime.Now;
+            if (endDate > startDate) {
+                TimeSpan span = endDate.Subtract(startDate);
+                TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
+                txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
+            }
+        }
+
+        private void dpDateTimeStartActual_SelectedIndexChanged(object sender, SelectedDateChangedEventArgs e) {
+            DateTime startDate = e.NewDate ?? DateTime.Now;
+            RadDateTimePicker dpStartDate = (RadDateTimePicker)sender;
+            GridEditableItem eitem = (GridEditableItem)dpStartDate.NamingContainer;
+            RadDateTimePicker dpEndDate = (RadDateTimePicker)eitem["DateTimeEndActual"].Controls[0];
+            DateTime endDate = dpEndDate.SelectedDate ?? DateTime.Now;
+            if (endDate > startDate) {
+                TimeSpan span = endDate.Subtract(startDate);
+                TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
+                txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
+            }
+        }
+
+        private void dpDateTimeEndActual_SelectedIndexChanged(object sender, SelectedDateChangedEventArgs e) {
+            DateTime endDate = e.NewDate ?? DateTime.Now;
+            RadDateTimePicker dpEndDate = (RadDateTimePicker)sender;
+            GridEditableItem eitem = (GridEditableItem)dpEndDate.NamingContainer;
+            RadDateTimePicker dpStartDate = (RadDateTimePicker)eitem["DateTimeStartActual"].Controls[0];
+            DateTime startDate = dpStartDate.SelectedDate ?? DateTime.Now;
+            if (endDate > startDate) {
+                TimeSpan span = endDate.Subtract(startDate);
+                TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
+                txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
+            }
         }
 
         protected void gridMain_ItemDataBound(object sender, GridItemEventArgs e) {
-            if (e.Item.OwnerTableView.Name == "Master") {
-                if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
-                    JobsID = -1;
-                    Session.Remove("JobsID");
-                    CustomersID = -1;
-                    Session.Remove("CustomersID");
-                    GridEditableItem item = e.Item as GridEditableItem;
-                    RadDropDownList ddlJobs = item.FindControl("ddlJobs") as RadDropDownList;
-                    RadDropDownList ddlCustomers = item.FindControl("ddlCustomers") as RadDropDownList;
-                    RadDropDownList ddlSatelites = item.FindControl("ddlSatelites") as RadDropDownList;
-                    try {
-                        TaskB currTask = e.Item.DataItem as TaskB;
-                        JobsController cont1 = new JobsController();
-                        ddlJobs.DataSource = cont1.GetJobsForPageID(pageID);
-                        ddlJobs.DataTextField = "Name";
-                        ddlJobs.DataValueField = "ID";
-                        ddlJobs.DataBind();
-                        CustomersController cont2 = new CustomersController();
-                        ddlCustomers.DataSource = cont2.GetCustomers();
-                        ddlCustomers.DataTextField = "NameGR";
-                        ddlCustomers.DataValueField = "ID";
-                        ddlCustomers.DataBind();
-                        SatelitesController cont3 = new SatelitesController();
-                        ddlSatelites.DataSource = cont3.GetSatelites();
-                        ddlSatelites.DataTextField = "Name";
-                        ddlSatelites.DataValueField = "ID";
-                        ddlSatelites.DataBind();
-                        if (currTask != null) {
-                            ddlJobs.SelectedIndex = ddlJobs.FindItemByValue(currTask.JobID.ToString()).Index;
-                            Session["JobsID"] = currTask.JobID;
-                            ddlCustomers.SelectedIndex = ddlCustomers.FindItemByValue(currTask.CustomerID.ToString()).Index;
-                            Session["CustomersID"] = currTask.CustomerID;
-                            ddlSatelites.SelectedIndex = ddlSatelites.FindItemByValue(currTask.SateliteID.ToString()).Index;
-                            Session["SatelitesID"] = currTask.SateliteID;
-                        } else {
-                            ddlJobs.SelectedIndex = 0;
-                            Session["JobsID"] = ddlJobs.SelectedItem.Value;
-                            ddlCustomers.SelectedIndex = 0;
-                            Session["CustomersID"] = ddlCustomers.SelectedItem.Value;
-                            ddlSatelites.SelectedIndex = 0;
-                            Session["SatelitesID"] = ddlSatelites.SelectedItem.Value;
-                        }
+            if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
+                JobsID = -1;
+                Session.Remove("JobsID");
+                CustomersID = -1;
+                Session.Remove("CustomersID");
+                GridEditableItem item = e.Item as GridEditableItem;
+                RadDropDownList ddlJobs = item.FindControl("ddlJobs") as RadDropDownList;
+                RadDropDownList ddlCustomers = item.FindControl("ddlCustomers") as RadDropDownList;
+                RadDropDownList ddlSatelites = item.FindControl("ddlSatelites") as RadDropDownList;
+                try {
+                    TaskB currTask = e.Item.DataItem as TaskB;
+                    JobsController cont1 = new JobsController();
+                    ddlJobs.DataSource = cont1.GetJobsForPageID(pageID);
+                    ddlJobs.DataTextField = "Name";
+                    ddlJobs.DataValueField = "ID";
+                    ddlJobs.DataBind();
+                    CustomersController cont2 = new CustomersController();
+                    ddlCustomers.DataSource = cont2.GetCustomers();
+                    ddlCustomers.DataTextField = "NameGR";
+                    ddlCustomers.DataValueField = "ID";
+                    ddlCustomers.DataBind();
+                    SatelitesController cont3 = new SatelitesController();
+                    ddlSatelites.DataSource = cont3.GetSatelites();
+                    ddlSatelites.DataTextField = "Name";
+                    ddlSatelites.DataValueField = "ID";
+                    ddlSatelites.DataBind();
+                    if (currTask != null) {
+                        ddlJobs.SelectedIndex = ddlJobs.FindItemByValue(currTask.JobID.ToString()).Index;
+                        Session["JobsID"] = currTask.JobID;
+                        ddlCustomers.SelectedIndex = ddlCustomers.FindItemByValue(currTask.CustomerID.ToString()).Index;
+                        Session["CustomersID"] = currTask.CustomerID;
+                        ddlSatelites.SelectedIndex = ddlSatelites.FindItemByValue(currTask.SateliteID.ToString()).Index;
+                        Session["SatelitesID"] = currTask.SateliteID;
+                    } else {
+                        ddlJobs.SelectedIndex = 0;
+                        Session["JobsID"] = ddlJobs.SelectedItem.Value;
+                        ddlCustomers.SelectedIndex = 0;
+                        Session["CustomersID"] = ddlCustomers.SelectedItem.Value;
+                        ddlSatelites.SelectedIndex = 0;
+                        Session["SatelitesID"] = ddlSatelites.SelectedItem.Value;
                     }
-                    catch (Exception) { }
                 }
+                catch (Exception) { }
             }
         }
 
@@ -116,27 +189,29 @@ namespace OTERT.Pages.UserPages {
             using (var dbContext = new OTERTConnStr()) {
                 var curTask = dbContext.Tasks.Where(n => n.ID == ID).FirstOrDefault();
                 if (curTask != null) {
-                    editableItem.UpdateValues(curTask);
-                    if (Session["JobsID"] != null) { JobsID = int.Parse(Session["JobsID"].ToString()); }
-                    if (JobsID > 0) {
-                        curTask.JobID = JobsID;
-                        JobsID = -1;
-                        Session.Remove("JobsID");
+                    try {
+                        editableItem.UpdateValues(curTask);
+                        if (Session["JobsID"] != null) { JobsID = int.Parse(Session["JobsID"].ToString()); }
+                        if (JobsID > 0) {
+                            curTask.JobID = JobsID;
+                            JobsID = -1;
+                            Session.Remove("JobsID");
+                        }
+                        if (Session["CustomersID"] != null) { CustomersID = int.Parse(Session["CustomersID"].ToString()); }
+                        if (CustomersID > 0) {
+                            curTask.CustomerID = CustomersID;
+                            CustomersID = -1;
+                            Session.Remove("CustomersID");
+                        }
+                        if (Session["SatelitesID"] != null) { SatelitesID = int.Parse(Session["SatelitesID"].ToString()); }
+                        if (SatelitesID > 0) {
+                            curTask.SateliteID = SatelitesID;
+                            SatelitesID = -1;
+                            Session.Remove("SatelitesID");
+                        }
+                        dbContext.SaveChanges();
                     }
-                    if (Session["CustomersID"] != null) { CustomersID = int.Parse(Session["CustomersID"].ToString()); }
-                    if (CustomersID > 0) {
-                        curTask.CustomerID = CustomersID;
-                        CustomersID = -1;
-                        Session.Remove("CustomersID");
-                    }
-                    if (Session["SatelitesID"] != null) { SatelitesID = int.Parse(Session["SatelitesID"].ToString()); }
-                    if (SatelitesID > 0) {
-                        curTask.SateliteID = SatelitesID;
-                        SatelitesID = -1;
-                        Session.Remove("SatelitesID");
-                    }
-                    try { dbContext.SaveChanges(); }
-                    catch (Exception) { ShowErrorMessage(-1); }
+                    catch (Exception ex) { ShowErrorMessage(-1); }
                 }
             }
         }
@@ -189,7 +264,7 @@ namespace OTERT.Pages.UserPages {
                         dbContext.Tasks.Add(curTask);
                         dbContext.SaveChanges();
                     }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                     finally {
                         JobsID = -1;
                         Session.Remove("JobsID");

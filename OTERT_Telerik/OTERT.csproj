@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\Dynamic.cs" />
+    <Compile Include="App_Code\Evaluator.cs" />
     <Compile Include="App_Code\Utilities.cs" />
     <Compile Include="App_Code\FilterData.cs" />
     <Compile Include="App_Code\StaticUtilities.cs" />
@@ -344,7 +345,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
