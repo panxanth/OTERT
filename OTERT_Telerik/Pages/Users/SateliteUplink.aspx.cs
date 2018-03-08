@@ -355,20 +355,20 @@ namespace OTERT.Pages.UserPages {
                         curTask.DateTimeEndOrder = DateTime.Parse((string)values["DateTimeEndOrder"]);
                         curTask.DateTimeDurationOrder = int.Parse((string)values["DateTimeDurationOrder"]);
                         curTask.IsDurationInDays = (bool)values["IsDurationInDays"];
-                        curTask.DateTimeStartActual = DateTime.Parse((string)values["DateTimeStartActual"]);
-                        curTask.DateTimeEndActual = DateTime.Parse((string)values["DateTimeEndActual"]);
-                        curTask.DateTimeDurationActual = int.Parse((string)values["DateTimeDurationActual"]);
-                        curTask.CostCalculated = decimal.Parse((string)values["CostCalculated"]);
+                        if (values["DateTimeStartActual"] != null) { curTask.DateTimeStartActual = DateTime.Parse((string)values["DateTimeStartActual"]); } else { curTask.DateTimeStartActual = null; }
+                        if (values["DateTimeEndActual"] != null) { curTask.DateTimeEndActual = DateTime.Parse((string)values["DateTimeEndActual"]); } else { curTask.DateTimeEndActual = null; }
+                        if (values["DateTimeDurationActual"] != null) { curTask.DateTimeDurationActual = int.Parse((string)values["DateTimeDurationActual"]); } else { curTask.DateTimeDurationActual = null; }
+                        if (values["CostCalculated"] != null) { curTask.CostCalculated = decimal.Parse((string)values["CostCalculated"]); } else { curTask.CostCalculated = null; }
                         curTask.InstallationCharges = false;
                         curTask.MonthlyCharges = false;
                         curTask.CallCharges = 0;
                         curTask.TelephoneNumber = "";
                         curTask.TechnicalSupport = 0;
-                        curTask.AddedCharges = decimal.Parse((string)values["AddedCharges"]);
-                        curTask.CostActual = decimal.Parse((string)values["CostActual"]);
-                        curTask.PaymentDateOrder = DateTime.Parse((string)values["PaymentDateOrder"]);
-                        curTask.PaymentDateCalculated = DateTime.Parse((string)values["PaymentDateCalculated"]);
-                        curTask.PaymentDateActual = DateTime.Parse((string)values["PaymentDateActual"]);
+                        if (values["AddedCharges"] != null) { curTask.AddedCharges = decimal.Parse((string)values["AddedCharges"]); } else { curTask.AddedCharges = null; }
+                        if (values["CostActual"] != null) { curTask.CostActual = decimal.Parse((string)values["CostActual"]); } else { curTask.CostActual = null; }
+                        if (values["PaymentDateOrder"] != null) { curTask.PaymentDateOrder = DateTime.Parse((string)values["PaymentDateOrder"]); } else { curTask.PaymentDateOrder = null; }
+                        if (values["PaymentDateCalculated"] != null) { curTask.PaymentDateCalculated = DateTime.Parse((string)values["PaymentDateCalculated"]); } else { curTask.PaymentDateCalculated = null; }
+                        if (values["PaymentDateActual"] != null) { curTask.PaymentDateActual = DateTime.Parse((string)values["PaymentDateActual"]); } else { curTask.PaymentDateActual = null; }
                         curTask.IsForHelpers = (bool)values["IsForHelpers"];
                         curTask.IsLocked = (bool)values["IsLocked"];
                         curTask.IsCanceled = (bool)values["IsCanceled"];
