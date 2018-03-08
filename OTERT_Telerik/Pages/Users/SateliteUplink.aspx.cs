@@ -8,6 +8,7 @@ using System.Linq.Dynamic;
 using System.Web.UI.WebControls;
 using Telerik.Web.UI;
 using Telerik.Web.UI.Calendar;
+using ExpressionParser;
 using OTERT.Model;
 using OTERT.Controller;
 using OTERT_Entity;
@@ -81,10 +82,64 @@ namespace OTERT.Pages.UserPages {
                 TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
                 txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
                 int jobID = -1;
-                if (Session["JobsID"] != null) {
+                int sateliteID = -1;
+                if (Session["JobsID"] != null && Session["SatelitesID"] != null) {
                     jobID = int.Parse(Session["JobsID"].ToString());
+                    sateliteID = int.Parse(Session["SatelitesID"].ToString());
                     JobFormulasController cont = new JobFormulasController();
-                    List<JobFormulaB> curJob = cont.GetJobFormulas(jobID);
+                    List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
+                    SatelitesController cont2 = new SatelitesController();
+                    SateliteB curSat = cont2.GetSatelite(sateliteID);
+
+                    string formula = "";
+                    if (curJobFormulas.Count > 1) {
+                        foreach (JobFormulaB jobFormula in curJobFormulas) {
+                            string currCondition = jobFormula.Condition;
+                            currCondition = currCondition.Replace("#BANDWIDTH#", curSat.Frequency);
+                            currCondition = currCondition.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
+                            currCondition = currCondition.Replace(",", ".");
+                            string valueVar = "";
+                            string valueConst = "";
+                            string formulaEval = "";
+                            if (currCondition.IndexOfAny(new char[] { '>' }) != -1) {
+                                valueVar = currCondition.Split(new Char[] { '>' })[0];
+                                valueConst = currCondition.Split(new Char[] { '>' })[1];
+                                formulaEval = ">";
+                            } else if (currCondition.IndexOfAny(new char[] { '<' }) != -1) {
+                                valueVar = currCondition.Split(new Char[] { '<' })[0];
+                                valueConst = currCondition.Split(new Char[] { '<' })[1];
+                                formulaEval = "<";
+                            } else {
+                                valueVar = currCondition.Split(new Char[] { '=' })[0];
+                                valueConst = currCondition.Split(new Char[] { '=' })[1];
+                                formulaEval = "=";
+                            }
+                            if (formulaEval == "=") {
+                                if (valueVar == valueConst) {
+                                    formula = jobFormula.Formula;
+                                    break;
+                                }
+                            } else if (formulaEval == "<") {
+                                if (float.Parse(valueVar) < float.Parse(valueConst)) {
+                                    formula = jobFormula.Formula;
+                                    break;
+                                }
+                            } else {
+                                if (float.Parse(valueVar) > float.Parse(valueConst)) {
+                                    formula = jobFormula.Formula;
+                                    break;
+                                }
+                            }
+                        }
+                    } else { formula = curJobFormulas[0].Formula; }
+                    formula = formula.Replace("#BANDWIDTH#", curSat.Frequency);
+                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
+                    formula = formula.Replace(",", ".");
+                    double calculatedCost = Evaluator.EvalToDouble(formula);
+                    TextBox txtAddedCharges = (TextBox)eitem["AddedCharges"].Controls[0];
+                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
+                    TextBox txtCostCalculated = (TextBox)eitem["CostCalculated"].Controls[0];
+                    txtCostCalculated.Text = calculatedCost.ToString();
                 }
             }
         }
@@ -99,6 +154,66 @@ namespace OTERT.Pages.UserPages {
                 TimeSpan span = endDate.Subtract(startDate);
                 TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
                 txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
+                int jobID = -1;
+                int sateliteID = -1;
+                if (Session["JobsID"] != null && Session["SatelitesID"] != null) {
+                    jobID = int.Parse(Session["JobsID"].ToString());
+                    sateliteID = int.Parse(Session["SatelitesID"].ToString());
+                    JobFormulasController cont = new JobFormulasController();
+                    List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
+                    SatelitesController cont2 = new SatelitesController();
+                    SateliteB curSat = cont2.GetSatelite(sateliteID);
+
+                    string formula = "";
+                    if (curJobFormulas.Count > 1) {
+                        foreach (JobFormulaB jobFormula in curJobFormulas) {
+                            string currCondition = jobFormula.Condition;
+                            currCondition = currCondition.Replace("#BANDWIDTH#", curSat.Frequency);
+                            currCondition = currCondition.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
+                            currCondition = currCondition.Replace(",", ".");
+                            string valueVar = "";
+                            string valueConst = "";
+                            string formulaEval = "";
+                            if (currCondition.IndexOfAny(new char[] { '>' }) != -1) {
+                                valueVar = currCondition.Split(new Char[] { '>' })[0];
+                                valueConst = currCondition.Split(new Char[] { '>' })[1];
+                                formulaEval = ">";
+                            } else if (currCondition.IndexOfAny(new char[] { '<' }) != -1) {
+                                valueVar = currCondition.Split(new Char[] { '<' })[0];
+                                valueConst = currCondition.Split(new Char[] { '<' })[1];
+                                formulaEval = "<";
+                            } else {
+                                valueVar = currCondition.Split(new Char[] { '=' })[0];
+                                valueConst = currCondition.Split(new Char[] { '=' })[1];
+                                formulaEval = "=";
+                            }
+                            if (formulaEval == "=") {
+                                if (valueVar == valueConst) {
+                                    formula = jobFormula.Formula;
+                                    break;
+                                }
+                            } else if (formulaEval == "<") {
+                                if (float.Parse(valueVar) < float.Parse(valueConst)) {
+                                    formula = jobFormula.Formula;
+                                    break;
+                                }
+                            } else {
+                                if (float.Parse(valueVar) > float.Parse(valueConst)) {
+                                    formula = jobFormula.Formula;
+                                    break;
+                                }
+                            }
+                        }
+                    } else { formula = curJobFormulas[0].Formula; }
+                    formula = formula.Replace("#BANDWIDTH#", curSat.Frequency);
+                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
+                    formula = formula.Replace(",", ".");
+                    double calculatedCost = Evaluator.EvalToDouble(formula);
+                    TextBox txtAddedCharges = (TextBox)eitem["AddedCharges"].Controls[0];
+                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
+                    TextBox txtCostCalculated = (TextBox)eitem["CostCalculated"].Controls[0];
+                    txtCostCalculated.Text = calculatedCost.ToString();
+                }
             }
         }
 
@@ -211,7 +326,7 @@ namespace OTERT.Pages.UserPages {
                         }
                         dbContext.SaveChanges();
                     }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                 }
             }
         }

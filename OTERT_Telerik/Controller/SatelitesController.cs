@@ -18,6 +18,22 @@ namespace OTERT.Controller {
             }
         }
 
+        public SateliteB GetSatelite(int SateliteID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    SateliteB data = (from us in dbContext.Satelites
+                                      select new SateliteB {
+                                            ID = us.ID,
+                                            Name = us.Name,
+                                            Frequency = us.Frequency
+                                      }).Where(o => o.ID == SateliteID).FirstOrDefault();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
         public List<SateliteB> GetSatelites() {
             using (var dbContext = new OTERTConnStr()) {
                 try {
