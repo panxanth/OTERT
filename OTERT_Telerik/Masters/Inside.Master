@@ -31,7 +31,7 @@
                         <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Δορυφορικά</a>
                             <ul class="gradient_menu gradient67">
                                 <li class="gradient_menuitem gradient27"><a href="/Pages/Users/SateliteUplink.aspx" title="">Uplink</a></li>
-                                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Uplink (Cosmote TV)</a></li>
+                                <%-- <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Uplink (Cosmote TV)</a></li> --%>
                                 <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">Downlink</a></li>
                             </ul>
                         </li>
