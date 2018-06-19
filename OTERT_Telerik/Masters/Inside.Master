@@ -24,15 +24,46 @@
                 <div class="arrow"><a class="button_2">Έργα</a></div>
             </div>
             <ul class="gradient_menu gradient99">
-                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Προσωρινά</a></li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Προσωρινά</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Αστικά</a>
+                            <ul class="gradient_menu gradient67">
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/SateliteUplink.aspx" title="">1 Σημείο Κωδικοποίησης</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">2 Σημεία Κωδικοποίησης</a></li>
+                            </ul>
+                        </li>
+                        <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Υπεραστικά</a>
+                            <ul class="gradient_menu gradient67">
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/SateliteUplink.aspx" title="">1 Σημείο Κωδικοποίησης</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">2 Σημεία Κωδικοποίησης</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
                 <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Έκτακτα</a>
                     <ul class="gradient_menu gradient67">
-                        <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Επίγεια</a></li>
+                        <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Επίγεια</a>
+                            <ul class="gradient_menu gradient67">
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/SateliteUplink.aspx" title="">Αστικά</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">Υπεραστικά</a></li>
+                            </ul>
+                        </li>
                         <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Δορυφορικά</a>
                             <ul class="gradient_menu gradient67">
-                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/SateliteUplink.aspx" title="">Uplink</a></li>
-                                <%-- <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Uplink (Cosmote TV)</a></li> --%>
-                                <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">Downlink</a></li>
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/SateliteHS.aspx" title="">HELLASSAT</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="SateliteEU.aspx" title="">EUTELSAT</a></li>
+                            </ul>
+                        </li>
+                        <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Uplink</a>
+                            <ul class="gradient_menu gradient67">
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/SateliteUplink.aspx" title="">Σταθεροί Δορυφορικοί Σταθμοί</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">Μεταφερόμενοι Δορυφορικοί Σταθμοί (SNG)</a></li>
+                            </ul>
+                        </li>
+                        <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Downlink</a>
+                            <ul class="gradient_menu gradient67">
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/SateliteUplink.aspx" title="">Σταθεροί Δορυφορικοί Σταθμοί</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">Μεταφερόμενοι Δορυφορικοί Σταθμοί (SNG)</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -103,10 +134,6 @@
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/OrderTypesList.aspx">Είδη Παραγγελιών</a></li>
                     </ul>
                 </li>
-                <%--
-                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Λίστα Έργων Τύπου 2</a></li>
-                <li class="gradient_menuitem gradient27 last_item"><a title="">Προσθήκη Έργου Τύπου 2</a></li>
-                --%>
             </ul>
         </li>
         <%}%>

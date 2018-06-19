@@ -187,6 +187,14 @@
       <DependentUpon>UserGroupsList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Users\SateliteEU.aspx.cs">
+      <DependentUpon>SateliteEU.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\SateliteHS.aspx.cs">
+      <DependentUpon>SateliteHS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Users\SateliteUplink.aspx.cs">
       <DependentUpon>SateliteUplink.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -253,6 +261,8 @@
     <Content Include="Pages\Administrator\PlacesList.aspx" />
     <Content Include="Pages\Administrator\JobsMainList.aspx" />
     <Content Include="Pages\Administrator\UsersList.aspx" />
+    <Content Include="Pages\Users\SateliteEU.aspx" />
+    <Content Include="Pages\Users\SateliteHS.aspx" />
     <Content Include="Pages\Users\SateliteUplink.aspx" />
     <Content Include="WebServices\OTERTWS.asmx" />
     <Content Include="WebServices\test.asmx" />
@@ -348,7 +358,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
