@@ -14,12 +14,20 @@ namespace OTERT_Entity
     
     public partial class Distances
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Distances()
+        {
+            this.Tasks = new HashSet<Tasks>();
+        }
+    
         public int ID { get; set; }
-        public int DistanceTypeID { get; set; }
         public string Position1 { get; set; }
         public string Position2 { get; set; }
-        public decimal KM { get; set; }
+        public int KM { get; set; }
+        public int JobsMainID { get; set; }
     
-        public virtual DistanceTypes DistanceTypes { get; set; }
+        public virtual JobsMain JobsMain { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tasks> Tasks { get; set; }
     }
 }

@@ -137,6 +137,16 @@ namespace OTERT.Model {
         public SaleDTO Sale { get; set; }
     }
 
+    public class DistanceB {
+        public int ID { get; set; }
+        public int JobsMainID { get; set; }
+        public JobMainDTO JobsMain { get; set; }
+        public string Description { get; set; }
+        public string Position1 { get; set; }
+        public string Position2 { get; set; }
+        public int KM { get; set; }
+    }
+
     public class JobMainB {
         public int ID { get; set; }
         public int PageID { get; set; }
@@ -168,9 +178,8 @@ namespace OTERT.Model {
         public RequestedPositionDTO RequestedPosition { get; set; }
         public int? JobID { get; set; }
         public JobDTO Job { get; set; }
-        public string PlaceFrom { get; set; }
-        public string PlaceTo { get; set; }
-        public int? PlaceDistanceKm { get; set; }
+        public int? DistanceID { get; set; }
+        public DistanceDTO Distance { get; set; }
         public DateTime? DateTimeStartOrder { get; set; }
         public DateTime? DateTimeEndOrder { get; set; }
         public int DateTimeDurationOrder { get; set; }

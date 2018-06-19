@@ -30,7 +30,6 @@ namespace OTERT_Entity
         public virtual DbSet<Customers> Customers { get; set; }
         public virtual DbSet<CustomerTypes> CustomerTypes { get; set; }
         public virtual DbSet<Distances> Distances { get; set; }
-        public virtual DbSet<DistanceTypes> DistanceTypes { get; set; }
         public virtual DbSet<Events> Events { get; set; }
         public virtual DbSet<Jobs> Jobs { get; set; }
         public virtual DbSet<Languages> Languages { get; set; }

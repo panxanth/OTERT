@@ -66,15 +66,14 @@
                             <telerik:RadDropDownList runat="server" ID="ddlJobs" RenderMode="Lightweight" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlJobs_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridBoundColumn DataField="PlaceFrom" HeaderText="Από (Περιοχή)" Visible="false" ReadOnly="true" >
-                        <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
-                    </telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn DataField="PlaceTo" HeaderText="Προς (Περιοχή)" Visible="false" ReadOnly="true" >
-                        <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
-                    </telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn DataField="PlaceDistanceKm" HeaderText="Απόσταση (km)" Visible="false" ReadOnly="true" >
-                        <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
-                    </telerik:GridBoundColumn>
+                    <telerik:GridTemplateColumn DataField="DistanceID" HeaderText="Απόσταση"  Visible="false">
+                        <ItemTemplate>
+                            <asp:Label Text='<% #Eval("Distance.Description") %>' runat="server" /> 
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <telerik:RadDropDownList runat="server" ID="ddlDistances" RenderMode="Lightweight" DropDownHeight="200" Width="500px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlDistances_SelectedIndexChanged" />
+                        </EditItemTemplate>
+                    </telerik:GridTemplateColumn>
                     <telerik:GridTemplateColumn DataField="SateliteID" UniqueName="SateliteID" Visible="false" ReadOnly="true" />
                     <telerik:GridDateTimeColumn UniqueName="DateTimeStartOrder" DataField="DateTimeStartOrder" HeaderText="Προγραμματισμένη Ημ/νία Έναρξης" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />

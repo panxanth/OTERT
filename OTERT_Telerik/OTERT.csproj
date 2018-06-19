@@ -99,6 +99,7 @@
     <Compile Include="App_Code\StaticUtilities.cs" />
     <Compile Include="Controller\JobCancelPricesController.cs" />
     <Compile Include="Controller\JobFormulasController.cs" />
+    <Compile Include="Controller\DistancesController.cs" />
     <Compile Include="Controller\TasksController.cs" />
     <Compile Include="Controller\JobsController.cs" />
     <Compile Include="Controller\RequestedPositionsController.cs" />
@@ -191,14 +192,6 @@
       <DependentUpon>CustomersList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Users\Uplink.aspx.cs">
-      <DependentUpon>Uplink.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Pages\Users\UplinkSNG.aspx.cs">
-      <DependentUpon>UplinkSNG.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Pages\Users\Downlink.aspx.cs">
       <DependentUpon>Downlink.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -207,24 +200,32 @@
       <DependentUpon>DownlinkSNG.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Users\UrbanCalls.aspx.cs">
-      <DependentUpon>UrbanCalls.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Pages\Users\LongDistanceCalls.aspx.cs">
       <DependentUpon>LongDistanceCalls.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Pages\Users\SateliteHS.aspx.cs">
-      <DependentUpon>SateliteHS.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Users\SateliteEU.aspx.cs">
       <DependentUpon>SateliteEU.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Users\SateliteHS.aspx.cs">
+      <DependentUpon>SateliteHS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Users\SateliteUplink.aspx.cs">
       <DependentUpon>SateliteUplink.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\Uplink.aspx.cs">
+      <DependentUpon>Uplink.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\UplinkSNG.aspx.cs">
+      <DependentUpon>UplinkSNG.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\UrbanCalls.aspx.cs">
+      <DependentUpon>UrbanCalls.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -290,15 +291,15 @@
     <Content Include="Pages\Administrator\JobsMainList.aspx" />
     <Content Include="Pages\Administrator\UsersList.aspx" />
     <Content Include="Pages\Users\CustomersList.aspx" />
-    <Content Include="Pages\Users\Uplink.aspx" />
-    <Content Include="Pages\Users\UplinkSNG.aspx" />
     <Content Include="Pages\Users\Downlink.aspx" />
     <Content Include="Pages\Users\DownlinkSNG.aspx" />
-    <Content Include="Pages\Users\UrbanCalls.aspx" />
     <Content Include="Pages\Users\LongDistanceCalls.aspx" />
-    <Content Include="Pages\Users\SateliteHS.aspx" />
     <Content Include="Pages\Users\SateliteEU.aspx" />
+    <Content Include="Pages\Users\SateliteHS.aspx" />
     <Content Include="Pages\Users\SateliteUplink.aspx" />
+    <Content Include="Pages\Users\Uplink.aspx" />
+    <Content Include="Pages\Users\UplinkSNG.aspx" />
+    <Content Include="Pages\Users\UrbanCalls.aspx" />
     <Content Include="WebServices\OTERTWS.asmx" />
     <Content Include="WebServices\test.asmx" />
   </ItemGroup>
@@ -393,7 +394,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

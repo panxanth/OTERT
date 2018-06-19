@@ -22,7 +22,7 @@ namespace OTERT.Pages.UserPages {
         protected RadWindowManager RadWindowManager1;
         protected int pageID = 11;
         protected string pageTitle;
-        protected int JobsID, CustomersID;
+        protected int JobsID, CustomersID, DistancesID;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
@@ -32,6 +32,8 @@ namespace OTERT.Pages.UserPages {
                 Session.Remove("JobsID");
                 CustomersID = -1;
                 Session.Remove("CustomersID");
+                DistancesID = -1;
+                Session.Remove("DistancesID");
             }
         }
 
@@ -355,9 +357,12 @@ namespace OTERT.Pages.UserPages {
                 Session.Remove("JobsID");
                 CustomersID = -1;
                 Session.Remove("CustomersID");
+                DistancesID = -1;
+                Session.Remove("DistancesID");
                 GridEditableItem item = e.Item as GridEditableItem;
                 RadDropDownList ddlJobs = item.FindControl("ddlJobs") as RadDropDownList;
                 RadDropDownList ddlCustomers = item.FindControl("ddlCustomers") as RadDropDownList;
+                RadDropDownList ddlDistances = item.FindControl("ddlDistances") as RadDropDownList;
                 try {
                     TaskB currTask = e.Item.DataItem as TaskB;
                     JobsController cont1 = new JobsController();
@@ -370,16 +375,25 @@ namespace OTERT.Pages.UserPages {
                     ddlCustomers.DataTextField = "NameGR";
                     ddlCustomers.DataValueField = "ID";
                     ddlCustomers.DataBind();
+                    DistancesController cont3 = new DistancesController();
+                    ddlDistances.DataSource = cont3.GetDistancesForPageID(pageID);
+                    ddlDistances.DataTextField = "Description";
+                    ddlDistances.DataValueField = "ID";
+                    ddlDistances.DataBind();
                     if (currTask != null) {
                         ddlJobs.SelectedIndex = ddlJobs.FindItemByValue(currTask.JobID.ToString()).Index;
                         Session["JobsID"] = currTask.JobID;
                         ddlCustomers.SelectedIndex = ddlCustomers.FindItemByValue(currTask.CustomerID.ToString()).Index;
                         Session["CustomersID"] = currTask.CustomerID;
+                        ddlDistances.SelectedIndex = ddlDistances.FindItemByValue(currTask.DistanceID.ToString()).Index;
+                        Session["DistancesID"] = currTask.DistanceID;
                     } else {
                         ddlJobs.SelectedIndex = 0;
                         Session["JobsID"] = ddlJobs.SelectedItem.Value;
                         ddlCustomers.SelectedIndex = 0;
                         Session["CustomersID"] = ddlCustomers.SelectedItem.Value;
+                        ddlDistances.SelectedIndex = 0;
+                        Session["DistancesID"] = ddlDistances.SelectedItem.Value;
                     }
                 }
                 catch (Exception) { }
@@ -414,6 +428,12 @@ namespace OTERT.Pages.UserPages {
                             CustomersID = -1;
                             Session.Remove("CustomersID");
                         }
+                        if (Session["DistancesID"] != null) { DistancesID = int.Parse(Session["DistancesID"].ToString()); }
+                        if (DistancesID > 0) {
+                            curTask.DistancesID = DistancesID;
+                            DistancesID = -1;
+                            Session.Remove("DistancesID");
+                        }
                         dbContext.SaveChanges();
                     }
                     catch (Exception) { ShowErrorMessage(-1); }
@@ -429,7 +449,8 @@ namespace OTERT.Pages.UserPages {
                 editableItem.ExtractValues(values);
                 if (Session["JobsID"] != null) { JobsID = int.Parse(Session["JobsID"].ToString()); }
                 if (Session["CustomersID"] != null) { CustomersID = int.Parse(Session["CustomersID"].ToString()); }
-                if (JobsID > 0 && CustomersID > 0) {
+                if (Session["DistancesID"] != null) { DistancesID = int.Parse(Session["DistancesID"].ToString()); }
+                if (JobsID > 0 && CustomersID > 0 && DistancesID > 0) {
                     try {
                         curTask.OrderID = null;
                         curTask.RegNo = (string)values["RegNo"];
@@ -437,9 +458,7 @@ namespace OTERT.Pages.UserPages {
                         curTask.CustomerID = CustomersID;
                         curTask.RequestedPositionID = null;
                         curTask.JobID = JobsID;
-                        curTask.PlaceFrom = "";
-                        curTask.PlaceTo = "";
-                        curTask.PlaceDistanceKm = 0;
+                        curTask.DistancesID = DistancesID;
                         curTask.DateTimeStartOrder = DateTime.Parse((string)values["DateTimeStartOrder"]);
                         curTask.DateTimeEndOrder = DateTime.Parse((string)values["DateTimeEndOrder"]);
                         curTask.DateTimeDurationOrder = int.Parse((string)values["DateTimeDurationOrder"]);
@@ -468,12 +487,14 @@ namespace OTERT.Pages.UserPages {
                         dbContext.Tasks.Add(curTask);
                         dbContext.SaveChanges();
                     }
-                    catch (Exception ex) { ShowErrorMessage(-1); }
+                    catch (Exception) { ShowErrorMessage(-1); }
                     finally {
                         JobsID = -1;
                         Session.Remove("JobsID");
                         CustomersID = -1;
                         Session.Remove("CustomersID");
+                        DistancesID = -1;
+                        Session.Remove("DistancesID");
                     }
                 } else { ShowErrorMessage(-1); }
             }
@@ -508,6 +529,14 @@ namespace OTERT.Pages.UserPages {
             try {
                 CustomersID = int.Parse(e.Value);
                 Session["CustomersID"] = CustomersID;
+            }
+            catch (Exception) { }
+        }
+
+        protected void ddlDistances_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                DistancesID = int.Parse(e.Value);
+                Session["DistancesID"] = DistancesID;
             }
             catch (Exception) { }
         }

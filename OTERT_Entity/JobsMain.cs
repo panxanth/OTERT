@@ -18,6 +18,7 @@ namespace OTERT_Entity
         public JobsMain()
         {
             this.Jobs = new HashSet<Jobs>();
+            this.Distances = new HashSet<Distances>();
         }
     
         public int ID { get; set; }
@@ -26,5 +27,7 @@ namespace OTERT_Entity
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Jobs> Jobs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Distances> Distances { get; set; }
     }
 }

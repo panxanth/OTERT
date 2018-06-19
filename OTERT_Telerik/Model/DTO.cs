@@ -112,6 +112,16 @@ namespace OTERT.Model {
         public SaleDTO Sale { get; set; }
     }
 
+    public class DistanceDTO {
+        public int ID { get; set; }
+        public int JobsMainID { get; set; }
+        public JobMainDTO JobsMain { get; set; }
+        public string Description { get; set; }
+        public string Position1 { get; set; }
+        public string Position2 { get; set; }
+        public int KM { get; set; }
+    }
+
     public class EventDTO {
         public int ID { get; set; }
         public PlaceDTO Place { get; set; }

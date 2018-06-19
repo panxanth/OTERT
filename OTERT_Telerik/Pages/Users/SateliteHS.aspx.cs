@@ -23,7 +23,7 @@ namespace OTERT.Pages.UserPages {
         protected int pageID = 7;
         protected string pageTitle;
         protected string sateliteStartsWith = "HE";
-        protected int JobsID, CustomersID, SatelitesID;
+        protected int JobsID, CustomersID, SatelitesID, DistancesID;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
@@ -35,6 +35,8 @@ namespace OTERT.Pages.UserPages {
                 Session.Remove("CustomersID");
                 SatelitesID = -1;
                 Session.Remove("SatelitesID");
+                DistancesID = -1;
+                Session.Remove("DistancesID");
             }
         }
 
@@ -382,10 +384,15 @@ namespace OTERT.Pages.UserPages {
                 Session.Remove("JobsID");
                 CustomersID = -1;
                 Session.Remove("CustomersID");
+                SatelitesID = -1;
+                Session.Remove("SatelitesID");
+                DistancesID = -1;
+                Session.Remove("DistancesID");
                 GridEditableItem item = e.Item as GridEditableItem;
                 RadDropDownList ddlJobs = item.FindControl("ddlJobs") as RadDropDownList;
                 RadDropDownList ddlCustomers = item.FindControl("ddlCustomers") as RadDropDownList;
                 RadDropDownList ddlSatelites = item.FindControl("ddlSatelites") as RadDropDownList;
+                RadDropDownList ddlDistances = item.FindControl("ddlDistances") as RadDropDownList;
                 try {
                     TaskB currTask = e.Item.DataItem as TaskB;
                     JobsController cont1 = new JobsController();
@@ -403,6 +410,11 @@ namespace OTERT.Pages.UserPages {
                     ddlSatelites.DataTextField = "Name";
                     ddlSatelites.DataValueField = "ID";
                     ddlSatelites.DataBind();
+                    DistancesController cont4 = new DistancesController();
+                    ddlDistances.DataSource = cont4.GetDistancesForPageID(pageID);
+                    ddlDistances.DataTextField = "Description";
+                    ddlDistances.DataValueField = "ID";
+                    ddlDistances.DataBind();
                     if (currTask != null) {
                         ddlJobs.SelectedIndex = ddlJobs.FindItemByValue(currTask.JobID.ToString()).Index;
                         Session["JobsID"] = currTask.JobID;
@@ -410,6 +422,8 @@ namespace OTERT.Pages.UserPages {
                         Session["CustomersID"] = currTask.CustomerID;
                         ddlSatelites.SelectedIndex = ddlSatelites.FindItemByValue(currTask.SateliteID.ToString()).Index;
                         Session["SatelitesID"] = currTask.SateliteID;
+                        ddlDistances.SelectedIndex = ddlDistances.FindItemByValue(currTask.DistanceID.ToString()).Index;
+                        Session["DistancesID"] = currTask.DistanceID;
                     } else {
                         ddlJobs.SelectedIndex = 0;
                         Session["JobsID"] = ddlJobs.SelectedItem.Value;
@@ -417,6 +431,8 @@ namespace OTERT.Pages.UserPages {
                         Session["CustomersID"] = ddlCustomers.SelectedItem.Value;
                         ddlSatelites.SelectedIndex = 0;
                         Session["SatelitesID"] = ddlSatelites.SelectedItem.Value;
+                        ddlDistances.SelectedIndex = 0;
+                        Session["DistancesID"] = ddlDistances.SelectedItem.Value;
                     }
                 }
                 catch (Exception) { }
@@ -457,6 +473,12 @@ namespace OTERT.Pages.UserPages {
                             SatelitesID = -1;
                             Session.Remove("SatelitesID");
                         }
+                        if (Session["DistancesID"] != null) { DistancesID = int.Parse(Session["DistancesID"].ToString()); }
+                        if (DistancesID > 0) {
+                            curTask.DistancesID = DistancesID;
+                            DistancesID = -1;
+                            Session.Remove("DistancesID");
+                        }
                         dbContext.SaveChanges();
                     }
                     catch (Exception) { ShowErrorMessage(-1); }
@@ -473,7 +495,8 @@ namespace OTERT.Pages.UserPages {
                 if (Session["JobsID"] != null) { JobsID = int.Parse(Session["JobsID"].ToString()); }
                 if (Session["CustomersID"] != null) { CustomersID = int.Parse(Session["CustomersID"].ToString()); }
                 if (Session["SatelitesID"] != null) { SatelitesID = int.Parse(Session["SatelitesID"].ToString()); }
-                if (JobsID > 0 && CustomersID > 0 && SatelitesID > 0) {
+                if (Session["DistancesID"] != null) { DistancesID = int.Parse(Session["DistancesID"].ToString()); }
+                if (JobsID > 0 && CustomersID > 0 && SatelitesID > 0 && DistancesID > 0) {
                     try {
                         curTask.OrderID = null;
                         curTask.RegNo = (string)values["RegNo"];
@@ -481,9 +504,7 @@ namespace OTERT.Pages.UserPages {
                         curTask.CustomerID = CustomersID;
                         curTask.RequestedPositionID = null;
                         curTask.JobID = JobsID;
-                        curTask.PlaceFrom = "";
-                        curTask.PlaceTo = "";
-                        curTask.PlaceDistanceKm = 0;
+                        curTask.DistancesID = DistancesID;
                         curTask.DateTimeStartOrder = DateTime.Parse((string)values["DateTimeStartOrder"]);
                         curTask.DateTimeEndOrder = DateTime.Parse((string)values["DateTimeEndOrder"]);
                         curTask.DateTimeDurationOrder = int.Parse((string)values["DateTimeDurationOrder"]);
@@ -520,6 +541,8 @@ namespace OTERT.Pages.UserPages {
                         Session.Remove("CustomersID");
                         SatelitesID = -1;
                         Session.Remove("SatelitesID");
+                        DistancesID = -1;
+                        Session.Remove("DistancesID");
                     }
                 } else { ShowErrorMessage(-1); }
             }
@@ -562,6 +585,14 @@ namespace OTERT.Pages.UserPages {
             try {
                 SatelitesID = int.Parse(e.Value);
                 Session["SatelitesID"] = SatelitesID;
+            }
+            catch (Exception) { }
+        }
+
+        protected void ddlDistances_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                DistancesID = int.Parse(e.Value);
+                Session["DistancesID"] = DistancesID;
             }
             catch (Exception) { }
         }

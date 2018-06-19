@@ -91,9 +91,16 @@ namespace OTERT.Controller {
                                                 InvoiceCode = us.Jobs.InvoiceCode,
                                                 SalesID = us.Jobs.SalesID
                                             },
-                                            PlaceFrom = us.PlaceFrom,
-                                            PlaceTo = us.PlaceTo,
-                                            PlaceDistanceKm = us.PlaceDistanceKm,
+                                            DistanceID = us.DistancesID,
+                                            Distance = new DistanceDTO {
+                                                ID = us.Distances.ID,
+                                                JobsMainID = us.Distances.JobsMainID,
+                                                JobsMain = new JobMainDTO { ID = us.Distances.JobsMain.ID, Name = us.Distances.JobsMain.Name, PageID = us.Distances.JobsMain.PageID },
+                                                Description = us.Distances.Position1 + " - " + us.Distances.Position2 + " (" + us.Distances.KM.ToString() + " km)",
+                                                Position1 = us.Distances.Position1,
+                                                Position2 = us.Distances.Position2,
+                                                KM = us.Distances.KM
+                                            },
                                             DateTimeStartOrder = us.DateTimeStartOrder,
                                             DateTimeEndOrder = us.DateTimeEndOrder,
                                             DateTimeDurationOrder = us.DateTimeDurationOrder,
@@ -195,9 +202,16 @@ namespace OTERT.Controller {
                                                 InvoiceCode = us.Jobs.InvoiceCode,
                                                 SalesID = us.Jobs.SalesID
                                             },
-                                            PlaceFrom = us.PlaceFrom,
-                                            PlaceTo = us.PlaceTo,
-                                            PlaceDistanceKm = us.PlaceDistanceKm,
+                                            DistanceID = us.DistancesID,
+                                            Distance = new DistanceDTO {
+                                                ID = us.Distances.ID,
+                                                JobsMainID = us.Distances.JobsMainID,
+                                                JobsMain = new JobMainDTO { ID = us.Distances.JobsMain.ID, Name = us.Distances.JobsMain.Name, PageID = us.Distances.JobsMain.PageID },
+                                                Description = us.Distances.Position1 + " - " + us.Distances.Position2 + " (" + us.Distances.KM.ToString() + " km)",
+                                                Position1 = us.Distances.Position1,
+                                                Position2 = us.Distances.Position2,
+                                                KM = us.Distances.KM
+                                            },
                                             DateTimeStartOrder = us.DateTimeStartOrder,
                                             DateTimeEndOrder = us.DateTimeEndOrder,
                                             DateTimeDurationOrder = us.DateTimeDurationOrder,
@@ -299,9 +313,16 @@ namespace OTERT.Controller {
                                                 InvoiceCode = us.Jobs.InvoiceCode,
                                                 SalesID = us.Jobs.SalesID
                                             },
-                                            PlaceFrom = us.PlaceFrom,
-                                            PlaceTo = us.PlaceTo,
-                                            PlaceDistanceKm = us.PlaceDistanceKm,
+                                            DistanceID = us.DistancesID,
+                                            Distance = new DistanceDTO {
+                                                ID = us.Distances.ID,
+                                                JobsMainID = us.Distances.JobsMainID,
+                                                JobsMain = new JobMainDTO { ID = us.Distances.JobsMain.ID, Name = us.Distances.JobsMain.Name, PageID = us.Distances.JobsMain.PageID },
+                                                Description = us.Distances.Position1 + " - " + us.Distances.Position2 + " (" + us.Distances.KM.ToString() + " km)",
+                                                Position1 = us.Distances.Position1,
+                                                Position2 = us.Distances.Position2,
+                                                KM = us.Distances.KM
+                                            },
                                             DateTimeStartOrder = us.DateTimeStartOrder,
                                             DateTimeEndOrder = us.DateTimeEndOrder,
                                             DateTimeDurationOrder = us.DateTimeDurationOrder,
@@ -403,9 +424,16 @@ namespace OTERT.Controller {
                                                 InvoiceCode = us.Jobs.InvoiceCode,
                                                 SalesID = us.Jobs.SalesID
                                             },
-                                            PlaceFrom = us.PlaceFrom,
-                                            PlaceTo = us.PlaceTo,
-                                            PlaceDistanceKm = us.PlaceDistanceKm,
+                                            DistanceID = us.DistancesID,
+                                            Distance = new DistanceDTO {
+                                                ID = us.Distances.ID,
+                                                JobsMainID = us.Distances.JobsMainID,
+                                                JobsMain = new JobMainDTO { ID = us.Distances.JobsMain.ID, Name = us.Distances.JobsMain.Name, PageID = us.Distances.JobsMain.PageID },
+                                                Description = us.Distances.Position1 + " - " + us.Distances.Position2 + " (" + us.Distances.KM.ToString() + " km)",
+                                                Position1 = us.Distances.Position1,
+                                                Position2 = us.Distances.Position2,
+                                                KM = us.Distances.KM
+                                            },
                                             DateTimeStartOrder = us.DateTimeStartOrder,
                                             DateTimeEndOrder = us.DateTimeEndOrder,
                                             DateTimeDurationOrder = us.DateTimeDurationOrder,

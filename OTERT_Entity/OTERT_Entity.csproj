@@ -65,9 +65,6 @@
     <Compile Include="Distances.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DistanceTypes.cs">
-      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Events.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>

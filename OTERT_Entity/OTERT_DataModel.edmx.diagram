@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="OTERT_Model.Customers" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.CustomerTypes" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.Distances" Width="1.5" PointX="14" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="OTERT_Model.DistanceTypes" Width="1.5" PointX="11.75" PointY="10.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.Events" Width="1.5" PointX="5.25" PointY="16.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.Jobs" Width="1.5" PointX="7.5" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.Languages" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
@@ -32,7 +31,6 @@
         <AssociationConnector Association="OTERT_Model.fk_Customers_Languages" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Customers_Users" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Tasks_Customers" ManuallyRouted="false" />
-        <AssociationConnector Association="OTERT_Model.fk_Distances_DistanceTypes" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Events_Places" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Tasks_Jobs" ManuallyRouted="false" />
         <AssociationConnector Association="OTERT_Model.fk_Orders_OrderTypes" ManuallyRouted="false" />
@@ -54,6 +52,8 @@
         <AssociationConnector Association="OTERT_Model.FK_JobFormulas_Jobs" />
         <EntityTypeShape EntityType="OTERT_Model.JobsMain" Width="1.5" PointX="10.625" PointY="2" />
         <AssociationConnector Association="OTERT_Model.FK_Jobs_JobsMain" />
+        <AssociationConnector Association="OTERT_Model.fk_Distances_JobsMain" />
+        <AssociationConnector Association="OTERT_Model.FK_Tasks_Distances" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
