@@ -151,7 +151,7 @@
                             <asp:Label Text='<% #Eval("JobsMain.Name") %>' runat="server" /> 
                         </ItemTemplate>
                         <EditItemTemplate>
-                            <telerik:RadDropDownList runat="server" ID="ddlJobsMain" RenderMode="Lightweight" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlJobsMain_SelectedIndexChanged" />
+                            <telerik:RadDropDownList runat="server" ID="ddlJobsMain" RenderMode="Lightweight" DropDownHeight="200" Width="550" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlJobsMain_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
                     <telerik:GridTemplateColumn UniqueName="Sale" DataField="SaleID" HeaderText="Κατηγορία Έκπτωσης" >
@@ -159,7 +159,7 @@
                             <asp:Label ID="lblSale" runat="server" /> 
                         </ItemTemplate>
                         <EditItemTemplate>
-                            <telerik:RadDropDownList runat="server" ID="ddlSale" RenderMode="Lightweight" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlSale_SelectedIndexChanged" />
+                            <telerik:RadDropDownList runat="server" ID="ddlSale" RenderMode="Lightweight" DropDownHeight="200" Width="550" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlSale_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
                     <telerik:GridBoundColumn DataField="MinimumTime" HeaderText="Ελάχιστος χρόνος χρέωσης" />

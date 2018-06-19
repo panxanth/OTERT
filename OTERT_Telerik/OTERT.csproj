@@ -187,12 +187,40 @@
       <DependentUpon>UserGroupsList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Users\SateliteEU.aspx.cs">
-      <DependentUpon>SateliteEU.aspx</DependentUpon>
+    <Compile Include="Pages\Users\CustomersList.aspx.cs">
+      <DependentUpon>CustomersList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\Uplink.aspx.cs">
+      <DependentUpon>Uplink.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\UplinkSNG.aspx.cs">
+      <DependentUpon>UplinkSNG.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\Downlink.aspx.cs">
+      <DependentUpon>Downlink.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\DownlinkSNG.aspx.cs">
+      <DependentUpon>DownlinkSNG.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\UrbanCalls.aspx.cs">
+      <DependentUpon>UrbanCalls.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\LongDistanceCalls.aspx.cs">
+      <DependentUpon>LongDistanceCalls.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Users\SateliteHS.aspx.cs">
       <DependentUpon>SateliteHS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\SateliteEU.aspx.cs">
+      <DependentUpon>SateliteEU.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Users\SateliteUplink.aspx.cs">
@@ -261,8 +289,15 @@
     <Content Include="Pages\Administrator\PlacesList.aspx" />
     <Content Include="Pages\Administrator\JobsMainList.aspx" />
     <Content Include="Pages\Administrator\UsersList.aspx" />
-    <Content Include="Pages\Users\SateliteEU.aspx" />
+    <Content Include="Pages\Users\CustomersList.aspx" />
+    <Content Include="Pages\Users\Uplink.aspx" />
+    <Content Include="Pages\Users\UplinkSNG.aspx" />
+    <Content Include="Pages\Users\Downlink.aspx" />
+    <Content Include="Pages\Users\DownlinkSNG.aspx" />
+    <Content Include="Pages\Users\UrbanCalls.aspx" />
+    <Content Include="Pages\Users\LongDistanceCalls.aspx" />
     <Content Include="Pages\Users\SateliteHS.aspx" />
+    <Content Include="Pages\Users\SateliteEU.aspx" />
     <Content Include="Pages\Users\SateliteUplink.aspx" />
     <Content Include="WebServices\OTERTWS.asmx" />
     <Content Include="WebServices\test.asmx" />

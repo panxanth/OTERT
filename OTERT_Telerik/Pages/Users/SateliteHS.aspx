@@ -108,7 +108,14 @@
                     <telerik:GridBoundColumn DataField="TechnicalSupport" HeaderText="Τεχνική Υποστήριξη" Visible="false" ReadOnly="true" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn DataField="AddedCharges" HeaderText="Επιπρόσθετα Τέλη" Visible="false" />
+                    <telerik:GridTemplateColumn DataField="AddedCharges" UniqueName="AddedCharges" HeaderText="Επιπρόσθετα Τέλη" Visible="false" >
+                        <ItemTemplate>
+                            <asp:Label Text='<% #Eval("AddedCharges") %>' runat="server" /> 
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <asp:TextBox ID="txtAddedCharges" Text='<% #Bind("AddedCharges") %>' runat="server" OnTextChanged="txtAddedCharges_TextChanged" AutoPostBack="true" />
+                        </EditItemTemplate>
+                    </telerik:GridTemplateColumn>
                     <telerik:GridBoundColumn DataField="CostActual" HeaderText="Ποσό Είσπραξης (€)" Visible="false" />
                     <telerik:GridDateTimeColumn DataField="PaymentDateOrder" HeaderText="Ημ/νία Εντολής Τιμολόγησης" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
                     <telerik:GridDateTimeColumn DataField="PaymentDateCalculated" HeaderText="Προγραμματισμένη Ημ/νία Είσπραξης" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />

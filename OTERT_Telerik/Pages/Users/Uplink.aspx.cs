@@ -15,26 +15,23 @@ using OTERT_Entity;
 
 namespace OTERT.Pages.UserPages {
 
-    public partial class SateliteEU : Page {
+    public partial class Uplink : Page {
 
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
-        protected int pageID = 8;
+        protected int pageID = 9;
         protected string pageTitle;
-        protected string sateliteStartsWith = "EU";
-        protected int JobsID, CustomersID, SatelitesID;
+        protected int JobsID, CustomersID;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
-                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Έργα > Έκτακτα > Δορυφορικά > EUTELSAT";
-                gridMain.MasterTableView.Caption = "Έργα > Έκτακτα > Δορυφορικά > EUTELSAT";
+                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Έργα > Έκτακτα > Uplink > Σταθεροί Δορυφορικοί Σταθμοί";
+                gridMain.MasterTableView.Caption = "Έργα > Έκτακτα > Uplink > Σταθεροί Δορυφορικοί Σταθμοί";
                 JobsID = -1;
                 Session.Remove("JobsID");
                 CustomersID = -1;
                 Session.Remove("CustomersID");
-                SatelitesID = -1;
-                Session.Remove("SatelitesID");
             }
         }
 
@@ -99,19 +96,14 @@ namespace OTERT.Pages.UserPages {
                 TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
                 txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
                 int jobID = -1;
-                int sateliteID = -1;
-                if (Session["JobsID"] != null && Session["SatelitesID"] != null) {
+                if (Session["JobsID"] != null) {
                     jobID = int.Parse(Session["JobsID"].ToString());
-                    sateliteID = int.Parse(Session["SatelitesID"].ToString());
                     JobFormulasController cont = new JobFormulasController();
                     List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
-                    SatelitesController cont2 = new SatelitesController();
-                    SateliteB curSat = cont2.GetSatelite(sateliteID);
                     string formula = "";
                     if (curJobFormulas.Count > 1) {
                         foreach (JobFormulaB jobFormula in curJobFormulas) {
                             string currCondition = jobFormula.Condition;
-                            currCondition = currCondition.Replace("#BANDWIDTH#", curSat.Frequency);
                             currCondition = currCondition.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
                             currCondition = currCondition.Replace(",", ".");
                             string valueVar = "";
@@ -148,7 +140,6 @@ namespace OTERT.Pages.UserPages {
                             }
                         }
                     } else { formula = curJobFormulas[0].Formula; }
-                    formula = formula.Replace("#BANDWIDTH#", curSat.Frequency);
                     formula = formula.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
                     formula = formula.Replace(",", ".");
                     double calculatedCost = Evaluator.EvalToDouble(formula);
@@ -171,19 +162,14 @@ namespace OTERT.Pages.UserPages {
                 TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
                 txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
                 int jobID = -1;
-                int sateliteID = -1;
-                if (Session["JobsID"] != null && Session["SatelitesID"] != null) {
+                if (Session["JobsID"] != null) {
                     jobID = int.Parse(Session["JobsID"].ToString());
-                    sateliteID = int.Parse(Session["SatelitesID"].ToString());
                     JobFormulasController cont = new JobFormulasController();
                     List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
-                    SatelitesController cont2 = new SatelitesController();
-                    SateliteB curSat = cont2.GetSatelite(sateliteID);
                     string formula = "";
                     if (curJobFormulas.Count > 1) {
                         foreach (JobFormulaB jobFormula in curJobFormulas) {
                             string currCondition = jobFormula.Condition;
-                            currCondition = currCondition.Replace("#BANDWIDTH#", curSat.Frequency);
                             currCondition = currCondition.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
                             currCondition = currCondition.Replace(",", ".");
                             string valueVar = "";
@@ -220,7 +206,6 @@ namespace OTERT.Pages.UserPages {
                             }
                         }
                     } else { formula = curJobFormulas[0].Formula; }
-                    formula = formula.Replace("#BANDWIDTH#", curSat.Frequency);
                     formula = formula.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
                     formula = formula.Replace(",", ".");
                     double calculatedCost = Evaluator.EvalToDouble(formula);
@@ -243,19 +228,14 @@ namespace OTERT.Pages.UserPages {
                 TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
                 txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
                 int jobID = -1;
-                int sateliteID = -1;
-                if (Session["JobsID"] != null && Session["SatelitesID"] != null) {
+                if (Session["JobsID"] != null) {
                     jobID = int.Parse(Session["JobsID"].ToString());
-                    sateliteID = int.Parse(Session["SatelitesID"].ToString());
                     JobFormulasController cont = new JobFormulasController();
                     List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
-                    SatelitesController cont2 = new SatelitesController();
-                    SateliteB curSat = cont2.GetSatelite(sateliteID);
                     string formula = "";
                     if (curJobFormulas.Count > 1) {
                         foreach (JobFormulaB jobFormula in curJobFormulas) {
                             string currCondition = jobFormula.Condition;
-                            currCondition = currCondition.Replace("#BANDWIDTH#", curSat.Frequency);
                             currCondition = currCondition.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
                             currCondition = currCondition.Replace(",", ".");
                             string valueVar = "";
@@ -292,7 +272,6 @@ namespace OTERT.Pages.UserPages {
                             }
                         }
                     } else { formula = curJobFormulas[0].Formula; }
-                    formula = formula.Replace("#BANDWIDTH#", curSat.Frequency);
                     formula = formula.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
                     formula = formula.Replace(",", ".");
                     double calculatedCost = Evaluator.EvalToDouble(formula);
@@ -315,19 +294,14 @@ namespace OTERT.Pages.UserPages {
                 TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
                 txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
                 int jobID = -1;
-                int sateliteID = -1;
-                if (Session["JobsID"] != null && Session["SatelitesID"] != null) {
+                if (Session["JobsID"] != null) {
                     jobID = int.Parse(Session["JobsID"].ToString());
-                    sateliteID = int.Parse(Session["SatelitesID"].ToString());
                     JobFormulasController cont = new JobFormulasController();
                     List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
-                    SatelitesController cont2 = new SatelitesController();
-                    SateliteB curSat = cont2.GetSatelite(sateliteID);
                     string formula = "";
                     if (curJobFormulas.Count > 1) {
                         foreach (JobFormulaB jobFormula in curJobFormulas) {
                             string currCondition = jobFormula.Condition;
-                            currCondition = currCondition.Replace("#BANDWIDTH#", curSat.Frequency);
                             currCondition = currCondition.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
                             currCondition = currCondition.Replace(",", ".");
                             string valueVar = "";
@@ -364,7 +338,6 @@ namespace OTERT.Pages.UserPages {
                             }
                         }
                     } else { formula = curJobFormulas[0].Formula; }
-                    formula = formula.Replace("#BANDWIDTH#", curSat.Frequency);
                     formula = formula.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
                     formula = formula.Replace(",", ".");
                     double calculatedCost = Evaluator.EvalToDouble(formula);
@@ -385,7 +358,6 @@ namespace OTERT.Pages.UserPages {
                 GridEditableItem item = e.Item as GridEditableItem;
                 RadDropDownList ddlJobs = item.FindControl("ddlJobs") as RadDropDownList;
                 RadDropDownList ddlCustomers = item.FindControl("ddlCustomers") as RadDropDownList;
-                RadDropDownList ddlSatelites = item.FindControl("ddlSatelites") as RadDropDownList;
                 try {
                     TaskB currTask = e.Item.DataItem as TaskB;
                     JobsController cont1 = new JobsController();
@@ -398,25 +370,16 @@ namespace OTERT.Pages.UserPages {
                     ddlCustomers.DataTextField = "NameGR";
                     ddlCustomers.DataValueField = "ID";
                     ddlCustomers.DataBind();
-                    SatelitesController cont3 = new SatelitesController();
-                    ddlSatelites.DataSource = cont3.GetSatelites().Where(k => k.Name.StartsWith(sateliteStartsWith));
-                    ddlSatelites.DataTextField = "Name";
-                    ddlSatelites.DataValueField = "ID";
-                    ddlSatelites.DataBind();
                     if (currTask != null) {
                         ddlJobs.SelectedIndex = ddlJobs.FindItemByValue(currTask.JobID.ToString()).Index;
                         Session["JobsID"] = currTask.JobID;
                         ddlCustomers.SelectedIndex = ddlCustomers.FindItemByValue(currTask.CustomerID.ToString()).Index;
                         Session["CustomersID"] = currTask.CustomerID;
-                        ddlSatelites.SelectedIndex = ddlSatelites.FindItemByValue(currTask.SateliteID.ToString()).Index;
-                        Session["SatelitesID"] = currTask.SateliteID;
                     } else {
                         ddlJobs.SelectedIndex = 0;
                         Session["JobsID"] = ddlJobs.SelectedItem.Value;
                         ddlCustomers.SelectedIndex = 0;
                         Session["CustomersID"] = ddlCustomers.SelectedItem.Value;
-                        ddlSatelites.SelectedIndex = 0;
-                        Session["SatelitesID"] = ddlSatelites.SelectedItem.Value;
                     }
                 }
                 catch (Exception) { }
@@ -451,12 +414,6 @@ namespace OTERT.Pages.UserPages {
                             CustomersID = -1;
                             Session.Remove("CustomersID");
                         }
-                        if (Session["SatelitesID"] != null) { SatelitesID = int.Parse(Session["SatelitesID"].ToString()); }
-                        if (SatelitesID > 0) {
-                            curTask.SateliteID = SatelitesID;
-                            SatelitesID = -1;
-                            Session.Remove("SatelitesID");
-                        }
                         dbContext.SaveChanges();
                     }
                     catch (Exception) { ShowErrorMessage(-1); }
@@ -472,8 +429,7 @@ namespace OTERT.Pages.UserPages {
                 editableItem.ExtractValues(values);
                 if (Session["JobsID"] != null) { JobsID = int.Parse(Session["JobsID"].ToString()); }
                 if (Session["CustomersID"] != null) { CustomersID = int.Parse(Session["CustomersID"].ToString()); }
-                if (Session["SatelitesID"] != null) { SatelitesID = int.Parse(Session["SatelitesID"].ToString()); }
-                if (JobsID > 0 && CustomersID > 0 && SatelitesID > 0) {
+                if (JobsID > 0 && CustomersID > 0) {
                     try {
                         curTask.OrderID = null;
                         curTask.RegNo = (string)values["RegNo"];
@@ -508,18 +464,16 @@ namespace OTERT.Pages.UserPages {
                         curTask.CancelPrice = 0;
                         curTask.Comments = (string)values["Comments"];
                         curTask.InvoceComments = (string)values["InvoceComments"];
-                        curTask.SateliteID = SatelitesID;
+                        curTask.SateliteID = null;
                         dbContext.Tasks.Add(curTask);
                         dbContext.SaveChanges();
                     }
-                    catch (Exception) { ShowErrorMessage(-1); }
+                    catch (Exception ex) { ShowErrorMessage(-1); }
                     finally {
                         JobsID = -1;
                         Session.Remove("JobsID");
                         CustomersID = -1;
                         Session.Remove("CustomersID");
-                        SatelitesID = -1;
-                        Session.Remove("SatelitesID");
                     }
                 } else { ShowErrorMessage(-1); }
             }
@@ -554,14 +508,6 @@ namespace OTERT.Pages.UserPages {
             try {
                 CustomersID = int.Parse(e.Value);
                 Session["CustomersID"] = CustomersID;
-            }
-            catch (Exception) { }
-        }
-
-        protected void ddlSatelites_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
-            try {
-                SatelitesID = int.Parse(e.Value);
-                Session["SatelitesID"] = SatelitesID;
             }
             catch (Exception) { }
         }

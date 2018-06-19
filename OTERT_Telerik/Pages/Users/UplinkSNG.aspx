@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="SateliteEU.aspx.cs" Inherits="OTERT.Pages.UserPages.SateliteEU" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="UplinkSNG.aspx.cs" Inherits="OTERT.Pages.UserPages.UplinkSNG" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 
@@ -75,14 +75,7 @@
                     <telerik:GridBoundColumn DataField="PlaceDistanceKm" HeaderText="Απόσταση (km)" Visible="false" ReadOnly="true" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridBoundColumn>
-                    <telerik:GridTemplateColumn DataField="SateliteID" UniqueName="SateliteID" HeaderText="Δορυφόρος" AllowFiltering="false" >
-                        <ItemTemplate>
-                            <asp:Label Text='<% #Eval("Satelite.Name") %>' runat="server" /> 
-                        </ItemTemplate>
-                        <EditItemTemplate>
-                            <telerik:RadDropDownList runat="server" ID="ddlSatelites" RenderMode="Lightweight" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlSatelites_SelectedIndexChanged" />
-                        </EditItemTemplate>
-                    </telerik:GridTemplateColumn>
+                    <telerik:GridTemplateColumn DataField="SateliteID" UniqueName="SateliteID" Visible="false" ReadOnly="true" />
                     <telerik:GridDateTimeColumn UniqueName="DateTimeStartOrder" DataField="DateTimeStartOrder" HeaderText="Προγραμματισμένη Ημ/νία Έναρξης" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridDateTimeColumn>
