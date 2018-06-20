@@ -28,14 +28,14 @@
                     <ul class="gradient_menu gradient67">
                         <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Αστικά</a>
                             <ul class="gradient_menu gradient67">
-                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/SateliteUplink.aspx" title="">1 Σημείο Κωδικοποίησης</a></li>
-                                <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">2 Σημεία Κωδικοποίησης</a></li>
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/UrbanOnePoint.aspx" title="">1 Σημείο Κωδικοποίησης</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/UrbanTwoPoints.aspx" title="">2 Σημεία Κωδικοποίησης</a></li>
                             </ul>
                         </li>
                         <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Υπεραστικά</a>
                             <ul class="gradient_menu gradient67">
-                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/SateliteUplink.aspx" title="">1 Σημείο Κωδικοποίησης</a></li>
-                                <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">2 Σημεία Κωδικοποίησης</a></li>
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/LongDistanceOnePoint.aspx" title="">1 Σημείο Κωδικοποίησης</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/LongDistanceTwoPoints.aspx" title="">2 Σημεία Κωδικοποίησης</a></li>
                             </ul>
                         </li>
                     </ul>

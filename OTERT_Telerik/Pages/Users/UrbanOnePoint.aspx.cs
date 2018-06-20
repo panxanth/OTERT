@@ -15,19 +15,19 @@ using OTERT_Entity;
 
 namespace OTERT.Pages.UserPages {
 
-    public partial class LongDistanceCalls : Page {
+    public partial class UrbanOnePoint : Page {
 
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
-        protected int pageID = 6;
+        protected int pageID = 1;
         protected string pageTitle;
         protected int JobsID, CustomersID, DistancesID;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
-                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Έργα > Έκτακτα > Επίγεια > Υπεραστικά";
-                gridMain.MasterTableView.Caption = "Έργα > Έκτακτα > Επίγεια > Υπεραστικά";
+                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Έργα > Προσωρινά > Αστικά > 1 Σημείο Κωδικοποίησης";
+                gridMain.MasterTableView.Caption = "Έργα > Προσωρινά > Αστικά > 1 Σημείο Κωδικοποίησης";
                 JobsID = -1;
                 Session.Remove("JobsID");
                 CustomersID = -1;
@@ -56,17 +56,17 @@ namespace OTERT.Pages.UserPages {
             }
             if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                 GridEditableItem item = e.Item as GridEditableItem;
-                RadDateTimePicker dpDateTimeStartOrder = (RadDateTimePicker)item["DateTimeStartOrder"].Controls[0];
-                dpDateTimeStartOrder.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
+                RadDatePicker dpDateTimeStartOrder = (RadDatePicker)item["DateTimeStartOrder"].Controls[0];
+                dpDateTimeStartOrder.AutoPostBack = true;
                 dpDateTimeStartOrder.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
-                RadDateTimePicker dpDateTimeEndOrder = (RadDateTimePicker)item["DateTimeEndOrder"].Controls[0];
-                dpDateTimeEndOrder.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
+                RadDatePicker dpDateTimeEndOrder = (RadDatePicker)item["DateTimeEndOrder"].Controls[0];
+                dpDateTimeEndOrder.AutoPostBack = true;
                 dpDateTimeEndOrder.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
-                RadDateTimePicker dpDateTimeStartActual = (RadDateTimePicker)item["DateTimeStartActual"].Controls[0];
-                dpDateTimeStartActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
+                RadDatePicker dpDateTimeStartActual = (RadDatePicker)item["DateTimeStartActual"].Controls[0];
+                dpDateTimeStartActual.AutoPostBack = true;
                 dpDateTimeStartActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
-                RadDateTimePicker dpDateTimeEndActual = (RadDateTimePicker)item["DateTimeEndActual"].Controls[0];
-                dpDateTimeEndActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
+                RadDatePicker dpDateTimeEndActual = (RadDatePicker)item["DateTimeEndActual"].Controls[0];
+                dpDateTimeEndActual.AutoPostBack = true;
                 dpDateTimeEndActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
             }
         }
@@ -79,13 +79,13 @@ namespace OTERT.Pages.UserPages {
 
         protected void calculateCosts(GridEditableItem eitem) {
             DateTime nullDate = new DateTime(1900, 1, 1);
-            RadDateTimePicker dpOrderStartDate = (RadDateTimePicker)eitem["DateTimeStartOrder"].Controls[0]; ;
+            RadDatePicker dpOrderStartDate = (RadDatePicker)eitem["DateTimeStartOrder"].Controls[0]; ;
             DateTime orderStartDate = dpOrderStartDate.SelectedDate ?? nullDate;
-            RadDateTimePicker dpOrderEndDate = (RadDateTimePicker)eitem["DateTimeEndOrder"].Controls[0];
+            RadDatePicker dpOrderEndDate = (RadDatePicker)eitem["DateTimeEndOrder"].Controls[0];
             DateTime orderEndDate = dpOrderEndDate.SelectedDate ?? nullDate;
-            RadDateTimePicker dpActualStartDate = (RadDateTimePicker)eitem["DateTimeStartActual"].Controls[0]; ;
+            RadDatePicker dpActualStartDate = (RadDatePicker)eitem["DateTimeStartActual"].Controls[0]; ;
             DateTime actualStartDate = dpActualStartDate.SelectedDate ?? nullDate;
-            RadDateTimePicker dpActualEndDate = (RadDateTimePicker)eitem["DateTimeEndActual"].Controls[0];
+            RadDatePicker dpActualEndDate = (RadDatePicker)eitem["DateTimeEndActual"].Controls[0];
             DateTime actualEndDate = dpActualEndDate.SelectedDate ?? nullDate;
             TextBox txtOrderDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
             TextBox txtActualDuration = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
@@ -104,9 +104,9 @@ namespace OTERT.Pages.UserPages {
                 string formula = "";
                 if (orderStartDate > nullDate && orderEndDate > nullDate && orderEndDate > orderStartDate) {
                     TimeSpan orderSpan = orderEndDate.Subtract(orderStartDate);
-                    txtOrderDurationOrder.Text = ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString();
-                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalMinutes), -1, selectedDistance.KM);
-                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString());
+                    txtOrderDurationOrder.Text = ((int)Math.Ceiling(orderSpan.TotalDays)).ToString();
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalDays), -1, selectedDistance.KM);
+                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(orderSpan.TotalDays)).ToString());
                     //formula = formula.Replace("#BANDWIDTH#", bandwidth.ToString());
                     formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
                     formula = formula.Replace(",", ".");
@@ -116,9 +116,9 @@ namespace OTERT.Pages.UserPages {
                 }
                 if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
                     TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
-                    txtActualDuration.Text = ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString();
-                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalMinutes), -1, selectedDistance.KM);
-                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString());
+                    txtActualDuration.Text = ((int)Math.Ceiling(actualSpan.TotalDays)).ToString();
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalDays), -1, selectedDistance.KM);
+                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(actualSpan.TotalDays)).ToString());
                     //formula = formula.Replace("#BANDWIDTH#", bandwidth.ToString());
                     formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
                     formula = formula.Replace(",", ".");
@@ -176,7 +176,7 @@ namespace OTERT.Pages.UserPages {
         }
 
         private void dpDate_SelectedIndexChanged(object sender, SelectedDateChangedEventArgs e) {
-            RadDateTimePicker dpStartDate = (RadDateTimePicker)sender;
+            RadDatePicker dpStartDate = (RadDatePicker)sender;
             GridEditableItem eitem = (GridEditableItem)dpStartDate.NamingContainer;
             calculateCosts(eitem);
         }

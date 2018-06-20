@@ -200,6 +200,22 @@
       <DependentUpon>DownlinkSNG.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Users\LongDistanceTwoPoints.aspx.cs">
+      <DependentUpon>LongDistanceTwoPoints.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\UrbanOnePoint.aspx.cs">
+      <DependentUpon>UrbanOnePoint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\UrbanTwoPoints.aspx.cs">
+      <DependentUpon>UrbanTwoPoints.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\LongDistanceOnePoint.aspx.cs">
+      <DependentUpon>LongDistanceOnePoint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Users\LongDistanceCalls.aspx.cs">
       <DependentUpon>LongDistanceCalls.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -293,6 +309,10 @@
     <Content Include="Pages\Users\CustomersList.aspx" />
     <Content Include="Pages\Users\Downlink.aspx" />
     <Content Include="Pages\Users\DownlinkSNG.aspx" />
+    <Content Include="Pages\Users\LongDistanceTwoPoints.aspx" />
+    <Content Include="Pages\Users\UrbanOnePoint.aspx" />
+    <Content Include="Pages\Users\UrbanTwoPoints.aspx" />
+    <Content Include="Pages\Users\LongDistanceOnePoint.aspx" />
     <Content Include="Pages\Users\LongDistanceCalls.aspx" />
     <Content Include="Pages\Users\SateliteEU.aspx" />
     <Content Include="Pages\Users\SateliteHS.aspx" />
