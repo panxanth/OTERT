@@ -375,6 +375,9 @@ namespace OTERT.Pages.UserPages {
             try {
                 JobsID = int.Parse(e.Value);
                 Session["JobsID"] = JobsID;
+                RadDropDownList ddlJobs = (RadDropDownList)sender;
+                GridEditableItem eitem = (GridEditableItem)ddlJobs.NamingContainer;
+                calculateCosts(eitem);
             }
             catch (Exception) { }
         }
