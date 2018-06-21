@@ -228,10 +228,6 @@
       <DependentUpon>SateliteHS.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Users\SateliteUplink.aspx.cs">
-      <DependentUpon>SateliteUplink.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Pages\Users\Uplink.aspx.cs">
       <DependentUpon>Uplink.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -316,7 +312,6 @@
     <Content Include="Pages\Users\LongDistanceCalls.aspx" />
     <Content Include="Pages\Users\SateliteEU.aspx" />
     <Content Include="Pages\Users\SateliteHS.aspx" />
-    <Content Include="Pages\Users\SateliteUplink.aspx" />
     <Content Include="Pages\Users\Uplink.aspx" />
     <Content Include="Pages\Users\UplinkSNG.aspx" />
     <Content Include="Pages\Users\UrbanCalls.aspx" />
@@ -414,7 +409,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -61,321 +61,127 @@ namespace OTERT.Pages.UserPages {
                 GridEditableItem item = e.Item as GridEditableItem;
                 RadDateTimePicker dpDateTimeStartOrder = (RadDateTimePicker)item["DateTimeStartOrder"].Controls[0];
                 dpDateTimeStartOrder.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
-                dpDateTimeStartOrder.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDateTimeStartOrder_SelectedIndexChanged);
+                dpDateTimeStartOrder.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
                 RadDateTimePicker dpDateTimeEndOrder = (RadDateTimePicker)item["DateTimeEndOrder"].Controls[0];
                 dpDateTimeEndOrder.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
-                dpDateTimeEndOrder.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDateTimeEndOrder_SelectedIndexChanged);
+                dpDateTimeEndOrder.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
                 RadDateTimePicker dpDateTimeStartActual = (RadDateTimePicker)item["DateTimeStartActual"].Controls[0];
                 dpDateTimeStartActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
-                dpDateTimeStartActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDateTimeStartActual_SelectedIndexChanged);
+                dpDateTimeStartActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
                 RadDateTimePicker dpDateTimeEndActual = (RadDateTimePicker)item["DateTimeEndActual"].Controls[0];
                 dpDateTimeEndActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
-                dpDateTimeEndActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDateTimeEndActual_SelectedIndexChanged);
+                dpDateTimeEndActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
             }
         }
 
         protected void txtAddedCharges_TextChanged(object sender, EventArgs e) {
             TextBox txtAddedCharges = ((TextBox)(sender));
-            GridEditFormItem eitem = (GridEditFormItem)txtAddedCharges.NamingContainer;
-            var test = eitem.DataItem;
+            GridEditableItem eitem = (GridEditableItem)txtAddedCharges.NamingContainer;
+            calculateCosts(eitem);
+        }
+
+        protected void calculateCosts(GridEditableItem eitem) {
+            DateTime nullDate = new DateTime(1900, 1, 1);
+            RadDatePicker dpOrderStartDate = (RadDatePicker)eitem["DateTimeStartOrder"].Controls[0]; ;
+            DateTime orderStartDate = dpOrderStartDate.SelectedDate ?? nullDate;
+            RadDatePicker dpOrderEndDate = (RadDatePicker)eitem["DateTimeEndOrder"].Controls[0];
+            DateTime orderEndDate = dpOrderEndDate.SelectedDate ?? nullDate;
+            RadDatePicker dpActualStartDate = (RadDatePicker)eitem["DateTimeStartActual"].Controls[0]; ;
+            DateTime actualStartDate = dpActualStartDate.SelectedDate ?? nullDate;
+            RadDatePicker dpActualEndDate = (RadDatePicker)eitem["DateTimeEndActual"].Controls[0];
+            DateTime actualEndDate = dpActualEndDate.SelectedDate ?? nullDate;
+            TextBox txtOrderDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
+            TextBox txtActualDuration = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
+            TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
             TextBox txtCostCalculated = (TextBox)eitem["CostCalculated"].Controls[0];
-            string strCostCalculated = txtCostCalculated.Text.Trim();
-            double sumCalculated = Convert.ToDouble((string.IsNullOrEmpty(strCostCalculated) ? "0" : strCostCalculated));
-            sumCalculated += double.Parse(txtAddedCharges.Text.Trim());
-            txtCostCalculated.Text = sumCalculated.ToString();
             TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
-            string strCostActual = txtCostActual.Text.Trim();
-            double sumActual = Convert.ToDouble((string.IsNullOrEmpty(strCostActual) ? "0" : strCostActual));
-            sumActual += double.Parse(txtAddedCharges.Text.Trim());
-            txtCostActual.Text = sumActual.ToString();
+            RadDropDownList ddlSatelites = (RadDropDownList)eitem.FindControl("ddlSatelites");
+            int sateliteID = int.Parse(ddlSatelites.SelectedItem.Value);
+            SatelitesController contD = new SatelitesController();
+            SateliteB selectedSatelite = contD.GetSatelite(sateliteID);
+            int jobID = -1;
+            if (Session["JobsID"] != null) {
+                jobID = int.Parse(Session["JobsID"].ToString());
+                JobFormulasController cont = new JobFormulasController();
+                List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
+                string formula = "";
+                if (orderStartDate > nullDate && orderEndDate > nullDate && orderEndDate > orderStartDate) {
+                    TimeSpan orderSpan = orderEndDate.Subtract(orderStartDate);
+                    txtOrderDurationOrder.Text = ((int)Math.Ceiling(orderSpan.TotalDays)).ToString();
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalDays), int.Parse(selectedSatelite.Frequency), -1);
+                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(orderSpan.TotalDays)).ToString());
+                    formula = formula.Replace("#BANDWIDTH#", selectedSatelite.Frequency);
+                    //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
+                    formula = formula.Replace(",", ".");
+                    double calculatedCost = Evaluator.EvalToDouble(formula);
+                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
+                    txtCostCalculated.Text = calculatedCost.ToString();
+                }
+                if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
+                    TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
+                    txtActualDuration.Text = ((int)Math.Ceiling(actualSpan.TotalDays)).ToString();
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalDays), int.Parse(selectedSatelite.Frequency), -1);
+                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(actualSpan.TotalDays)).ToString());
+                    formula = formula.Replace("#BANDWIDTH#", selectedSatelite.Frequency);
+                    //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
+                    formula = formula.Replace(",", ".");
+                    double calculatedCost = Evaluator.EvalToDouble(formula);
+                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
+                    txtCostActual.Text = calculatedCost.ToString();
+                }
+            }
         }
 
-        private void dpDateTimeStartOrder_SelectedIndexChanged(object sender, SelectedDateChangedEventArgs e) {
-            DateTime startDate = e.NewDate ?? DateTime.Now;
-            RadDateTimePicker dpStartDate = (RadDateTimePicker)sender;
+        protected string findFormula(List<JobFormulaB> lstFormulas, int span, int bandwidth, int distance) {
+            string formula = "";
+            if (lstFormulas.Count > 1) {
+                foreach (JobFormulaB jobFormula in lstFormulas) {
+                    string currCondition = jobFormula.Condition;
+                    if (span > 0) { currCondition = currCondition.Replace("#TIME#", span.ToString()); }
+                    if (bandwidth > 0) { currCondition = currCondition.Replace("#BANDWIDTH#", bandwidth.ToString()); }
+                    if (distance > 0) { currCondition = currCondition.Replace("#DISTANCE#", distance.ToString()); }
+                    currCondition = currCondition.Replace(",", ".");
+                    string valueVar = "";
+                    string valueConst = "";
+                    string formulaEval = "";
+                    if (currCondition.IndexOfAny(new char[] { '>' }) != -1) {
+                        valueVar = currCondition.Split(new char[] { '>' })[0];
+                        valueConst = currCondition.Split(new char[] { '>' })[1];
+                        formulaEval = ">";
+                    } else if (currCondition.IndexOfAny(new char[] { '<' }) != -1) {
+                        valueVar = currCondition.Split(new char[] { '<' })[0];
+                        valueConst = currCondition.Split(new char[] { '<' })[1];
+                        formulaEval = "<";
+                    } else {
+                        valueVar = currCondition.Split(new char[] { '=' })[0];
+                        valueConst = currCondition.Split(new char[] { '=' })[1];
+                        formulaEval = "=";
+                    }
+                    if (formulaEval == "=") {
+                        if (valueVar == valueConst) {
+                            formula = jobFormula.Formula;
+                            break;
+                        }
+                    } else if (formulaEval == "<") {
+                        if (float.Parse(valueVar) < float.Parse(valueConst)) {
+                            formula = jobFormula.Formula;
+                            break;
+                        }
+                    } else {
+                        if (float.Parse(valueVar) > float.Parse(valueConst)) {
+                            formula = jobFormula.Formula;
+                            break;
+                        }
+                    }
+                }
+            } else { formula = lstFormulas[0].Formula; }
+            return formula;
+        }
+
+        private void dpDate_SelectedIndexChanged(object sender, SelectedDateChangedEventArgs e) {
+            RadDatePicker dpStartDate = (RadDatePicker)sender;
             GridEditableItem eitem = (GridEditableItem)dpStartDate.NamingContainer;
-            RadDateTimePicker dpEndDate = (RadDateTimePicker)eitem["DateTimeEndOrder"].Controls[0];
-            DateTime endDate = dpEndDate.SelectedDate ?? DateTime.Now;
-            if (endDate > startDate) {
-                TimeSpan span = endDate.Subtract(startDate);
-                TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
-                txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
-                int jobID = -1;
-                int sateliteID = -1;
-                if (Session["JobsID"] != null && Session["SatelitesID"] != null) {
-                    jobID = int.Parse(Session["JobsID"].ToString());
-                    sateliteID = int.Parse(Session["SatelitesID"].ToString());
-                    JobFormulasController cont = new JobFormulasController();
-                    List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
-                    SatelitesController cont2 = new SatelitesController();
-                    SateliteB curSat = cont2.GetSatelite(sateliteID);
-                    string formula = "";
-                    if (curJobFormulas.Count > 1) {
-                        foreach (JobFormulaB jobFormula in curJobFormulas) {
-                            string currCondition = jobFormula.Condition;
-                            currCondition = currCondition.Replace("#BANDWIDTH#", curSat.Frequency);
-                            currCondition = currCondition.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
-                            currCondition = currCondition.Replace(",", ".");
-                            string valueVar = "";
-                            string valueConst = "";
-                            string formulaEval = "";
-                            if (currCondition.IndexOfAny(new char[] { '>' }) != -1) {
-                                valueVar = currCondition.Split(new char[] { '>' })[0];
-                                valueConst = currCondition.Split(new char[] { '>' })[1];
-                                formulaEval = ">";
-                            } else if (currCondition.IndexOfAny(new char[] { '<' }) != -1) {
-                                valueVar = currCondition.Split(new char[] { '<' })[0];
-                                valueConst = currCondition.Split(new char[] { '<' })[1];
-                                formulaEval = "<";
-                            } else {
-                                valueVar = currCondition.Split(new char[] { '=' })[0];
-                                valueConst = currCondition.Split(new char[] { '=' })[1];
-                                formulaEval = "=";
-                            }
-                            if (formulaEval == "=") {
-                                if (valueVar == valueConst) {
-                                    formula = jobFormula.Formula;
-                                    break;
-                                }
-                            } else if (formulaEval == "<") {
-                                if (float.Parse(valueVar) < float.Parse(valueConst)) {
-                                    formula = jobFormula.Formula;
-                                    break;
-                                }
-                            } else {
-                                if (float.Parse(valueVar) > float.Parse(valueConst)) {
-                                    formula = jobFormula.Formula;
-                                    break;
-                                }
-                            }
-                        }
-                    } else { formula = curJobFormulas[0].Formula; }
-                    formula = formula.Replace("#BANDWIDTH#", curSat.Frequency);
-                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
-                    formula = formula.Replace(",", ".");
-                    double calculatedCost = Evaluator.EvalToDouble(formula);
-                    TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
-                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
-                    TextBox txtCostCalculated = (TextBox)eitem["CostCalculated"].Controls[0];
-                    txtCostCalculated.Text = calculatedCost.ToString();
-                }
-            }
-        }
-
-        private void dpDateTimeEndOrder_SelectedIndexChanged(object sender, SelectedDateChangedEventArgs e) {
-            DateTime endDate = e.NewDate ?? DateTime.Now;
-            RadDateTimePicker dpEndDate = (RadDateTimePicker)sender;
-            GridEditableItem eitem = (GridEditableItem)dpEndDate.NamingContainer;
-            RadDateTimePicker dpStartDate = (RadDateTimePicker)eitem["DateTimeStartOrder"].Controls[0];
-            DateTime startDate = dpStartDate.SelectedDate ?? DateTime.Now;
-            if (endDate > startDate) {
-                TimeSpan span = endDate.Subtract(startDate);
-                TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
-                txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
-                int jobID = -1;
-                int sateliteID = -1;
-                if (Session["JobsID"] != null && Session["SatelitesID"] != null) {
-                    jobID = int.Parse(Session["JobsID"].ToString());
-                    sateliteID = int.Parse(Session["SatelitesID"].ToString());
-                    JobFormulasController cont = new JobFormulasController();
-                    List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
-                    SatelitesController cont2 = new SatelitesController();
-                    SateliteB curSat = cont2.GetSatelite(sateliteID);
-                    string formula = "";
-                    if (curJobFormulas.Count > 1) {
-                        foreach (JobFormulaB jobFormula in curJobFormulas) {
-                            string currCondition = jobFormula.Condition;
-                            currCondition = currCondition.Replace("#BANDWIDTH#", curSat.Frequency);
-                            currCondition = currCondition.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
-                            currCondition = currCondition.Replace(",", ".");
-                            string valueVar = "";
-                            string valueConst = "";
-                            string formulaEval = "";
-                            if (currCondition.IndexOfAny(new char[] { '>' }) != -1) {
-                                valueVar = currCondition.Split(new char[] { '>' })[0];
-                                valueConst = currCondition.Split(new char[] { '>' })[1];
-                                formulaEval = ">";
-                            } else if (currCondition.IndexOfAny(new char[] { '<' }) != -1) {
-                                valueVar = currCondition.Split(new char[] { '<' })[0];
-                                valueConst = currCondition.Split(new char[] { '<' })[1];
-                                formulaEval = "<";
-                            } else {
-                                valueVar = currCondition.Split(new char[] { '=' })[0];
-                                valueConst = currCondition.Split(new char[] { '=' })[1];
-                                formulaEval = "=";
-                            }
-                            if (formulaEval == "=") {
-                                if (valueVar == valueConst) {
-                                    formula = jobFormula.Formula;
-                                    break;
-                                }
-                            } else if (formulaEval == "<") {
-                                if (float.Parse(valueVar) < float.Parse(valueConst)) {
-                                    formula = jobFormula.Formula;
-                                    break;
-                                }
-                            } else {
-                                if (float.Parse(valueVar) > float.Parse(valueConst)) {
-                                    formula = jobFormula.Formula;
-                                    break;
-                                }
-                            }
-                        }
-                    } else { formula = curJobFormulas[0].Formula; }
-                    formula = formula.Replace("#BANDWIDTH#", curSat.Frequency);
-                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
-                    formula = formula.Replace(",", ".");
-                    double calculatedCost = Evaluator.EvalToDouble(formula);
-                    TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
-                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
-                    TextBox txtCostCalculated = (TextBox)eitem["CostCalculated"].Controls[0];
-                    txtCostCalculated.Text = calculatedCost.ToString();
-                }
-            }
-        }
-
-        private void dpDateTimeStartActual_SelectedIndexChanged(object sender, SelectedDateChangedEventArgs e) {
-            DateTime startDate = e.NewDate ?? DateTime.Now;
-            RadDateTimePicker dpStartDate = (RadDateTimePicker)sender;
-            GridEditableItem eitem = (GridEditableItem)dpStartDate.NamingContainer;
-            RadDateTimePicker dpEndDate = (RadDateTimePicker)eitem["DateTimeEndActual"].Controls[0];
-            DateTime endDate = dpEndDate.SelectedDate ?? DateTime.Now;
-            if (endDate > startDate) {
-                TimeSpan span = endDate.Subtract(startDate);
-                TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
-                txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
-                int jobID = -1;
-                int sateliteID = -1;
-                if (Session["JobsID"] != null && Session["SatelitesID"] != null) {
-                    jobID = int.Parse(Session["JobsID"].ToString());
-                    sateliteID = int.Parse(Session["SatelitesID"].ToString());
-                    JobFormulasController cont = new JobFormulasController();
-                    List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
-                    SatelitesController cont2 = new SatelitesController();
-                    SateliteB curSat = cont2.GetSatelite(sateliteID);
-                    string formula = "";
-                    if (curJobFormulas.Count > 1) {
-                        foreach (JobFormulaB jobFormula in curJobFormulas) {
-                            string currCondition = jobFormula.Condition;
-                            currCondition = currCondition.Replace("#BANDWIDTH#", curSat.Frequency);
-                            currCondition = currCondition.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
-                            currCondition = currCondition.Replace(",", ".");
-                            string valueVar = "";
-                            string valueConst = "";
-                            string formulaEval = "";
-                            if (currCondition.IndexOfAny(new char[] { '>' }) != -1) {
-                                valueVar = currCondition.Split(new char[] { '>' })[0];
-                                valueConst = currCondition.Split(new char[] { '>' })[1];
-                                formulaEval = ">";
-                            } else if (currCondition.IndexOfAny(new char[] { '<' }) != -1) {
-                                valueVar = currCondition.Split(new char[] { '<' })[0];
-                                valueConst = currCondition.Split(new char[] { '<' })[1];
-                                formulaEval = "<";
-                            } else {
-                                valueVar = currCondition.Split(new char[] { '=' })[0];
-                                valueConst = currCondition.Split(new char[] { '=' })[1];
-                                formulaEval = "=";
-                            }
-                            if (formulaEval == "=") {
-                                if (valueVar == valueConst) {
-                                    formula = jobFormula.Formula;
-                                    break;
-                                }
-                            } else if (formulaEval == "<") {
-                                if (float.Parse(valueVar) < float.Parse(valueConst)) {
-                                    formula = jobFormula.Formula;
-                                    break;
-                                }
-                            } else {
-                                if (float.Parse(valueVar) > float.Parse(valueConst)) {
-                                    formula = jobFormula.Formula;
-                                    break;
-                                }
-                            }
-                        }
-                    } else { formula = curJobFormulas[0].Formula; }
-                    formula = formula.Replace("#BANDWIDTH#", curSat.Frequency);
-                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
-                    formula = formula.Replace(",", ".");
-                    double calculatedCost = Evaluator.EvalToDouble(formula);
-                    TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
-                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
-                    TextBox txtCostCalculated = (TextBox)eitem["CostActual"].Controls[0];
-                    txtCostCalculated.Text = calculatedCost.ToString();
-                }
-            }
-        }
-
-        private void dpDateTimeEndActual_SelectedIndexChanged(object sender, SelectedDateChangedEventArgs e) {
-            DateTime endDate = e.NewDate ?? DateTime.Now;
-            RadDateTimePicker dpEndDate = (RadDateTimePicker)sender;
-            GridEditableItem eitem = (GridEditableItem)dpEndDate.NamingContainer;
-            RadDateTimePicker dpStartDate = (RadDateTimePicker)eitem["DateTimeStartActual"].Controls[0];
-            DateTime startDate = dpStartDate.SelectedDate ?? DateTime.Now;
-            if (endDate > startDate) {
-                TimeSpan span = endDate.Subtract(startDate);
-                TextBox txtDateTimeDurationOrder = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
-                txtDateTimeDurationOrder.Text = ((int)Math.Ceiling(span.TotalMinutes)).ToString();
-                int jobID = -1;
-                int sateliteID = -1;
-                if (Session["JobsID"] != null && Session["SatelitesID"] != null) {
-                    jobID = int.Parse(Session["JobsID"].ToString());
-                    sateliteID = int.Parse(Session["SatelitesID"].ToString());
-                    JobFormulasController cont = new JobFormulasController();
-                    List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
-                    SatelitesController cont2 = new SatelitesController();
-                    SateliteB curSat = cont2.GetSatelite(sateliteID);
-                    string formula = "";
-                    if (curJobFormulas.Count > 1) {
-                        foreach (JobFormulaB jobFormula in curJobFormulas) {
-                            string currCondition = jobFormula.Condition;
-                            currCondition = currCondition.Replace("#BANDWIDTH#", curSat.Frequency);
-                            currCondition = currCondition.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
-                            currCondition = currCondition.Replace(",", ".");
-                            string valueVar = "";
-                            string valueConst = "";
-                            string formulaEval = "";
-                            if (currCondition.IndexOfAny(new char[] { '>' }) != -1) {
-                                valueVar = currCondition.Split(new char[] { '>' })[0];
-                                valueConst = currCondition.Split(new char[] { '>' })[1];
-                                formulaEval = ">";
-                            } else if (currCondition.IndexOfAny(new char[] { '<' }) != -1) {
-                                valueVar = currCondition.Split(new char[] { '<' })[0];
-                                valueConst = currCondition.Split(new char[] { '<' })[1];
-                                formulaEval = "<";
-                            } else {
-                                valueVar = currCondition.Split(new char[] { '=' })[0];
-                                valueConst = currCondition.Split(new char[] { '=' })[1];
-                                formulaEval = "=";
-                            }
-                            if (formulaEval == "=") {
-                                if (valueVar == valueConst) {
-                                    formula = jobFormula.Formula;
-                                    break;
-                                }
-                            } else if (formulaEval == "<") {
-                                if (float.Parse(valueVar) < float.Parse(valueConst)) {
-                                    formula = jobFormula.Formula;
-                                    break;
-                                }
-                            } else {
-                                if (float.Parse(valueVar) > float.Parse(valueConst)) {
-                                    formula = jobFormula.Formula;
-                                    break;
-                                }
-                            }
-                        }
-                    } else { formula = curJobFormulas[0].Formula; }
-                    formula = formula.Replace("#BANDWIDTH#", curSat.Frequency);
-                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(span.TotalMinutes)).ToString());
-                    formula = formula.Replace(",", ".");
-                    double calculatedCost = Evaluator.EvalToDouble(formula);
-                    TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
-                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
-                    TextBox txtCostCalculated = (TextBox)eitem["CostActual"].Controls[0];
-                    txtCostCalculated.Text = calculatedCost.ToString();
-                }
-            }
+            calculateCosts(eitem);
         }
 
         protected void gridMain_ItemDataBound(object sender, GridItemEventArgs e) {
@@ -585,6 +391,9 @@ namespace OTERT.Pages.UserPages {
             try {
                 SatelitesID = int.Parse(e.Value);
                 Session["SatelitesID"] = SatelitesID;
+                RadDropDownList ddlSatelites = (RadDropDownList)sender;
+                GridEditableItem eitem = (GridEditableItem)ddlSatelites.NamingContainer;
+                calculateCosts(eitem);
             }
             catch (Exception) { }
         }
