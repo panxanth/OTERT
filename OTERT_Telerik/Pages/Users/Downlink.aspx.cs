@@ -57,15 +57,34 @@ namespace OTERT.Pages.UserPages {
             if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                 GridEditableItem item = e.Item as GridEditableItem;
                 RadDateTimePicker dpDateTimeStartOrder = (RadDateTimePicker)item["DateTimeStartOrder"].Controls[0];
+                //dpDateTimeStartOrder.Width = Unit.Pixel(300);
+                dpDateTimeStartOrder.DateInput.Width = Unit.Pixel(300);
+                dpDateTimeStartOrder.DateInput.DateFormat = "d MMMM yyyy  HH:mm";
+                dpDateTimeStartOrder.DateInput.DisplayDateFormat = "d MMMM yyyy  HH:mm";
+                dpDateTimeStartOrder.SharedTimeView.HeaderText = "'Ωρα Έναρξης";
+                dpDateTimeStartOrder.SharedTimeView.TimeFormat = "HH:mm";
+                //dpDateTimeStartOrder.SharedTimeView.Interval = new TimeSpan(0, 30, 0);
                 dpDateTimeStartOrder.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
                 dpDateTimeStartOrder.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
                 RadDateTimePicker dpDateTimeEndOrder = (RadDateTimePicker)item["DateTimeEndOrder"].Controls[0];
+                dpDateTimeEndOrder.DateInput.Width = Unit.Pixel(300);
+                dpDateTimeEndOrder.DateInput.DateFormat = "d MMMM yyyy  HH:mm";
+                dpDateTimeEndOrder.DateInput.DisplayDateFormat = "d MMMM yyyy  HH:mm";
+                //dpDateTimeEndOrder.SharedTimeView.TimeFormat = "HH:mm";
                 dpDateTimeEndOrder.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
                 dpDateTimeEndOrder.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
                 RadDateTimePicker dpDateTimeStartActual = (RadDateTimePicker)item["DateTimeStartActual"].Controls[0];
+                dpDateTimeStartActual.DateInput.Width = Unit.Pixel(300);
+                dpDateTimeStartActual.DateInput.DateFormat = "d MMMM yyyy  HH:mm";
+                dpDateTimeStartActual.DateInput.DisplayDateFormat = "d MMMM yyyy  HH:mm";
+                //dpDateTimeStartActual.SharedTimeView.TimeFormat = "HH:mm";
                 dpDateTimeStartActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
                 dpDateTimeStartActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
                 RadDateTimePicker dpDateTimeEndActual = (RadDateTimePicker)item["DateTimeEndActual"].Controls[0];
+                dpDateTimeEndActual.DateInput.Width = Unit.Pixel(300);
+                dpDateTimeEndActual.DateInput.DateFormat = "d MMMM yyyy  HH:mm";
+                dpDateTimeEndActual.DateInput.DisplayDateFormat = "d MMMM yyyy  HH:mm";
+                //dpDateTimeEndActual.SharedTimeView.TimeFormat = "HH:mm";
                 dpDateTimeEndActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
                 dpDateTimeEndActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
             }
@@ -100,9 +119,9 @@ namespace OTERT.Pages.UserPages {
                 string formula = "";
                 if (orderStartDate > nullDate && orderEndDate > nullDate && orderEndDate > orderStartDate) {
                     TimeSpan orderSpan = orderEndDate.Subtract(orderStartDate);
-                    txtOrderDurationOrder.Text = ((int)Math.Ceiling(orderSpan.TotalDays)).ToString();
-                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalDays), -1, -1);
-                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(orderSpan.TotalDays)).ToString());
+                    txtOrderDurationOrder.Text = ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString();
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalMinutes), -1, -1);
+                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString());
                     //formula = formula.Replace("#BANDWIDTH#", bandwidth.ToString());
                     //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
                     formula = formula.Replace(",", ".");
@@ -112,9 +131,9 @@ namespace OTERT.Pages.UserPages {
                 }
                 if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
                     TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
-                    txtActualDuration.Text = ((int)Math.Ceiling(actualSpan.TotalDays)).ToString();
-                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalDays), -1, -1);
-                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(actualSpan.TotalDays)).ToString());
+                    txtActualDuration.Text = ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString();
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalMinutes), -1, -1);
+                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString());
                     //formula = formula.Replace("#BANDWIDTH#", bandwidth.ToString());
                     //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
                     formula = formula.Replace(",", ".");
