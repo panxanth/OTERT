@@ -56,17 +56,17 @@ namespace OTERT.Pages.UserPages {
             }
             if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                 GridEditableItem item = e.Item as GridEditableItem;
-                RadDatePicker dpDateTimeStartOrder = (RadDatePicker)item["DateTimeStartOrder"].Controls[0];
-                dpDateTimeStartOrder.AutoPostBack = true;
+                RadDateTimePicker dpDateTimeStartOrder = (RadDateTimePicker)item["DateTimeStartOrder"].Controls[0];
+                dpDateTimeStartOrder.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
                 dpDateTimeStartOrder.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
-                RadDatePicker dpDateTimeEndOrder = (RadDatePicker)item["DateTimeEndOrder"].Controls[0];
-                dpDateTimeEndOrder.AutoPostBack = true;
+                RadDateTimePicker dpDateTimeEndOrder = (RadDateTimePicker)item["DateTimeEndOrder"].Controls[0];
+                dpDateTimeEndOrder.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
                 dpDateTimeEndOrder.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
-                RadDatePicker dpDateTimeStartActual = (RadDatePicker)item["DateTimeStartActual"].Controls[0];
-                dpDateTimeStartActual.AutoPostBack = true;
+                RadDateTimePicker dpDateTimeStartActual = (RadDateTimePicker)item["DateTimeStartActual"].Controls[0];
+                dpDateTimeStartActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
                 dpDateTimeStartActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
-                RadDatePicker dpDateTimeEndActual = (RadDatePicker)item["DateTimeEndActual"].Controls[0];
-                dpDateTimeEndActual.AutoPostBack = true;
+                RadDateTimePicker dpDateTimeEndActual = (RadDateTimePicker)item["DateTimeEndActual"].Controls[0];
+                dpDateTimeEndActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
                 dpDateTimeEndActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
             }
         }
@@ -79,13 +79,13 @@ namespace OTERT.Pages.UserPages {
 
         protected void calculateCosts(GridEditableItem eitem) {
             DateTime nullDate = new DateTime(1900, 1, 1);
-            RadDatePicker dpOrderStartDate = (RadDatePicker)eitem["DateTimeStartOrder"].Controls[0]; ;
+            RadDateTimePicker dpOrderStartDate = (RadDateTimePicker)eitem["DateTimeStartOrder"].Controls[0]; ;
             DateTime orderStartDate = dpOrderStartDate.SelectedDate ?? nullDate;
-            RadDatePicker dpOrderEndDate = (RadDatePicker)eitem["DateTimeEndOrder"].Controls[0];
+            RadDateTimePicker dpOrderEndDate = (RadDateTimePicker)eitem["DateTimeEndOrder"].Controls[0];
             DateTime orderEndDate = dpOrderEndDate.SelectedDate ?? nullDate;
-            RadDatePicker dpActualStartDate = (RadDatePicker)eitem["DateTimeStartActual"].Controls[0]; ;
+            RadDateTimePicker dpActualStartDate = (RadDateTimePicker)eitem["DateTimeStartActual"].Controls[0]; ;
             DateTime actualStartDate = dpActualStartDate.SelectedDate ?? nullDate;
-            RadDatePicker dpActualEndDate = (RadDatePicker)eitem["DateTimeEndActual"].Controls[0];
+            RadDateTimePicker dpActualEndDate = (RadDateTimePicker)eitem["DateTimeEndActual"].Controls[0];
             DateTime actualEndDate = dpActualEndDate.SelectedDate ?? nullDate;
             TextBox txtOrderDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
             TextBox txtActualDuration = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
