@@ -57,8 +57,10 @@ namespace OTERT.Pages.UserPages {
             if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                 GridEditableItem item = e.Item as GridEditableItem;
                 RadDateTimePicker dpDateTimeStartOrder = (RadDateTimePicker)item["DateTimeStartOrder"].Controls[0];
-                //dpDateTimeStartOrder.Width = Unit.Pixel(300);
-                dpDateTimeStartOrder.DateInput.Width = Unit.Pixel(300);
+                dpDateTimeStartOrder.Width = Unit.Pixel(350);
+                dpDateTimeStartOrder.DateInput.Width = Unit.Pixel(280);
+                dpDateTimeStartOrder.DatePopupButton.ToolTip = "Επιλογή ημερομηνίας προγραμματισμένης έναρξης";
+                dpDateTimeStartOrder.TimePopupButton.ToolTip = "Επιλογή ώρας προγραμματισμένης έναρξης";
                 dpDateTimeStartOrder.DateInput.DateFormat = "d MMMM yyyy  HH:mm";
                 dpDateTimeStartOrder.DateInput.DisplayDateFormat = "d MMMM yyyy  HH:mm";
                 dpDateTimeStartOrder.SharedTimeView.HeaderText = "'Ωρα Έναρξης";
