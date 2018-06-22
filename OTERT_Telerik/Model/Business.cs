@@ -183,7 +183,6 @@ namespace OTERT.Model {
         public DateTime? DateTimeStartOrder { get; set; }
         public DateTime? DateTimeEndOrder { get; set; }
         public int DateTimeDurationOrder { get; set; }
-        public bool IsDurationInDays { get; set; }
         public DateTime? DateTimeStartActual { get; set; }
         public DateTime? DateTimeEndActual { get; set; }
         public int? DateTimeDurationActual { get; set; }

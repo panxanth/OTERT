@@ -24,7 +24,6 @@ namespace OTERT_Entity
         public Nullable<System.DateTime> DateTimeStartOrder { get; set; }
         public Nullable<System.DateTime> DateTimeEndOrder { get; set; }
         public int DateTimeDurationOrder { get; set; }
-        public Nullable<bool> IsDurationInDays { get; set; }
         public Nullable<System.DateTime> DateTimeStartActual { get; set; }
         public Nullable<System.DateTime> DateTimeEndActual { get; set; }
         public Nullable<int> DateTimeDurationActual { get; set; }

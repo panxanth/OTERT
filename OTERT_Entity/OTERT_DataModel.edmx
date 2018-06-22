@@ -211,7 +211,6 @@
           <Property Name="DateTimeStartOrder" Type="datetime" />
           <Property Name="DateTimeEndOrder" Type="datetime" />
           <Property Name="DateTimeDurationOrder" Type="int" Nullable="false" />
-          <Property Name="IsDurationInDays" Type="bit" />
           <Property Name="DateTimeStartActual" Type="datetime" />
           <Property Name="DateTimeEndActual" Type="datetime" />
           <Property Name="DateTimeDurationActual" Type="int" />
@@ -904,7 +903,6 @@
           <Property Name="DateTimeStartOrder" Type="DateTime" Precision="3" />
           <Property Name="DateTimeEndOrder" Type="DateTime" Precision="3" />
           <Property Name="DateTimeDurationOrder" Type="Int32" Nullable="false" />
-          <Property Name="IsDurationInDays" Type="Boolean" />
           <Property Name="DateTimeStartActual" Type="DateTime" Precision="3" />
           <Property Name="DateTimeEndActual" Type="DateTime" Precision="3" />
           <Property Name="DateTimeDurationActual" Type="Int32" />
@@ -1640,7 +1638,6 @@
                 <ScalarProperty Name="DateTimeStartOrder" ColumnName="DateTimeStartOrder" />
                 <ScalarProperty Name="DateTimeEndOrder" ColumnName="DateTimeEndOrder" />
                 <ScalarProperty Name="DateTimeDurationOrder" ColumnName="DateTimeDurationOrder" />
-                <ScalarProperty Name="IsDurationInDays" ColumnName="IsDurationInDays" />
                 <ScalarProperty Name="DateTimeStartActual" ColumnName="DateTimeStartActual" />
                 <ScalarProperty Name="DateTimeEndActual" ColumnName="DateTimeEndActual" />
                 <ScalarProperty Name="DateTimeDurationActual" ColumnName="DateTimeDurationActual" />

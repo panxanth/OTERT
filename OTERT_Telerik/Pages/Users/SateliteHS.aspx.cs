@@ -314,7 +314,6 @@ namespace OTERT.Pages.UserPages {
                         curTask.DateTimeStartOrder = DateTime.Parse((string)values["DateTimeStartOrder"]);
                         curTask.DateTimeEndOrder = DateTime.Parse((string)values["DateTimeEndOrder"]);
                         curTask.DateTimeDurationOrder = int.Parse((string)values["DateTimeDurationOrder"]);
-                        curTask.IsDurationInDays = (bool)values["IsDurationInDays"];
                         if (values["DateTimeStartActual"] != null) { curTask.DateTimeStartActual = DateTime.Parse((string)values["DateTimeStartActual"]); } else { curTask.DateTimeStartActual = null; }
                         if (values["DateTimeEndActual"] != null) { curTask.DateTimeEndActual = DateTime.Parse((string)values["DateTimeEndActual"]); } else { curTask.DateTimeEndActual = null; }
                         if (values["DateTimeDurationActual"] != null) { curTask.DateTimeDurationActual = int.Parse((string)values["DateTimeDurationActual"]); } else { curTask.DateTimeDurationActual = null; }
