@@ -32,8 +32,8 @@ namespace OTERT.Pages.Administrator {
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
-            int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
-            int recTake = gridMain.PageSize;
+            int recSkip = gridMain.MasterTableView.CurrentPageIndex * gridMain.MasterTableView.PageSize;
+            int recTake = gridMain.MasterTableView.PageSize;
             try {
                 JobsController cont = new JobsController();
                 gridMain.VirtualItemCount = cont.CountJobs();
@@ -207,7 +207,7 @@ namespace OTERT.Pages.Administrator {
                             curJob.Name = (string)values["Name"];
                             if (SalesID==0) { curJob.SalesID = null; } else { curJob.SalesID = SalesID; }
                             curJob.JobsMainID = JobsMainID;
-                            curJob.MinimumTime = int.Parse((string)values["MinimumTime"]);
+                            if (!string.IsNullOrEmpty((string)values["MinimumTime"])) { curJob.MinimumTime = int.Parse((string)values["MinimumTime"]); } else { curJob.MinimumTime = null; }
                             curJob.InvoiceCode = (string)values["InvoiceCode"];
                             dbContext.Jobs.Add(curJob);
                             dbContext.SaveChanges();
