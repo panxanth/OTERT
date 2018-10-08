@@ -129,7 +129,7 @@ namespace OTERT.Pages.UserPages {
             }
         }
 
-        protected string findFormula(List<JobFormulaB> lstFormulas, int span, int bandwidth, int distance) {
+        protected string findFormula(List<JobFormulaB> lstFormulas, int span, double bandwidth, int distance) {
             string formula = "";
             if (lstFormulas.Count > 1) {
                 foreach (JobFormulaB jobFormula in lstFormulas) {

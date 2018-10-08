@@ -28,7 +28,7 @@ namespace OTERT.Controller {
                                                     JobsID = us.JobsID,
                                                     Condition = us.Condition,
                                                     Formula = us.Formula
-                                              }).Where(k => k.JobsID == jobsID).OrderBy(o => o.Condition).ToList();
+                                              }).Where(k => k.JobsID == jobsID).OrderBy(o => o.ID).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

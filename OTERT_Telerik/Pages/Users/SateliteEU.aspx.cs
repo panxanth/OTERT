@@ -108,7 +108,7 @@ namespace OTERT.Pages.UserPages {
                 if (orderStartDate > nullDate && orderEndDate > nullDate && orderEndDate > orderStartDate) {
                     TimeSpan orderSpan = orderEndDate.Subtract(orderStartDate);
                     txtOrderDurationOrder.Text = ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString();
-                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalMinutes), int.Parse(selectedSatelite.Frequency), -1);
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalMinutes), double.Parse(selectedSatelite.Frequency), -1);
                     formula = formula.Replace("#TIME#", ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString());
                     formula = formula.Replace("#BANDWIDTH#", selectedSatelite.Frequency);
                     //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
@@ -120,7 +120,7 @@ namespace OTERT.Pages.UserPages {
                 if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
                     TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
                     txtActualDuration.Text = ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString();
-                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalMinutes), int.Parse(selectedSatelite.Frequency), -1);
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalMinutes), double.Parse(selectedSatelite.Frequency), -1);
                     formula = formula.Replace("#TIME#", ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString());
                     formula = formula.Replace("#BANDWIDTH#", selectedSatelite.Frequency);
                     //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
@@ -132,7 +132,7 @@ namespace OTERT.Pages.UserPages {
             }
         }
 
-        protected string findFormula(List<JobFormulaB> lstFormulas, int span, int bandwidth, int distance) {
+        protected string findFormula(List<JobFormulaB> lstFormulas, int span, double bandwidth, int distance) {
             string formula = "";
             if (lstFormulas.Count > 1) {
                 foreach (JobFormulaB jobFormula in lstFormulas) {

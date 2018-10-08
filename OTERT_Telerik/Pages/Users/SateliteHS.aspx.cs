@@ -108,31 +108,31 @@ namespace OTERT.Pages.UserPages {
                 if (orderStartDate > nullDate && orderEndDate > nullDate && orderEndDate > orderStartDate) {
                     TimeSpan orderSpan = orderEndDate.Subtract(orderStartDate);
                     txtOrderDurationOrder.Text = ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString();
-                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalMinutes), int.Parse(selectedSatelite.Frequency), -1);
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalMinutes), double.Parse(selectedSatelite.Frequency.Replace(".", ",")), -1);
                     formula = formula.Replace("#TIME#", ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString());
                     formula = formula.Replace("#BANDWIDTH#", selectedSatelite.Frequency);
                     //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
                     formula = formula.Replace(",", ".");
                     double calculatedCost = Evaluator.EvalToDouble(formula);
-                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
+                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text.Replace(".", ",")); }
                     txtCostCalculated.Text = calculatedCost.ToString();
                 }
                 if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
                     TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
                     txtActualDuration.Text = ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString();
-                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalMinutes), int.Parse(selectedSatelite.Frequency), -1);
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalMinutes), double.Parse(selectedSatelite.Frequency), -1);
                     formula = formula.Replace("#TIME#", ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString());
                     formula = formula.Replace("#BANDWIDTH#", selectedSatelite.Frequency);
                     //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
                     formula = formula.Replace(",", ".");
                     double calculatedCost = Evaluator.EvalToDouble(formula);
-                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
+                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text.Replace(".", ",")); }
                     txtCostActual.Text = calculatedCost.ToString();
                 }
             }
         }
 
-        protected string findFormula(List<JobFormulaB> lstFormulas, int span, int bandwidth, int distance) {
+        protected string findFormula(List<JobFormulaB> lstFormulas, int span, double bandwidth, int distance) {
             string formula = "";
             if (lstFormulas.Count > 1) {
                 foreach (JobFormulaB jobFormula in lstFormulas) {
