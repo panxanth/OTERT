@@ -209,8 +209,8 @@ namespace OTERT.Model {
 
     public class OrderB {
         public int ID { get; set; }
-        public int OrderID { get; set; }
-        public OrderDTO Order { get; set; }
+        public int OrderTypeID { get; set; }
+        public OrderTypeDTO OrderType { get; set; }
         public string RegNo { get; set; }
         public int Customer1ID { get; set; }
         public CustomerDTO Customer1 { get; set; }

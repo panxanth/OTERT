@@ -100,6 +100,7 @@
     <Compile Include="Controller\JobCancelPricesController.cs" />
     <Compile Include="Controller\JobFormulasController.cs" />
     <Compile Include="Controller\DistancesController.cs" />
+    <Compile Include="Controller\OrdersController.cs" />
     <Compile Include="Controller\TasksController.cs" />
     <Compile Include="Controller\JobsController.cs" />
     <Compile Include="Controller\RequestedPositionsController.cs" />
@@ -180,6 +181,10 @@
       <DependentUpon>JobsMainList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Administrator\DistancesList.aspx.cs">
+      <DependentUpon>DistancesList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Administrator\UsersList.aspx.cs">
       <DependentUpon>UsersList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -198,6 +203,10 @@
     </Compile>
     <Compile Include="Pages\Users\DownlinkSNG.aspx.cs">
       <DependentUpon>DownlinkSNG.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\PTStoGR.aspx.cs">
+      <DependentUpon>PTStoGR.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Users\LongDistanceTwoPoints.aspx.cs">
@@ -301,10 +310,12 @@
     <Content Include="Pages\Administrator\EventsList.aspx" />
     <Content Include="Pages\Administrator\PlacesList.aspx" />
     <Content Include="Pages\Administrator\JobsMainList.aspx" />
+    <Content Include="Pages\Administrator\DistancesList.aspx" />
     <Content Include="Pages\Administrator\UsersList.aspx" />
     <Content Include="Pages\Users\CustomersList.aspx" />
     <Content Include="Pages\Users\Downlink.aspx" />
     <Content Include="Pages\Users\DownlinkSNG.aspx" />
+    <Content Include="Pages\Users\PTStoGR.aspx" />
     <Content Include="Pages\Users\LongDistanceTwoPoints.aspx" />
     <Content Include="Pages\Users\UrbanOnePoint.aspx" />
     <Content Include="Pages\Users\UrbanTwoPoints.aspx" />

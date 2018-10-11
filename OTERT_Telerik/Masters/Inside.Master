@@ -68,7 +68,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="gradient_menuitem gradient27"><a title="">ΠΤΣ προς Ελλάδα</a></li>
+                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/PTStoGR.aspx" title="">ΠΤΣ προς Ελλάδα</a></li>
                 <li class="gradient_menuitem gradient27 last_item"><a title="">ΠΤΣ προς Εξωτερικό</a></li>
             </ul>
         </li>
@@ -111,6 +111,7 @@
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/CountriesList.aspx">Χώρες</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/languagesList.aspx">Γλώσσες</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/PlacesList.aspx">Τοποθεσίες</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/DistancesList.aspx">Αποστάσεις</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/EventsList.aspx">Γεγονότα</a></li>
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/RequestedPositionsList.aspx">Αιτούμενες Θέσεις</a></li>
                     </ul>

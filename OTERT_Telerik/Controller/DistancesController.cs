@@ -51,7 +51,7 @@ namespace OTERT.Controller {
                                                 Position1 = us.Position1,
                                                 Position2 = us.Position2,
                                                 KM = us.KM
-                                            }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                                            }).OrderBy(o => o.Position1).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
