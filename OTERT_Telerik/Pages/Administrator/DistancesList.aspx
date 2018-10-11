@@ -31,7 +31,6 @@
         <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" AllowPaging="true" AllowCustomPaging="true" PageSize="10" Skin="Metro"
             OnNeedDataSource="gridMain_NeedDataSource" 
             OnUpdateCommand="gridMain_UpdateCommand"
-            OnItemCreated="gridMain_ItemCreated" 
             OnItemDataBound="gridMain_ItemDataBound"
             OnDeleteCommand="gridMain_DeleteCommand"
             OnInsertCommand="gridMain_InsertCommand">
@@ -50,19 +49,37 @@
                             <telerik:RadDropDownList runat="server" ID="ddlJobsMain" RenderMode="Lightweight" DropDownHeight="200" Width="550" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlJobsMain_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridBoundColumn DataField="Position1" HeaderText="Σημείο 1" Visible="false">
-                        <ColumnValidationSettings EnableRequiredFieldValidation="true">
-                            <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
-                        </ColumnValidationSettings>
-                    </telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn DataField="Position2" HeaderText="Σημείο 2" Visible="false">
-                        <ColumnValidationSettings EnableRequiredFieldValidation="true">
-                            <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
-                        </ColumnValidationSettings>
-                    </telerik:GridBoundColumn>
+                    <telerik:GridTemplateColumn DataField="Position1" HeaderText="Σημείο 1" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label Text='<% #Eval("Position1") %>' runat="server" /> 
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <telerik:RadAutoCompleteBox ID="txtPosition1"  runat="server"
+                                DataSourceID="SqlDataSource1" 
+                                DataTextField="Positions" 
+                                DataValueField="Positions" 
+                                InputType="Text" AllowCustomEntry="True" Filter="StartsWith" TextSettings-SelectionMode="Single"
+                                OnTextChanged="txtPosition1_TextChanged" />
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPosition1" ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
+                        </EditItemTemplate>
+                    </telerik:GridTemplateColumn>
+                    <telerik:GridTemplateColumn DataField="Position2" HeaderText="Σημείο 2" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label Text='<% #Eval("Position2") %>' runat="server" /> 
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <telerik:RadAutoCompleteBox ID="txtPosition2" runat="server" 
+                                DataSourceID="SqlDataSource1" 
+                                DataTextField="Positions" 
+                                DataValueField="Positions" 
+                                InputType="Text" AllowCustomEntry="True" Filter="StartsWith" TextSettings-SelectionMode="Single" 
+                                OnTextChanged="txtPosition2_TextChanged" />
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPosition2" ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
+                        </EditItemTemplate>
+                    </telerik:GridTemplateColumn>
                     <telerik:GridNumericColumn DataField="KM" HeaderText="Απόσταση (ΧΜ)" Visible="false" DataType="System.Int32" DecimalDigits="0">
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
-                            <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
+                            <RequiredFieldValidator ForeColor="Red" ErrorMessage=" Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridNumericColumn>
                     <telerik:GridButtonColumn ConfirmText="Να διαγραφεί αυτό το Ζεύγος;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" />
@@ -74,4 +91,11 @@
         </telerik:RadGrid>
         <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" />
     </div>
+    <asp:SqlDataSource
+          id="SqlDataSource1"
+          runat="server"
+          DataSourceMode="DataReader"
+          ConnectionString="<%$ ConnectionStrings:OTERTConnectionString %>"
+          SelectCommand="SELECT DISTINCT Positions FROM Distances UNPIVOT (Positions FOR col IN (Position1, Position2)) un ORDER BY Positions">
+      </asp:SqlDataSource>
 </asp:Content>

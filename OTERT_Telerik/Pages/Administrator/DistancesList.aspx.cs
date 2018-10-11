@@ -26,6 +26,8 @@ namespace OTERT.Pages.Administrator {
                 gridMain.MasterTableView.Caption = "Αποστάσεις";
                 JobsMainID = -1;
                 Session.Remove("JobsMainID");
+                Session.Remove("Position1");
+                Session.Remove("Position2");
             }
         }
 
@@ -40,13 +42,15 @@ namespace OTERT.Pages.Administrator {
             catch (Exception) { }
         }
 
-        protected void gridMain_ItemCreated(object sender, GridItemEventArgs e) { }
-
         protected void gridMain_ItemDataBound(object sender, GridItemEventArgs e) {
             if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                 JobsMainID = -1;
                 Session.Remove("JobsMainID");
+                Session.Remove("Position1");
+                Session.Remove("Position2");
                 GridEditableItem item = e.Item as GridEditableItem;
+                RadAutoCompleteBox txtPosition1 = item.FindControl("txtPosition1") as RadAutoCompleteBox;
+                RadAutoCompleteBox txtPosition2 = item.FindControl("txtPosition2") as RadAutoCompleteBox;
                 RadDropDownList ddlJobsMain = item.FindControl("ddlJobsMain") as RadDropDownList;
                 try {
                     DistanceB currDistance = e.Item.DataItem as DistanceB;
@@ -56,8 +60,12 @@ namespace OTERT.Pages.Administrator {
                     ddlJobsMain.DataValueField = "ID";
                     ddlJobsMain.DataBind();
                     if (currDistance != null) {
+                        txtPosition1.Entries.Add(new AutoCompleteBoxEntry(currDistance.Position1, currDistance.Position1));
+                        txtPosition2.Entries.Add(new AutoCompleteBoxEntry(currDistance.Position2, currDistance.Position2));
                         ddlJobsMain.SelectedIndex = ddlJobsMain.FindItemByValue(currDistance.JobsMainID.ToString()).Index;
                         Session["JobsMainID"] = currDistance.JobsMainID;
+                        Session["Position1"] = currDistance.Position1;
+                        Session["Position2"] = currDistance.Position2;
                     } else {
                         ddlJobsMain.SelectedIndex = 0;
                         Session["JobsMainID"] = ddlJobsMain.SelectedItem.Value;
@@ -83,10 +91,14 @@ namespace OTERT.Pages.Administrator {
                 if (curDistance != null) {
                     editableItem.UpdateValues(curDistance);
                     if (Session["JobsMainID"] != null) { JobsMainID = int.Parse(Session["JobsMainID"].ToString()); }
-                    if (JobsMainID > 0) {
+                    if (JobsMainID > 0 && Session["Position1"] != null && Session["Position1"] != null) {
+                        curDistance.Position1 = Session["Position1"].ToString();
+                        curDistance.Position2 = Session["Position2"].ToString();
                         curDistance.JobsMainID = JobsMainID;
                         JobsMainID = -1;
                         Session.Remove("JobsMainID");
+                        Session.Remove("Position1");
+                        Session.Remove("Position2");
                     }
                     try { dbContext.SaveChanges(); }
                     catch (Exception) { ShowErrorMessage(-1); }
@@ -101,11 +113,11 @@ namespace OTERT.Pages.Administrator {
                 Hashtable values = new Hashtable();
                 editableItem.ExtractValues(values);
                 if (Session["JobsMainID"] != null) { JobsMainID = int.Parse(Session["JobsMainID"].ToString()); }
-                if (JobsMainID > 0) {
+                if (JobsMainID > 0 && Session["Position1"] != null && Session["Position1"] != null) {
                     try {
                         newDistance.JobsMainID = JobsMainID;
-                        newDistance.Position1 = (string)values["Position1"];
-                        newDistance.Position2 = (string)values["Position2"];
+                        newDistance.Position1 = Session["Position1"].ToString();
+                        newDistance.Position2 = Session["Position2"].ToString();
                         newDistance.KM = int.Parse((string)values["KM"]);
                         dbContext.Distances.Add(newDistance);
                         dbContext.SaveChanges();
@@ -114,6 +126,8 @@ namespace OTERT.Pages.Administrator {
                     finally {
                         JobsMainID = -1;
                         Session.Remove("JobsMainID");
+                        Session.Remove("Position1");
+                        Session.Remove("Position2");
                     }
                 } else { ShowErrorMessage(-1); }
             }
@@ -142,6 +156,16 @@ namespace OTERT.Pages.Administrator {
                 Session["JobsMainID"] = JobsMainID;
             }
             catch (Exception) { }
+        }
+
+        protected void txtPosition1_TextChanged(object sender, AutoCompleteTextEventArgs e) {
+            RadAutoCompleteBox autoComplete = sender as RadAutoCompleteBox;
+            Session["Position1"] = autoComplete.Entries[0].Text;
+        }
+
+        protected void txtPosition2_TextChanged(object sender, AutoCompleteTextEventArgs e) {
+            RadAutoCompleteBox autoComplete = sender as RadAutoCompleteBox;
+            Session["Position2"] = autoComplete.Entries[0].Text;
         }
 
     }
