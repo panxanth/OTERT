@@ -50,6 +50,9 @@ namespace OTERT_Entity
         public string ZIPCode { get; set; }
         public string NameGR { get; set; }
         public string NameEN { get; set; }
+        public string NamedInvoiceGR { get; set; }
+        public string NamedInvoiceEN { get; set; }
+        public string SAPCode { get; set; }
     
         public virtual Countries Countries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -118,19 +118,13 @@ namespace OTERT.Pages.Administrator {
             }
         }
 
-        protected void gridMain_ItemCreated(object sender, GridItemEventArgs e) {
-
-        }
+        protected void gridMain_ItemCreated(object sender, GridItemEventArgs e) { }
 
         protected void gridMain_ItemCommand(object source, GridCommandEventArgs e) {
-            if (e.CommandName == RadGrid.FilterCommandName) {
-
-            }
+            if (e.CommandName == RadGrid.FilterCommandName) { }
         }
 
-        protected void gridMain_DataBound(object sender, EventArgs e) {
-
-        }
+        protected void gridMain_DataBound(object sender, EventArgs e) { }
 
         private void ShowErrorMessage(int errCode) {
             if (errCode == 1) {
@@ -192,6 +186,8 @@ namespace OTERT.Pages.Administrator {
                         selCustomer.CountryID = countryID;
                         selCustomer.NameGR = (string)values["NameGR"];
                         selCustomer.NameEN = (string)values["NameEN"];
+                        selCustomer.NamedInvoiceGR = (string)values["NamedInvoiceGR"];
+                        selCustomer.NamedInvoiceEN = (string)values["NamedInvoiceEN"];
                         selCustomer.ZIPCode = (string)values["ZIPCode"];
                         selCustomer.CityGR = (string)values["CityGR"];
                         selCustomer.CityEN = (string)values["CityEN"];
@@ -212,6 +208,7 @@ namespace OTERT.Pages.Administrator {
                         selCustomer.URL = (string)values["URL"];
                         selCustomer.AFM = (string)values["AFM"];
                         selCustomer.DOY = (string)values["DOY"];
+                        selCustomer.SAPCode = (string)values["SAPCode"];
                         selCustomer.UserID = userID;
                         selCustomer.Comments = (string)values["Comments"];
                         selCustomer.IsProvider = (bool)values["IsProvider"];

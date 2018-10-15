@@ -67,6 +67,8 @@ namespace OTERT.Model {
         public int CountryID { get; set; }
         public string NameGR { get; set; }
         public string NameEN { get; set; }
+        public string NamedInvoiceGR { get; set; }
+        public string NamedInvoiceEN { get; set; }
         public string ZIPCode { get; set; }
         public string CityGR { get; set; }
         public string CityEN { get; set; }
@@ -89,6 +91,7 @@ namespace OTERT.Model {
         public string URL { get; set; }
         public string AFM { get; set; }
         public string DOY { get; set; }
+        public string SAPCode { get; set; }
         public UserDTO User { get; set; }
         public int? UserID { get; set; }
         public string Comments { get; set; }

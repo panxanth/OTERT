@@ -55,6 +55,8 @@
                         </ColumnValidationSettings>
                     </telerik:GridBoundColumn>
                     <telerik:GridBoundColumn DataField="NameEN" HeaderText="Όνομα (EN)" Visible="false" />
+                    <telerik:GridBoundColumn DataField="NamedInvoiceGR" HeaderText="Όνομα για Τιμολόγιο (GR)" Visible="false" />
+                    <telerik:GridBoundColumn DataField="NamedInvoiceEN" HeaderText="Όνομα για Τιμολόγιο (EN)" Visible="false" />
                     <telerik:GridTemplateColumn HeaderText="Χώρα" HeaderStyle-Width="180px" UniqueName="CountryID" DataField="CountryID" AllowFiltering="false">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Country.NameGR") %>' runat="server" /> 
@@ -101,6 +103,7 @@
                     <telerik:GridBoundColumn DataField="URL" HeaderText="URL" Visible="false" />
                     <telerik:GridBoundColumn DataField="AFM" HeaderText="ΑΦΜ" Visible="false" />
                     <telerik:GridBoundColumn DataField="DOY" HeaderText="ΔΟΥ" Visible="false" />
+                    <telerik:GridBoundColumn DataField="SAPCode" HeaderText="Κωδικός SAP" Visible="false" />
                     <telerik:GridTemplateColumn HeaderText="Διαχειριστής" HeaderStyle-Width="180px" UniqueName="UserID" DataField="UserID" AllowFiltering="false">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("User.NameGR") %>' runat="server" /> 

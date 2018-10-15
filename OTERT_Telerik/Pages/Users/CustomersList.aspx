@@ -93,10 +93,11 @@
 		                <fieldset style="padding: 10px;">
 			                <legend style="padding: 5px;"><b>Συνολική εικόνα πελάτη: <%#Eval("NameGR") %></b></legend>
 			                <table>
-				                <tr>
-					                <td>Διεύθυνση: </td>
-					                <td><asp:Label ID="addressLabel" Text='<%#Bind("Address1GR") %>' runat="server" /></td>
-				                </tr>
+                                <tr><td>Όνομα για Τιμολόγιο: </td><td><asp:Label ID="Label1" Text='<%#Bind("NamedInvoiceGR") %>' runat="server" /></td></tr>
+                                <tr><td>Όνομα για Τιμολόγιο (ΕΝ): </td><td><asp:Label ID="Label3" Text='<%#Bind("NamedInvoiceEN") %>' runat="server" /></td></tr>
+                                <tr><td>Διεύθυνση: </td><td><asp:Label ID="Label2" Text='<%#Bind("Address1GR") %>' runat="server" /></td></tr>
+                                <tr><td>Κωδικός SAP: </td><td><asp:Label ID="addressLabel" Text='<%#Bind("SAPCode") %>' runat="server" /></td></tr>
+
 			                </table>
 		                </fieldset>
 	                </div>
