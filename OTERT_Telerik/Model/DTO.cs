@@ -157,4 +157,13 @@ namespace OTERT.Model {
         public string Frequency { get; set; }
     }
 
+    public class FileDTO {
+        public int ID { get; set; }
+        public int? TaskID { get; set; }
+        public int? OrderID { get; set; }
+        public string FilePath { get; set; }
+        public string FileName { get; set; }
+        public DateTime DateStamp { get; set; }
+    }
+
 }

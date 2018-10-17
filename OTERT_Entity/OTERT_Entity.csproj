@@ -68,6 +68,9 @@
     <Compile Include="Events.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Files.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="JobCancelPrices.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>

@@ -18,6 +18,7 @@ namespace OTERT_Entity
         public Orders()
         {
             this.Tasks = new HashSet<Tasks>();
+            this.Files = new HashSet<Files>();
         }
     
         public int ID { get; set; }
@@ -33,5 +34,7 @@ namespace OTERT_Entity
         public virtual Customers Customers1 { get; set; }
         public virtual Customers Customers11 { get; set; }
         public virtual Events Events { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Files> Files { get; set; }
     }
 }

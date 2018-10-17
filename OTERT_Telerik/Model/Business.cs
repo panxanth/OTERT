@@ -50,6 +50,15 @@ namespace OTERT.Model {
         public bool? IsProvider { get; set; }
     }
 
+    public class FileB {
+        public int ID { get; set; }
+        public int? TaskID { get; set; }
+        public int? OrderID { get; set; }
+        public string FilePath { get; set; }
+        public string FileName { get; set; }
+        public DateTime DateStamp { get; set; }
+    }
+
     public class PlaceB {
         public int ID { get; set; }
         public CountryDTO Country { get; set; }
@@ -208,6 +217,7 @@ namespace OTERT.Model {
         public string InvoceComments { get; set; }
         public int? SateliteID { get; set; }
         public SateliteDTO Satelite { get; set; }
+        public List<FileB> Files { get; set; }
     }
 
     public class OrderB {

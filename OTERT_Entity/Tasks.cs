@@ -14,6 +14,12 @@ namespace OTERT_Entity
     
     public partial class Tasks
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Tasks()
+        {
+            this.Files = new HashSet<Files>();
+        }
+    
         public int ID { get; set; }
         public Nullable<int> OrderID { get; set; }
         public string RegNo { get; set; }
@@ -53,5 +59,7 @@ namespace OTERT_Entity
         public virtual RequestedPositions RequestedPositions { get; set; }
         public virtual Satelites Satelites { get; set; }
         public virtual Distances Distances { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Files> Files { get; set; }
     }
 }

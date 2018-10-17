@@ -87,6 +87,17 @@
           <Property Name="NameGR" Type="nvarchar(max)" Nullable="false" />
           <Property Name="NameEN" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Files">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskID" Type="int" />
+          <Property Name="OrderID" Type="int" />
+          <Property Name="FilePath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DateStamp" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="JobCancelPrices">
           <Key>
             <PropertyRef Name="ID" />
@@ -360,6 +371,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Files_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+          <End Role="Files" Type="Self.Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Files_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="0..1" />
+          <End Role="Files" Type="Self.Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_JobCancelPrices_Jobs">
           <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
           <End Role="JobCancelPrices" Type="Self.JobCancelPrices" Multiplicity="*" />
@@ -583,6 +618,7 @@
           <EntitySet Name="CustomerTypes" EntityType="Self.CustomerTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Distances" EntityType="Self.Distances" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobCancelPrices" EntityType="Self.JobCancelPrices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobFormulas" EntityType="Self.JobFormulas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
@@ -631,6 +667,14 @@
           <AssociationSet Name="fk_Events_Places" Association="Self.fk_Events_Places">
             <End Role="Places" EntitySet="Places" />
             <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Files_Orders" Association="Self.FK_Files_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Files_Tasks" Association="Self.FK_Files_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Files" EntitySet="Files" />
           </AssociationSet>
           <AssociationSet Name="FK_JobCancelPrices_Jobs" Association="Self.FK_JobCancelPrices_Jobs">
             <End Role="Jobs" EntitySet="Jobs" />
@@ -856,6 +900,7 @@
           <NavigationProperty Name="Customers11" Relationship="OTERT_Model.FK_Orders_Customers_2" FromRole="Orders" ToRole="Customers" />
           <Property Name="EventID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Events" Relationship="OTERT_Model.fk_Orders_Events" FromRole="Orders" ToRole="Events" />
+          <NavigationProperty Name="Files" Relationship="OTERT_Model.FK_Files_Orders" FromRole="Orders" ToRole="Files" />
         </EntityType>
         <EntityType Name="OrderTypes">
           <Key>
@@ -937,6 +982,7 @@
           <NavigationProperty Name="Satelites" Relationship="OTERT_Model.fk_Tasks_Satelite" FromRole="Tasks" ToRole="Satelites" />
           <Property Name="DistancesID" Type="Int32" />
           <NavigationProperty Name="Distances" Relationship="OTERT_Model.FK_Tasks_Distances" FromRole="Tasks" ToRole="Distances" />
+          <NavigationProperty Name="Files" Relationship="OTERT_Model.FK_Files_Tasks" FromRole="Tasks" ToRole="Files" />
         </EntityType>
         <EntityType Name="UIControlsVisibility">
           <Key>
@@ -1151,7 +1197,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="OTERTConnStr" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="OTERTConnStr" annotation:LazyLoadingEnabled="false">
           <EntitySet Name="Countries" EntityType="Self.Countries" />
           <EntitySet Name="CountryPricelist" EntityType="Self.CountryPricelist" />
           <EntitySet Name="Customers" EntityType="Self.Customers" />
@@ -1278,6 +1324,15 @@
           <AssociationSet Name="FK_Tasks_Distances" Association="OTERT_Model.FK_Tasks_Distances">
             <End Role="Distances" EntitySet="Distances" />
             <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <EntitySet Name="Files" EntityType="OTERT_Model.Files" />
+          <AssociationSet Name="FK_Files_Orders" Association="OTERT_Model.FK_Files_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Files_Tasks" Association="OTERT_Model.FK_Files_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Files" EntitySet="Files" />
           </AssociationSet>
         </EntityContainer>
         <Association Name="fk_Orders_Customers_1">
@@ -1458,6 +1513,43 @@
             </Principal>
             <Dependent Role="Tasks">
               <PropertyRef Name="DistancesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Files">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskID" Type="Int32" />
+          <Property Name="OrderID" Type="Int32" />
+          <Property Name="FilePath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DateStamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Orders" Relationship="OTERT_Model.FK_Files_Orders" FromRole="Files" ToRole="Orders" />
+          <NavigationProperty Name="Tasks" Relationship="OTERT_Model.FK_Files_Tasks" FromRole="Files" ToRole="Tasks" />
+        </EntityType>
+        <Association Name="FK_Files_Orders">
+          <End Type="OTERT_Model.Orders" Role="Orders" Multiplicity="0..1" />
+          <End Type="OTERT_Model.Files" Role="Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Files_Tasks">
+          <End Type="OTERT_Model.Tasks" Role="Tasks" Multiplicity="0..1" />
+          <End Type="OTERT_Model.Files" Role="Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="TaskID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1745,6 +1837,18 @@
               <MappingFragment StoreEntitySet="JobsMain">
                 <ScalarProperty Name="PageID" ColumnName="PageID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Files">
+            <EntityTypeMapping TypeName="OTERT_Model.Files">
+              <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

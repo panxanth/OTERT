@@ -18,6 +18,7 @@ namespace OTERT_Entity
         public OTERTConnStr()
             : base("name=OTERTConnStr")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -48,5 +49,6 @@ namespace OTERT_Entity
         public virtual DbSet<JobCancelPrices> JobCancelPrices { get; set; }
         public virtual DbSet<JobFormulas> JobFormulas { get; set; }
         public virtual DbSet<JobsMain> JobsMain { get; set; }
+        public virtual DbSet<Files> Files { get; set; }
     }
 }

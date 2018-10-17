@@ -98,6 +98,7 @@
     <Compile Include="App_Code\FilterData.cs" />
     <Compile Include="App_Code\StaticUtilities.cs" />
     <Compile Include="Controller\JobCancelPricesController.cs" />
+    <Compile Include="Controller\FilesController.cs" />
     <Compile Include="Controller\JobFormulasController.cs" />
     <Compile Include="Controller\DistancesController.cs" />
     <Compile Include="Controller\OrdersController.cs" />
@@ -420,7 +421,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

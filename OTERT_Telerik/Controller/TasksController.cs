@@ -473,6 +473,17 @@ namespace OTERT.Controller {
                                                 Frequency = us.SateliteID == null ? "" : us.Satelites.Frequency
                                             }
                                         }).Where(k => k.Job.JobsMain.PageID == PageID).OrderBy(o => o.OrderDate).Skip(recSkip).Take(recTake).ToList();
+                    foreach(TaskB curTask in data) {
+                        curTask.Files = (from us in dbContext.Files
+                                        select new FileB {
+                                            ID = us.ID,
+                                            TaskID = us.TaskID,
+                                            OrderID = us.OrderID,
+                                            FileName = us.FileName,
+                                            FilePath = us.FilePath,
+                                            DateStamp = us.DateStamp
+                                        }).Where(k => k.TaskID == curTask.ID).OrderBy(o => o.DateStamp).ToList();
+                    }
                     return data;
                 }
                 catch (Exception) { return null; }
