@@ -59,6 +59,7 @@
           <Property Name="UserID" Type="int" />
           <Property Name="Comments" Type="nvarchar(max)" />
           <Property Name="IsProvider" Type="bit" />
+          <Property Name="IsOTE" Type="bit" />
         </EntityType>
         <EntityType Name="CustomerTypes">
           <Key>
@@ -819,6 +820,7 @@
           <Property Name="NamedInvoiceGR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="NamedInvoiceEN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="SAPCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsOTE" Type="Boolean" />
         </EntityType>
         <EntityType Name="CustomerTypes">
           <Key>
@@ -1584,6 +1586,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="OTERT_Model.Customers">
               <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="IsOTE" ColumnName="IsOTE" />
                 <ScalarProperty Name="SAPCode" ColumnName="SAPCode" />
                 <ScalarProperty Name="NamedInvoiceEN" ColumnName="NamedInvoiceEN" />
                 <ScalarProperty Name="NamedInvoiceGR" ColumnName="NamedInvoiceGR" />

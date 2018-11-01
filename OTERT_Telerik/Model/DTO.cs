@@ -96,6 +96,7 @@ namespace OTERT.Model {
         public int? UserID { get; set; }
         public string Comments { get; set; }
         public bool? IsProvider { get; set; }
+        public bool? IsOTE { get; set; }
     }
 
     public class RequestedPositionDTO {

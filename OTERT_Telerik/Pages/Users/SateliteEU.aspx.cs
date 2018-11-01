@@ -75,6 +75,10 @@ namespace OTERT.Pages.UserPages {
                     GridDataItem item = (GridDataItem)e.Item;
                     ElasticButton img = (ElasticButton)item["btnDelete"].Controls[0];
                     img.ToolTip = "Διαγραφή";
+                    if (item.OwnerTableView.DataSource != null) {
+                        string comm = (item.OwnerTableView.DataSource as List<TaskB>)[item.DataSetIndex].Comments.Trim();
+                        if (!string.IsNullOrEmpty(comm)) { item["RegNo"].ToolTip = (item.OwnerTableView.DataSource as List<TaskB>)[item.DataSetIndex].Comments; }
+                    }
                 }
                 if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                     GridEditableItem item = e.Item as GridEditableItem;
@@ -323,10 +327,16 @@ namespace OTERT.Pages.UserPages {
         }
 
         private void ShowErrorMessage(int errCode) {
-            if (errCode == 1) {
-                RadWindowManager1.RadAlert("Η συγκεκριμένη Παραγγελία σχετίζεται με κάποιο Έργο και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
-            } else {
-                RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
+            switch (errCode) {
+                case 1:
+                    RadWindowManager1.RadAlert("Το συγκεκριμένο Έργο σχετίζεται με κάποιο Έργο και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
+                    break;
+                case 2:
+                    RadWindowManager1.RadAlert("Το συγκεκριμένο Έργο είναι κλειδωμένο και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
+                    break;
+                default:
+                    RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
+                    break;
             }
         }
 
@@ -455,14 +465,24 @@ namespace OTERT.Pages.UserPages {
                 using (var dbContext = new OTERTConnStr()) {
                     var curTask = dbContext.Tasks.Where(n => n.ID == ID).FirstOrDefault();
                     if (curTask != null) {
-                        dbContext.Tasks.Remove(curTask);
-                        try { dbContext.SaveChanges(); }
-                        catch (Exception ex) {
-                            string err = ex.InnerException.InnerException.Message;
-                            int errCode = -1;
-                            if (err.StartsWith("The DELETE statement conflicted with the REFERENCE constraint")) { errCode = 1; }
-                            ShowErrorMessage(errCode);
-                        }
+                        if (curTask.IsLocked != true) {
+                            List<Files> curFiles = dbContext.Files.Where(k => k.TaskID == ID).ToList();
+                            foreach (Files curFile in curFiles) {
+                                string FileToDelete = Server.MapPath(curFile.FilePath);
+                                if (System.IO.File.Exists(FileToDelete)) { System.IO.File.Delete(FileToDelete); }
+                                dbContext.Files.Remove(curFile);
+                                try { dbContext.SaveChanges(); }
+                                catch (Exception) { ShowErrorMessage(-1); }
+                            }
+                            dbContext.Tasks.Remove(curTask);
+                            try { dbContext.SaveChanges(); }
+                            catch (Exception ex) {
+                                string err = ex.InnerException.InnerException.Message;
+                                int errCode = -1;
+                                if (err.StartsWith("The DELETE statement conflicted with the REFERENCE constraint")) { errCode = 1; }
+                                ShowErrorMessage(errCode);
+                            }
+                        } else { ShowErrorMessage(2); }
                     }
                 }
             } else if (e.Item.OwnerTableView.Name == "AttachedFiles") {

@@ -76,7 +76,8 @@ namespace OTERT.Controller {
                                                 SAPCode = us.Customers.SAPCode,
                                                 UserID = us.Customers.UserID,
                                                 Comments = us.Customers.Comments,
-                                                IsProvider = us.Customers.IsProvider
+                                                IsProvider = us.Customers.IsProvider,
+                                                IsOTE = us.Customers.IsOTE
                                             },
                                             RequestedPositionID = us.RequestedPositionID,
                                             RequestedPosition = new RequestedPositionDTO {
@@ -189,7 +190,8 @@ namespace OTERT.Controller {
                                                 SAPCode = us.Customers.SAPCode,
                                                 UserID = us.Customers.UserID,
                                                 Comments = us.Customers.Comments,
-                                                IsProvider = us.Customers.IsProvider
+                                                IsProvider = us.Customers.IsProvider,
+                                                IsOTE = us.Customers.IsOTE
                                             },
                                             RequestedPositionID = us.RequestedPositionID,
                                             RequestedPosition = new RequestedPositionDTO {
@@ -302,7 +304,8 @@ namespace OTERT.Controller {
                                                 SAPCode = us.Customers.SAPCode,
                                                 UserID = us.Customers.UserID,
                                                 Comments = us.Customers.Comments,
-                                                IsProvider = us.Customers.IsProvider
+                                                IsProvider = us.Customers.IsProvider,
+                                                IsOTE = us.Customers.IsOTE
                                             },
                                             RequestedPositionID = us.RequestedPositionID,
                                             RequestedPosition = new RequestedPositionDTO {
@@ -415,7 +418,8 @@ namespace OTERT.Controller {
                                                 SAPCode = us.Customers.SAPCode,
                                                 UserID = us.Customers.UserID,
                                                 Comments = us.Customers.Comments,
-                                                IsProvider = us.Customers.IsProvider
+                                                IsProvider = us.Customers.IsProvider,
+                                                IsOTE = us.Customers.IsOTE
                                             },
                                             RequestedPositionID = us.RequestedPositionID,
                                             RequestedPosition = new RequestedPositionDTO {

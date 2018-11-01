@@ -58,7 +58,8 @@ namespace OTERT.Controller {
                                                                         SAPCode = us.Customers1.SAPCode,
                                                                         UserID = us.Customers1.UserID,
                                                                         Comments = us.Customers1.Comments,
-                                                                        IsProvider = us.Customers1.IsProvider
+                                                                        IsProvider = us.Customers1.IsProvider,
+                                                                        IsOTE = us.Customers1.IsOTE
                                              },
                                              Customer2ID = us.Customer2ID,
                                              Customer2 = new CustomerDTO {
@@ -91,7 +92,8 @@ namespace OTERT.Controller {
                                                                          SAPCode = us.Customers11.SAPCode,
                                                                          UserID = us.Customers11.UserID,
                                                                          Comments = us.Customers11.Comments,
-                                                                         IsProvider = us.Customers11.IsProvider
+                                                                         IsProvider = us.Customers11.IsProvider,
+                                                                         IsOTE = us.Customers11.IsOTE
                                              },
                                              EventID = us.EventID,
                                              Event = new EventDTO { ID = us.Events.ID, PlaceID = us.Events.PlaceID, NameGR = us.Events.NameGR, NameEN = us.Events.NameEN }
@@ -143,7 +145,8 @@ namespace OTERT.Controller {
                                                                         SAPCode = us.Customers1.SAPCode,
                                                                         UserID = us.Customers1.UserID,
                                                                         Comments = us.Customers1.Comments,
-                                                                        IsProvider = us.Customers1.IsProvider
+                                                                        IsProvider = us.Customers1.IsProvider,
+                                                                        IsOTE = us.Customers1.IsOTE
                                              },
                                              Customer2ID = us.Customer2ID,
                                              Customer2 = new CustomerDTO {
@@ -176,7 +179,8 @@ namespace OTERT.Controller {
                                                                          SAPCode = us.Customers11.SAPCode,
                                                                          UserID = us.Customers11.UserID,
                                                                          Comments = us.Customers11.Comments,
-                                                                         IsProvider = us.Customers11.IsProvider
+                                                                         IsProvider = us.Customers11.IsProvider,
+                                                                         IsOTE = us.Customers11.IsOTE
                                              },
                                              EventID = us.EventID,
                                              Event = new EventDTO { ID = us.Events.ID, PlaceID = us.Events.PlaceID, NameGR = us.Events.NameGR, NameEN = us.Events.NameEN }
