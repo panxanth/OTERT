@@ -6,6 +6,8 @@
 <head runat="server">
     <title><asp:ContentPlaceHolder ID="PHTitle" runat="server" /></title>
     <telerik:RadStyleSheetManager id="RadStyleSheetManager1" runat="server" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="../Scripts/tooltip-classic.css" />
     <link rel="stylesheet" type="text/css" href="../Scripts/Site.css" />
     <link rel="stylesheet" type="text/css" href="../Scripts/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="../Scripts/mbcsmbmcp.css" />

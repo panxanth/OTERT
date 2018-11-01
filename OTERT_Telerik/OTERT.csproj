@@ -327,6 +327,9 @@
     <Content Include="Pages\Users\Uplink.aspx" />
     <Content Include="Pages\Users\UplinkSNG.aspx" />
     <Content Include="Pages\Users\UrbanCalls.aspx" />
+    <Content Include="Scripts\demo.css" />
+    <Content Include="Scripts\normalize.css" />
+    <Content Include="Scripts\tooltip-classic.css" />
     <Content Include="WebServices\OTERTWS.asmx" />
     <Content Include="WebServices\test.asmx" />
   </ItemGroup>
@@ -421,7 +424,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

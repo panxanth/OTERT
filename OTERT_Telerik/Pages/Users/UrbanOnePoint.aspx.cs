@@ -222,6 +222,20 @@ namespace OTERT.Pages.UserPages {
         }
 
         protected void gridMain_ItemDataBound(object sender, GridItemEventArgs e) {
+            if (e.Item is GridDataItem) {
+                GridDataItem item = (GridDataItem)e.Item;
+                if (item.OwnerTableView.DataSource != null) {
+                    TableCell curCell = item["RegNo"];
+                    string curComments = (item.OwnerTableView.DataSource as List<TaskB>)[item.DataSetIndex].Comments;
+                    string curTooltip = "<span><span class=\"tooltip tooltip-effect-4\"><span class=\"tooltip-item\">";
+                    curTooltip += curCell.Text;
+                    curTooltip += "</span><span class=\"tooltip-content clearfix\"><span class=\"tooltip-text\"><strong>Παρατηρήσεις:</strong><br/>";
+                    curTooltip += curComments;
+                    curTooltip += "</span></span></span></span>";
+                    curCell.Text = curTooltip;
+                    if (!string.IsNullOrEmpty(curComments.Trim())) { curCell.Text = curTooltip; }
+                }
+            }
             if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                 JobsID = -1;
                 Session.Remove("JobsID");
