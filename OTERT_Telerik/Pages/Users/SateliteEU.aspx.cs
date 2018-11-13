@@ -273,8 +273,7 @@ namespace OTERT.Pages.UserPages {
                         curTooltip += "</span><span class=\"tooltip-content clearfix\"><span class=\"tooltip-text\"><strong>Παρατηρήσεις:</strong><br/>";
                         curTooltip += curComments;
                         curTooltip += "</span></span></span></span>";
-                        curCell.Text = curTooltip;
-                        if (!string.IsNullOrEmpty(curComments.Trim())) { curCell.Text = curTooltip; }
+                        if (!string.IsNullOrWhiteSpace(curComments)) { curCell.Text = curTooltip; }
                     }
                 }
             }
@@ -341,10 +340,10 @@ namespace OTERT.Pages.UserPages {
         private void ShowErrorMessage(int errCode) {
             switch (errCode) {
                 case 1:
-                    RadWindowManager1.RadAlert("Το συγκεκριμένο Έργο σχετίζεται με κάποιο Έργο και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
+                    RadWindowManager1.RadAlert("Η συγκεκριμένη Παραγγελία σχετίζεται με κάποιο Έργο και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
                     break;
                 case 2:
-                    RadWindowManager1.RadAlert("Το συγκεκριμένο Έργο είναι κλειδωμένο και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
+                    RadWindowManager1.RadAlert("Η συγκεκριμένη Παραγγελία είναι κλειδωμένη και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
                     break;
                 default:
                     RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
