@@ -60,7 +60,7 @@ namespace OTERT.Pages.Administrator {
                 RadDropDownList ddlCustomer = item.FindControl("ddlCustomer") as RadDropDownList;
                 RadDropDownList ddlLineType = item.FindControl("ddlLineType") as RadDropDownList;
                 try {
-                    CountryPricelist currPricelist = e.Item.DataItem as CountryPricelist;
+                    CountryPricelistB currPricelist = e.Item.DataItem as CountryPricelistB;
                     CustomersController cont = new CustomersController();
                     ddlCustomer.DataSource = cont.GetProviders();
                     ddlCustomer.DataTextField = "NameGR";
@@ -88,10 +88,16 @@ namespace OTERT.Pages.Administrator {
         }
 
         private void ShowErrorMessage(int errCode) {
-            if (errCode == 1) {
-                RadWindowManager1.RadAlert("O συγκεκριμένος Τιμοκατάλογος Παρόχου Εξωτερικού σχετίζεται με κάποια Παραγγελία και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
-            } else {
-                RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
+            switch (errCode) {
+                case 1:
+                    RadWindowManager1.RadAlert("O συγκεκριμένος Τιμοκατάλογος Παρόχου Εξωτερικού σχετίζεται με κάποια Παραγγελία και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
+                    break;
+                case 2:
+                    RadWindowManager1.RadAlert("Ο συγκεκριμένος συνδυασμός Πελάτη και Είδους Γραμμής υπάρχει ήδη!", 400, 200, "Σφάλμα", "");
+                    break;
+                default:
+                    RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
+                    break;
             }
         }
 
@@ -115,7 +121,12 @@ namespace OTERT.Pages.Administrator {
                         Session.Remove("LineTypeID");
                     }
                     try { dbContext.SaveChanges(); }
-                    catch (Exception) { ShowErrorMessage(-1); }
+                    catch (Exception ex) {
+                        string err = ex.InnerException.InnerException.Message;
+                        int errCode = -1;
+                        if (err.StartsWith("Violation of UNIQUE KEY constraint 'UC_CustomerID_LineTypeID'")) { errCode = 2; }
+                        ShowErrorMessage(errCode);
+                    }
                 }
             }
         }
@@ -139,7 +150,12 @@ namespace OTERT.Pages.Administrator {
                         dbContext.CountryPricelist.Add(currPricelist);
                         dbContext.SaveChanges();
                     }
-                    catch (Exception) { ShowErrorMessage(-1); }
+                    catch (Exception ex) {
+                        string err = ex.InnerException.InnerException.Message;
+                        int errCode = -1;
+                        if (err.StartsWith("Violation of UNIQUE KEY constraint 'UC_CustomerID_LineTypeID'")) { errCode = 2; }
+                        ShowErrorMessage(errCode);
+                    }
                     finally {
                         CustomerID = -1;
                         Session.Remove("CustomerID");

@@ -62,27 +62,26 @@
                             <telerik:RadDropDownList runat="server" ID="ddlLineType" RenderMode="Lightweight" DropDownHeight="200" Width="550" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlLineType_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridBoundColumn DataField="InstallationCost" HeaderText="Κόστος Εγκατάστασης">
+                    <telerik:GridNumericColumn DataField="InstallationCost" HeaderText="Κόστος Εγκατάστασης" DataType="System.Decimal" NumericType="Number">
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
-                    </telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn DataField="MonthlyCharges" HeaderText="Μηνιαίο Κόστος">
+                    </telerik:GridNumericColumn>
+                    <telerik:GridNumericColumn DataField="MonthlyCharges" HeaderText="Μηνιαίο Κόστος" DataType="System.Decimal" NumericType="Number">
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
-                    </telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn DataField="Internet" HeaderText="Κόστος Internet">
+                    </telerik:GridNumericColumn>
+                    <telerik:GridNumericColumn DataField="Internet" HeaderText="Κόστος Internet" DataType="System.Decimal" NumericType="Number">
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
-                    </telerik:GridBoundColumn>
-                    <telerik:GridNumericColumn DataField="MSN" HeaderText="Κόστος MSN" DataType="System.Decimal" NumericType="Number" />
-                    <telerik:GridBoundColumn DataField="MSN" HeaderText="Κόστος MSN">
+                    </telerik:GridNumericColumn>
+                    <telerik:GridNumericColumn DataField="MSN" HeaderText="Κόστος MSN" DataType="System.Decimal" NumericType="Number">
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
-                    </telerik:GridBoundColumn>
+                    </telerik:GridNumericColumn>
                     <telerik:GridButtonColumn UniqueName="btnDelete" ConfirmText="Να διαγραφεί αυτός ο Τιμοκατάλογος Παρόχου Εξωτερικού;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                 </Columns>
                 <EditFormSettings>
