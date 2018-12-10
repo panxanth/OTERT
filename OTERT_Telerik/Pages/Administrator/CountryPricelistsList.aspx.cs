@@ -62,7 +62,7 @@ namespace OTERT.Pages.Administrator {
                 try {
                     CountryPricelist currPricelist = e.Item.DataItem as CountryPricelist;
                     CustomersController cont = new CustomersController();
-                    ddlCustomer.DataSource = cont.GetCustomers();
+                    ddlCustomer.DataSource = cont.GetProviders();
                     ddlCustomer.DataTextField = "NameGR";
                     ddlCustomer.DataValueField = "ID";
                     ddlCustomer.DataBind();

@@ -77,6 +77,7 @@
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridBoundColumn>
+                    <telerik:GridNumericColumn DataField="MSN" HeaderText="Κόστος MSN" DataType="System.Decimal" NumericType="Number" />
                     <telerik:GridBoundColumn DataField="MSN" HeaderText="Κόστος MSN">
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
