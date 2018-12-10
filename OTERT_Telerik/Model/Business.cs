@@ -5,12 +5,22 @@ using System.Web;
 
 namespace OTERT.Model {
 
-    public class EventB {
+    public class CountryB {
         public int ID { get; set; }
-        public PlaceDTO Place { get; set; }
-        public int PlaceID { get; set; }
         public string NameGR { get; set; }
         public string NameEN { get; set; }
+    }
+
+    public class CountryPricelistB {
+        public int ID { get; set; }
+        public CustomerDTO Customer { get; set; }
+        public int CustomerID { get; set; }
+        public LineTypeDTO LineType { get; set; }
+        public int LineTypeID { get; set; }
+        public decimal? InstallationCost { get; set; }
+        public decimal? MonthlyCharges { get; set; }
+        public decimal? Internet { get; set; }
+        public decimal? MSN { get; set; }
     }
 
     public class CustomerB {
@@ -51,6 +61,30 @@ namespace OTERT.Model {
         public bool? IsOTE { get; set; }
     }
 
+    public class CustomerTypeB {
+        public int ID { get; set; }
+        public string NameGR { get; set; }
+        public string NameEN { get; set; }
+    }
+
+    public class DistanceB {
+        public int ID { get; set; }
+        public int JobsMainID { get; set; }
+        public JobMainDTO JobsMain { get; set; }
+        public string Description { get; set; }
+        public string Position1 { get; set; }
+        public string Position2 { get; set; }
+        public int KM { get; set; }
+    }
+
+    public class EventB {
+        public int ID { get; set; }
+        public PlaceDTO Place { get; set; }
+        public int PlaceID { get; set; }
+        public string NameGR { get; set; }
+        public string NameEN { get; set; }
+    }
+
     public class FileB {
         public int ID { get; set; }
         public int? TaskID { get; set; }
@@ -58,85 +92,6 @@ namespace OTERT.Model {
         public string FilePath { get; set; }
         public string FileName { get; set; }
         public DateTime DateStamp { get; set; }
-    }
-
-    public class PlaceB {
-        public int ID { get; set; }
-        public CountryDTO Country { get; set; }
-        public int CountryID { get; set; }
-        public string NameGR { get; set; }
-        public string NameEN { get; set; }
-    }
-
-    public class CountryB {
-        public int ID { get; set; }
-        public string NameGR { get; set; }
-        public string NameEN { get; set; }
-    }
-
-    public class SalesFormulaB {
-        public int ID { get; set; }
-        public int SalesID { get; set; }
-        public decimal? Distance { get; set; }
-        public decimal SalePercent { get; set; }
-    }
-
-    public class SaleB {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public int Type { get; set; }
-    }
-
-    public class SateliteB {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Frequency { get; set; }
-    }
-
-    public class LineTypeB {
-        public int ID { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class RequestedPositionB {
-        public int ID { get; set; }
-        public string NameGR { get; set; }
-        public string NameEN { get; set; }
-    }
-
-    public class OrderTypeB {
-        public int ID { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class CustomerTypeB {
-        public int ID { get; set; }
-        public string NameGR { get; set; }
-        public string NameEN { get; set; }
-    }
-
-    public class LanguageB {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Code { get; set; }
-    }
-
-    public class UserB {
-        public int ID { get; set; }
-        public int UserGroupID { get; set; }
-        public string NameGR { get; set; }
-        public string NameEN { get; set; }
-        public string Telephone { get; set; }
-        public string FAX { get; set; }
-        public string Email { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public UserGroupDTO UserGroup { get; set; }
-    }
-
-    public class UserGroupB {
-        public int ID { get; set; }
-        public string Name { get; set; }
     }
 
     public class JobB {
@@ -150,22 +105,6 @@ namespace OTERT.Model {
         public SaleDTO Sale { get; set; }
     }
 
-    public class DistanceB {
-        public int ID { get; set; }
-        public int JobsMainID { get; set; }
-        public JobMainDTO JobsMain { get; set; }
-        public string Description { get; set; }
-        public string Position1 { get; set; }
-        public string Position2 { get; set; }
-        public int KM { get; set; }
-    }
-
-    public class JobMainB {
-        public int ID { get; set; }
-        public int PageID { get; set; }
-        public string Name { get; set; }
-    }
-
     public class JobCancelPriceB {
         public int ID { get; set; }
         public int JobsID { get; set; }
@@ -177,6 +116,74 @@ namespace OTERT.Model {
         public int JobsID { get; set; }
         public string Condition { get; set; }
         public string Formula { get; set; }
+    }
+
+    public class JobMainB {
+        public int ID { get; set; }
+        public int PageID { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class LanguageB {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
+    }
+
+    public class LineTypeB {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class OrderB {
+        public int ID { get; set; }
+        public int OrderTypeID { get; set; }
+        public OrderTypeDTO OrderType { get; set; }
+        public string RegNo { get; set; }
+        public int Customer1ID { get; set; }
+        public CustomerDTO Customer1 { get; set; }
+        public int? Customer2ID { get; set; }
+        public CustomerDTO Customer2 { get; set; }
+        public int EventID { get; set; }
+        public EventDTO Event { get; set; }
+    }
+
+    public class OrderTypeB {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class PlaceB {
+        public int ID { get; set; }
+        public CountryDTO Country { get; set; }
+        public int CountryID { get; set; }
+        public string NameGR { get; set; }
+        public string NameEN { get; set; }
+    }
+
+    public class RequestedPositionB {
+        public int ID { get; set; }
+        public string NameGR { get; set; }
+        public string NameEN { get; set; }
+    }
+
+    public class SaleB {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int Type { get; set; }
+    }
+
+    public class SalesFormulaB {
+        public int ID { get; set; }
+        public int SalesID { get; set; }
+        public decimal? Distance { get; set; }
+        public decimal SalePercent { get; set; }
+    }
+
+    public class SateliteB {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Frequency { get; set; }
     }
 
     public class TaskB {
@@ -221,17 +228,22 @@ namespace OTERT.Model {
         public List<FileB> Files { get; set; }
     }
 
-    public class OrderB {
+    public class UserB {
         public int ID { get; set; }
-        public int OrderTypeID { get; set; }
-        public OrderTypeDTO OrderType { get; set; }
-        public string RegNo { get; set; }
-        public int Customer1ID { get; set; }
-        public CustomerDTO Customer1 { get; set; }
-        public int? Customer2ID { get; set; }
-        public CustomerDTO Customer2 { get; set; }
-        public int EventID { get; set; }
-        public EventDTO Event { get; set; }
+        public int UserGroupID { get; set; }
+        public string NameGR { get; set; }
+        public string NameEN { get; set; }
+        public string Telephone { get; set; }
+        public string FAX { get; set; }
+        public string Email { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public UserGroupDTO UserGroup { get; set; }
+    }
+
+    public class UserGroupB {
+        public int ID { get; set; }
+        public string Name { get; set; }
     }
 
 }

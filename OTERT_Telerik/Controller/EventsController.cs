@@ -35,7 +35,9 @@ namespace OTERT.Controller {
                                                  Country = new CountryDTO {
                                                      ID = us.Places.Countries.ID,
                                                      NameGR = us.Places.Countries.NameGR,
-                                                     NameEN = us.Places.Countries.NameEN }
+                                                     NameEN = us.Places.Countries.NameEN
+                                                 },
+                                                 CountryID = us.Places.CountryID
                                              }
                                          }).OrderBy(o => o.NameGR).ToList();
                     return data;
@@ -62,7 +64,8 @@ namespace OTERT.Controller {
                                                      ID = us.Places.Countries.ID,
                                                      NameGR = us.Places.Countries.NameGR,
                                                      NameEN = us.Places.Countries.NameEN
-                                                 }
+                                                 },
+                                                 CountryID = us.Places.CountryID
                                              }
                                          }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
                     return data;

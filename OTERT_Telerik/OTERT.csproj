@@ -101,6 +101,7 @@
     <Compile Include="Controller\FilesController.cs" />
     <Compile Include="Controller\JobFormulasController.cs" />
     <Compile Include="Controller\DistancesController.cs" />
+    <Compile Include="Controller\CountryPricelistsController.cs" />
     <Compile Include="Controller\OrdersController.cs" />
     <Compile Include="Controller\TasksController.cs" />
     <Compile Include="Controller\JobsController.cs" />
@@ -130,6 +131,10 @@
     <Compile Include="Model\Business.cs" />
     <Compile Include="Model\DTO.cs" />
     <Compile Include="Model\JSON.cs" />
+    <Compile Include="Pages\Administrator\CountryPricelistsList.aspx.cs">
+      <DependentUpon>CountryPricelistsList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Administrator\JobsList.aspx.cs">
       <DependentUpon>JobsList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -298,6 +303,7 @@
     <Content Include="App_Data\RadCaptcha\Y.wav" />
     <Content Include="App_Data\RadCaptcha\Z.wav" />
     <Content Include="Default.aspx" />
+    <Content Include="Pages\Administrator\CountryPricelistsList.aspx" />
     <Content Include="Pages\Administrator\JobsList.aspx" />
     <Content Include="Pages\Administrator\RequestedPositionsList.aspx" />
     <Content Include="Pages\Administrator\SalesList.aspx" />
@@ -424,7 +430,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

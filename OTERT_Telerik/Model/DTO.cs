@@ -167,4 +167,9 @@ namespace OTERT.Model {
         public DateTime DateStamp { get; set; }
     }
 
+    public class LineTypeDTO {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+
 }

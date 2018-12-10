@@ -49,7 +49,15 @@
                 <Columns>
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
                     <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" AllowFiltering="false" />
-                    <telerik:GridTemplateColumn HeaderText="Τοποθεσία" HeaderStyle-Width="180px" UniqueName="PlaceID" DataField="PlaceID" AllowFiltering="false">
+                    <telerik:GridTemplateColumn HeaderText="Χώρα" HeaderStyle-Width="180px" UniqueName="CountryID" DataField="CountryID" AllowFiltering="false">
+                        <ItemTemplate>
+                            <asp:Label Text='<% #Eval("Place.Country.NameGR") %>' runat="server" /> 
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <telerik:RadDropDownList runat="server" ID="ddlCountries" RenderMode="Lightweight" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlCountries_SelectedIndexChanged" />
+                        </EditItemTemplate>
+                    </telerik:GridTemplateColumn>
+                    <telerik:GridTemplateColumn HeaderText="Τοποθεσία" UniqueName="PlaceID" DataField="PlaceID" AllowFiltering="false">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Place.NameGR") %>' runat="server" /> 
                         </ItemTemplate>

@@ -19,15 +19,17 @@ namespace OTERT.Pages.Administrator {
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
         protected string pageTitle;
-        protected int newID;
+        protected int placeID, countryID;
         private FilterData filterData;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Γεγονότων";
                 gridMain.MasterTableView.Caption = "Γεγονότα";
-                newID = -1;
+                placeID = -1;
                 Session.Remove("PlaceID");
+                countryID = -1;
+                Session.Remove("CountryID");
                 //Session.Remove("FilterRecords");
             }
         }
@@ -41,37 +43,50 @@ namespace OTERT.Pages.Administrator {
                 gridMain.DataSource = cont.GetEvents(recSkip, recTake);
             }
             catch (Exception) { }
-
         }
 
         protected void gridMain_ItemDataBound(object sender, GridItemEventArgs e) {
             if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
-                newID = -1;
+                placeID = -1;
                 Session.Remove("PlaceID");
+                countryID = -1;
+                Session.Remove("CountryID");
                 GridEditableItem item = e.Item as GridEditableItem;
-                RadDropDownList list = item.FindControl("ddlPlaces") as RadDropDownList;
+                RadDropDownList ddlPlaces = item.FindControl("ddlPlaces") as RadDropDownList;
+                RadDropDownList ddlCountries = item.FindControl("ddlCountries") as RadDropDownList;
                 try {
                     EventB currEvent = e.Item.DataItem as EventB;
+                    CountriesController ccont = new CountriesController();
                     PlacesController cont = new PlacesController();
-                    list.DataSource = cont.GetPlaces();
-                    list.DataTextField = "NameGR";
-                    list.DataValueField = "ID";                    
-                    list.DataBind();
+                    ddlCountries.DataSource = ccont.GetCountries();
+                    ddlCountries.DataTextField = "NameGR";
+                    ddlCountries.DataValueField = "ID";
+                    ddlCountries.DataBind();
                     if (currEvent != null) {
-                        list.SelectedIndex = list.FindItemByValue(currEvent.PlaceID.ToString()).Index;
+                        ddlCountries.SelectedIndex = ddlCountries.FindItemByValue(currEvent.Place.CountryID.ToString()).Index;
+                        Session["CountryID"] = currEvent.Place.CountryID;
+                        ddlPlaces.DataSource = cont.GetPlaces().Where(k => k.CountryID == currEvent.Place.CountryID);
+                        ddlPlaces.DataTextField = "NameGR";
+                        ddlPlaces.DataValueField = "ID";
+                        ddlPlaces.DataBind();
+                        ddlPlaces.SelectedIndex = ddlPlaces.FindItemByValue(currEvent.PlaceID.ToString()).Index;
                         Session["PlaceID"] = currEvent.PlaceID;
                     } else {
-                        list.SelectedIndex = 0;
-                        Session["PlaceID"] = list.SelectedItem.Value;
+                        ddlCountries.SelectedIndex = 0;
+                        Session["CountryID"] = ddlCountries.SelectedItem.Value;
+                        ddlPlaces.DataSource = cont.GetPlaces().Where(k => k.CountryID == int.Parse(ddlCountries.SelectedItem.Value));
+                        ddlPlaces.DataTextField = "NameGR";
+                        ddlPlaces.DataValueField = "ID";
+                        ddlPlaces.DataBind();
+                        ddlPlaces.SelectedIndex = ddlPlaces.FindItemByValue(currEvent.PlaceID.ToString()).Index;
+                        Session["PlaceID"] = currEvent.PlaceID;
                     }
                 }
                 catch (Exception) { }
             }
         }
 
-        protected void gridMain_ItemCreated(object sender, GridItemEventArgs e) {
-
-        }
+        protected void gridMain_ItemCreated(object sender, GridItemEventArgs e) { }
 
         protected void gridMain_ItemCommand(object source, GridCommandEventArgs e) {
             if (e.CommandName == RadGrid.FilterCommandName) {
@@ -88,7 +103,6 @@ namespace OTERT.Pages.Administrator {
                     }
                 }
                 catch (Exception) { }
-
                 /*
                 TextBox filterBox = (e.Item as GridFilteringItem)[filterPair.Second.ToString()].Controls[0] as TextBox;
                 SqlConnection conn = new SqlConnection(connStr);
@@ -124,10 +138,10 @@ namespace OTERT.Pages.Administrator {
                 var selEvent = dbContext.Events.Where(n => n.ID == ID).FirstOrDefault();
                 if (selEvent != null) {
                     editableItem.UpdateValues(selEvent);
-                    if (Session["PlaceID"] != null) { newID = int.Parse(Session["PlaceID"].ToString()); }
-                    if (newID > 0) {
-                        selEvent.PlaceID = newID;
-                        newID = -1;
+                    if (Session["PlaceID"] != null) { placeID = int.Parse(Session["PlaceID"].ToString()); }
+                    if (placeID > 0) {
+                        selEvent.PlaceID = placeID;
+                        placeID = -1;
                         Session.Remove("PlaceID");
                     }
                     try { dbContext.SaveChanges(); }
@@ -142,10 +156,10 @@ namespace OTERT.Pages.Administrator {
                 var selEvent = new Events();
                 Hashtable values = new Hashtable();
                 editableItem.ExtractValues(values);
-                if (Session["PlaceID"] != null) { newID = int.Parse(Session["PlaceID"].ToString()); }
-                if (newID > 0) {
+                if (Session["PlaceID"] != null) { placeID = int.Parse(Session["PlaceID"].ToString()); }
+                if (placeID > 0) {
                     try {
-                        selEvent.PlaceID = newID;
+                        selEvent.PlaceID = placeID;
                         selEvent.NameGR = (string)values["NameGR"];
                         selEvent.NameEN = (string)values["NameEN"];
                         dbContext.Events.Add(selEvent);
@@ -153,7 +167,7 @@ namespace OTERT.Pages.Administrator {
                     }
                     catch (Exception) { ShowErrorMessage(-1); }
                     finally {
-                        newID = -1;
+                        placeID = -1;
                         Session.Remove("PlaceID");
                     }
                 } else { ShowErrorMessage(-1); }
@@ -179,11 +193,29 @@ namespace OTERT.Pages.Administrator {
 
         protected void ddlPlaces_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
             try {
-                newID = int.Parse(e.Value);
-                Session["PlaceID"] = newID;
+                placeID = int.Parse(e.Value);
+                Session["PlaceID"] = placeID;
             }
             catch (Exception) { }
+        }
 
+        protected void ddlCountries_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                countryID = int.Parse(e.Value);
+                Session["CountryID"] = countryID;
+                RadDropDownList ddlCountries = (RadDropDownList)sender;
+                GridEditableItem item = (GridEditableItem)ddlCountries.NamingContainer;
+                RadDropDownList ddlPlaces = (RadDropDownList)item.FindControl("ddlPlaces");
+                ddlPlaces.ClearSelection();
+                PlacesController cont = new PlacesController();
+                ddlPlaces.DataSource = cont.GetPlaces().Where(k => k.CountryID == countryID);
+                ddlPlaces.DataTextField = "NameGR";
+                ddlPlaces.DataValueField = "ID";
+                ddlPlaces.DataBind();
+                ddlPlaces.SelectedIndex = 0;
+                if (ddlPlaces.Items.Count > 0) { Session["PlaceID"] = ddlPlaces.SelectedItem.Value; } else { Session.Remove("PlaceID"); }
+            }
+            catch (Exception) { }
         }
 
     }
