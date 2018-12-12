@@ -227,6 +227,10 @@ namespace OTERT.Model {
         public int? SateliteID { get; set; }
         public SateliteDTO Satelite { get; set; }
         public List<FileB> Files { get; set; }
+        public bool MSN { get; set; }
+        public bool Internet { get; set; }
+        public int? LineTypeID { get; set; }
+        public LineTypeDTO LineType { get; set; }
     }
 
     public class UserB {

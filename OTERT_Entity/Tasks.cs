@@ -52,6 +52,9 @@ namespace OTERT_Entity
         public string InvoceComments { get; set; }
         public Nullable<int> SateliteID { get; set; }
         public Nullable<int> DistancesID { get; set; }
+        public Nullable<bool> Internet { get; set; }
+        public Nullable<bool> MSN { get; set; }
+        public Nullable<int> LineTypeID { get; set; }
     
         public virtual Customers Customers { get; set; }
         public virtual Jobs Jobs { get; set; }
@@ -61,5 +64,6 @@ namespace OTERT_Entity
         public virtual Distances Distances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Files> Files { get; set; }
+        public virtual LineTypes LineTypes { get; set; }
     }
 }

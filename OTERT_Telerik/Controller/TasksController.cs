@@ -133,7 +133,11 @@ namespace OTERT.Controller {
                                                 ID = us.SateliteID == null ? -1 : us.Satelites.ID,
                                                 Name = us.SateliteID == null ? "" : us.Satelites.Name,
                                                 Frequency = us.SateliteID == null ? "" : us.Satelites.Frequency
-                                            }
+                                            },
+                                            MSN = us.MSN == null ? false : (bool)us.MSN,
+                                            Internet = us.Internet == null ? false : (bool)us.Internet,
+                                            LineTypeID = us.LineTypeID,
+                                            LineType = new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
                                         }).OrderBy(o => o.OrderDate).ToList();
                     return data;
                 }
@@ -247,7 +251,11 @@ namespace OTERT.Controller {
                                                 ID = us.SateliteID == null ? -1 : us.Satelites.ID,
                                                 Name = us.SateliteID == null ? "" : us.Satelites.Name,
                                                 Frequency = us.SateliteID == null ? "" : us.Satelites.Frequency
-                                            }
+                                            },
+                                            MSN = us.MSN == null ? false : (bool)us.MSN,
+                                            Internet = us.Internet == null ? false : (bool)us.Internet,
+                                            LineTypeID = us.LineTypeID,
+                                            LineType = new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
                                         }).OrderBy(o => o.OrderDate).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
@@ -361,7 +369,11 @@ namespace OTERT.Controller {
                                                 ID = us.SateliteID == null ? -1 : us.Satelites.ID,
                                                 Name = us.SateliteID == null ? "" : us.Satelites.Name,
                                                 Frequency = us.SateliteID == null ? "" : us.Satelites.Frequency
-                                            }
+                                            },
+                                            MSN = us.MSN == null ? false : (bool)us.MSN,
+                                            Internet = us.Internet == null ? false : (bool)us.Internet,
+                                            LineTypeID = us.LineTypeID,
+                                            LineType = new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
                                         }).Where(k => k.OrderID == OrderID).OrderBy(o => o.OrderDate).ToList();
                     return data;
                 }
@@ -475,7 +487,11 @@ namespace OTERT.Controller {
                                                 ID = us.SateliteID == null ? -1 : us.Satelites.ID,
                                                 Name = us.SateliteID == null ? "" : us.Satelites.Name,
                                                 Frequency = us.SateliteID == null ? "" : us.Satelites.Frequency
-                                            }
+                                            },
+                                            MSN = us.MSN == null ? false : (bool)us.MSN,
+                                            Internet = us.Internet == null ? false : (bool)us.Internet,
+                                            LineTypeID = us.LineTypeID,
+                                            LineType = new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
                                         }).Where(k => k.Job.JobsMain.PageID == PageID).OrderBy(o => o.OrderDate).Skip(recSkip).Take(recTake).ToList();
                     foreach(TaskB curTask in data) {
                         curTask.Files = (from us in dbContext.Files

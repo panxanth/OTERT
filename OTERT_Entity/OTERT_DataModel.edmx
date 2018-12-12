@@ -247,6 +247,9 @@
           <Property Name="CancelPrice" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Comments" Type="nvarchar(max)" />
           <Property Name="InvoceComments" Type="nvarchar(max)" />
+          <Property Name="Internet" Type="bit" />
+          <Property Name="MSN" Type="bit" />
+          <Property Name="LineTypeID" Type="int" />
         </EntityType>
         <EntityType Name="UIControlsVisibility">
           <Key>
@@ -553,6 +556,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Tasks_LineTypes">
+          <End Role="LineTypes" Type="Self.LineTypes" Multiplicity="0..1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LineTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="LineTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Tasks_Orders">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
@@ -730,6 +745,10 @@
             <End Role="Jobs" EntitySet="Jobs" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
+          <AssociationSet Name="FK_Tasks_LineTypes" Association="Self.FK_Tasks_LineTypes">
+            <End Role="LineTypes" EntitySet="LineTypes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
           <AssociationSet Name="fk_Tasks_Orders" Association="Self.fk_Tasks_Orders">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="Tasks" EntitySet="Tasks" />
@@ -887,6 +906,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="CountryPricelist" Relationship="Self.fk_CountryPricelist_LineTypes" FromRole="LineTypes" ToRole="CountryPricelist" />
+          <NavigationProperty Name="Tasks" Relationship="OTERT_Model.FK_Tasks_LineTypes" FromRole="LineTypes" ToRole="Tasks" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -987,6 +1007,10 @@
           <Property Name="DistancesID" Type="Int32" />
           <NavigationProperty Name="Distances" Relationship="OTERT_Model.FK_Tasks_Distances" FromRole="Tasks" ToRole="Distances" />
           <NavigationProperty Name="Files" Relationship="OTERT_Model.FK_Files_Tasks" FromRole="Tasks" ToRole="Files" />
+          <Property Name="Internet" Type="Boolean" />
+          <Property Name="MSN" Type="Boolean" />
+          <Property Name="LineTypeID" Type="Int32" />
+          <NavigationProperty Name="LineTypes" Relationship="OTERT_Model.FK_Tasks_LineTypes" FromRole="Tasks" ToRole="LineTypes" />
         </EntityType>
         <EntityType Name="UIControlsVisibility">
           <Key>
@@ -1338,6 +1362,10 @@
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Files" EntitySet="Files" />
           </AssociationSet>
+          <AssociationSet Name="FK_Tasks_LineTypes" Association="OTERT_Model.FK_Tasks_LineTypes">
+            <End Role="LineTypes" EntitySet="LineTypes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="fk_Orders_Customers_1">
           <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
@@ -1557,6 +1585,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Tasks_LineTypes">
+          <End Type="OTERT_Model.LineTypes" Role="LineTypes" Multiplicity="0..1" />
+          <End Type="OTERT_Model.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LineTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="LineTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1733,6 +1773,9 @@
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="OTERT_Model.Tasks">
               <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="LineTypeID" ColumnName="LineTypeID" />
+                <ScalarProperty Name="MSN" ColumnName="MSN" />
+                <ScalarProperty Name="Internet" ColumnName="Internet" />
                 <ScalarProperty Name="DistancesID" ColumnName="DistancesID" />
                 <ScalarProperty Name="SateliteID" ColumnName="SateliteID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

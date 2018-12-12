@@ -53,7 +53,7 @@ namespace OTERT.Pages.Administrator {
                     ElasticButton img = (ElasticButton)item["btnDelete"].Controls[0];
                     img.ToolTip = "Διαγραφή";
                 }
-            } else if (e.Item.OwnerTableView.Name == "JobsDetails") {
+            } else if (e.Item.OwnerTableView.Name == "TasksDetails") {
                 if (e.Item is GridDataItem) {
                     GridDataItem item = (GridDataItem)e.Item;
                     ElasticButton img = (ElasticButton)item["btnDelete2"].Controls[0];
@@ -126,15 +126,14 @@ namespace OTERT.Pages.Administrator {
         }
 
         protected void gridMain_DetailTableDataBind(object sender, GridDetailTableDataBindEventArgs e) {
-            if (e.DetailTableView.Name == "JobsDetails") {
+            if (e.DetailTableView.Name == "TasksDetails") {
                 GridTableView detailtabl = (GridTableView)e.DetailTableView;
                 int recSkip = detailtabl.CurrentPageIndex * gridMain.PageSize;
                 int recTake = detailtabl.PageSize;
                 GridDataItem parentItem = (GridDataItem)detailtabl.ParentItem;
-                int salesID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
-                JobFormulasController cont = new JobFormulasController();
-                detailtabl.VirtualItemCount = cont.CountJobFormulas(salesID);
-                detailtabl.DataSource = cont.GetJobFormulas(salesID, recSkip, recTake);
+                int orderID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
+                TasksController cont = new TasksController();
+                detailtabl.DataSource = cont.GetTasksForOrder(orderID);
             } else if (e.DetailTableView.Name == "AttachedFiles") {
                 GridTableView detailtabl = e.DetailTableView;
                 int recSkip = detailtabl.CurrentPageIndex * gridMain.PageSize;
@@ -187,7 +186,7 @@ namespace OTERT.Pages.Administrator {
                         catch (Exception) { ShowErrorMessage(-1); }
                     }
                 }
-            } else if (e.Item.OwnerTableView.Name == "JobsDetails") {
+            } else if (e.Item.OwnerTableView.Name == "TasksDetails") {
                 var editableItem = ((GridEditableItem)e.Item);
                 var ID = (int)editableItem.GetDataKeyValue("ID");
                 using (var dbContext = new OTERTConnStr()) {
@@ -231,7 +230,7 @@ namespace OTERT.Pages.Administrator {
                         }
                     } else { ShowErrorMessage(-1); }
                 }
-            } else if (e.Item.OwnerTableView.Name == "JobsDetails") {
+            } else if (e.Item.OwnerTableView.Name == "TasksDetails") {
                 GridTableView detailtabl = (GridTableView)e.Item.OwnerTableView;
                 GridDataItem parentItem = (GridDataItem)detailtabl.ParentItem;
                 int jobsID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
@@ -284,7 +283,7 @@ namespace OTERT.Pages.Administrator {
                         }
                     }
                 }
-            } else if (e.Item.OwnerTableView.Name == "JobsDetails") {
+            } else if (e.Item.OwnerTableView.Name == "TasksDetails") {
                 var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
                 using (var dbContext = new OTERTConnStr()) {
                     var curJobFurmula = dbContext.JobFormulas.Where(n => n.ID == ID).FirstOrDefault();
@@ -375,6 +374,85 @@ namespace OTERT.Pages.Administrator {
                 }
             }
             catch (Exception) { }
+        }
+
+
+
+
+        protected void ddlCustomers_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                //CustomersID = int.Parse(e.Value);
+                //Session["CustomersID"] = CustomersID;
+            }
+            catch (Exception) { }
+        }
+
+        protected void ddlRequestedPosition_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                //DistancesID = int.Parse(e.Value);
+                //Session["DistancesID"] = DistancesID;
+            }
+            catch (Exception) { }
+        }
+
+        protected void txtAddedCharges_TextChanged(object sender, EventArgs e) {
+            //TextBox txtAddedCharges = ((TextBox)(sender));
+            //GridEditableItem eitem = (GridEditableItem)txtAddedCharges.NamingContainer;
+            //calculateCosts(eitem);
+        }
+
+        protected void calculateCosts(GridEditableItem eitem) {
+            /*
+            DateTime nullDate = new DateTime(1900, 1, 1);
+            RadDatePicker dpOrderStartDate = (RadDatePicker)eitem["DateTimeStartOrder"].Controls[0]; ;
+            DateTime orderStartDate = dpOrderStartDate.SelectedDate ?? nullDate;
+            RadDatePicker dpOrderEndDate = (RadDatePicker)eitem["DateTimeEndOrder"].Controls[0];
+            DateTime orderEndDate = dpOrderEndDate.SelectedDate ?? nullDate;
+            RadDatePicker dpActualStartDate = (RadDatePicker)eitem["DateTimeStartActual"].Controls[0]; ;
+            DateTime actualStartDate = dpActualStartDate.SelectedDate ?? nullDate;
+            RadDatePicker dpActualEndDate = (RadDatePicker)eitem["DateTimeEndActual"].Controls[0];
+            DateTime actualEndDate = dpActualEndDate.SelectedDate ?? nullDate;
+            TextBox txtOrderDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
+            TextBox txtActualDuration = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
+            TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
+            TextBox txtCostCalculated = (TextBox)eitem["CostCalculated"].Controls[0];
+            TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
+            RadDropDownList ddlSatelites = (RadDropDownList)eitem.FindControl("ddlSatelites");
+            int sateliteID = int.Parse(ddlSatelites.SelectedItem.Value);
+            SatelitesController contD = new SatelitesController();
+            SateliteB selectedSatelite = contD.GetSatelite(sateliteID);
+            int jobID = -1;
+            if (Session["JobsID"] != null) {
+                jobID = int.Parse(Session["JobsID"].ToString());
+                JobFormulasController cont = new JobFormulasController();
+                List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
+                string formula = "";
+                if (orderStartDate > nullDate && orderEndDate > nullDate && orderEndDate > orderStartDate) {
+                    TimeSpan orderSpan = orderEndDate.Subtract(orderStartDate);
+                    txtOrderDurationOrder.Text = ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString();
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalMinutes), double.Parse(selectedSatelite.Frequency.Replace(".", ",")), -1);
+                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString());
+                    formula = formula.Replace("#BANDWIDTH#", selectedSatelite.Frequency);
+                    //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
+                    formula = formula.Replace(",", ".");
+                    double calculatedCost = Evaluator.EvalToDouble(formula);
+                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text.Replace(".", ",")); }
+                    txtCostCalculated.Text = calculatedCost.ToString();
+                }
+                if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
+                    TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
+                    txtActualDuration.Text = ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString();
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalMinutes), double.Parse(selectedSatelite.Frequency), -1);
+                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString());
+                    formula = formula.Replace("#BANDWIDTH#", selectedSatelite.Frequency);
+                    //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
+                    formula = formula.Replace(",", ".");
+                    double calculatedCost = Evaluator.EvalToDouble(formula);
+                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text.Replace(".", ",")); }
+                    txtCostActual.Text = calculatedCost.ToString();
+                }
+            }
+            */
         }
 
         protected void uplFile_FileUploaded(object sender, FileUploadedEventArgs e) {
