@@ -27,6 +27,7 @@ namespace OTERT_Entity
         public int Customer1ID { get; set; }
         public Nullable<int> Customer2ID { get; set; }
         public int EventID { get; set; }
+        public Nullable<bool> IsLocked { get; set; }
     
         public virtual OrderTypes OrderTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

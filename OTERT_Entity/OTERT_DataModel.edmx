@@ -160,6 +160,7 @@
           <Property Name="Customer2ID" Type="int" />
           <Property Name="RegNo" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="EventID" Type="int" Nullable="false" />
+          <Property Name="IsLocked" Type="bit" />
         </EntityType>
         <EntityType Name="OrderTypes">
           <Key>
@@ -903,6 +904,7 @@
           <Property Name="EventID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Events" Relationship="OTERT_Model.fk_Orders_Events" FromRole="Orders" ToRole="Events" />
           <NavigationProperty Name="Files" Relationship="OTERT_Model.FK_Files_Orders" FromRole="Orders" ToRole="Files" />
+          <Property Name="IsLocked" Type="Boolean" />
         </EntityType>
         <EntityType Name="OrderTypes">
           <Key>
@@ -1682,6 +1684,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="OTERT_Model.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
                 <ScalarProperty Name="Customer2ID" ColumnName="Customer2ID" />
                 <ScalarProperty Name="Customer1ID" ColumnName="Customer1ID" />

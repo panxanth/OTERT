@@ -17,17 +17,21 @@ namespace OTERT.Pages.Administrator {
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
-        protected string pageTitle;
-        protected int SalesID, JobsMainID;
+        protected string pageTitle, uploadedFilePath;
+        protected int Customer1ID, EventID, CountryID;
+        const string fileUploadFolder = "~/UploadedFiles/";
+        const int OrderTypeID = 1;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Έργα > ΠΤΣ προς Ελλάδα";
                 gridMain.MasterTableView.Caption = "Έργα > ΠΤΣ προς Ελλάδα";
-                SalesID = -1;
-                Session.Remove("SalesID");
-                JobsMainID = -1;
-                Session.Remove("JobsMainID");
+                CountryID = -1;
+                Session.Remove("CountryID");
+                Customer1ID = -1;
+                Session.Remove("Customer1ID");
+                EventID = -1;
+                Session.Remove("EventID");
             }
         }
 
@@ -49,16 +53,16 @@ namespace OTERT.Pages.Administrator {
                     ElasticButton img = (ElasticButton)item["btnDelete"].Controls[0];
                     img.ToolTip = "Διαγραφή";
                 }
-            } else if (e.Item.OwnerTableView.Name == "FormulaDetails") {
+            } else if (e.Item.OwnerTableView.Name == "JobsDetails") {
                 if (e.Item is GridDataItem) {
                     GridDataItem item = (GridDataItem)e.Item;
                     ElasticButton img = (ElasticButton)item["btnDelete2"].Controls[0];
                     img.ToolTip = "Διαγραφή";
                 }
-            } else if (e.Item.OwnerTableView.Name == "CancelDetails") {
+            } else if (e.Item.OwnerTableView.Name == "AttachedFiles") {
                 if (e.Item is GridDataItem) {
                     GridDataItem item = (GridDataItem)e.Item;
-                    ElasticButton img = (ElasticButton)item["btnDelete3"].Controls[0];
+                    ElasticButton img = (ElasticButton)item["btnDeleteFile"].Controls[0];
                     img.ToolTip = "Διαγραφή";
                 }
             }
@@ -67,55 +71,62 @@ namespace OTERT.Pages.Administrator {
         protected void gridMain_ItemDataBound(object sender, GridItemEventArgs e) {
             if (e.Item.OwnerTableView.Name == "Master") {
                 if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
-                    SalesID = -1;
-                    Session.Remove("SalesID");
-                    JobsMainID = -1;
-                    Session.Remove("JobsMainID");
+                    CountryID = -1;
+                    Session.Remove("CountryID");
+                    Customer1ID = -1;
+                    Session.Remove("Customer1ID");
+                    EventID = -1;
+                    Session.Remove("EventID");
                     GridEditableItem item = e.Item as GridEditableItem;
-                    RadDropDownList ddlSale = item.FindControl("ddlSale") as RadDropDownList;
-                    RadDropDownList ddlJobsMain = item.FindControl("ddlJobsMain") as RadDropDownList;
+                    RadDropDownList ddlCountry = item.FindControl("ddlCountry") as RadDropDownList;
+                    RadDropDownList ddlCustomer1 = item.FindControl("ddlCustomer1") as RadDropDownList;
+                    RadDropDownList ddlEvent = item.FindControl("ddlEvent") as RadDropDownList;
                     try {
-                        JobB currJob = e.Item.DataItem as JobB;
-                        SalesController cont = new SalesController();
-                        ddlSale.DataSource = cont.GetSales();
-                        ddlSale.DataTextField = "Name";
-                        ddlSale.DataValueField = "ID";
-                        ddlSale.DataBind();
-                        ddlSale.Items.Insert(0, new DropDownListItem("Χωρίς Έκπτωση", "0"));
-                        JobsMainController cont2 = new JobsMainController();
-                        ddlJobsMain.DataSource = cont2.GetJobsMain();
-                        ddlJobsMain.DataTextField = "Name";
-                        ddlJobsMain.DataValueField = "ID";
-                        ddlJobsMain.DataBind();
-                        if (currJob != null) {
-                            if (currJob.SalesID != null) {
-                                ddlSale.SelectedIndex = ddlSale.FindItemByValue(currJob.SalesID.ToString()).Index;
-                                Session["SalesID"] = currJob.SalesID;
+                        OrderB currOrder = e.Item.DataItem as OrderB;
+                        CountriesController ccont = new CountriesController();
+                        ddlCountry.DataSource = ccont.GetCountries();
+                        ddlCountry.DataTextField = "NameGR";
+                        ddlCountry.DataValueField = "ID";
+                        ddlCountry.DataBind();
+                        ddlCountry.Items.Insert(0, new DropDownListItem("Όλες οι Χώρες ...", "0"));
+                        CustomersController custcont = new CustomersController();
+                        ddlCustomer1.DataSource = custcont.GetProviders();
+                        ddlCustomer1.DataTextField = "NameGR";
+                        ddlCustomer1.DataValueField = "ID";
+                        ddlCustomer1.DataBind();
+                        EventsController econt = new EventsController();
+                        ddlEvent.DataSource = econt.GetEvents();
+                        ddlEvent.DataTextField = "NameGR";
+                        ddlEvent.DataValueField = "ID";
+                        ddlEvent.DataBind();
+                        if (currOrder != null) {
+                            if (currOrder.Event != null) {
+                                ddlCountry.SelectedIndex = ddlCountry.FindItemByValue(currOrder.Event.Place.CountryID.ToString()).Index;
+                                Session["CountryID"] = currOrder.Event.Place.CountryID;
                             } else {
-                                ddlSale.SelectedIndex = 0;
-                                Session["SalesID"] = ddlSale.SelectedItem.Value;
+                                ddlCountry.SelectedIndex = 0;
+                                Session["CountryID"] = ddlCountry.SelectedItem.Value;
                             }
-                            ddlJobsMain.SelectedIndex = ddlJobsMain.FindItemByValue(currJob.JobsMainID.ToString()).Index;
-                            Session["JobsMainID"] = currJob.JobsMainID;
+                            ddlCustomer1.SelectedIndex = ddlCustomer1.FindItemByValue(currOrder.Customer1ID.ToString()).Index;
+                            Session["Customer1ID"] = currOrder.Customer1ID;
+                            ddlEvent.SelectedIndex = ddlEvent.FindItemByValue(currOrder.EventID.ToString()).Index;
+                            Session["EventID"] = currOrder.EventID;
                         } else {
-                            ddlSale.SelectedIndex = 0;
-                            Session["SalesID"] = ddlSale.SelectedItem.Value;
-                            ddlJobsMain.SelectedIndex = 0;
-                            Session["JobsMainID"] = ddlJobsMain.SelectedItem.Value;
+                            ddlCountry.SelectedIndex = 0;
+                            Session["CountryID"] = ddlCountry.SelectedItem.Value;
+                            ddlCustomer1.SelectedIndex = 0;
+                            Session["Customer1ID"] = ddlCustomer1.SelectedItem.Value;
+                            ddlEvent.SelectedIndex = 0;
+                            Session["EventID"] = ddlEvent.SelectedItem.Value;
                         }
                     }
                     catch (Exception) { }
-                } else if (e.Item is GridDataItem) {
-                    GridDataItem item = e.Item as GridDataItem;
-                    Label lblST = item.FindControl("lblSale") as Label;
-                    JobB currJob = e.Item.DataItem as JobB;
-                    if (currJob.SalesID == null) { lblST.Text = "Χωρίς Έκπτωση"; } else { lblST.Text = currJob.Sale.Name; }
                 }
             }
         }
 
         protected void gridMain_DetailTableDataBind(object sender, GridDetailTableDataBindEventArgs e) {
-            if (e.DetailTableView.Name == "FormulaDetails") {
+            if (e.DetailTableView.Name == "JobsDetails") {
                 GridTableView detailtabl = (GridTableView)e.DetailTableView;
                 int recSkip = detailtabl.CurrentPageIndex * gridMain.PageSize;
                 int recTake = detailtabl.PageSize;
@@ -124,23 +135,29 @@ namespace OTERT.Pages.Administrator {
                 JobFormulasController cont = new JobFormulasController();
                 detailtabl.VirtualItemCount = cont.CountJobFormulas(salesID);
                 detailtabl.DataSource = cont.GetJobFormulas(salesID, recSkip, recTake);
-            } else if (e.DetailTableView.Name == "CancelDetails") {
-                GridTableView detailtabl = (GridTableView)e.DetailTableView;
+            } else if (e.DetailTableView.Name == "AttachedFiles") {
+                GridTableView detailtabl = e.DetailTableView;
                 int recSkip = detailtabl.CurrentPageIndex * gridMain.PageSize;
                 int recTake = detailtabl.PageSize;
-                GridDataItem parentItem = (GridDataItem)detailtabl.ParentItem;
-                int salesID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
-                JobCancelPricesController cont = new JobCancelPricesController();
-                detailtabl.VirtualItemCount = cont.CountJobCancelPrices(salesID);
-                detailtabl.DataSource = cont.GetJobCancelPrices(salesID, recSkip, recTake);
+                GridDataItem parentItem = detailtabl.ParentItem;
+                int taskID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
+                FilesController cont = new FilesController();
+                detailtabl.VirtualItemCount = cont.CountFiles(taskID);
+                detailtabl.DataSource = cont.GetFilesByTaskID(taskID, recSkip, recTake);
             }
         }
 
         private void ShowErrorMessage(int errCode) {
-            if (errCode == 1) {
-                RadWindowManager1.RadAlert("Η συγκεκριμένη Κατηγορία Έργου σχετίζεται με κάποιο Έργο και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
-            } else {
-                RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
+            switch (errCode) {
+                case 1:
+                    RadWindowManager1.RadAlert("Η συγκεκριμένη Παραγγελία σχετίζεται με κάποιο Έργο και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
+                    break;
+                case 2:
+                    RadWindowManager1.RadAlert("Η συγκεκριμένη Παραγγελία είναι κλειδωμένη και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
+                    break;
+                default:
+                    RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
+                    break;
             }
         }
 
@@ -149,43 +166,34 @@ namespace OTERT.Pages.Administrator {
                 var editableItem = ((GridEditableItem)e.Item);
                 var ID = (int)editableItem.GetDataKeyValue("ID");
                 using (var dbContext = new OTERTConnStr()) {
-                    var curJob = dbContext.Jobs.Where(n => n.ID == ID).FirstOrDefault();
-                    if (curJob != null) {
-                        editableItem.UpdateValues(curJob);
-                        if (Session["SalesID"] != null) { SalesID = int.Parse(Session["SalesID"].ToString()); }
-                        if (SalesID > -1) {
-                            if (SalesID == 0) { curJob.SalesID = null; } else { curJob.SalesID = SalesID; }
-                            SalesID = -1;
-                            Session.Remove("SalesID");
+                    var curOrder = dbContext.Orders.Where(n => n.ID == ID).FirstOrDefault();
+                    if (curOrder != null) {
+                        editableItem.UpdateValues(curOrder);
+                        if (Session["Customer1ID"] != null) { Customer1ID = int.Parse(Session["Customer1ID"].ToString()); }
+                        if (Customer1ID > 0) {
+                            curOrder.Customer1ID = Customer1ID;
+                            Customer1ID = -1;
+                            Session.Remove("Customer1ID");
                         }
-                        if (Session["JobsMainID"] != null) { JobsMainID = int.Parse(Session["JobsMainID"].ToString()); }
-                        if (JobsMainID > 0) {
-                            curJob.JobsMainID = JobsMainID;
-                            JobsMainID = -1;
-                            Session.Remove("JobsMainID");
+                        if (Session["EventID"] != null) { EventID = int.Parse(Session["EventID"].ToString()); }
+                        if (EventID > 0) {
+                            curOrder.EventID = EventID;
+                            EventID = -1;
+                            Session.Remove("EventID");
                         }
+                        CountryID = -1;
+                        Session.Remove("CountryID");
                         try { dbContext.SaveChanges(); }
                         catch (Exception) { ShowErrorMessage(-1); }
                     }
                 }
-            } else if (e.Item.OwnerTableView.Name == "FormulaDetails") {
+            } else if (e.Item.OwnerTableView.Name == "JobsDetails") {
                 var editableItem = ((GridEditableItem)e.Item);
                 var ID = (int)editableItem.GetDataKeyValue("ID");
                 using (var dbContext = new OTERTConnStr()) {
                     var curJobFurmula = dbContext.JobFormulas.Where(n => n.ID == ID).FirstOrDefault();
                     if (curJobFurmula != null) {
                         editableItem.UpdateValues(curJobFurmula);
-                        try { dbContext.SaveChanges(); }
-                        catch (Exception) { ShowErrorMessage(-1); }
-                    }
-                }
-            } else if (e.Item.OwnerTableView.Name == "CancelDetails") {
-                var editableItem = ((GridEditableItem)e.Item);
-                var ID = (int)editableItem.GetDataKeyValue("ID");
-                using (var dbContext = new OTERTConnStr()) {
-                    var curCancel = dbContext.JobCancelPrices.Where(n => n.ID == ID).FirstOrDefault();
-                    if (curCancel != null) {
-                        editableItem.UpdateValues(curCancel);
                         try { dbContext.SaveChanges(); }
                         catch (Exception) { ShowErrorMessage(-1); }
                     }
@@ -197,31 +205,33 @@ namespace OTERT.Pages.Administrator {
             if (e.Item.OwnerTableView.Name == "Master") {
                 var editableItem = ((GridEditableItem)e.Item);
                 using (var dbContext = new OTERTConnStr()) {
-                    var curJob = new Jobs();
+                    var curOrder = new Orders();
                     Hashtable values = new Hashtable();
                     editableItem.ExtractValues(values);
-                    if (Session["SalesID"] != null) { SalesID = int.Parse(Session["SalesID"].ToString()); }
-                    if (Session["JobsMainID"] != null) { JobsMainID = int.Parse(Session["JobsMainID"].ToString()); }
-                    if (SalesID>-1 && JobsMainID>0) {
+                    if (Session["Customer1ID"] != null) { Customer1ID = int.Parse(Session["Customer1ID"].ToString()); }
+                    if (Session["EventID"] != null) { EventID = int.Parse(Session["EventID"].ToString()); }
+                    if (Customer1ID > 0 && EventID > 0) {
                         try {
-                            curJob.Name = (string)values["Name"];
-                            if (SalesID==0) { curJob.SalesID = null; } else { curJob.SalesID = SalesID; }
-                            curJob.JobsMainID = JobsMainID;
-                            if (!string.IsNullOrEmpty((string)values["MinimumTime"])) { curJob.MinimumTime = int.Parse((string)values["MinimumTime"]); } else { curJob.MinimumTime = null; }
-                            curJob.InvoiceCode = (string)values["InvoiceCode"];
-                            dbContext.Jobs.Add(curJob);
+                            curOrder.RegNo = (string)values["RegNo"];
+                            curOrder.OrderTypeID = OrderTypeID;
+                            curOrder.Customer1ID = Customer1ID;
+                            curOrder.EventID = EventID;
+                            curOrder.IsLocked = (bool)values["IsLocked"];
+                            dbContext.Orders.Add(curOrder);
                             dbContext.SaveChanges();
                         }
                         catch (Exception) { ShowErrorMessage(-1); }
                         finally {
-                            SalesID = -1;
-                            Session.Remove("SalesID");
-                            JobsMainID = -1;
-                            Session.Remove("JobsMainID");
+                            CountryID = -1;
+                            Session.Remove("CountryID");
+                            Customer1ID = -1;
+                            Session.Remove("Customer1ID");
+                            EventID = -1;
+                            Session.Remove("EventID");
                         }
                     } else { ShowErrorMessage(-1); }
                 }
-            } else if (e.Item.OwnerTableView.Name == "FormulaDetails") {
+            } else if (e.Item.OwnerTableView.Name == "JobsDetails") {
                 GridTableView detailtabl = (GridTableView)e.Item.OwnerTableView;
                 GridDataItem parentItem = (GridDataItem)detailtabl.ParentItem;
                 int jobsID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
@@ -237,18 +247,20 @@ namespace OTERT.Pages.Administrator {
                     try { dbContext.SaveChanges(); }
                     catch (Exception) { ShowErrorMessage(-1); }
                 }
-            } else if (e.Item.OwnerTableView.Name == "CancelDetails") {
-                GridTableView detailtabl = (GridTableView)e.Item.OwnerTableView;
-                GridDataItem parentItem = (GridDataItem)detailtabl.ParentItem;
-                int jobsID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
+            } else if (e.Item.OwnerTableView.Name == "AttachedFiles") {
+                GridTableView detailtabl = e.Item.OwnerTableView;
+                GridDataItem parentItem = detailtabl.ParentItem;
+                int taskID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
                 var editableItem = ((GridEditableItem)e.Item);
                 using (var dbContext = new OTERTConnStr()) {
-                    var curCancel = new JobCancelPrices();
+                    var curFile = new Files();
                     Hashtable values = new Hashtable();
                     editableItem.ExtractValues(values);
-                    curCancel.JobsID = jobsID;
-                    curCancel.Price = decimal.Parse((string)values["Price"]);
-                    dbContext.JobCancelPrices.Add(curCancel);
+                    curFile.TaskID = taskID;
+                    curFile.FileName = (string)values["FileName"];
+                    curFile.FilePath = uploadedFilePath;
+                    curFile.DateStamp = DateTime.Now;
+                    dbContext.Files.Add(curFile);
                     try { dbContext.SaveChanges(); }
                     catch (Exception) { ShowErrorMessage(-1); }
                 }
@@ -256,6 +268,7 @@ namespace OTERT.Pages.Administrator {
         }
 
         protected void gridMain_DeleteCommand(object source, GridCommandEventArgs e) {
+            /*
             if (e.Item.OwnerTableView.Name == "Master") {
                 var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
                 using (var dbContext = new OTERTConnStr()) {
@@ -271,7 +284,7 @@ namespace OTERT.Pages.Administrator {
                         }
                     }
                 }
-            } else if (e.Item.OwnerTableView.Name == "FormulaDetails") {
+            } else if (e.Item.OwnerTableView.Name == "JobsDetails") {
                 var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
                 using (var dbContext = new OTERTConnStr()) {
                     var curJobFurmula = dbContext.JobFormulas.Where(n => n.ID == ID).FirstOrDefault();
@@ -281,33 +294,96 @@ namespace OTERT.Pages.Administrator {
                         catch (Exception) { ShowErrorMessage(-1); }
                     }
                 }
-            } else if (e.Item.OwnerTableView.Name == "CancelDetails") {
+            } else if (e.Item.OwnerTableView.Name == "AttachedFiles") {
                 var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
                 using (var dbContext = new OTERTConnStr()) {
-                    var curCancel = dbContext.JobCancelPrices.Where(n => n.ID == ID).FirstOrDefault();
-                    if (curCancel != null) {
-                        dbContext.JobCancelPrices.Remove(curCancel);
+                    var curFile = dbContext.Files.Where(n => n.ID == ID).FirstOrDefault();
+                    if (curFile != null) {
+                        string FileToDelete = Server.MapPath(curFile.FilePath);
+                        if (System.IO.File.Exists(FileToDelete)) { System.IO.File.Delete(FileToDelete); }
+                        dbContext.Files.Remove(curFile);
                         try { dbContext.SaveChanges(); }
                         catch (Exception) { ShowErrorMessage(-1); }
                     }
                 }
             }
+            */
         }
 
-        protected void ddlSale_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+        protected void ddlCustomer1_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
             try {
-                SalesID = int.Parse(e.Value);
-                Session["SalesID"] = SalesID;
+                Customer1ID = int.Parse(e.Value);
+                Session["Customer1ID"] = Customer1ID;
             }
             catch (Exception) { }
         }
 
-        protected void ddlJobsMain_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+        protected void ddlEvent_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
             try {
-                JobsMainID = int.Parse(e.Value);
-                Session["JobsMainID"] = JobsMainID;
+                EventID = int.Parse(e.Value);
+                Session["EventID"] = EventID;
             }
             catch (Exception) { }
+        }
+
+        protected void ddlCountry_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                CountryID = int.Parse(e.Value);
+                Session["CountryID"] = CountryID;
+                if (CountryID > 0) {
+                    RadDropDownList ddlCountries = (RadDropDownList)sender;
+                    GridEditableItem item = (GridEditableItem)ddlCountries.NamingContainer;
+                    RadDropDownList ddlCustomer1 = (RadDropDownList)item.FindControl("ddlCustomer1");
+                    ddlCustomer1.ClearSelection();
+                    CustomersController custcont = new CustomersController();
+                    ddlCustomer1.DataSource = custcont.GetProvidersForCountry(CountryID);
+                    ddlCustomer1.DataTextField = "NameGR";
+                    ddlCustomer1.DataValueField = "ID";
+                    ddlCustomer1.DataBind();
+                    ddlCustomer1.SelectedIndex = 0;
+                    if (ddlCustomer1.Items.Count > 0) { Session["Customer1ID"] = ddlCustomer1.SelectedItem.Value; } else { Session.Remove("Customer1ID"); }
+                    RadDropDownList ddlEvent = (RadDropDownList)item.FindControl("ddlEvent");
+                    ddlEvent.ClearSelection();
+                    EventsController econt = new EventsController();
+                    ddlEvent.DataSource = econt.GetEventsForCountry(CountryID);
+                    ddlEvent.DataTextField = "NameGR";
+                    ddlEvent.DataValueField = "ID";
+                    ddlEvent.DataBind();
+                    ddlEvent.SelectedIndex = 0;
+                    if (ddlEvent.Items.Count > 0) { Session["EventID"] = ddlEvent.SelectedItem.Value; } else { Session.Remove("EventID"); }
+                } else {
+                    RadDropDownList ddlCountries = (RadDropDownList)sender;
+                    GridEditableItem item = (GridEditableItem)ddlCountries.NamingContainer;
+                    RadDropDownList ddlCustomer1 = (RadDropDownList)item.FindControl("ddlCustomer1");
+                    ddlCustomer1.ClearSelection();
+                    CustomersController custcont = new CustomersController();
+                    ddlCustomer1.DataSource = custcont.GetProviders();
+                    ddlCustomer1.DataTextField = "NameGR";
+                    ddlCustomer1.DataValueField = "ID";
+                    ddlCustomer1.DataBind();
+                    ddlCustomer1.SelectedIndex = 0;
+                    Session["Customer1ID"] = ddlCustomer1.SelectedItem.Value;
+                    RadDropDownList ddlEvent = (RadDropDownList)item.FindControl("ddlEvent");
+                    ddlEvent.ClearSelection();
+                    EventsController econt = new EventsController();
+                    ddlEvent.DataSource = econt.GetEvents();
+                    ddlEvent.DataTextField = "NameGR";
+                    ddlEvent.DataValueField = "ID";
+                    ddlEvent.DataBind();
+                    ddlEvent.SelectedIndex = 0;
+                    Session["EventID"] = ddlEvent.SelectedItem.Value;
+                }
+            }
+            catch (Exception) { }
+        }
+
+        protected void uplFile_FileUploaded(object sender, FileUploadedEventArgs e) {
+            string fullPath = Server.MapPath(fileUploadFolder);
+            bool exists = System.IO.Directory.Exists(fullPath);
+            if (!exists) { System.IO.Directory.CreateDirectory(fullPath); }
+            string newfilename = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + e.File.GetNameWithoutExtension().Replace(" ", "_") + e.File.GetExtension();
+            uploadedFilePath = fileUploadFolder + newfilename;
+            e.File.SaveAs(System.IO.Path.Combine(fullPath, newfilename));
         }
 
     }

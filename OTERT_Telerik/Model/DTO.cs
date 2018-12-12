@@ -150,6 +150,7 @@ namespace OTERT.Model {
         public CustomerDTO Customer2 { get; set; }
         public int EventID { get; set; }
         public EventDTO Event { get; set; }
+        public bool IsLocked { get; set; }
     }
 
     public class SateliteDTO {
