@@ -73,6 +73,11 @@
                                     <telerik:RadDropDownList runat="server" ID="ddlRequestedPosition" RenderMode="Lightweight" DropDownHeight="200" Width="500px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlRequestedPosition_SelectedIndexChanged" />
                                 </EditItemTemplate>
                             </telerik:GridTemplateColumn>
+
+                            <telerik:GridBoundColumn UniqueName="TechnicalSupport" DataField="TechnicalSupport" HeaderText="Τεχνική Υποστήριξη" Visible="false" ReadOnly="true" />
+                            <telerik:GridBoundColumn UniqueName="TelephoneNumber" DataField="TelephoneNumber" HeaderText="Αριθμός Τηλεφώνου" Visible="false" />
+                            <telerik:GridBoundColumn UniqueName="InvoceComments" DataField="InvoceComments" HeaderText="Πρόσωπο Επικοινωνίας" Visible="false" />
+
                             <telerik:GridTemplateColumn HeaderText="Είδος Γραμμής" UniqueName="LineTypeID" DataField="LineTypeID" AllowFiltering="false">
                                 <ItemTemplate>
                                     <asp:Label Text='<% #Eval("LineType.Name") %>' runat="server" /> 
@@ -104,12 +109,9 @@
                             <telerik:GridBoundColumn DataField="CallCharges" HeaderText="Κόστος Κλήσεων" Visible="false" ReadOnly="true" >
                                 <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                             </telerik:GridBoundColumn>
-                            <telerik:GridBoundColumn DataField="TelephoneNumber" HeaderText="Τηλέφωνο Χρέωσης" Visible="false" ReadOnly="true" >
-                                <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
-                            </telerik:GridBoundColumn>
-                            <telerik:GridBoundColumn DataField="TechnicalSupport" HeaderText="Τεχνική Υποστήριξη" Visible="false" ReadOnly="true" >
-                                <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
-                            </telerik:GridBoundColumn>
+
+                            
+                            
                             <telerik:GridTemplateColumn DataField="AddedCharges" UniqueName="AddedCharges" HeaderText="Επιπρόσθετα Τέλη" Visible="false" >
                                 <ItemTemplate>
                                     <asp:Label Text='<% #Eval("AddedCharges") %>' runat="server" /> 
@@ -129,7 +131,7 @@
                                 <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                             </telerik:GridBoundColumn>
                             <telerik:GridBoundColumn DataField="Comments" HeaderText="Παρατηρήσεις" Visible="false" />
-                            <telerik:GridBoundColumn DataField="InvoceComments" HeaderText="Παρατηρήσεις Τιμολογίου" Visible="false" />
+                            
                             <telerik:GridButtonColumn UniqueName="btnDelete2" ConfirmText="Να διαγραφεί αυτή η Παραγγελία;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                         </Columns>
                     </telerik:GridTableView>

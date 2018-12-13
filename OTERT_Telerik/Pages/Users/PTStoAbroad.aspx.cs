@@ -396,7 +396,7 @@ namespace OTERT.Pages.Administrator {
                             curTask.InstallationCharges = false;
                             curTask.MonthlyCharges = false;
                             curTask.CallCharges = 0;
-                            curTask.TelephoneNumber = "";
+                            curTask.TelephoneNumber = (string)values["TelephoneNumber"];
                             curTask.TechnicalSupport = 0;
                             if (values["AddedCharges"] != null) { curTask.AddedCharges = decimal.Parse((string)values["AddedCharges"]); } else { curTask.AddedCharges = null; }
                             if (values["CostActual"] != null) { curTask.CostActual = decimal.Parse((string)values["CostActual"]); } else { curTask.CostActual = null; }
