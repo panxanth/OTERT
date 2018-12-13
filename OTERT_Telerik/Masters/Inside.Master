@@ -71,7 +71,7 @@
                     </ul>
                 </li>
                 <li class="gradient_menuitem gradient27"><a href="/Pages/Users/PTStoGR.aspx" title="">ΠΤΣ προς Ελλάδα</a></li>
-                <li class="gradient_menuitem gradient27 last_item"><a title="">ΠΤΣ προς Εξωτερικό</a></li>
+                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/PTStoAbroad.aspx" title="">ΠΤΣ προς Εξωτερικό</a></li>
             </ul>
         </li>
         <li>

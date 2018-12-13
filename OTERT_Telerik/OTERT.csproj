@@ -211,6 +211,10 @@
       <DependentUpon>DownlinkSNG.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Users\PTStoAbroad.aspx.cs">
+      <DependentUpon>PTStoAbroad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Users\PTStoGR.aspx.cs">
       <DependentUpon>PTStoGR.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -322,6 +326,7 @@
     <Content Include="Pages\Users\CustomersList.aspx" />
     <Content Include="Pages\Users\Downlink.aspx" />
     <Content Include="Pages\Users\DownlinkSNG.aspx" />
+    <Content Include="Pages\Users\PTStoAbroad.aspx" />
     <Content Include="Pages\Users\PTStoGR.aspx" />
     <Content Include="Pages\Users\LongDistanceTwoPoints.aspx" />
     <Content Include="Pages\Users\UrbanOnePoint.aspx" />
@@ -430,7 +435,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

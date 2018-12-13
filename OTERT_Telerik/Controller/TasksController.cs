@@ -21,7 +21,7 @@ namespace OTERT.Controller {
         public int CountTasksForPageID(int PageID) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
-                    return dbContext.Tasks.Where(o => o.Jobs.JobsMain.PageID == PageID).Count();
+                    return dbContext.Tasks.Where(o => o.Jobs.JobsMain.PageID == PageID && o.OrderID == null).Count();
                 }
                 catch (Exception) { return -1; }
             }
@@ -137,7 +137,7 @@ namespace OTERT.Controller {
                                             MSN = us.MSN == null ? false : (bool)us.MSN,
                                             Internet = us.Internet == null ? false : (bool)us.Internet,
                                             LineTypeID = us.LineTypeID,
-                                            LineType = new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
+                                            LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
                                         }).OrderBy(o => o.OrderDate).ToList();
                     return data;
                 }
@@ -255,7 +255,7 @@ namespace OTERT.Controller {
                                             MSN = us.MSN == null ? false : (bool)us.MSN,
                                             Internet = us.Internet == null ? false : (bool)us.Internet,
                                             LineTypeID = us.LineTypeID,
-                                            LineType = new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
+                                            LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
                                         }).OrderBy(o => o.OrderDate).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
@@ -373,7 +373,7 @@ namespace OTERT.Controller {
                                             MSN = us.MSN == null ? false : (bool)us.MSN,
                                             Internet = us.Internet == null ? false : (bool)us.Internet,
                                             LineTypeID = us.LineTypeID,
-                                            LineType = new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
+                                            LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
                                         }).Where(k => k.OrderID == OrderID).OrderBy(o => o.OrderDate).ToList();
                     return data;
                 }
@@ -491,8 +491,8 @@ namespace OTERT.Controller {
                                             MSN = us.MSN == null ? false : (bool)us.MSN,
                                             Internet = us.Internet == null ? false : (bool)us.Internet,
                                             LineTypeID = us.LineTypeID,
-                                            LineType = new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
-                                        }).Where(k => k.Job.JobsMain.PageID == PageID).OrderBy(o => o.OrderDate).Skip(recSkip).Take(recTake).ToList();
+                                            LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
+                                        }).Where(k => k.Job.JobsMain.PageID == PageID && k.OrderID == null).OrderBy(o => o.OrderDate).Skip(recSkip).Take(recTake).ToList();
                     foreach(TaskB curTask in data) {
                         curTask.Files = (from us in dbContext.Files
                                         select new FileB {
@@ -502,7 +502,7 @@ namespace OTERT.Controller {
                                             FileName = us.FileName,
                                             FilePath = us.FilePath,
                                             DateStamp = us.DateStamp
-                                        }).Where(k => k.TaskID == curTask.ID).OrderBy(o => o.DateStamp).ToList();
+                                        }).Where(k => k.TaskID == curTask.ID && k.OrderID == null).OrderBy(o => o.DateStamp).ToList();
                     }
                     return data;
                 }

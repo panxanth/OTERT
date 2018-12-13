@@ -14,7 +14,7 @@ using OTERT_Entity;
 
 namespace OTERT.Pages.Administrator {
 
-    public partial class PTStoGR : Page {
+    public partial class PTStoAbroad : Page {
 
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
@@ -27,8 +27,8 @@ namespace OTERT.Pages.Administrator {
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
-                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Έργα > ΠΤΣ προς Ελλάδα";
-                gridMain.MasterTableView.Caption = "Έργα > ΠΤΣ προς Ελλάδα";
+                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Έργα > ΠΤΣ προς ΕΞωτερικό";
+                gridMain.MasterTableView.Caption = "Έργα > ΠΤΣ προς ΕΞωτερικό";
                 CountryID = -1;
                 Session.Remove("CountryID");
                 Customer1ID = -1;
@@ -535,6 +535,15 @@ namespace OTERT.Pages.Administrator {
                 if (CountryID > 0) {
                     RadDropDownList ddlCountries = (RadDropDownList)sender;
                     GridEditableItem item = (GridEditableItem)ddlCountries.NamingContainer;
+                    RadDropDownList ddlCustomer1 = (RadDropDownList)item.FindControl("ddlCustomer1");
+                    ddlCustomer1.ClearSelection();
+                    CustomersController custcont = new CustomersController();
+                    ddlCustomer1.DataSource = custcont.GetProvidersForCountry(CountryID);
+                    ddlCustomer1.DataTextField = "NameGR";
+                    ddlCustomer1.DataValueField = "ID";
+                    ddlCustomer1.DataBind();
+                    ddlCustomer1.SelectedIndex = 0;
+                    if (ddlCustomer1.Items.Count > 0) { Session["Customer1ID"] = ddlCustomer1.SelectedItem.Value; } else { Session.Remove("Customer1ID"); }
                     RadDropDownList ddlEvent = (RadDropDownList)item.FindControl("ddlEvent");
                     ddlEvent.ClearSelection();
                     EventsController econt = new EventsController();
@@ -547,6 +556,15 @@ namespace OTERT.Pages.Administrator {
                 } else {
                     RadDropDownList ddlCountries = (RadDropDownList)sender;
                     GridEditableItem item = (GridEditableItem)ddlCountries.NamingContainer;
+                    RadDropDownList ddlCustomer1 = (RadDropDownList)item.FindControl("ddlCustomer1");
+                    ddlCustomer1.ClearSelection();
+                    CustomersController custcont = new CustomersController();
+                    ddlCustomer1.DataSource = custcont.GetProviders();
+                    ddlCustomer1.DataTextField = "NameGR";
+                    ddlCustomer1.DataValueField = "ID";
+                    ddlCustomer1.DataBind();
+                    ddlCustomer1.SelectedIndex = 0;
+                    Session["Customer1ID"] = ddlCustomer1.SelectedItem.Value;
                     RadDropDownList ddlEvent = (RadDropDownList)item.FindControl("ddlEvent");
                     ddlEvent.ClearSelection();
                     EventsController econt = new EventsController();
