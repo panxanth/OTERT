@@ -72,6 +72,7 @@
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridNumericColumn>
+                    <telerik:GridCheckBoxColumn DataField="PaymentIsForWholeMonth" HeaderText="Χρέωση ανά Μήνα" Visible="false" DataType="System.Boolean" />
                     <telerik:GridNumericColumn DataField="Internet" HeaderText="Κόστος Internet" DataType="System.Decimal" NumericType="Number">
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />

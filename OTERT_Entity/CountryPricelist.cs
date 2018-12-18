@@ -21,6 +21,7 @@ namespace OTERT_Entity
         public Nullable<decimal> MonthlyCharges { get; set; }
         public Nullable<decimal> Internet { get; set; }
         public Nullable<decimal> MSN { get; set; }
+        public Nullable<bool> PaymentIsForWholeMonth { get; set; }
     
         public virtual Customers Customers { get; set; }
         public virtual LineTypes LineTypes { get; set; }

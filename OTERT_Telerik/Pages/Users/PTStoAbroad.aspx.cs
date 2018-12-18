@@ -23,7 +23,7 @@ namespace OTERT.Pages.Administrator {
         protected int Customer1ID, EventID, CountryID;
         protected int CustomerID, PositionID, LineTypeID;
         const string fileUploadFolder = "~/UploadedFiles/";
-        const int OrderTypeID = 1;
+        const int OrderTypeID = 2;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
@@ -651,8 +651,13 @@ namespace OTERT.Pages.Administrator {
             TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
             if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate && plist != null) {
                 TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
-                int duration = (int)Math.Ceiling(actualSpan.TotalDays);
+                int duration = 0;
                 txtActualDuration.Text = duration.ToString();
+                if (plist.PaymentIsForWholeMonth == true) {
+                    duration = Math.Abs((actualEndDate.Month - actualStartDate.Month) + 12 * (actualEndDate.Year - actualStartDate.Year));
+                } else {
+                    duration = (int)Math.Ceiling(actualSpan.TotalDays);
+                }
                 double costPerDay = (double)plist.MonthlyCharges.Value / 30;
                 double calculatedCost = (double)plist.InstallationCost.Value + (costPerDay * duration);
                 if (cbInternet.Checked) { calculatedCost += (double)plist.Internet.Value; }

@@ -633,7 +633,13 @@ namespace OTERT.Pages.Administrator {
             TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
             if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate && plist != null) {
                 TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
-                int duration = (int)Math.Ceiling(actualSpan.TotalDays);
+                int duration = 0;
+                txtActualDuration.Text = duration.ToString();
+                if (plist.PaymentIsForWholeMonth == true) {
+                    duration = Math.Abs((actualEndDate.Month - actualStartDate.Month) + 12 * (actualEndDate.Year - actualStartDate.Year));
+                } else {
+                    duration = (int)Math.Ceiling(actualSpan.TotalDays);
+                }
                 txtActualDuration.Text = duration.ToString();
                 double costPerDay = (double)plist.MonthlyCharges.Value / 30;
                 double calculatedCost = (double)plist.InstallationCost.Value + (costPerDay * duration);

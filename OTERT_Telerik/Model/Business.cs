@@ -21,6 +21,7 @@ namespace OTERT.Model {
         public decimal? MonthlyCharges { get; set; }
         public decimal? Internet { get; set; }
         public decimal? MSN { get; set; }
+        public bool? PaymentIsForWholeMonth { get; set; }
     }
 
     public class CustomerB {

@@ -147,6 +147,7 @@ namespace OTERT.Pages.Administrator {
                         currPricelist.MonthlyCharges = decimal.Parse((string)values["MonthlyCharges"]);
                         currPricelist.Internet = decimal.Parse((string)values["Internet"]);
                         currPricelist.MSN = decimal.Parse((string)values["MSN"]);
+                        currPricelist.PaymentIsForWholeMonth = (bool)values["PaymentIsForWholeMonth"];
                         dbContext.CountryPricelist.Add(currPricelist);
                         dbContext.SaveChanges();
                     }

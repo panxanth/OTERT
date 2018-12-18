@@ -73,8 +73,9 @@ namespace OTERT.Controller {
                                                  InstallationCost = us.InstallationCost,
                                                  MonthlyCharges = us.MonthlyCharges,
                                                  Internet = us.Internet,
-                                                 MSN = us.MSN
-                                            }).Where(o => o.ID == CountryPricelistID).FirstOrDefault();
+                                                 MSN = us.MSN,
+                                                 PaymentIsForWholeMonth = us.PaymentIsForWholeMonth
+                                             }).Where(o => o.ID == CountryPricelistID).FirstOrDefault();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -127,7 +128,8 @@ namespace OTERT.Controller {
                                                   InstallationCost = us.InstallationCost,
                                                   MonthlyCharges = us.MonthlyCharges,
                                                   Internet = us.Internet,
-                                                  MSN = us.MSN
+                                                  MSN = us.MSN,
+                                                  PaymentIsForWholeMonth = us.PaymentIsForWholeMonth
                                               }).Where(o => o.CustomerID == CustomerID && o.LineTypeID == LineTypeID).FirstOrDefault();
                     return data;
                 }
@@ -181,7 +183,8 @@ namespace OTERT.Controller {
                                                         InstallationCost = us.InstallationCost,
                                                         MonthlyCharges = us.MonthlyCharges,
                                                         Internet = us.Internet,
-                                                        MSN = us.MSN
+                                                        MSN = us.MSN,
+                                                        PaymentIsForWholeMonth = us.PaymentIsForWholeMonth
                                                     }).OrderBy(o => o.Customer.NameGR).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }

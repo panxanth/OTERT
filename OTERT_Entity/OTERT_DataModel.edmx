@@ -20,10 +20,11 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="LineTypeID" Type="int" Nullable="false" />
-          <Property Name="InstallationCost" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="MonthlyCharges" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="Internet" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="MSN" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="InstallationCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MonthlyCharges" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Internet" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MSN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentIsForWholeMonth" Type="bit" />
         </EntityType>
         <EntityType Name="Customers">
           <Key>
@@ -791,12 +792,13 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerID" Type="Int32" Nullable="false" />
           <Property Name="LineTypeID" Type="Int32" Nullable="false" />
-          <Property Name="InstallationCost" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="MonthlyCharges" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Internet" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="MSN" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="InstallationCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MonthlyCharges" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Internet" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MSN" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="Customers" Relationship="Self.fk_CountryPricelist_Customers" FromRole="CountryPricelist" ToRole="Customers" />
           <NavigationProperty Name="LineTypes" Relationship="Self.fk_CountryPricelist_LineTypes" FromRole="CountryPricelist" ToRole="LineTypes" />
+          <Property Name="PaymentIsForWholeMonth" Type="Boolean" />
         </EntityType>
         <EntityType Name="Customers">
           <Key>
@@ -1615,6 +1617,7 @@
           <EntitySetMapping Name="CountryPricelist">
             <EntityTypeMapping TypeName="OTERT_Model.CountryPricelist">
               <MappingFragment StoreEntitySet="CountryPricelist">
+                <ScalarProperty Name="PaymentIsForWholeMonth" ColumnName="PaymentIsForWholeMonth" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="LineTypeID" ColumnName="LineTypeID" />
