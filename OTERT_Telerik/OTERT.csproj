@@ -192,6 +192,10 @@
       <DependentUpon>DistancesList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Administrator\TemplatesGlobal.aspx.cs">
+      <DependentUpon>TemplatesGlobal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Administrator\UsersList.aspx.cs">
       <DependentUpon>UsersList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -323,6 +327,7 @@
     <Content Include="Pages\Administrator\PlacesList.aspx" />
     <Content Include="Pages\Administrator\JobsMainList.aspx" />
     <Content Include="Pages\Administrator\DistancesList.aspx" />
+    <Content Include="Pages\Administrator\TemplatesGlobal.aspx" />
     <Content Include="Pages\Administrator\UsersList.aspx" />
     <Content Include="Pages\Users\CustomersList.aspx" />
     <Content Include="Pages\Users\Downlink.aspx" />
@@ -389,6 +394,7 @@
     <Content Include="Fonts\fontawesome-webfont.woff2" />
     <Content Include="Fonts\FontAwesome.otf" />
     <Content Include="Templates\testtemplate.docx" />
+    <Content Include="Templates\ΤΙΜ ΕΛΛ 1212 598.docx" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -437,7 +443,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

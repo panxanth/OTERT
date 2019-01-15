@@ -138,9 +138,15 @@
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/CountryPricelistsList.aspx">Τιμοκατάλογοι Παρόχων Εξωτερικού</a></li>
                     </ul>
                 </li>
-                <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Παραγγελίες</a>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Παραγγελίες</a>
                     <ul class="gradient_menu gradient67">
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/OrderTypesList.aspx">Είδη Παραγγελιών</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Εκτυπωτικά</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/TemplatesGlobal.aspx">Γενικά Στοιχεία</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/TemplatesGlobal.aspx">Στοιχεία ανά Σελίδα</a></li>
                     </ul>
                 </li>
             </ul>
