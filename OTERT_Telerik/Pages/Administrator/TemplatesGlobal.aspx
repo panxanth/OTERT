@@ -27,7 +27,32 @@
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Height="75px" Width="75px" Transparency="25" InitialDelayTime="500" />
     <div>
-        <asp:Button ID="btnPrint" runat="server" Text="Create" OnClick="btnPrint_Click" /> <asp:Button ID="btnReplace" runat="server" Text="Replace" OnClick="btnReplace_Click" />
+        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" Skin="Metro"
+            OnNeedDataSource="gridMain_NeedDataSource" 
+            OnUpdateCommand="gridMain_UpdateCommand">
+            <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές">
+                <CommandItemSettings RefreshText="Ανανέωση" ShowAddNewRecordButton="false" />
+                <Columns>
+                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
+                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
+                    <telerik:GridBoundColumn DataField="UniqueName" HeaderText="UniqueName" Visible="false" ReadOnly="true" />
+                    <telerik:GridBoundColumn DataField="Title" HeaderText="Χώρος" ReadOnly="true" />
+                    <telerik:GridTemplateColumn DataField="Text" HeaderText="Κείμενο" UniqueName="Text">
+                        <ItemTemplate>
+                            <asp:Literal Text='<% #Eval("Text").ToString().Replace("\n", "<br />") %>' runat="server" /> 
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <asp:TextBox ID="txtAddedCharges" Text='<% #Bind("Text") %>' runat="server" TextMode="MultiLine" />
+                        </EditItemTemplate>
+                    </telerik:GridTemplateColumn>
+                </Columns>
+                <EditFormSettings>
+                    <EditColumn UpdateText="Ενημέρωση" CancelText="Ακύρωση" />                          
+                </EditFormSettings>
+            </MasterTableView>
+        </telerik:RadGrid>
+        <br /><br />
+        <asp:Button ID="btnPrint" runat="server" Text="Print Test" OnClick="btnPrint_Click" />
         <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" />
     </div>
 </asp:Content>

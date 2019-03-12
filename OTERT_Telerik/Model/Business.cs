@@ -78,6 +78,13 @@ namespace OTERT.Model {
         public int KM { get; set; }
     }
 
+    public class DocumentReplacemetB {
+        public int ID { get; set; }
+        public string UniqueName { get; set; }
+        public string Title { get; set; }
+        public string Text { get; set; }
+    }
+
     public class EventB {
         public int ID { get; set; }
         public PlaceDTO Place { get; set; }

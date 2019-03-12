@@ -58,6 +58,7 @@
         <AssociationConnector Association="OTERT_Model.FK_Files_Orders" />
         <AssociationConnector Association="OTERT_Model.FK_Files_Tasks" />
         <AssociationConnector Association="OTERT_Model.FK_Tasks_LineTypes" />
+        <EntityTypeShape EntityType="OTERT_Model.DocumentReplacemets" Width="1.5" PointX="13.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

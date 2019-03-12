@@ -24,6 +24,7 @@ namespace OTERT.Pages.Administrator {
 
     public partial class TemplatesGlobal : Page {
 
+        protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
         protected Button btnPrint;
@@ -33,10 +34,39 @@ namespace OTERT.Pages.Administrator {
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Εκτυπώσεων - Γενικά Στοιχεία";
+                gridMain.MasterTableView.Caption = "Γενικά Κείμενα";
+            }
+        }
+
+        protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
+            try {
+                DocumentReplacemetsController cont = new DocumentReplacemetsController();
+                gridMain.DataSource = cont.GetDocumentReplacemets("GLOBAL");
+            }
+            catch (Exception) { }
+
+        }
+
+        private void ShowErrorMessage() {
+            RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
+        }
+
+        protected void gridMain_UpdateCommand(object source, GridCommandEventArgs e) {
+            var editableItem = ((GridEditableItem)e.Item);
+            var ID = (int)editableItem.GetDataKeyValue("ID");
+            using (var dbContext = new OTERTConnStr()) {
+                var docRep = dbContext.DocumentReplacemets.Where(n => n.ID == ID).FirstOrDefault();
+                if (docRep != null) {
+
+                    editableItem.UpdateValues(docRep);
+                    try { dbContext.SaveChanges(); }
+                    catch (Exception) { ShowErrorMessage(); }
+                }
             }
         }
 
         protected void btnPrint_Click(object sender, EventArgs e) {
+            /*
             var document = new RadFlowDocument();
             var editor = new RadFlowDocumentEditor(document);
             editor.ParagraphFormatting.TextAlignment.LocalValue = Alignment.Justified;
@@ -61,14 +91,24 @@ namespace OTERT.Pages.Administrator {
             editor.InsertLine("Kind regards,");
             editor.InsertLine("Telerik Admin");
             exportDOCX(document);
-        }
-
-        protected void btnReplace_Click(object sender, EventArgs e) {
-            RadFlowDocument document2 = LoadSampleDocument();
-            RadFlowDocumentEditor editor = new RadFlowDocumentEditor(document2);
-            //System.Text.RegularExpressions.Regex textRegex = new System.Text.RegularExpressions.Regex("ΣΑΟΥΣΟΠΟΥΛΟΥ ΑΝΝΑ");
-            editor.ReplaceText("ΣΑΟΥΣΟΠΟΥΛΟΥ ΑΝΝΑ", "ΞΑΝΘΟΠΟΥΛΟΣ ΠΑΝΟΣ", true, true);
-            exportDOCX(document2);
+            */
+            try {
+                DocumentReplacemetsController cont = new DocumentReplacemetsController();
+                List<DocumentReplacemetB> reps = new List<DocumentReplacemetB>();
+                reps = cont.GetDocumentReplacemets("GLOBAL");
+                DocumentReplacemetB curRep = reps.Find(o => o.Title == "Τίτλος Test");
+                if (curRep != null) {
+                    RadFlowDocument curDoc = LoadSampleDocument();
+                    RadFlowDocumentEditor editor = new RadFlowDocumentEditor(curDoc);
+                    //System.Text.RegularExpressions.Regex textRegex = new System.Text.RegularExpressions.Regex("ΣΑΟΥΣΟΠΟΥΛΟΥ ΑΝΝΑ");
+                    //editor.ReplaceText("ΣΑΟΥΣΟΠΟΥΛΟΥ ΑΝΝΑ", txtNew.Text, true, true);
+                    BookmarkRangeStart bookmarkRangeStart = editor.Document.EnumerateChildrenOfType<BookmarkRangeStart>().Where(rangeStart => rangeStart.Bookmark.Name == "Name2Change").FirstOrDefault();
+                    editor.MoveToInlineEnd(bookmarkRangeStart);
+                    editor.InsertText(curRep.Text);
+                    exportDOCX(curDoc);
+                }
+            }
+            catch (Exception) { }
         }
 
         protected void exportDOCX(RadFlowDocument doc) {

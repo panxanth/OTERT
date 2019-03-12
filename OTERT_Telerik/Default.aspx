@@ -62,6 +62,8 @@
                             var returnedLogin = JSON.parse(response.d);
                             if (returnedLogin.result == "OK") {
                                 $(location).attr("href", "/Pages/Users/UrbanOnePoint.aspx");
+                            } else if (returnedLogin.result == "OK_Helper")  {
+                                $(location).attr("href", "/Pages/Helpers/DailyList.aspx");
                             } else {
                                 hideErrors();
                                 $("#div_error").fadeIn("slow");

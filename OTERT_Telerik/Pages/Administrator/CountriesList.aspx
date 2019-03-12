@@ -2,8 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="PHHead" runat="server">
-</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="PHHead" runat="server"></asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PHContent" runat="server">
     <telerik:RadScriptManager ID="RadScriptManager1" runat="server">

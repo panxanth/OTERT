@@ -16,11 +16,8 @@
 <body>
     <div id="mbmcpebul_wrapper">
         <ul id="mbmcpebul_table" class="mbmcpebul_menulist css_menu">
-        <%--
-        <li>
-            <div class="buttonbg gradient_button gradient33" style="width: 49px;"><a href="test.aspx">Home</a></div>
-        </li>
-        --%>
+        <!-- ********** Μενού "Έργα" ********** //-->
+        <% if (groupID != "4") {%>
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 80px;">
                 <div class="arrow"><a class="button_2">Έργα</a></div>
@@ -74,28 +71,23 @@
                 <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/PTStoAbroad.aspx" title="">ΠΤΣ προς Εξωτερικό</a></li>
             </ul>
         </li>
+        <!-- ********** Μενού "Πελάτες" ********** //-->
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 60px;">
                 <a href="/Pages/Users/CustomersList.aspx" class="button_2">Πελάτες</a>
             </div>
         </li>
-        <%--
+        <%}%>
+        <!-- ********** Μενού "Τμήμα Υποστήριξης (ΚΕΤ)" ********** //-->
         <li>
-            <div class="buttonbg gradient_button gradient33" style="width: 80px;">
-                <div class="arrow"><a class="button_2">Products</a></div>
+            <div class="buttonbg gradient_button gradient33" style="width: 170px;">
+                <div class="arrow"><a class="button_2">Τμήμα Υποστήριξης (ΚΕΤ)</a></div>
             </div>
             <ul class="gradient_menu gradient99">
-                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Menu Item</a>
-                    <ul class="gradient_menu gradient67">
-                        <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Item 1</a></li>
-                        <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">Item 2</a></li>
-                    </ul>
-                </li>
-                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Another Menu Item</a></li>
-                <li class="gradient_menuitem gradient27 last_item"><a title="">Yet Another</a></li>
+                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Helpers/DailyList.aspx" title="">Λίστα Ημερ. Μεταδόσεων</a></li>
             </ul>
         </li>
-        --%>
+        <!-- ********** Μενού "Διαχείριση" ********** //-->
         <% if (groupID == "1") {%>
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 100px;">
