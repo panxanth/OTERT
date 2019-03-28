@@ -209,7 +209,11 @@
       <DependentUpon>DistancesList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Administrator\TemplatesGlobal.aspx.cs">
+    <Compile Include="Pages\PrintTemplates\KETDailyList.aspx.cs">
+      <DependentUpon>KETDailyList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\PrintTemplates\TemplatesGlobal.aspx.cs">
       <DependentUpon>TemplatesGlobal.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -227,6 +231,10 @@
     </Compile>
     <Compile Include="Pages\Helpers\DailyListInside.aspx.cs">
       <DependentUpon>DailyListInside.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Invoices\InvoiceCreate.aspx.cs">
+      <DependentUpon>InvoiceCreate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Users\CustomersList.aspx.cs">
@@ -352,10 +360,12 @@
     <Content Include="Pages\Administrator\PlacesList.aspx" />
     <Content Include="Pages\Administrator\JobsMainList.aspx" />
     <Content Include="Pages\Administrator\DistancesList.aspx" />
-    <Content Include="Pages\Administrator\TemplatesGlobal.aspx" />
+    <Content Include="Pages\PrintTemplates\KETDailyList.aspx" />
+    <Content Include="Pages\PrintTemplates\TemplatesGlobal.aspx" />
     <Content Include="Pages\Administrator\UsersList.aspx" />
     <Content Include="Pages\Helpers\DailyList.aspx" />
     <Content Include="Pages\Helpers\DailyListInside.aspx" />
+    <Content Include="Pages\Invoices\InvoiceCreate.aspx" />
     <Content Include="Pages\Users\CustomersList.aspx" />
     <Content Include="Pages\Users\Downlink.aspx" />
     <Content Include="Pages\Users\DownlinkSNG.aspx" />
@@ -422,6 +432,7 @@
     <Content Include="Fonts\FontAwesome.otf" />
     <Content Include="Templates\testtemplate.docx" />
     <Content Include="Templates\ΤΙΜ ΕΛΛ 1212 598.docx" />
+    <Content Include="Templates\KET_Test.docx" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

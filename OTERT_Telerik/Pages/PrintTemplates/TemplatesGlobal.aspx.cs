@@ -20,7 +20,7 @@ using OTERT.Model;
 using OTERT.Controller;
 using OTERT_Entity;
 
-namespace OTERT.Pages.Administrator {
+namespace OTERT.Pages.PrintTemplates {
 
     public partial class TemplatesGlobal : Page {
 

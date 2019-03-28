@@ -39,6 +39,27 @@ namespace OTERT.Controller {
             }
         }
 
+        public List<JobB> GetJobs() {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<JobB> data = (from us in dbContext.Jobs
+                                       select new JobB {
+                                           ID = us.ID,
+                                           JobsMainID = us.JobsMainID,
+                                           JobsMain = new JobMainDTO { ID = us.JobsMain.ID, PageID = us.JobsMain.PageID, Name = us.JobsMain.Name },
+                                           Name = us.Name,
+                                           MinimumTime = us.MinimumTime,
+                                           InvoiceCode = us.InvoiceCode,
+                                           SalesID = us.SalesID,
+                                           Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
+                                       }).OrderBy(o => o.ID).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
         public List<JobB> GetJobs(int recSkip, int recTake) {
             using (var dbContext = new OTERTConnStr()) {
                 try {

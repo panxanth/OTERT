@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="TemplatesGlobal.aspx.cs" Inherits="OTERT.Pages.Administrator.TemplatesGlobal" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="InvoiceCreate.aspx.cs" Inherits="OTERT.Pages.Invoices.InvoiceCreate" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 
@@ -27,32 +27,30 @@
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Height="75px" Width="75px" Transparency="25" InitialDelayTime="500" />
     <div>
-        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" Skin="Metro"
-            OnNeedDataSource="gridMain_NeedDataSource" 
-            OnUpdateCommand="gridMain_UpdateCommand">
-            <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές">
+        <telerik:RadDatePicker RenderMode="Lightweight" ID="dpDate" Width="50%" runat="server" DateInput-Label="Επιλέξτε ημερομηνία: " Culture="el-GR">
+        </telerik:RadDatePicker>
+        <br /><br />
+        <telerik:RadGrid ID="gridJobs" runat="server" AutoGenerateColumns="false" Skin="Metro" Width="50%"
+            OnNeedDataSource="gridJobs_NeedDataSource">
+            <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" CommandItemStyle-HorizontalAlign="Right" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν Μεταδόσεις για τη συγκεκριμένη ημέρα">
+                <CommandItemTemplate>
+                    <asp:Button ID="btnSelectAll" Text="Επιλογή Όλων" runat="server" OnClick="btnSelectAll_Click" />
+                    <asp:Button ID="btnDeSelectAll" Text="Καθαρισμός" runat="server" OnClick="btnDeSelectAll_Click" />
+                </CommandItemTemplate>   
                 <CommandItemSettings RefreshText="Ανανέωση" ShowAddNewRecordButton="false" />
                 <Columns>
-                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
-                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
-                    <telerik:GridBoundColumn DataField="UniqueName" HeaderText="UniqueName" Visible="false" ReadOnly="true" />
-                    <telerik:GridBoundColumn DataField="Title" HeaderText="Χώρος" ReadOnly="true" />
-                    <telerik:GridTemplateColumn DataField="Text" HeaderText="Κείμενο" UniqueName="Text">
+                    <telerik:GridTemplateColumn>
                         <ItemTemplate>
-                            <asp:Literal Text='<% #Eval("Text").ToString().Replace("\n", "<br />") %>' runat="server" /> 
+                            <asp:CheckBox ID="chk" runat="server" />
                         </ItemTemplate>
-                        <EditItemTemplate>
-                            <asp:TextBox ID="txtAddedCharges" Text='<% #Bind("Text") %>' runat="server" TextMode="MultiLine" />
-                        </EditItemTemplate>
                     </telerik:GridTemplateColumn>
+                    <telerik:GridBoundColumn DataField="ID" HeaderText="ID" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
+                    <telerik:GridBoundColumn DataField="Name" HeaderText="Τίτλος" ReadOnly="true" />
                 </Columns>
-                <EditFormSettings>
-                    <EditColumn UpdateText="Ενημέρωση" CancelText="Ακύρωση" />                          
-                </EditFormSettings>
             </MasterTableView>
         </telerik:RadGrid>
         <br /><br />
-        <asp:Button ID="btnPrint" runat="server" Text="Print Test" OnClick="btnPrint_Click" />
+        <asp:Button ID="btnShow" runat="server" Text="Προβολή" OnClick="btnShow_Click" />
         <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" />
     </div>
 </asp:Content>
