@@ -28,7 +28,7 @@ namespace OTERT.Pages.PrintTemplates {
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
         protected Button btnPrint;
-        protected string pageTitle, uploadedFilePath, textFromSeason;
+        protected string pageTitle, uploadedFilePath, textFromSession;
         const string templatesFolder = "~/Templates/";
         const string fileUploadFolder = "~/UploadedFiles/";
         const string pageUniqueName = "KET";
@@ -37,8 +37,8 @@ namespace OTERT.Pages.PrintTemplates {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Εκτυπώσεων > ΚΕΤ - Λίστα Ημερησίων Μεταδόσεων";
                 gridMain.MasterTableView.Caption = "Διαχείριση Εκτυπώσεων > ΚΕΤ - Λίστα Ημερησίων Μεταδόσεων";
-                textFromSeason = "";
-                Session.Remove("textFromSeason");
+                textFromSession = "";
+                Session.Remove("textFromSession");
             }
         }
 
@@ -62,11 +62,11 @@ namespace OTERT.Pages.PrintTemplates {
                 var docRep = dbContext.DocumentReplacemets.Where(n => n.ID == ID).FirstOrDefault();
                 if (docRep != null) {
                     editableItem.UpdateValues(docRep);
-                    if (Session["textFromSeason"] != null) { textFromSeason = Session["textFromSeason"].ToString().Trim(); }
-                    if (!string.IsNullOrEmpty(textFromSeason)) {
-                        docRep.Text = textFromSeason;
-                        textFromSeason = "";
-                        Session.Remove("textFromSeason");
+                    if (Session["textFromSession"] != null) { textFromSession = Session["textFromSession"].ToString().Trim(); }
+                    if (!string.IsNullOrEmpty(textFromSession)) {
+                        docRep.Text = textFromSession;
+                        textFromSession = "";
+                        Session.Remove("textFromSession");
                     }
                     try { dbContext.SaveChanges(); }
                     catch (Exception) { ShowErrorMessage(); }
@@ -86,6 +86,7 @@ namespace OTERT.Pages.PrintTemplates {
                         Panel pnlImageWidth = (Panel)item.FindControl("pnlImageWidth");
                         Panel pnlTextHeight = (Panel)item.FindControl("pnlTextHeight");
                         Panel pnlImageHeight = (Panel)item.FindControl("pnlImageHeight");
+                        Panel pnlDate = (Panel)item.FindControl("pnlDate");
                         if (docRep.Type == "Image" || docRep.Type == "Cell_Image") {
                             pnlText.Visible = false;
                             pnlTextWidth.Visible = false;
@@ -93,6 +94,15 @@ namespace OTERT.Pages.PrintTemplates {
                             pnlImage.Visible = true;
                             pnlImageWidth.Visible = true;
                             pnlImageHeight.Visible = true;
+                            pnlDate.Visible = false;
+                        } else if (docRep.Type == "Date" || docRep.Type == "Cell_Date") {
+                            pnlText.Visible = false;
+                            pnlTextWidth.Visible = false;
+                            pnlTextHeight.Visible = false;
+                            pnlImage.Visible = false;
+                            pnlImageWidth.Visible = false;
+                            pnlImageHeight.Visible = false;
+                            pnlDate.Visible = true;
                         } else {
                             pnlText.Visible = true;
                             pnlTextWidth.Visible = true;
@@ -100,6 +110,7 @@ namespace OTERT.Pages.PrintTemplates {
                             pnlImage.Visible = false;
                             pnlImageWidth.Visible = false;
                             pnlImageHeight.Visible = false;
+                            pnlDate.Visible = false;
                         }
                     }
                 }
@@ -119,6 +130,8 @@ namespace OTERT.Pages.PrintTemplates {
                         Panel pnlImageWidth = (Panel)item.FindControl("pnlImageWidth");
                         Panel pnlTextHeight = (Panel)item.FindControl("pnlTextHeight");
                         Panel pnlImageHeight = (Panel)item.FindControl("pnlImageHeight");
+                        Panel pnlPageNo = (Panel)item.FindControl("pnlPageNo");
+                        Panel pnlDate = (Panel)item.FindControl("pnlDate");
                         if (docRep.Type == "Image" || docRep.Type == "Cell_Image") {
                             pnlText.Visible = false;
                             pnlTextWidth.Visible = false;
@@ -126,6 +139,36 @@ namespace OTERT.Pages.PrintTemplates {
                             pnlImage.Visible = true;
                             pnlImageWidth.Visible = true;
                             pnlImageHeight.Visible = true;
+                            pnlPageNo.Visible = false;
+                            pnlDate.Visible = false;
+                            item["ImageWidth"].Parent.Visible = true;
+                            item["ImageHeight"].Parent.Visible = true;
+                        } else if (docRep.Type == "PageNo" || docRep.Type == "Cell_PageNo") {
+                            pnlText.Visible = false;
+                            pnlTextWidth.Visible = false;
+                            pnlTextHeight.Visible = false;
+                            pnlImage.Visible = false;
+                            pnlImageWidth.Visible = false;
+                            pnlImageHeight.Visible = false;
+                            pnlPageNo.Visible = true;
+                            pnlDate.Visible = false;
+                            item["ImageWidth"].Parent.Visible = false;
+                            item["ImageHeight"].Parent.Visible = false;
+                            RadDropDownList ddlText = item.FindControl("ddlText") as RadDropDownList;
+                            ddlText.SelectedIndex = ddlText.FindItemByValue(docRep.Text).Index;
+                        } else if (docRep.Type == "Date" || docRep.Type == "Cell_Date") {
+                            pnlText.Visible = false;
+                            pnlTextWidth.Visible = false;
+                            pnlTextHeight.Visible = false;
+                            pnlImage.Visible = false;
+                            pnlImageWidth.Visible = false;
+                            pnlImageHeight.Visible = false;
+                            pnlPageNo.Visible = false;
+                            pnlDate.Visible = true;
+                            item["ImageWidth"].Parent.Visible = false;
+                            item["ImageHeight"].Parent.Visible = false;
+                            RadDropDownList ddlDate = item.FindControl("ddlDate") as RadDropDownList;
+                            ddlDate.SelectedIndex = ddlDate.FindItemByValue(docRep.Text).Index;
                         } else {
                             pnlText.Visible = true;
                             pnlTextWidth.Visible = true;
@@ -133,6 +176,10 @@ namespace OTERT.Pages.PrintTemplates {
                             pnlImage.Visible = false;
                             pnlImageWidth.Visible = false;
                             pnlImageHeight.Visible = false;
+                            pnlPageNo.Visible = false;
+                            pnlDate.Visible = false;
+                            item["ImageWidth"].Parent.Visible = false;
+                            item["ImageHeight"].Parent.Visible = false;
                         }
                     }
                 }
@@ -146,7 +193,12 @@ namespace OTERT.Pages.PrintTemplates {
             string newfilename = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + e.File.GetNameWithoutExtension().Replace(" ", "_") + e.File.GetExtension();
             uploadedFilePath = fileUploadFolder + newfilename;
             e.File.SaveAs(System.IO.Path.Combine(fullPath, newfilename));
-            Session["textFromSeason"] = newfilename;
+            Session["textFromSession"] = newfilename;
+        }
+
+        protected void ddlText_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try { Session["textFromSession"] = e.Value; }
+            catch (Exception) { }
         }
 
         protected void btnPrint_Click(object sender, EventArgs e) {

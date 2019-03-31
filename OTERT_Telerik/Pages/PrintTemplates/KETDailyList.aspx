@@ -42,19 +42,37 @@
                     <telerik:GridTemplateColumn DataField="Text" HeaderText="Περιεχόμενο" UniqueName="Text">
                         <ItemTemplate>
                             <asp:Panel ID="pnlText" runat="server">
-                                <asp:Literal Text='<% #Eval("Text").ToString().Replace("\n", "<br />") %>' runat="server" /> 
+                                <asp:Literal Text='<% #Eval("Text").ToString().Replace("\\n", "<br />") %>' runat="server" /> 
                             </asp:Panel>
                             <asp:Panel ID="pnlImage" runat="server">
                                 <asp:Image runat="server" ImageUrl='<% #string.Concat("~/UploadedFiles/",Eval("Text")) %>' AlternateText='<% #Eval("Text") %>' />
                             </asp:Panel>
+                            <asp:Panel ID="pnlDate" runat="server">
+                                <asp:Literal Text='<% #DateTime.Now.ToString(Eval("Text").ToString()) %>' runat="server" /> 
+                            </asp:Panel>
                         </ItemTemplate>
                         <EditItemTemplate>
                             <asp:Panel ID="pnlText" runat="server">
-                                <asp:TextBox ID="txtText" Text='<% #Bind("Text") %>' runat="server" TextMode="MultiLine" />
+                                <asp:TextBox ID="txtText" Text='<% #Bind("Text") %>' runat="server" TextMode="MultiLine" style="width:500px" />
                             </asp:Panel>
                             <asp:Panel ID="pnlImage" runat="server">
-                                <telerik:RadAsyncUpload RenderMode="Lightweight" ID="uplFile" AllowedFileExtensions="jpg,jpeg,gif,png" runat="server" OnFileUploaded="uplFile_FileUploaded">
-                                </telerik:RadAsyncUpload>
+                                <telerik:RadAsyncUpload RenderMode="Lightweight" ID="uplFile" AllowedFileExtensions="jpg,jpeg,gif,png" runat="server" OnFileUploaded="uplFile_FileUploaded" />
+                            </asp:Panel>
+                            <asp:Panel ID="pnlPageNo" runat="server">
+                                 <telerik:RadDropDownList runat="server" ID="ddlText" RenderMode="Lightweight" Width="190px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlText_SelectedIndexChanged">
+                                     <Items>
+                                         <telerik:DropDownListItem runat="server" Text="Σελίδα Χ" Value="Σελίδα Χ" />
+                                         <telerik:DropDownListItem runat="server" Text="Σελίδα Χ από Υ" Value="Σελίδα Χ από Υ" />
+                                     </Items>
+                                 </telerik:RadDropDownList>
+                            </asp:Panel>
+                            <asp:Panel ID="pnlDate" runat="server">
+                                 <telerik:RadDropDownList runat="server" ID="ddlDate" RenderMode="Lightweight" Width="250px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlText_SelectedIndexChanged">
+                                     <Items>
+                                         <telerik:DropDownListItem runat="server" Text='<% #DateTime.Now.ToString("dddd, dd MMMM yyyy") %>' Value="dddd, dd MMMM yyyy" />
+                                         <telerik:DropDownListItem runat="server" Text='<% #DateTime.Now.ToString("dd/MM/yyyy") %>' Value="dd/MM/yyyy" />
+                                     </Items>
+                                 </telerik:RadDropDownList>
                             </asp:Panel>
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
@@ -97,7 +115,7 @@
             </MasterTableView>
         </telerik:RadGrid>
         <br /><br />
-        <asp:Button ID="btnPrint" runat="server" Text="Print Test" OnClick="btnPrint_Click" />
+        <asp:Button ID="btnPrint" runat="server" Text="Εκτύπωση Δοκιμαστικής Σελίδας" OnClick="btnPrint_Click" />
         <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" />
     </div>
 </asp:Content>
