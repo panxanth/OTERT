@@ -83,6 +83,11 @@ namespace OTERT.Model {
         public string UniqueName { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
+        public string Type { get; set; }
+        public int? ImageWidth { get; set; }
+        public int? ImageHeight { get; set; }
+        public string BookmarkTitle { get; set; }
+        public string DocumentPart { get; set; }
     }
 
     public class EventB {

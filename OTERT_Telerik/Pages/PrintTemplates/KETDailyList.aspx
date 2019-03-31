@@ -27,9 +27,11 @@
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Height="75px" Width="75px" Transparency="25" InitialDelayTime="500" />
     <div>
-        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" Skin="Metro"
+        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" Skin="Metro" 
             OnNeedDataSource="gridMain_NeedDataSource" 
-            OnUpdateCommand="gridMain_UpdateCommand">
+            OnUpdateCommand="gridMain_UpdateCommand"
+            OnItemCreated="gridMain_ItemCreated"
+            OnPreRender="gridMain_PreRender">
             <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές">
                 <CommandItemSettings RefreshText="Ανανέωση" ShowAddNewRecordButton="false" />
                 <Columns>
@@ -37,12 +39,55 @@
                     <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
                     <telerik:GridBoundColumn DataField="UniqueName" HeaderText="UniqueName" Visible="false" ReadOnly="true" />
                     <telerik:GridBoundColumn DataField="Title" HeaderText="Χώρος" ReadOnly="true" />
-                    <telerik:GridTemplateColumn DataField="Text" HeaderText="Κείμενο" UniqueName="Text">
+                    <telerik:GridTemplateColumn DataField="Text" HeaderText="Περιεχόμενο" UniqueName="Text">
                         <ItemTemplate>
-                            <asp:Literal Text='<% #Eval("Text").ToString().Replace("\n", "<br />") %>' runat="server" /> 
+                            <asp:Panel ID="pnlText" runat="server">
+                                <asp:Literal Text='<% #Eval("Text").ToString().Replace("\n", "<br />") %>' runat="server" /> 
+                            </asp:Panel>
+                            <asp:Panel ID="pnlImage" runat="server">
+                                <asp:Image runat="server" ImageUrl='<% #string.Concat("~/UploadedFiles/",Eval("Text")) %>' AlternateText='<% #Eval("Text") %>' />
+                            </asp:Panel>
                         </ItemTemplate>
                         <EditItemTemplate>
-                            <asp:TextBox ID="txtAddedCharges" Text='<% #Bind("Text") %>' runat="server" TextMode="MultiLine" />
+                            <asp:Panel ID="pnlText" runat="server">
+                                <asp:TextBox ID="txtText" Text='<% #Bind("Text") %>' runat="server" TextMode="MultiLine" />
+                            </asp:Panel>
+                            <asp:Panel ID="pnlImage" runat="server">
+                                <telerik:RadAsyncUpload RenderMode="Lightweight" ID="uplFile" AllowedFileExtensions="jpg,jpeg,gif,png" runat="server" OnFileUploaded="uplFile_FileUploaded">
+                                </telerik:RadAsyncUpload>
+                            </asp:Panel>
+                        </EditItemTemplate>
+                    </telerik:GridTemplateColumn>
+                    <telerik:GridTemplateColumn DataField="ImageWidth" HeaderText="Πλάτος" UniqueName="ImageWidth">
+                        <ItemTemplate>
+                            <asp:Panel ID="pnlTextWidth" runat="server" />
+                            <asp:Panel ID="pnlImageWidth" runat="server">
+                                <asp:Literal Text='<% #string.Concat(Eval("ImageWidth"), " px") %>' runat="server" /> 
+                            </asp:Panel>
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <asp:Panel ID="pnlTextWidth" runat="server" />
+                            <asp:Panel ID="pnlImageWidth" runat="server">
+                                <telerik:RadNumericTextBox RenderMode="Lightweight" runat="server" ID="ntextImageWidth" Width="190px" DbValue='<% #Bind("ImageWidth") %>' Type="Number" MinValue="0" >
+                                    <NumberFormat GroupSeparator="" DecimalDigits="0" /> 
+                                </telerik:RadNumericTextBox>
+                            </asp:Panel>
+                        </EditItemTemplate>
+                    </telerik:GridTemplateColumn>
+                    <telerik:GridTemplateColumn DataField="ImageHeight" HeaderText="Ύψος" UniqueName="ImageHeight">
+                        <ItemTemplate>
+                            <asp:Panel ID="pnlTextHeight" runat="server" />
+                            <asp:Panel ID="pnlImageHeight" runat="server">
+                                <asp:Literal Text='<% #string.Concat(Eval("ImageHeight"), " px") %>' runat="server" /> 
+                            </asp:Panel>
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <asp:Panel ID="pnlTextHeight" runat="server" />
+                            <asp:Panel ID="pnlImageHeight" runat="server">
+                                <telerik:RadNumericTextBox RenderMode="Lightweight" runat="server" ID="ntextImageHeight" Width="190px" DbValue='<% #Bind("ImageHeight") %>' Type="Number" MinValue="0" >
+                                    <NumberFormat GroupSeparator="" DecimalDigits="0" /> 
+                                </telerik:RadNumericTextBox>
+                            </asp:Panel>
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
                 </Columns>

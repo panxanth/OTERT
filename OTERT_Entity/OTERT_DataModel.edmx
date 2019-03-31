@@ -88,6 +88,11 @@
           <Property Name="UniqueName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ImageWidth" Type="int" />
+          <Property Name="ImageHeight" Type="int" />
+          <Property Name="BookmarkTitle" Type="varchar" MaxLength="50" />
+          <Property Name="DocumentPart" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Events">
           <Key>
@@ -1618,6 +1623,11 @@
           <Property Name="UniqueName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ImageWidth" Type="Int32" />
+          <Property Name="ImageHeight" Type="Int32" />
+          <Property Name="BookmarkTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentPart" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1928,6 +1938,11 @@
           <EntitySetMapping Name="DocumentReplacemets">
             <EntityTypeMapping TypeName="OTERT_Model.DocumentReplacemets">
               <MappingFragment StoreEntitySet="DocumentReplacemets">
+                <ScalarProperty Name="DocumentPart" ColumnName="DocumentPart" />
+                <ScalarProperty Name="BookmarkTitle" ColumnName="BookmarkTitle" />
+                <ScalarProperty Name="ImageHeight" ColumnName="ImageHeight" />
+                <ScalarProperty Name="ImageWidth" ColumnName="ImageWidth" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="UniqueName" ColumnName="UniqueName" />

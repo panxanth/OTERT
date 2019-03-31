@@ -27,7 +27,12 @@ namespace OTERT.Controller {
                                                           ID = us.ID,
                                                           UniqueName = us.UniqueName,
                                                           Title = us.Title,
-                                                          Text = us.Text
+                                                          Text = us.Text,
+                                                          Type = us.Type,
+                                                          ImageWidth = us.ImageWidth,
+                                                          ImageHeight = us.ImageHeight,
+                                                          BookmarkTitle = us.BookmarkTitle,
+                                                          DocumentPart = us.DocumentPart
                                                       }).OrderBy(o => o.Title).ToList();
                     return data;
                 }
@@ -44,7 +49,12 @@ namespace OTERT.Controller {
                                                           ID = us.ID,
                                                           UniqueName = us.UniqueName,
                                                           Title = us.Title,
-                                                          Text = us.Text
+                                                          Text = us.Text,
+                                                          Type = us.Type,
+                                                          ImageWidth = us.ImageWidth,
+                                                          ImageHeight = us.ImageHeight,
+                                                          BookmarkTitle = us.BookmarkTitle,
+                                                          DocumentPart = us.DocumentPart
                                                       }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
