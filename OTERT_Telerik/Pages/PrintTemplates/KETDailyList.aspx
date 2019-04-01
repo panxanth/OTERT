@@ -56,7 +56,7 @@
                                 <asp:TextBox ID="txtText" Text='<% #Bind("Text") %>' runat="server" TextMode="MultiLine" style="width:500px" />
                             </asp:Panel>
                             <asp:Panel ID="pnlImage" runat="server">
-                                <telerik:RadAsyncUpload RenderMode="Lightweight" ID="uplFile" AllowedFileExtensions="jpg,jpeg,gif,png" runat="server" OnFileUploaded="uplFile_FileUploaded" />
+                                <telerik:RadAsyncUpload RenderMode="Lightweight" ID="uplFile" AllowedFileExtensions="jpg,gif,png" runat="server" OnFileUploaded="uplFile_FileUploaded" />
                             </asp:Panel>
                             <asp:Panel ID="pnlPageNo" runat="server">
                                  <telerik:RadDropDownList runat="server" ID="ddlText" RenderMode="Lightweight" Width="190px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlText_SelectedIndexChanged">

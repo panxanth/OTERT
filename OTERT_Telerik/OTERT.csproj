@@ -432,7 +432,7 @@
     <Content Include="Fonts\FontAwesome.otf" />
     <Content Include="Templates\testtemplate.docx" />
     <Content Include="Templates\ΤΙΜ ΕΛΛ 1212 598.docx" />
-    <Content Include="Templates\KET_Test.docx" />
+    <Content Include="Templates\KET.docx" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -449,7 +449,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UploadedFiles\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
