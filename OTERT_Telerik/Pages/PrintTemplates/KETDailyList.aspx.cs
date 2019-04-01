@@ -5,10 +5,10 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Windows;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Telerik.Web.UI;
+using System.Windows;
 using Telerik.Windows.Documents.Flow.Model;
 using Telerik.Windows.Documents.Flow.Model.Editing;
 using Telerik.Windows.Documents.Flow.Model.Styles;
@@ -201,34 +201,6 @@ namespace OTERT.Pages.PrintTemplates {
         }
 
         protected void btnPrint_Click(object sender, EventArgs e) {
-            /*
-            var document = new RadFlowDocument();
-            var editor = new RadFlowDocumentEditor(document);
-            editor.ParagraphFormatting.TextAlignment.LocalValue = Alignment.Justified;
-            editor.InsertLine("Dear Telerik User,");
-            editor.InsertText("We're happy to introduce the new Telerik RadWordsProcessing component for WPF. High performance library that enables you to read, write and manipulate documents in DOCX, RTF and plain text format. The document model is independent from UI and ");
-            Run run = editor.InsertText("does not require");
-            run.Underline.Pattern = UnderlinePattern.Single;
-            editor.InsertLine(" Microsoft Office.");
-            editor.InsertText("bold, ").FontWeight = System.Windows.FontWeights.Bold;
-            editor.InsertText("italic, ").FontStyle = System.Windows.FontStyles.Italic;
-            editor.InsertText("underline,").Underline.Pattern = UnderlinePattern.Single;
-            editor.InsertText(" font sizes and ").FontSize = 20;
-            editor.InsertText("colors ").ForegroundColor = new ThemableColor(System.Windows.Media.Colors.Green);
-            editor.InsertText("or ");
-            editor.InsertText("colors2 ").ForegroundColor = new ThemableColor(System.Windows.Media.Color.FromRgb(255,0,0));
-            editor.InsertLine("as well as text alignment and indentation. Other options include tables, hyperlinks, inline and floating images. Even more sweetness is added by the built-in styles and themes.");
-            editor.InsertText("Here at Telerik we strive to provide the best services possible and fulfill all needs you as a customer may have. We would appreciate any feedback you send our way through the ");
-            editor.InsertHyperlink("public forums", "http://www.telerik.com/forums", false, "Telerik Forums");
-            editor.InsertLine(" or support ticketing system.");
-            editor.InsertLine("We hope you'll enjoy RadWordsProcessing as much as we do. Happy coding!");
-            editor.InsertParagraph();
-            editor.InsertLine("Kind regards,");
-            editor.InsertLine("Telerik Admin");
-            exportDOCX(document);
-            */
-
-
             try {
                 DocumentReplacemetsController cont = new DocumentReplacemetsController();
                 List<DocumentReplacemetB> reps = new List<DocumentReplacemetB>();
@@ -238,30 +210,6 @@ namespace OTERT.Pages.PrintTemplates {
                 BookmarkRangeStart bookmarkRangeStart;
                 RadFlowDocument curDoc = LoadSampleDocument(pageUniqueName);
 
-                //------------------- Styles Start -------------------------------------------
-                Telerik.Windows.Documents.Flow.Model.Styles.Style styleTimes11 = new Telerik.Windows.Documents.Flow.Model.Styles.Style("styleTimes11", StyleType.Paragraph);
-                styleTimes11.CharacterProperties.FontFamily.LocalValue = new ThemableFontFamily("Times New Roman");
-                styleTimes11.CharacterProperties.FontSize.LocalValue = 14.20833333333333;
-                styleTimes11.CharacterProperties.FontWeight.LocalValue = FontWeights.Normal;
-                //styleTimes11.CharacterProperties.ForegroundColor.LocalValue = DefaultForeground;
-                curDoc.StyleRepository.Add(styleTimes11);
-                Telerik.Windows.Documents.Flow.Model.Styles.Style styleArial10 = new Telerik.Windows.Documents.Flow.Model.Styles.Style("styleArial10", StyleType.Paragraph);
-                styleArial10.CharacterProperties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                styleArial10.CharacterProperties.FontSize.LocalValue = 12.91666666666667;
-                styleArial10.CharacterProperties.FontWeight.LocalValue = FontWeights.Normal;
-                curDoc.StyleRepository.Add(styleArial10);
-                Telerik.Windows.Documents.Flow.Model.Styles.Style styleArial11 = new Telerik.Windows.Documents.Flow.Model.Styles.Style("styleArial11", StyleType.Paragraph);
-                styleArial11.CharacterProperties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                styleArial11.CharacterProperties.FontSize.LocalValue = 14.20833333333333;
-                styleArial11.CharacterProperties.FontWeight.LocalValue = FontWeights.Normal;
-                curDoc.StyleRepository.Add(styleArial11);
-                Telerik.Windows.Documents.Flow.Model.Styles.Style styleArial11Bold = new Telerik.Windows.Documents.Flow.Model.Styles.Style("styleArial11Bold", StyleType.Paragraph);
-                styleArial11Bold.CharacterProperties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                styleArial11Bold.CharacterProperties.FontSize.LocalValue = 14.20833333333333;
-                styleArial11Bold.CharacterProperties.FontWeight.LocalValue = FontWeights.Bold;
-                curDoc.StyleRepository.Add(styleArial11Bold);
-                //------------------- Styles End -------------------------------------------
-
                 RadFlowDocumentEditor editor = new RadFlowDocumentEditor(curDoc);
                 //System.Text.RegularExpressions.Regex textRegex = new System.Text.RegularExpressions.Regex("ΣΑΟΥΣΟΠΟΥΛΟΥ ΑΝΝΑ");
                 //editor.ReplaceText("ΣΑΟΥΣΟΠΟΥΛΟΥ ΑΝΝΑ", txtNew.Text, true, true);
@@ -269,13 +217,22 @@ namespace OTERT.Pages.PrintTemplates {
                 Telerik.Windows.Documents.Flow.Model.TableCell currCell;
                 Run currRun;
 
-
                 Header defaultHeader = editor.Document.Sections.First().Headers.Default;
+                Footer defaultFooter = editor.Document.Sections.First().Footers.Default;
                 //Telerik.Windows.Documents.Flow.Model.Table headerTable = defaultHeader.Blocks.OfType<Telerik.Windows.Documents.Flow.Model.Table>().First();
                 //Telerik.Windows.Documents.Flow.Model.TableCell firstCell = headerTable.Rows[0].Cells[0];
 
+                Telerik.Windows.Documents.Flow.Model.Styles.Style tableStyle = new Telerik.Windows.Documents.Flow.Model.Styles.Style("TableStyle", StyleType.Table);
+                tableStyle.Name = "Table Style";
+                tableStyle.TableProperties.Borders.LocalValue = new TableBorders(new Border(1, Telerik.Windows.Documents.Flow.Model.Styles.BorderStyle.Single, new ThemableColor(System.Windows.Media.Colors.Black)));
+                tableStyle.TableProperties.Alignment.LocalValue = Alignment.Left;
+                tableStyle.TableCellProperties.VerticalAlignment.LocalValue = VerticalAlignment.Center;
+                tableStyle.TableCellProperties.PreferredWidth.LocalValue = new TableWidthUnit(TableWidthUnitType.Percent, 100);
+                tableStyle.TableCellProperties.Padding.LocalValue = new Telerik.Windows.Documents.Primitives.Padding(8);
+                editor.Document.StyleRepository.Add(tableStyle);
+
                 curRep = reps.Find(o => o.UniqueName == "KET_Header_OTELogo");
-                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test[2].Paragraph.BlockContainer;
+                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
                 using (Stream firstImage = File.OpenRead(imgFolderPath + curRep.Text)) {
                     var inImage = ((Paragraph)currCell.Blocks.First()).Inlines.AddImageInline();
                     inImage.Image.ImageSource = new Telerik.Windows.Documents.Media.ImageSource(firstImage, curRep.Text.Split('.').Last());
@@ -286,11 +243,7 @@ namespace OTERT.Pages.PrintTemplates {
                 }
 
                 curRep = reps.Find(o => o.UniqueName == "KET_Header_OTEMoto");
-                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test[3].Paragraph.BlockContainer;
-                //editor.MoveToParagraphStart((Paragraph)currCell.Blocks.First());
-                //editor.ParagraphFormatting.StyleId = curDoc.StyleRepository.GetStyle("styleArial10").Id;
-                //curDoc.StyleRepository.GetStyle("styleArial11");
-                //editor.InsertText("ΟΡΓΑΝΙΣΜΟΣ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ ΤΗΣ ΕΛΛΑΔΟΣ Α.Ε.");
+                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
                 currRun = ((Paragraph)currCell.Blocks.First()).Inlines.AddRun();
                 currRun.Text = curRep.Text;
                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
@@ -299,7 +252,7 @@ namespace OTERT.Pages.PrintTemplates {
                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
 
                 curRep = reps.Find(o => o.UniqueName == "KET_Header_Title");
-                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test[4].Paragraph.BlockContainer;
+                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
                 currRun = ((Paragraph)currCell.Blocks.First()).Inlines.AddRun();
                 currRun.Text = curRep.Text;
                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
@@ -308,7 +261,7 @@ namespace OTERT.Pages.PrintTemplates {
                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
 
                 curRep = reps.Find(o => o.UniqueName == "KET_Header_Department");
-                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test[5].Paragraph.BlockContainer;
+                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
                 string[] arrText = curRep.Text.Replace("\r\n", "#").Replace("\n", "#").Split(new char[] { '#' });
                 Paragraph newPar = (Paragraph)currCell.Blocks.First();
                 newPar.Properties.TextAlignment.LocalValue = Alignment.Center;
@@ -324,7 +277,7 @@ namespace OTERT.Pages.PrintTemplates {
                 currCell.Blocks.Remove(currCell.Blocks.Last());
 
                 curRep = reps.Find(o => o.UniqueName == "KET_Header_EDEPPOI");
-                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test[6].Paragraph.BlockContainer;
+                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
                 currRun = ((Paragraph)currCell.Blocks.First()).Inlines.AddRun();
                 currRun.Text = curRep.Text;
                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
@@ -333,7 +286,7 @@ namespace OTERT.Pages.PrintTemplates {
                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
 
                 curRep = reps.Find(o => o.UniqueName == "KET_Header_PageNo");
-                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test[7].Paragraph.BlockContainer;
+                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
                 editor.MoveToParagraphStart((Paragraph)currCell.Blocks.First());
                 editor.InsertText("ΣΕΛΙΔΑ ");
                 editor.InsertField("PAGE", "3");
@@ -344,7 +297,6 @@ namespace OTERT.Pages.PrintTemplates {
 
                 curRep = reps.Find(o => o.UniqueName == "KET_Header_Date");
                 bookmarkRangeStart = defaultHeader.EnumerateChildrenOfType<BookmarkRangeStart>().Where(rangeStart => rangeStart.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault();
-                //BookmarkRangeStart bookmarkRangeStart2 = editor.Document.EnumerateChildrenOfType<BookmarkRangeStart>().Where(rangeStart => rangeStart.Bookmark.Name == "OTELogo").FirstOrDefault();
                 editor.MoveToInlineEnd(bookmarkRangeStart);
                 editor.InsertText(DateTime.Now.ToString(curRep.Text, new System.Globalization.CultureInfo("el-GR")));
 
@@ -353,33 +305,83 @@ namespace OTERT.Pages.PrintTemplates {
                 editor.MoveToInlineEnd(bookmarkRangeStart);
                 editor.InsertText(curRep.Text);
 
+                curRep = reps.Find(o => o.UniqueName == "KET_Footer_OTELogo");
+                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
+                using (Stream firstImage = File.OpenRead(imgFolderPath + curRep.Text)) {
+                    var inImage = ((Paragraph)currCell.Blocks.First()).Inlines.AddImageInline();
+                    inImage.Image.ImageSource = new Telerik.Windows.Documents.Media.ImageSource(firstImage, curRep.Text.Split('.').Last());
+                    if (curRep.ImageHeight != null && curRep.ImageWidth != null) {
+                        inImage.Image.Height = curRep.ImageHeight.Value;
+                        inImage.Image.Width = curRep.ImageWidth.Value;
+                    }
+                }
+
+                curRep = reps.Find(o => o.UniqueName == "KET_Footer_ELOT");
+                currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
+                using (Stream firstImage = File.OpenRead(imgFolderPath + curRep.Text)) {
+                    var inImage = ((Paragraph)currCell.Blocks.First()).Inlines.AddImageInline();
+                    inImage.Image.ImageSource = new Telerik.Windows.Documents.Media.ImageSource(firstImage, curRep.Text.Split('.').Last());
+                    if (curRep.ImageHeight != null && curRep.ImageWidth != null) {
+                        inImage.Image.Height = curRep.ImageHeight.Value;
+                        inImage.Image.Width = curRep.ImageWidth.Value;
+                    }
+                }
 
                 List<TaskForH> lstDummy = createDummyList();
                 bookmarkRangeStart = editor.Document.EnumerateChildrenOfType<BookmarkRangeStart>().Where(rangeStart => rangeStart.Bookmark.Name == "Body_Main").FirstOrDefault();
                 editor.MoveToInlineEnd(bookmarkRangeStart);
                 Telerik.Windows.Documents.Flow.Model.Table tblContent = editor.InsertTable();
-                editor.Document.StyleRepository.AddBuiltInStyle(BuiltInStyleNames.TableGridStyleId);
-                tblContent.StyleId = BuiltInStyleNames.TableGridStyleId;
+                tblContent.StyleId = "TableStyle";
+                tblContent.LayoutType = TableLayoutType.AutoFit;
                 ThemableColor cellBackground = new ThemableColor(System.Windows.Media.Colors.Beige);
-                for (int i = 0; i < 11; i++) {
+                for (int i = 0; i < lstDummy.Count; i++) {
                     Telerik.Windows.Documents.Flow.Model.TableRow row = tblContent.Rows.AddTableRow();
                     for (int j = 0; j < 5; j++) {
                         Telerik.Windows.Documents.Flow.Model.TableCell cell = row.Cells.AddTableCell();
                         if (i==0) {
                             if (j == 0) {
-                                cell.Blocks.AddParagraph().Inlines.AddRun("A/A");
+                                currRun = cell.Blocks.AddParagraph().Inlines.AddRun("A/A");
+                                currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                                currRun.Properties.FontSize.LocalValue = 15.0;
+                                currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                                currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                                cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 5);
                             } else if (j == 1) {
-                                cell.Blocks.AddParagraph().Inlines.AddRun("ΑΙΤΩΝ");
+                                currRun = cell.Blocks.AddParagraph().Inlines.AddRun("ΑΙΤΩΝ");
+                                currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                                currRun.Properties.FontSize.LocalValue = 15.0;
+                                currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                                currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                                cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 20);
                             } else if (j == 2) {
-                                cell.Blocks.AddParagraph().Inlines.AddRun("ΑΠΟ");
+                                currRun = cell.Blocks.AddParagraph().Inlines.AddRun("ΑΠΟ");
+                                currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                                currRun.Properties.FontSize.LocalValue = 15.0;
+                                currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                                currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                                cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 20);
                             } else if (j == 3) {
-                                cell.Blocks.AddParagraph().Inlines.AddRun("ΩΡΑ");
+                                currRun = cell.Blocks.AddParagraph().Inlines.AddRun("ΩΡΑ");
+                                currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                                currRun.Properties.FontSize.LocalValue = 15.0;
+                                currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                                currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                                cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 20);
                             } else if (j == 4) {
-                                cell.Blocks.AddParagraph().Inlines.AddRun("ΠΑΡΑΤΗΡΗΣΕΙΣ");
+                                currRun = cell.Blocks.AddParagraph().Inlines.AddRun("ΠΑΡΑΤΗΡΗΣΕΙΣ");
+                                currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                                currRun.Properties.FontSize.LocalValue = 15.0;
+                                currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                                currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                                cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 35);
                             }
                         } else {
                             if (j == 0) {
-                                cell.Blocks.AddParagraph().Inlines.AddRun(lstDummy.Where(o => o.Count == i).FirstOrDefault().Count.ToString());
+                                currRun = cell.Blocks.AddParagraph().Inlines.AddRun(lstDummy.Where(o => o.Count == i).FirstOrDefault().Count.ToString());
+                                currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                                currRun.Properties.FontSize.LocalValue = 15.0;
+                                currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                                currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                             } else if (j == 1) {
                                 cell.Blocks.AddParagraph().Inlines.AddRun(lstDummy.Where(o => o.Count == i).FirstOrDefault().Customer);
                             } else if (j == 2) {
@@ -390,24 +392,8 @@ namespace OTERT.Pages.PrintTemplates {
                                 cell.Blocks.AddParagraph().Inlines.AddRun(lstDummy.Where(o => o.Count == i).FirstOrDefault().Comments);
                             }
                         }
-
-                        
-                        //cell.Blocks.AddParagraph().Inlines.AddRun(string.Format("Cell {0}, {1}", i, j));
-                        //cell.Shading.BackgroundColor = cellBackground;
-                        //cell.PreferredWidth = new TableWidthUnit(50);
                     }
                 }
-
-
-
-
-                //firstCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test[2].Paragraph.BlockContainer;
-                //editor.MoveToParagraphStart((Paragraph)firstCell.Blocks.First());
-                //editor.InsertText("tralala");
-                //firstCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test[2].Paragraph.BlockContainer;
-                //editor.MoveToParagraphStart((Paragraph)firstCell.Blocks.First());
-                //editor.InsertText("tralala");
-                //Telerik.Windows.Documents.Flow.Model.Table table = (Telerik.Windows.Documents.Flow.Model.Table)defaultHeader.Blocks.First().EnumerateChildrenOfType<Telerik.Windows.Documents.Flow.Model.Table>().FirstOrDefault();
                 curDoc.UpdateFields();
                 exportDOCX(curDoc);
             }
@@ -452,7 +438,7 @@ namespace OTERT.Pages.PrintTemplates {
                 int rndValue2 = random.Next(0, 10);
                 newTask.FromTime = rndValue1.ToString() + ":00";
                 newTask.ToTime = (rndValue1+rndValue2).ToString() + ":00";
-                newTask.Comments = "Παρατηρίσεις " + i.ToString();
+                newTask.Comments = "Παρατηρήσεις " + i.ToString();
                 list2return.Add(newTask);
             }
             return list2return;
