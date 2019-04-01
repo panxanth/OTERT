@@ -42,7 +42,7 @@
                     <telerik:GridTemplateColumn DataField="Text" HeaderText="Περιεχόμενο" UniqueName="Text">
                         <ItemTemplate>
                             <asp:Panel ID="pnlText" runat="server">
-                                <asp:Literal Text='<% #Eval("Text").ToString().Replace("\\n", "<br />") %>' runat="server" /> 
+                                <asp:Literal Text='<% #Eval("Text").ToString().Replace("\r\n", "<br />").Replace("\n", "<br />") %>' runat="server" /> 
                             </asp:Panel>
                             <asp:Panel ID="pnlImage" runat="server">
                                 <asp:Image runat="server" ImageUrl='<% #string.Concat("~/UploadedFiles/",Eval("Text")) %>' AlternateText='<% #Eval("Text") %>' />

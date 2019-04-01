@@ -9,18 +9,15 @@ using System.Windows;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Telerik.Web.UI;
-using Telerik.Web.UI.Calendar;
 using Telerik.Windows.Documents.Flow.Model;
 using Telerik.Windows.Documents.Flow.Model.Editing;
 using Telerik.Windows.Documents.Flow.Model.Styles;
 using Telerik.Windows.Documents.Spreadsheet.Model;
 using Telerik.Windows.Documents.Common.FormatProviders;
 using Telerik.Windows.Documents.Flow.FormatProviders.Docx;
-using ExpressionParser;
 using OTERT.Model;
 using OTERT.Controller;
 using OTERT_Entity;
-using System.Globalization;
 
 namespace OTERT.Pages.PrintTemplates {
 
@@ -349,12 +346,60 @@ namespace OTERT.Pages.PrintTemplates {
                 bookmarkRangeStart = defaultHeader.EnumerateChildrenOfType<BookmarkRangeStart>().Where(rangeStart => rangeStart.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault();
                 //BookmarkRangeStart bookmarkRangeStart2 = editor.Document.EnumerateChildrenOfType<BookmarkRangeStart>().Where(rangeStart => rangeStart.Bookmark.Name == "OTELogo").FirstOrDefault();
                 editor.MoveToInlineEnd(bookmarkRangeStart);
-                editor.InsertText(DateTime.Now.ToString(curRep.Text, new CultureInfo("el-GR")));
+                editor.InsertText(DateTime.Now.ToString(curRep.Text, new System.Globalization.CultureInfo("el-GR")));
 
                 curRep = reps.Find(o => o.UniqueName == "KET_Header_To");
                 bookmarkRangeStart = defaultHeader.EnumerateChildrenOfType<BookmarkRangeStart>().Where(rangeStart => rangeStart.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault();
                 editor.MoveToInlineEnd(bookmarkRangeStart);
                 editor.InsertText(curRep.Text);
+
+
+                List<TaskForH> lstDummy = createDummyList();
+                bookmarkRangeStart = editor.Document.EnumerateChildrenOfType<BookmarkRangeStart>().Where(rangeStart => rangeStart.Bookmark.Name == "Body_Main").FirstOrDefault();
+                editor.MoveToInlineEnd(bookmarkRangeStart);
+                Telerik.Windows.Documents.Flow.Model.Table tblContent = editor.InsertTable();
+                editor.Document.StyleRepository.AddBuiltInStyle(BuiltInStyleNames.TableGridStyleId);
+                tblContent.StyleId = BuiltInStyleNames.TableGridStyleId;
+                ThemableColor cellBackground = new ThemableColor(System.Windows.Media.Colors.Beige);
+                for (int i = 0; i < 11; i++) {
+                    Telerik.Windows.Documents.Flow.Model.TableRow row = tblContent.Rows.AddTableRow();
+                    for (int j = 0; j < 5; j++) {
+                        Telerik.Windows.Documents.Flow.Model.TableCell cell = row.Cells.AddTableCell();
+                        if (i==0) {
+                            if (j == 0) {
+                                cell.Blocks.AddParagraph().Inlines.AddRun("A/A");
+                            } else if (j == 1) {
+                                cell.Blocks.AddParagraph().Inlines.AddRun("ΑΙΤΩΝ");
+                            } else if (j == 2) {
+                                cell.Blocks.AddParagraph().Inlines.AddRun("ΑΠΟ");
+                            } else if (j == 3) {
+                                cell.Blocks.AddParagraph().Inlines.AddRun("ΩΡΑ");
+                            } else if (j == 4) {
+                                cell.Blocks.AddParagraph().Inlines.AddRun("ΠΑΡΑΤΗΡΗΣΕΙΣ");
+                            }
+                        } else {
+                            if (j == 0) {
+                                cell.Blocks.AddParagraph().Inlines.AddRun(lstDummy.Where(o => o.Count == i).FirstOrDefault().Count.ToString());
+                            } else if (j == 1) {
+                                cell.Blocks.AddParagraph().Inlines.AddRun(lstDummy.Where(o => o.Count == i).FirstOrDefault().Customer);
+                            } else if (j == 2) {
+                                cell.Blocks.AddParagraph().Inlines.AddRun(lstDummy.Where(o => o.Count == i).FirstOrDefault().FromPlace);
+                            } else if (j == 3) {
+                                cell.Blocks.AddParagraph().Inlines.AddRun(lstDummy.Where(o => o.Count == i).FirstOrDefault().FromTime + " - " + lstDummy.Where(o => o.Count == i).FirstOrDefault().ToTime);
+                            } else if (j == 4) {
+                                cell.Blocks.AddParagraph().Inlines.AddRun(lstDummy.Where(o => o.Count == i).FirstOrDefault().Comments);
+                            }
+                        }
+
+                        
+                        //cell.Blocks.AddParagraph().Inlines.AddRun(string.Format("Cell {0}, {1}", i, j));
+                        //cell.Shading.BackgroundColor = cellBackground;
+                        //cell.PreferredWidth = new TableWidthUnit(50);
+                    }
+                }
+
+
+
 
                 //firstCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test[2].Paragraph.BlockContainer;
                 //editor.MoveToParagraphStart((Paragraph)firstCell.Blocks.First());
@@ -394,6 +439,35 @@ namespace OTERT.Pages.PrintTemplates {
             return document2;
         }
 
+        protected List<TaskForH> createDummyList() {
+            List<TaskForH> list2return = new List<TaskForH>();
+            for (int i=1; i<11; i++) {
+                TaskForH newTask = new TaskForH();
+                newTask.Count = i;
+                newTask.Customer = "Πελάτης " + i.ToString();
+                newTask.FromPlace = "Τοποθεσία " + i.ToString();
+                newTask.FromPlace = "Τοποθεσία " + (i+10).ToString();
+                Random random = new System.Random();
+                int rndValue1 = random.Next(0, 10);
+                int rndValue2 = random.Next(0, 10);
+                newTask.FromTime = rndValue1.ToString() + ":00";
+                newTask.ToTime = (rndValue1+rndValue2).ToString() + ":00";
+                newTask.Comments = "Παρατηρίσεις " + i.ToString();
+                list2return.Add(newTask);
+            }
+            return list2return;
+        }
+
+    }
+
+    public class TaskForH {
+        public int Count { get; set; }
+        public string Customer { get; set; }
+        public string FromPlace { get; set; }
+        public string ToPlace { get; set; }
+        public string FromTime { get; set; }
+        public string ToTime { get; set; }
+        public string Comments { get; set; }
     }
 
 }
