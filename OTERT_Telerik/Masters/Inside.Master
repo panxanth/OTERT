@@ -15,7 +15,7 @@
 </head>
 <body>
     <header>
-        I am a header
+        <img alt="" src="/images/ote_header.png" width="700" height="104" />
     </header>
     <article>
     <div id="mbmcpebul_wrapper">
@@ -172,7 +172,7 @@
     </form>
     </article>
     <footer>
-        I am a footer
+        &nbsp;&nbsp;Copyright &copy; 2019 OTE A.E.
     </footer>
 </body>
 </html>

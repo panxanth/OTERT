@@ -84,7 +84,7 @@
 </head>
 <body>
     <header>
-        <h1>I am a header</h1>
+        <img alt="" src="/images/ote_header.png" width="700" height="104" />
     </header>
     <article>
     <div class="container">
@@ -118,7 +118,7 @@
     </div>
     </article>
     <footer>
-        <h4>I am a footer</h4>
+        &nbsp;&nbsp;Copyright &copy; 2019 OTE A.E.
     </footer>
 </body>
 </html>

@@ -345,6 +345,7 @@
     <Content Include="App_Data\RadCaptcha\Y.wav" />
     <Content Include="App_Data\RadCaptcha\Z.wav" />
     <Content Include="Default.aspx" />
+    <Content Include="Images\ote_header.png" />
     <Content Include="Pages\Administrator\CountryPricelistsList.aspx" />
     <Content Include="Pages\Administrator\JobsList.aspx" />
     <Content Include="Pages\Administrator\RequestedPositionsList.aspx" />
@@ -483,7 +484,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -9,7 +9,7 @@ body {
 
     font-family: Arial, sans-serif;
     font-weight: 300;
-    font-size: 15px;
+    font-size: 14px;
     color: #333;
     -webkit-font-smoothing: antialiased;
     overflow-y: scroll;
@@ -23,16 +23,19 @@ body::after {
 }
 
 header{
-    background:#C7DD8B; 
-    height:50px; 
+    background:#FFFFFF; 
+    height:104px;
 }
 
 footer{ 
-  position:absolute; 
-  bottom:0; 
-  width:100%; 
-  height:50px;
-  background:#DB8A8A;
+    position: absolute; 
+    bottom: 0; 
+    width: 100%; 
+    height: 30px;
+    background: #FFFFFF;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #0066b6;
 }
 
 a {
