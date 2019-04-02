@@ -83,6 +83,10 @@
     </script>
 </head>
 <body>
+    <header>
+        <h1>I am a header</h1>
+    </header>
+    <article>
     <div class="container">
 		<section class="main">
             <form id="form1" runat="server" class="form-1">
@@ -112,5 +116,9 @@
             </div>
 		</section>
     </div>
+    </article>
+    <footer>
+        <h4>I am a footer</h4>
+    </footer>
 </body>
 </html>

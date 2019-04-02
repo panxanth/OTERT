@@ -14,6 +14,10 @@
     <asp:ContentPlaceHolder ID="PHHead" runat="server" />
 </head>
 <body>
+    <header>
+        I am a header
+    </header>
+    <article>
     <div id="mbmcpebul_wrapper">
         <ul id="mbmcpebul_table" class="mbmcpebul_menulist css_menu">
         <!-- ********** Μενού "Έργα" ********** //-->
@@ -164,9 +168,11 @@
     </div>
     <br />
     <form id="form1" runat="server">
-    <div>
         <asp:ContentPlaceHolder ID="PHContent" runat="server" />
-    </div>
     </form>
+    </article>
+    <footer>
+        I am a footer
+    </footer>
 </body>
 </html>
