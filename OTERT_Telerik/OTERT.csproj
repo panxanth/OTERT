@@ -209,12 +209,16 @@
       <DependentUpon>DistancesList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\PrintTemplates\KETDailyList.aspx.cs">
-      <DependentUpon>KETDailyList.aspx</DependentUpon>
+    <Compile Include="Pages\PrintTemplates\InvoiceDetailed.aspx.cs">
+      <DependentUpon>InvoiceDetailed.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\PrintTemplates\TemplatesGlobal.aspx.cs">
-      <DependentUpon>TemplatesGlobal.aspx</DependentUpon>
+    <Compile Include="Pages\PrintTemplates\Invoice.aspx.cs">
+      <DependentUpon>Invoice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\PrintTemplates\KETDailyList.aspx.cs">
+      <DependentUpon>KETDailyList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Administrator\UsersList.aspx.cs">
@@ -361,8 +365,9 @@
     <Content Include="Pages\Administrator\PlacesList.aspx" />
     <Content Include="Pages\Administrator\JobsMainList.aspx" />
     <Content Include="Pages\Administrator\DistancesList.aspx" />
+    <Content Include="Pages\PrintTemplates\InvoiceDetailed.aspx" />
+    <Content Include="Pages\PrintTemplates\Invoice.aspx" />
     <Content Include="Pages\PrintTemplates\KETDailyList.aspx" />
-    <Content Include="Pages\PrintTemplates\TemplatesGlobal.aspx" />
     <Content Include="Pages\Administrator\UsersList.aspx" />
     <Content Include="Pages\Helpers\DailyList.aspx" />
     <Content Include="Pages\Helpers\DailyListInside.aspx" />

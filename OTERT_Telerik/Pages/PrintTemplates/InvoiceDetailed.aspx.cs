@@ -21,7 +21,7 @@ using OTERT_Entity;
 
 namespace OTERT.Pages.PrintTemplates {
 
-    public partial class KETDailyList : Page {
+    public partial class InvoiceDetailed : Page {
 
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
@@ -34,8 +34,8 @@ namespace OTERT.Pages.PrintTemplates {
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
-                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Εκτυπώσεων > ΚΕΤ - Λίστα Ημερησίων Μεταδόσεων";
-                gridMain.MasterTableView.Caption = "Διαχείριση Εκτυπώσεων > ΚΕΤ - Λίστα Ημερησίων Μεταδόσεων";
+                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Εκτυπώσεων > Τιμολόγιο (Αναλυτικό)";
+                gridMain.MasterTableView.Caption = "Διαχείριση Εκτυπώσεων > Τιμολόγιο (Αναλυτικό)";
                 textFromSession = "";
                 Session.Remove("textFromSession");
             }

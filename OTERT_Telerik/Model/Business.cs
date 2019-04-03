@@ -265,4 +265,14 @@ namespace OTERT.Model {
         public string Name { get; set; }
     }
 
+    public class TaskForH {
+        public int Count { get; set; }
+        public string Customer { get; set; }
+        public string FromPlace { get; set; }
+        public string ToPlace { get; set; }
+        public string FromTime { get; set; }
+        public string ToTime { get; set; }
+        public string Comments { get; set; }
+    }
+
 }
