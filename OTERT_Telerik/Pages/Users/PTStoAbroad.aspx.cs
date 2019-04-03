@@ -250,10 +250,10 @@ namespace OTERT.Pages.Administrator {
                 int recSkip = detailtabl.CurrentPageIndex * gridMain.PageSize;
                 int recTake = detailtabl.PageSize;
                 GridDataItem parentItem = detailtabl.ParentItem;
-                int taskID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
+                int orderID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
                 FilesController cont = new FilesController();
-                detailtabl.VirtualItemCount = cont.CountFiles(taskID);
-                detailtabl.DataSource = cont.GetFilesByTaskID(taskID, recSkip, recTake);
+                detailtabl.VirtualItemCount = cont.CountFilesByOrderID(orderID);
+                detailtabl.DataSource = cont.GetFilesByOrderID(orderID, recSkip, recTake);
             }
         }
 

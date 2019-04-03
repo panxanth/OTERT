@@ -110,6 +110,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TaskID" Type="int" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="CustomerID" Type="int" />
           <Property Name="FilePath" Type="nvarchar(max)" Nullable="false" />
           <Property Name="FileName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="DateStamp" Type="datetime" Nullable="false" />
@@ -388,6 +389,18 @@
             </Principal>
             <Dependent Role="Events">
               <PropertyRef Name="PlaceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Files_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="Files" Type="Self.Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -701,6 +714,10 @@
             <End Role="Places" EntitySet="Places" />
             <End Role="Events" EntitySet="Events" />
           </AssociationSet>
+          <AssociationSet Name="FK_Files_Customers" Association="Self.FK_Files_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
           <AssociationSet Name="FK_Files_Orders" Association="Self.FK_Files_Orders">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="Files" EntitySet="Files" />
@@ -858,6 +875,7 @@
           <Property Name="NamedInvoiceEN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="SAPCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="IsOTE" Type="Boolean" />
+          <NavigationProperty Name="Files" Relationship="OTERT_Model.FK_Files_Customers" FromRole="Customers" ToRole="Files" />
         </EntityType>
         <EntityType Name="CustomerTypes">
           <Key>
@@ -1384,6 +1402,10 @@
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
           <EntitySet Name="DocumentReplacemets" EntityType="OTERT_Model.DocumentReplacemets" />
+          <AssociationSet Name="FK_Files_Customers" Association="OTERT_Model.FK_Files_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="fk_Orders_Customers_1">
           <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
@@ -1578,6 +1600,8 @@
           <Property Name="DateStamp" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Orders" Relationship="OTERT_Model.FK_Files_Orders" FromRole="Files" ToRole="Orders" />
           <NavigationProperty Name="Tasks" Relationship="OTERT_Model.FK_Files_Tasks" FromRole="Files" ToRole="Tasks" />
+          <Property Name="CustomerID" Type="Int32" />
+          <NavigationProperty Name="Customers" Relationship="OTERT_Model.FK_Files_Customers" FromRole="Files" ToRole="Customers" />
         </EntityType>
         <Association Name="FK_Files_Orders">
           <End Type="OTERT_Model.Orders" Role="Orders" Multiplicity="0..1" />
@@ -1629,6 +1653,18 @@
           <Property Name="BookmarkTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DocumentPart" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <Association Name="FK_Files_Customers">
+          <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="0..1" />
+          <End Type="OTERT_Model.Files" Role="Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1926,6 +1962,7 @@
           <EntitySetMapping Name="Files">
             <EntityTypeMapping TypeName="OTERT_Model.Files">
               <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="FilePath" ColumnName="FilePath" />
