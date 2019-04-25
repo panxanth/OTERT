@@ -10,11 +10,17 @@ namespace OTERT.Controller {
 
     public class UsersController {
 
-        public int CountUsers() {
+        public int CountUsers(string recFilter) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
+                    int count = 0;
                     dbContext.Configuration.ProxyCreationEnabled = false;
-                    return dbContext.Users.Count();
+                    if (!string.IsNullOrEmpty(recFilter)) {
+                        count = dbContext.Users.Where(recFilter).Count();
+                    } else {
+                        count = dbContext.Users.Count();
+                    }
+                    return count;
                 }
                 catch (Exception) { return -1; }
             }
@@ -43,23 +49,40 @@ namespace OTERT.Controller {
             }
         }
 
-        public List<UserB> GetUsers(int recSkip, int recTake) {
+        public List<UserB> GetUsers(int recSkip, int recTake, string recFilter) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
-                    List<UserB> data = (from us in dbContext.Users
-                                        select new UserB {
-                                            ID = us.ID,
-                                            UserGroupID = us.UserGroupID,
-                                            NameGR = us.NameGR,
-                                            NameEN = us.NameEN,
-                                            Telephone = us.Telephone,
-                                            FAX = us.FAX,
-                                            Email = us.Email,
-                                            UserName = us.UserName,
-                                            Password = us.Password,
-                                            UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name }
-                                        }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                    IQueryable<UserB> datatmp = (from us in dbContext.Users
+                                                select new UserB {
+                                                    ID = us.ID,
+                                                    UserGroupID = us.UserGroupID,
+                                                    NameGR = us.NameGR,
+                                                    NameEN = us.NameEN,
+                                                    Telephone = us.Telephone,
+                                                    FAX = us.FAX,
+                                                    Email = us.Email,
+                                                    UserName = us.UserName,
+                                                    Password = us.Password,
+                                                    UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name }
+                                                });
+                    if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
+                    List<UserB> data = datatmp.OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                    /*
+                List<UserB> data = (from us in dbContext.Users
+                                    select new UserB {
+                                        ID = us.ID,
+                                        UserGroupID = us.UserGroupID,
+                                        NameGR = us.NameGR,
+                                        NameEN = us.NameEN,
+                                        Telephone = us.Telephone,
+                                        FAX = us.FAX,
+                                        Email = us.Email,
+                                        UserName = us.UserName,
+                                        Password = us.Password,
+                                        UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name }
+                                    }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                                    */
                     return data;
                 }
                 catch (Exception) { return null; }

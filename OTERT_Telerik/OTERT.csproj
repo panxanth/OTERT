@@ -390,6 +390,7 @@
     <Content Include="Scripts\demo.css" />
     <Content Include="Scripts\normalize.css" />
     <Content Include="Scripts\tooltip-classic.css" />
+    <Content Include="Templates\OTE.png" />
     <Content Include="WebServices\OTERTWS.asmx" />
     <Content Include="WebServices\test.asmx" />
   </ItemGroup>
@@ -436,9 +437,8 @@
     <Content Include="Fonts\fontawesome-webfont.woff" />
     <Content Include="Fonts\fontawesome-webfont.woff2" />
     <Content Include="Fonts\FontAwesome.otf" />
-    <Content Include="Templates\testtemplate.docx" />
-    <Content Include="Templates\ΤΙΜ ΕΛΛ 1212 598.docx" />
     <Content Include="Templates\KET.docx" />
+    <Content Include="Templates\Invoice.docx" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -489,7 +489,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

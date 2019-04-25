@@ -33,10 +33,11 @@ namespace OTERT.Pages.Administrator {
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
             int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
             int recTake = gridMain.PageSize;
+            string recFilter = gridMain.MasterTableView.FilterExpression;
             try {
                 UsersController cont = new UsersController();
-                gridMain.VirtualItemCount = cont.CountUsers();
-                gridMain.DataSource = cont.GetUsers(recSkip, recTake);
+                gridMain.VirtualItemCount = cont.CountUsers(recFilter);
+                gridMain.DataSource = cont.GetUsers(recSkip, recTake, recFilter);
             }
             catch (Exception) { }
 

@@ -28,7 +28,7 @@
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Height="75px" Width="75px" Transparency="25" InitialDelayTime="500" />
     <div>
-        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" AllowPaging="true" AllowCustomPaging="true" PageSize="10" Skin="Metro"
+        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" AllowPaging="true" AllowCustomPaging="true" PageSize="10" Skin="Metro" AllowFilteringByColumn="true"
             OnNeedDataSource="gridMain_NeedDataSource" 
             OnUpdateCommand="gridMain_UpdateCommand"
             OnItemCreated="gridMain_ItemCreated" 
