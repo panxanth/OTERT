@@ -27,8 +27,7 @@
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Height="75px" Width="75px" Transparency="25" InitialDelayTime="500" />
     <div>
-        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" AllowPaging="true" AllowCustomPaging="true" PageSize="10" EnableViewState="true" Skin="Metro"
-            AllowFilteringByColumn="True" PagerStyle-AlwaysVisible="true"
+        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" MasterTableView-AllowPaging="true" MasterTableView-AllowCustomPaging="true" MasterTableView-PageSize="10" EnableViewState="true" Skin="Metro" MasterTableView-AllowFilteringByColumn="True" MasterTableView-PagerStyle-AlwaysVisible="true"
             OnNeedDataSource="gridMain_NeedDataSource" 
             OnUpdateCommand="gridMain_UpdateCommand"
             OnItemCreated="gridMain_ItemCreated" 
@@ -81,7 +80,7 @@
                     <telerik:GridBoundColumn DataField="NameEN" HeaderText="Όνομα (EN)" Visible="false" />
                     <telerik:GridBoundColumn DataField="NamedInvoiceGR" HeaderText="Όνομα για Τιμολόγιο (GR)" Visible="false" />
                     <telerik:GridBoundColumn DataField="NamedInvoiceEN" HeaderText="Όνομα για Τιμολόγιο (EN)" Visible="false" />
-                    <telerik:GridTemplateColumn HeaderText="Χώρα" HeaderStyle-Width="180px" UniqueName="CountryID" DataField="CountryID" AllowFiltering="false">
+                    <telerik:GridTemplateColumn HeaderText="Χώρα" HeaderStyle-Width="180px" UniqueName="CountryID" DataField="Country.NameGR" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Country.NameGR") %>' runat="server" /> 
                         </ItemTemplate>

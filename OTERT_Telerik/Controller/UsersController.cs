@@ -68,21 +68,6 @@ namespace OTERT.Controller {
                                                 });
                     if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
                     List<UserB> data = datatmp.OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
-                    /*
-                List<UserB> data = (from us in dbContext.Users
-                                    select new UserB {
-                                        ID = us.ID,
-                                        UserGroupID = us.UserGroupID,
-                                        NameGR = us.NameGR,
-                                        NameEN = us.NameEN,
-                                        Telephone = us.Telephone,
-                                        FAX = us.FAX,
-                                        Email = us.Email,
-                                        UserName = us.UserName,
-                                        Password = us.Password,
-                                        UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name }
-                                    }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
-                                    */
                     return data;
                 }
                 catch (Exception) { return null; }

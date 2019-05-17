@@ -114,6 +114,11 @@
     <Compile Include="App_Code\Utilities.cs" />
     <Compile Include="App_Code\FilterData.cs" />
     <Compile Include="App_Code\StaticUtilities.cs" />
+    <Compile Include="App_GlobalResources\RadGrid.Main.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RadGrid.Main.resx</DependentUpon>
+    </Compile>
     <Compile Include="Controller\JobCancelPricesController.cs" />
     <Compile Include="Controller\FilesController.cs" />
     <Compile Include="Controller\JobFormulasController.cs" />
@@ -453,6 +458,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_GlobalResources\RadGrid.Main.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>RadGrid.Main.designer.cs</LastGenOutput>
+    </Content>
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <ItemGroup>
@@ -489,7 +498,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
