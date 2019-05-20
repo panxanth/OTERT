@@ -45,8 +45,8 @@
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />
                 <Columns>
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
-                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
-                    <telerik:GridTemplateColumn HeaderText="Κατηγορία Χρήστη" HeaderStyle-Width="180px" UniqueName="UserGroupID" DataField="UserGroupID">
+                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" AllowFiltering="false" />
+                    <telerik:GridTemplateColumn HeaderText="Κατηγορία Χρήστη" HeaderStyle-Width="180px" UniqueName="UserGroupID" DataField="UserGroup.Name" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("UserGroup.Name") %>' runat="server" /> 
                         </ItemTemplate>

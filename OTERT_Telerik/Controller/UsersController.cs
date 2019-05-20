@@ -22,7 +22,7 @@ namespace OTERT.Controller {
                     }
                     return count;
                 }
-                catch (Exception) { return -1; }
+                catch (Exception ex) { return -1; }
             }
         }
 
