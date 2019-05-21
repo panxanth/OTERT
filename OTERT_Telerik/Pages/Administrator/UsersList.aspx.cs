@@ -66,6 +66,19 @@ namespace OTERT.Pages.Administrator {
                 }
                 catch (Exception) { }
             }
+            if (e.Item is GridFilteringItem) {
+                GridFilteringItem filterItem = (GridFilteringItem)e.Item;
+                RadDropDownList flist = (RadDropDownList)filterItem.FindControl("ddlUserGroupsFilter");
+                try {
+                    UserGroupsController cont = new UserGroupsController();
+                    flist.DataSource = cont.GetUserGroups();
+                    flist.DataTextField = "Name";
+                    flist.DataValueField = "ID";
+                    flist.DataBind();
+                    flist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", ""));
+                }
+                catch (Exception) { }                                                                        //combo.Items.Add(new RadComboBoxItem("New"));
+            }
         }
 
         protected void gridMain_ItemCreated(object sender, GridItemEventArgs e) {
@@ -152,6 +165,17 @@ namespace OTERT.Pages.Administrator {
             }
             catch (Exception) { }
         }
+
+        protected void ddlUserGroupsFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            ViewState[list.ClientID] = e.Value;
+        }
+
+        protected void ddlUserGroupsFilter_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
+        }
+
 
     }
 

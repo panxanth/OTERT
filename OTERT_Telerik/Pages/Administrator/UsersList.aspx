@@ -47,6 +47,11 @@
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
                     <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" AllowFiltering="false" />
                     <telerik:GridTemplateColumn HeaderText="Κατηγορία Χρήστη" HeaderStyle-Width="180px" UniqueName="UserGroupID" DataField="UserGroup.Name" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true">
+                        
+                        <FilterTemplate>
+		                    <telerik:RadDropDownList runat="server" ID="ddlUserGroupsFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlUserGroupsFilter_SelectedIndexChanged" OnPreRender="ddlUserGroupsFilter_PreRender" />
+	                    </FilterTemplate>
+
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("UserGroup.Name") %>' runat="server" /> 
                         </ItemTemplate>
