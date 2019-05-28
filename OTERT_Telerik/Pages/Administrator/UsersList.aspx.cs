@@ -75,7 +75,7 @@ namespace OTERT.Pages.Administrator {
                     flist.DataTextField = "Name";
                     flist.DataValueField = "ID";
                     flist.DataBind();
-                    flist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", ""));
+                    flist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
                 }
                 catch (Exception) { }                                                                        //combo.Items.Add(new RadComboBoxItem("New"));
             }
@@ -168,7 +168,27 @@ namespace OTERT.Pages.Administrator {
 
         protected void ddlUserGroupsFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
             RadDropDownList list = sender as RadDropDownList;
+            string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
+            List<string> columnExpressions = new List<string>(expressions);
+            foreach (string expression in columnExpressions) {
+                if (expression.Contains("UserGroupID")) {
+                    columnExpressions.Remove(expression);
+                    break;
+                }
+            }
+            string finalExpression = string.Join("AND", columnExpressions.ToArray());
+            if (e.Value != "0") {
+                if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
+                finalExpression += "(UserGroupID = " + e.Value + ")";
+                gridMain.MasterTableView.GetColumn("UserGroupID").CurrentFilterFunction = GridKnownFunction.EqualTo;
+                gridMain.MasterTableView.GetColumn("UserGroupID").CurrentFilterValue = e.Value;
+            } else {
+                gridMain.MasterTableView.GetColumn("UserGroupID").CurrentFilterFunction = GridKnownFunction.NoFilter;
+                gridMain.MasterTableView.GetColumn("UserGroupID").CurrentFilterValue = null;
+            }
+            gridMain.MasterTableView.FilterExpression = finalExpression;
             ViewState[list.ClientID] = e.Value;
+            gridMain.MasterTableView.Rebind();
         }
 
         protected void ddlUserGroupsFilter_PreRender(object sender, EventArgs e) {
