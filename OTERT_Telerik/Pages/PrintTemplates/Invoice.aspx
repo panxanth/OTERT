@@ -35,11 +35,11 @@
             <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές">
                 <CommandItemSettings RefreshText="Ανανέωση" ShowAddNewRecordButton="false" />
                 <Columns>
-                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
-                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
-                    <telerik:GridBoundColumn DataField="UniqueName" HeaderText="UniqueName" Visible="false" ReadOnly="true" />
-                    <telerik:GridBoundColumn DataField="Title" HeaderText="Χώρος" ReadOnly="true" />
-                    <telerik:GridTemplateColumn DataField="Text" HeaderText="Περιεχόμενο" UniqueName="Text">
+                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="UniqueName" HeaderText="UniqueName" Visible="false" ReadOnly="true" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="Title" HeaderText="Χώρος" ReadOnly="true" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridTemplateColumn DataField="Text" HeaderText="Περιεχόμενο" UniqueName="Text" HeaderStyle-Font-Bold="true">
                         <ItemTemplate>
                             <asp:Panel ID="pnlText" runat="server">
                                 <asp:Literal Text='<% #Eval("Text").ToString().Replace("\r\n", "<br />").Replace("\n", "<br />") %>' runat="server" /> 
@@ -76,7 +76,7 @@
                             </asp:Panel>
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridTemplateColumn DataField="ImageWidth" HeaderText="Πλάτος" UniqueName="ImageWidth">
+                    <telerik:GridTemplateColumn DataField="ImageWidth" HeaderText="Πλάτος" UniqueName="ImageWidth" HeaderStyle-Font-Bold="true">
                         <ItemTemplate>
                             <asp:Panel ID="pnlTextWidth" runat="server" />
                             <asp:Panel ID="pnlImageWidth" runat="server">
@@ -92,7 +92,7 @@
                             </asp:Panel>
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridTemplateColumn DataField="ImageHeight" HeaderText="Ύψος" UniqueName="ImageHeight">
+                    <telerik:GridTemplateColumn DataField="ImageHeight" HeaderText="Ύψος" UniqueName="ImageHeight" HeaderStyle-Font-Bold="true">
                         <ItemTemplate>
                             <asp:Panel ID="pnlTextHeight" runat="server" />
                             <asp:Panel ID="pnlImageHeight" runat="server">
