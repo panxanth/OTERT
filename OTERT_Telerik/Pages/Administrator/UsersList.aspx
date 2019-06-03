@@ -35,6 +35,7 @@
             OnDeleteCommand="gridMain_DeleteCommand"
             OnInsertCommand="gridMain_InsertCommand"
             OnItemDataBound="gridMain_ItemDataBound" >
+            <GroupingSettings CaseSensitive="false" />
             <ExportSettings> 
                 <Pdf FontType="Subset" PaperSize="Letter" /> 
                 <Excel Format="Html" /> 

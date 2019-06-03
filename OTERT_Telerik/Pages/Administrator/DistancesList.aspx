@@ -28,20 +28,24 @@
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Height="75px" Width="75px" Transparency="25" InitialDelayTime="500" />
     <div>
-        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" AllowPaging="true" AllowCustomPaging="true" PageSize="10" Skin="Metro"
+        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" AllowPaging="true" AllowCustomPaging="true" PageSize="10" Skin="Metro" MasterTableView-AllowFilteringByColumn="True"
             OnNeedDataSource="gridMain_NeedDataSource" 
             OnUpdateCommand="gridMain_UpdateCommand"
             OnItemDataBound="gridMain_ItemDataBound"
             OnDeleteCommand="gridMain_DeleteCommand"
             OnInsertCommand="gridMain_InsertCommand">
+            <GroupingSettings CaseSensitive="false" />
             <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές">
                 <CommandItemSettings AddNewRecordText="Προσθήκη νέας εγγραφής" RefreshText="Ανανέωση" />
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />
                 <Columns>
-                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
-                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
-                    <telerik:GridBoundColumn DataField="Description" HeaderText="Απόσταση Ζεύγους" ReadOnly="true" />
-                    <telerik:GridTemplateColumn HeaderText="Κύρια Κατηγορία Έργου" UniqueName="JobsMainID" DataField="JobsMainID" AllowFiltering="false">
+                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" AllowFiltering="false" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="Description" HeaderText="Απόσταση Ζεύγους" ReadOnly="true" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridTemplateColumn HeaderText="Κύρια Κατηγορία Έργου" UniqueName="JobsMainID" DataField="JobsMainID" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true" HeaderStyle-Font-Bold="true" >
+                        <FilterTemplate>
+		                    <telerik:RadDropDownList runat="server" ID="ddlJobsMainFilter" RenderMode="Lightweight" Width="440px" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlJobsMainFilter_SelectedIndexChanged" OnPreRender="ddlJobsMainFilter_PreRender" />
+	                    </FilterTemplate>
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("JobsMain.Name") %>' runat="server" /> 
                         </ItemTemplate>
@@ -82,7 +86,7 @@
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage=" Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridNumericColumn>
-                    <telerik:GridButtonColumn ConfirmText="Να διαγραφεί αυτό το Ζεύγος;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" />
+                    <telerik:GridButtonColumn ConfirmText="Να διαγραφεί αυτό το Ζεύγος;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" />
                 </Columns>
                 <EditFormSettings>
                     <EditColumn UpdateText="Ενημέρωση" InsertText="Εισαγωγή" CancelText="Ακύρωση" />                          

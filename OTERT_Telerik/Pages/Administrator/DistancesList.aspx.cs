@@ -9,6 +9,7 @@ using Telerik.Web.UI;
 using OTERT.Model;
 using OTERT.Controller;
 using OTERT_Entity;
+using System.Collections.Generic;
 
 namespace OTERT.Pages.Administrator {
 
@@ -34,10 +35,11 @@ namespace OTERT.Pages.Administrator {
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
             int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
             int recTake = gridMain.PageSize;
+            string recFilter = gridMain.MasterTableView.FilterExpression;
             try {
                 DistancesController cont = new DistancesController();
-                gridMain.VirtualItemCount = cont.CountDistances();
-                gridMain.DataSource = cont.GetDistances(recSkip, recTake);
+                gridMain.VirtualItemCount = cont.CountDistances(recFilter);
+                gridMain.DataSource = cont.GetDistances(recSkip, recTake, recFilter);
             }
             catch (Exception) { }
         }
@@ -70,6 +72,19 @@ namespace OTERT.Pages.Administrator {
                         ddlJobsMain.SelectedIndex = 0;
                         Session["JobsMainID"] = ddlJobsMain.SelectedItem.Value;
                     }
+                }
+                catch (Exception) { }
+            }
+            if (e.Item is GridFilteringItem) {
+                GridFilteringItem filterItem = (GridFilteringItem)e.Item;
+                RadDropDownList cflist = (RadDropDownList)filterItem.FindControl("ddlJobsMainFilter");
+                try {
+                    JobsMainController ccont = new JobsMainController();
+                    cflist.DataSource = ccont.GetJobsMain();
+                    cflist.DataTextField = "Name";
+                    cflist.DataValueField = "ID";
+                    cflist.DataBind();
+                    cflist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
                 }
                 catch (Exception) { }
             }
@@ -166,6 +181,36 @@ namespace OTERT.Pages.Administrator {
         protected void txtPosition2_TextChanged(object sender, AutoCompleteTextEventArgs e) {
             RadAutoCompleteBox autoComplete = sender as RadAutoCompleteBox;
             Session["Position2"] = autoComplete.Entries[0].Text;
+        }
+
+        protected void ddlJobsMainFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
+            List<string> columnExpressions = new List<string>(expressions);
+            foreach (string expression in columnExpressions) {
+                if (expression.Contains("JobsMainID")) {
+                    columnExpressions.Remove(expression);
+                    break;
+                }
+            }
+            string finalExpression = string.Join("AND", columnExpressions.ToArray());
+            if (e.Value != "0") {
+                if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
+                finalExpression += "(JobsMainID = " + e.Value + ")";
+                gridMain.MasterTableView.GetColumn("JobsMainID").CurrentFilterFunction = GridKnownFunction.EqualTo;
+                gridMain.MasterTableView.GetColumn("JobsMainID").CurrentFilterValue = e.Value;
+            } else {
+                gridMain.MasterTableView.GetColumn("JobsMainID").CurrentFilterFunction = GridKnownFunction.NoFilter;
+                gridMain.MasterTableView.GetColumn("JobsMainID").CurrentFilterValue = null;
+            }
+            gridMain.MasterTableView.FilterExpression = finalExpression;
+            ViewState[list.ClientID] = e.Value;
+            gridMain.MasterTableView.Rebind();
+        }
+
+        protected void ddlJobsMainFilter_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
         }
 
     }

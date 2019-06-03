@@ -27,7 +27,7 @@ namespace OTERT.Controller {
                                                ID = us.ID,
                                                PageID = us.PageID,
                                                Name = us.Name
-                                           }).OrderBy(o => o.Name).ToList();
+                                           }).OrderBy(o => o.ID).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

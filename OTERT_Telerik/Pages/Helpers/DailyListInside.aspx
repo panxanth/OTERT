@@ -29,16 +29,17 @@
     <div>
         <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" Skin="Metro"
             OnNeedDataSource="gridMain_NeedDataSource">
+            <GroupingSettings CaseSensitive="false" />
             <MasterTableView DataKeyNames="Count" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν Μεταδόσεις για τη συγκεκριμένη ημέρα">
                 <CommandItemSettings RefreshText="Ανανέωση" ShowAddNewRecordButton="false" />
                 <Columns>
-                    <telerik:GridBoundColumn DataField="Count" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
-                    <telerik:GridBoundColumn DataField="Customer" HeaderText="Αιτών" ReadOnly="true" />
-                    <telerik:GridBoundColumn DataField="FromPlace" HeaderText="Από" ReadOnly="true" />
-                    <telerik:GridBoundColumn DataField="ToPlace" HeaderText="Έως" ReadOnly="true" />
-                    <telerik:GridBoundColumn DataField="FromTime" HeaderText="Ώρα Έναρξης" ReadOnly="true" />
-                    <telerik:GridBoundColumn DataField="ToTime" HeaderText="Ώρα Λήξης" ReadOnly="true" />
-                    <telerik:GridBoundColumn DataField="Comments" HeaderText="Παρατηρήσεις" ReadOnly="true" />
+                    <telerik:GridBoundColumn DataField="Count" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="Customer" HeaderText="Αιτών" ReadOnly="true" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="FromPlace" HeaderText="Από" ReadOnly="true" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="ToPlace" HeaderText="Έως" ReadOnly="true" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="FromTime" HeaderText="Ώρα Έναρξης" ReadOnly="true" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="ToTime" HeaderText="Ώρα Λήξης" ReadOnly="true" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="Comments" HeaderText="Παρατηρήσεις" ReadOnly="true" HeaderStyle-Font-Bold="true" />
                 </Columns>
             </MasterTableView>
         </telerik:RadGrid>
