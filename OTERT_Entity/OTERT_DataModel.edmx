@@ -138,6 +138,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="JobsMainID" Type="int" Nullable="false" />
+          <Property Name="JobTypesID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="SalesID" Type="int" />
           <Property Name="MinimumTime" Type="int" />
@@ -150,6 +151,13 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PageID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JobTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -464,6 +472,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Jobs_JobTypes">
+          <End Role="JobTypes" Type="Self.JobTypes" Multiplicity="1" />
+          <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Jobs">
+              <PropertyRef Name="JobTypesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Jobs_Sales">
           <End Role="Sales" Type="Self.Sales" Multiplicity="0..1" />
           <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
@@ -669,6 +689,7 @@
           <EntitySet Name="JobFormulas" EntityType="Self.JobFormulas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobsMain" EntityType="Self.JobsMain" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobTypes" EntityType="Self.JobTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LineTypes" EntityType="Self.LineTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
@@ -736,6 +757,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Jobs_JobsMain" Association="Self.FK_Jobs_JobsMain">
             <End Role="JobsMain" EntitySet="JobsMain" />
+            <End Role="Jobs" EntitySet="Jobs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Jobs_JobTypes" Association="Self.FK_Jobs_JobTypes">
+            <End Role="JobTypes" EntitySet="JobTypes" />
             <End Role="Jobs" EntitySet="Jobs" />
           </AssociationSet>
           <AssociationSet Name="FK_Jobs_Sales" Association="Self.FK_Jobs_Sales">
@@ -924,6 +949,8 @@
           <NavigationProperty Name="JobFormulas" Relationship="OTERT_Model.FK_JobFormulas_Jobs" FromRole="Jobs" ToRole="JobFormulas" />
           <Property Name="JobsMainID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="JobsMain" Relationship="OTERT_Model.FK_Jobs_JobsMain" FromRole="Jobs" ToRole="JobsMain" />
+          <Property Name="JobTypesID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JobTypes" Relationship="OTERT_Model.FK_Jobs_JobTypes" FromRole="Jobs" ToRole="JobTypes" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -1406,6 +1433,11 @@
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Files" EntitySet="Files" />
           </AssociationSet>
+          <EntitySet Name="JobTypes" EntityType="OTERT_Model.JobTypes" />
+          <AssociationSet Name="FK_Jobs_JobTypes" Association="OTERT_Model.FK_Jobs_JobTypes">
+            <End Role="JobTypes" EntitySet="JobTypes" />
+            <End Role="Jobs" EntitySet="Jobs" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="fk_Orders_Customers_1">
           <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
@@ -1665,6 +1697,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="JobTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Jobs" Relationship="OTERT_Model.FK_Jobs_JobTypes" FromRole="JobTypes" ToRole="Jobs" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Jobs_JobTypes">
+          <End Type="OTERT_Model.JobTypes" Role="JobTypes" Multiplicity="1" />
+          <End Type="OTERT_Model.Jobs" Role="Jobs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Jobs">
+              <PropertyRef Name="JobTypesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1764,6 +1816,7 @@
           <EntitySetMapping Name="Jobs">
             <EntityTypeMapping TypeName="OTERT_Model.Jobs">
               <MappingFragment StoreEntitySet="Jobs">
+                <ScalarProperty Name="JobTypesID" ColumnName="JobTypesID" />
                 <ScalarProperty Name="JobsMainID" ColumnName="JobsMainID" />
                 <ScalarProperty Name="SalesID" ColumnName="SalesID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1983,6 +2036,14 @@
                 <ScalarProperty Name="Text" ColumnName="Text" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="UniqueName" ColumnName="UniqueName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobTypes">
+            <EntityTypeMapping TypeName="OTERT_Model.JobTypes">
+              <MappingFragment StoreEntitySet="JobTypes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

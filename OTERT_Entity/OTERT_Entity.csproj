@@ -86,6 +86,9 @@
     <Compile Include="JobsMain.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="JobTypes.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Languages.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>

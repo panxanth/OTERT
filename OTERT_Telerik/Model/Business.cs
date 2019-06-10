@@ -112,6 +112,8 @@ namespace OTERT.Model {
         public int ID { get; set; }
         public int JobsMainID { get; set; }
         public JobMainDTO JobsMain { get; set; }
+        public int JobTypesID { get; set; }
+        public JobTypeDTO JobType { get; set; }
         public string Name { get; set; }
         public int? MinimumTime { get; set; }
         public string InvoiceCode { get; set; }
@@ -135,6 +137,11 @@ namespace OTERT.Model {
     public class JobMainB {
         public int ID { get; set; }
         public int PageID { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class JobTypeB {
+        public int ID { get; set; }
         public string Name { get; set; }
     }
 

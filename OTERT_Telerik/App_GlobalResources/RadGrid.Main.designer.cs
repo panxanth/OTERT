@@ -808,7 +808,7 @@ namespace Resources.RadGrid {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Collapse.
+        ///   Looks up a localized string similar to Λιγότερα.
         /// </summary>
         internal static string HierarchyCollapseTooltip {
             get {
@@ -1213,7 +1213,7 @@ namespace Resources.RadGrid {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Refresh.
+        ///   Looks up a localized string similar to Ανανέωση.
         /// </summary>
         internal static string Refresh {
             get {

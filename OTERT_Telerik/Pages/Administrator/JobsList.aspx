@@ -154,6 +154,14 @@
                             <telerik:RadDropDownList runat="server" ID="ddlJobsMain" RenderMode="Lightweight" DropDownHeight="200" Width="550" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlJobsMain_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
+                    <telerik:GridTemplateColumn HeaderText="Τύπος Έργου" UniqueName="JobTypesID" DataField="JobTypesID" AllowFiltering="false">
+                        <ItemTemplate>
+                            <asp:Label Text='<% #Eval("JobType.Name") %>' runat="server" /> 
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <telerik:RadDropDownList runat="server" ID="ddlJobTypes" RenderMode="Lightweight" Width="550" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlJobTypes_SelectedIndexChanged" />
+                        </EditItemTemplate>
+                    </telerik:GridTemplateColumn>
                     <telerik:GridTemplateColumn UniqueName="Sale" DataField="SaleID" HeaderText="Κατηγορία Έκπτωσης" >
                         <ItemTemplate>
                             <asp:Label ID="lblSale" runat="server" /> 

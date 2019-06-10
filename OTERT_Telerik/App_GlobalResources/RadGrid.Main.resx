@@ -196,7 +196,7 @@
     <value> ({0})</value>
   </data>
   <data name="HierarchyCollapseTooltip" xml:space="preserve">
-    <value>Collapse</value>
+    <value>Λιγότερα</value>
   </data>
   <data name="HierarchyExpandTooltip" xml:space="preserve">
     <value>Περισσότερα</value>
@@ -250,7 +250,7 @@
     <value>Προηγούμενη Σελίδα</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Ανανέωση</value>
   </data>
   <data name="RefreshImageUrl" xml:space="preserve">
     <value />
