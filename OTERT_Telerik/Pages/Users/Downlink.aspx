@@ -138,7 +138,7 @@
                     <telerik:GridDateTimeColumn DataField="PaymentDateActual" HeaderText="Πραγματική Ημ/νία Είσπραξης" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
                     <telerik:GridCheckBoxColumn DataField="IsForHelpers" HeaderText="Ενημέρωση ΚΕΤ" Visible="false" DataType="System.Boolean" />
                     <telerik:GridCheckBoxColumn DataField="IsLocked" HeaderText="Κλειδωμένο Έργο" Visible="false" DataType="System.Boolean" />
-                    <telerik:GridCheckBoxColumn DataField="IsCanceled" HeaderText="Ακυρωμένο Έργο" Visible="false" DataType="System.Boolean" />
+                    <telerik:GridCheckBoxColumn UniqueName="chkIsCanceled" DataField="IsCanceled" HeaderText="Ακυρωμένο Έργο" Visible="false" DataType="System.Boolean" />
                     <telerik:GridBoundColumn DataField="CancelPrice" HeaderText="Όνομα" Visible="false" ReadOnly="true" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridBoundColumn>

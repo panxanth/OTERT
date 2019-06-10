@@ -111,6 +111,10 @@ namespace OTERT.Pages.UserPages {
                     //dpDateTimeEndActual.SharedTimeView.Interval = new TimeSpan(0, 30, 0);
                     dpDateTimeEndActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
                     dpDateTimeEndActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
+                    CheckBox chkIsCanceled = (CheckBox)item["chkIsCanceled"].Controls[0];
+                    chkIsCanceled.Enabled = true;
+                    chkIsCanceled.AutoPostBack = true;
+                    chkIsCanceled.CheckedChanged += new EventHandler(chkIsCanceled_CheckedChanged);
                 }
             } else if (e.Item.OwnerTableView.Name == "AttachedFiles") {
                 if (e.Item is GridDataItem) {
@@ -501,6 +505,15 @@ namespace OTERT.Pages.UserPages {
             string newfilename = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + e.File.GetNameWithoutExtension().Replace(" ", "_") + e.File.GetExtension();
             uploadedFilePath = fileUploadFolder + newfilename;
             e.File.SaveAs(System.IO.Path.Combine(fullPath, newfilename));
+        }
+
+        protected void chkIsCanceled_CheckedChanged(object sender, EventArgs e) {
+            CheckBox chkIsCanceled = sender as CheckBox;
+            if (chkIsCanceled.Checked) {
+
+            } else {
+
+            }
         }
 
     }
