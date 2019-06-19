@@ -21,7 +21,7 @@ namespace OTERT.Pages.UserPages {
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
         protected int pageID = 11;
-        protected string pageTitle, uploadedFilePath;
+        protected string pageTitle, uploadedFilePath, groupID;
         protected int JobsID, CustomersID, DistancesID;
         const string fileUploadFolder = "~/UploadedFiles/";
 
@@ -37,6 +37,8 @@ namespace OTERT.Pages.UserPages {
                 Session.Remove("DistancesID");
                 uploadedFilePath = "";
             }
+            if (Session["LogedInUsergroupID"] != null) { groupID = Session["LogedInUsergroupID"].ToString(); }
+            else { Response.Redirect("/Default.aspx", true); }
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
@@ -48,6 +50,10 @@ namespace OTERT.Pages.UserPages {
                 gridMain.DataSource = cont.GetTasksForPage(pageID, recSkip, recTake);
             }
             catch (Exception) { }
+        }
+
+        protected void gridMain_PreRender(object sender, EventArgs e) {
+            gridMain.MasterTableView.GetColumn("ExpandColumn").Display = false;
         }
 
         protected void gridMain_ItemCreated(object sender, GridItemEventArgs e) {
@@ -236,14 +242,28 @@ namespace OTERT.Pages.UserPages {
                 if (e.Item is GridDataItem) {
                     GridDataItem item = (GridDataItem)e.Item;
                     if (item.OwnerTableView.DataSource != null) {
+                        TaskB curTask = (item.OwnerTableView.DataSource as List<TaskB>)[item.DataSetIndex];
                         TableCell curCell = item["RegNo"];
-                        string curComments = (item.OwnerTableView.DataSource as List<TaskB>)[item.DataSetIndex].Comments;
+                        string curComments = curTask.Comments;
                         string curTooltip = "<span><span class=\"tooltip tooltip-effect-4\"><span class=\"tooltip-item\">";
                         curTooltip += curCell.Text;
                         curTooltip += "</span><span class=\"tooltip-content clearfix\"><span class=\"tooltip-text\"><strong>Παρατηρήσεις:</strong><br/>";
                         curTooltip += curComments;
                         curTooltip += "</span></span></span></span>";
                         if (!string.IsNullOrWhiteSpace(curComments)) { curCell.Text = curTooltip; }
+                        System.Drawing.Color hColor = System.Drawing.Color.FromArgb(0, 0, 0);
+                        if (curTask.IsLocked == true) { hColor = System.Drawing.Color.FromArgb(200, 0, 0); }
+                        item["ID"].ForeColor = hColor;
+                        item["RegNo"].ForeColor = hColor;
+                        item["OrderDate"].ForeColor = hColor;
+                        item["CustomerID"].ForeColor = hColor;
+                        item["JobsID"].ForeColor = hColor;
+                        item["DateTimeStartActual"].ForeColor = hColor;
+                        if (curTask.IsLocked == true && groupID != "1") {
+                            item["EditCommandColumn"].Controls[0].Visible = false;
+                            item["btnDelete"].Controls[0].Visible = false;
+                            item["ExapandColumn"].Controls[0].Visible = false;
+                        }
                     }
                 }
             }
