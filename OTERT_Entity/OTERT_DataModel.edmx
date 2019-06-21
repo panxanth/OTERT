@@ -80,6 +80,20 @@
           <Property Name="Position2" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="KM" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="DocumentReplacemets">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UniqueName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ImageWidth" Type="int" />
+          <Property Name="ImageHeight" Type="int" />
+          <Property Name="BookmarkTitle" Type="varchar" MaxLength="50" />
+          <Property Name="DocumentPart" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Events">
           <Key>
             <PropertyRef Name="ID" />
@@ -96,6 +110,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TaskID" Type="int" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="CustomerID" Type="int" />
           <Property Name="FilePath" Type="nvarchar(max)" Nullable="false" />
           <Property Name="FileName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="DateStamp" Type="datetime" Nullable="false" />
@@ -123,6 +138,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="JobsMainID" Type="int" Nullable="false" />
+          <Property Name="JobTypesID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="SalesID" Type="int" />
           <Property Name="MinimumTime" Type="int" />
@@ -135,6 +151,13 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PageID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JobTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -377,6 +400,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Files_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="Files" Type="Self.Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Files_Orders">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="Files" Type="Self.Files" Multiplicity="*" />
@@ -434,6 +469,18 @@
             </Principal>
             <Dependent Role="Jobs">
               <PropertyRef Name="JobsMainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Jobs_JobTypes">
+          <End Role="JobTypes" Type="Self.JobTypes" Multiplicity="1" />
+          <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Jobs">
+              <PropertyRef Name="JobTypesID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -635,12 +682,14 @@
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerTypes" EntityType="Self.CustomerTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Distances" EntityType="Self.Distances" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentReplacemets" EntityType="Self.DocumentReplacemets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobCancelPrices" EntityType="Self.JobCancelPrices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobFormulas" EntityType="Self.JobFormulas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobsMain" EntityType="Self.JobsMain" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobTypes" EntityType="Self.JobTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LineTypes" EntityType="Self.LineTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
@@ -686,6 +735,10 @@
             <End Role="Places" EntitySet="Places" />
             <End Role="Events" EntitySet="Events" />
           </AssociationSet>
+          <AssociationSet Name="FK_Files_Customers" Association="Self.FK_Files_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
           <AssociationSet Name="FK_Files_Orders" Association="Self.FK_Files_Orders">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="Files" EntitySet="Files" />
@@ -704,6 +757,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Jobs_JobsMain" Association="Self.FK_Jobs_JobsMain">
             <End Role="JobsMain" EntitySet="JobsMain" />
+            <End Role="Jobs" EntitySet="Jobs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Jobs_JobTypes" Association="Self.FK_Jobs_JobTypes">
+            <End Role="JobTypes" EntitySet="JobTypes" />
             <End Role="Jobs" EntitySet="Jobs" />
           </AssociationSet>
           <AssociationSet Name="FK_Jobs_Sales" Association="Self.FK_Jobs_Sales">
@@ -843,6 +900,7 @@
           <Property Name="NamedInvoiceEN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="SAPCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="IsOTE" Type="Boolean" />
+          <NavigationProperty Name="Files" Relationship="OTERT_Model.FK_Files_Customers" FromRole="Customers" ToRole="Files" />
         </EntityType>
         <EntityType Name="CustomerTypes">
           <Key>
@@ -891,6 +949,8 @@
           <NavigationProperty Name="JobFormulas" Relationship="OTERT_Model.FK_JobFormulas_Jobs" FromRole="Jobs" ToRole="JobFormulas" />
           <Property Name="JobsMainID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="JobsMain" Relationship="OTERT_Model.FK_Jobs_JobsMain" FromRole="Jobs" ToRole="JobsMain" />
+          <Property Name="JobTypesID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JobTypes" Relationship="OTERT_Model.FK_Jobs_JobTypes" FromRole="Jobs" ToRole="JobTypes" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -1368,6 +1428,16 @@
             <End Role="LineTypes" EntitySet="LineTypes" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
+          <EntitySet Name="DocumentReplacemets" EntityType="OTERT_Model.DocumentReplacemets" />
+          <AssociationSet Name="FK_Files_Customers" Association="OTERT_Model.FK_Files_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
+          <EntitySet Name="JobTypes" EntityType="OTERT_Model.JobTypes" />
+          <AssociationSet Name="FK_Jobs_JobTypes" Association="OTERT_Model.FK_Jobs_JobTypes">
+            <End Role="JobTypes" EntitySet="JobTypes" />
+            <End Role="Jobs" EntitySet="Jobs" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="fk_Orders_Customers_1">
           <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
@@ -1562,6 +1632,8 @@
           <Property Name="DateStamp" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Orders" Relationship="OTERT_Model.FK_Files_Orders" FromRole="Files" ToRole="Orders" />
           <NavigationProperty Name="Tasks" Relationship="OTERT_Model.FK_Files_Tasks" FromRole="Files" ToRole="Tasks" />
+          <Property Name="CustomerID" Type="Int32" />
+          <NavigationProperty Name="Customers" Relationship="OTERT_Model.FK_Files_Customers" FromRole="Files" ToRole="Customers" />
         </EntityType>
         <Association Name="FK_Files_Orders">
           <End Type="OTERT_Model.Orders" Role="Orders" Multiplicity="0..1" />
@@ -1596,6 +1668,52 @@
             </Principal>
             <Dependent Role="Tasks">
               <PropertyRef Name="LineTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DocumentReplacemets">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UniqueName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ImageWidth" Type="Int32" />
+          <Property Name="ImageHeight" Type="Int32" />
+          <Property Name="BookmarkTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentPart" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Files_Customers">
+          <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="0..1" />
+          <End Type="OTERT_Model.Files" Role="Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="JobTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Jobs" Relationship="OTERT_Model.FK_Jobs_JobTypes" FromRole="JobTypes" ToRole="Jobs" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Jobs_JobTypes">
+          <End Type="OTERT_Model.JobTypes" Role="JobTypes" Multiplicity="1" />
+          <End Type="OTERT_Model.Jobs" Role="Jobs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Jobs">
+              <PropertyRef Name="JobTypesID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1698,6 +1816,7 @@
           <EntitySetMapping Name="Jobs">
             <EntityTypeMapping TypeName="OTERT_Model.Jobs">
               <MappingFragment StoreEntitySet="Jobs">
+                <ScalarProperty Name="JobTypesID" ColumnName="JobTypesID" />
                 <ScalarProperty Name="JobsMainID" ColumnName="JobsMainID" />
                 <ScalarProperty Name="SalesID" ColumnName="SalesID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1896,11 +2015,35 @@
           <EntitySetMapping Name="Files">
             <EntityTypeMapping TypeName="OTERT_Model.Files">
               <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="FilePath" ColumnName="FilePath" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentReplacemets">
+            <EntityTypeMapping TypeName="OTERT_Model.DocumentReplacemets">
+              <MappingFragment StoreEntitySet="DocumentReplacemets">
+                <ScalarProperty Name="DocumentPart" ColumnName="DocumentPart" />
+                <ScalarProperty Name="BookmarkTitle" ColumnName="BookmarkTitle" />
+                <ScalarProperty Name="ImageHeight" ColumnName="ImageHeight" />
+                <ScalarProperty Name="ImageWidth" ColumnName="ImageWidth" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="UniqueName" ColumnName="UniqueName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobTypes">
+            <EntityTypeMapping TypeName="OTERT_Model.JobTypes">
+              <MappingFragment StoreEntitySet="JobTypes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

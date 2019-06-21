@@ -29,10 +29,11 @@ namespace OTERT.Pages.Administrator {
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
             int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
             int recTake = gridMain.PageSize;
+            string recFilter = gridMain.MasterTableView.FilterExpression;
             try {
                 CountriesController cont = new CountriesController();
-                gridMain.VirtualItemCount = cont.CountCountries();
-                gridMain.DataSource = cont.GetCountries(recSkip, recTake);
+                gridMain.VirtualItemCount = cont.CountCountries(recFilter);
+                gridMain.DataSource = cont.GetCountries(recSkip, recTake, recFilter);
             }
             catch (Exception) { }
 

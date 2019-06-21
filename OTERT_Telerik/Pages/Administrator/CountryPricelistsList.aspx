@@ -40,6 +40,7 @@
             OnDeleteCommand="gridMain_DeleteCommand"
             OnInsertCommand="gridMain_InsertCommand" 
             OnItemDataBound="gridMain_ItemDataBound" >
+            <GroupingSettings CaseSensitive="false" />
             <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές" Name="Master">
                 <CommandItemSettings AddNewRecordText="Προσθήκη νέας εγγραφής" RefreshText="Ανανέωση" />
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />

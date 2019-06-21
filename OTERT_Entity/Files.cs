@@ -20,8 +20,10 @@ namespace OTERT_Entity
         public string FilePath { get; set; }
         public string FileName { get; set; }
         public System.DateTime DateStamp { get; set; }
+        public Nullable<int> CustomerID { get; set; }
     
         public virtual Orders Orders { get; set; }
         public virtual Tasks Tasks { get; set; }
+        public virtual Customers Customers { get; set; }
     }
 }

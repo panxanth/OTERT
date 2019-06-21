@@ -50,5 +50,7 @@ namespace OTERT_Entity
         public virtual DbSet<JobFormulas> JobFormulas { get; set; }
         public virtual DbSet<JobsMain> JobsMain { get; set; }
         public virtual DbSet<Files> Files { get; set; }
+        public virtual DbSet<DocumentReplacemets> DocumentReplacemets { get; set; }
+        public virtual DbSet<JobTypes> JobTypes { get; set; }
     }
 }

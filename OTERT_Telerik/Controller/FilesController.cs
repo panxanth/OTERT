@@ -18,18 +18,37 @@ namespace OTERT.Controller {
             }
         }
 
+        public int CountFilesByOrderID(int orderID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    return dbContext.Files.Where(k => k.OrderID == orderID).Count();
+                }
+                catch (Exception) { return -1; }
+            }
+        }
+
+        public int CountFilesByCustomerID(int customerID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    return dbContext.Files.Where(k => k.CustomerID == customerID).Count();
+                }
+                catch (Exception) { return -1; }
+            }
+        }
+
         public List<FileB> GetFilesByTaskID(int taskID) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     List<FileB> data = (from us in dbContext.Files
                                               select new FileB {
-                                                    ID = us.ID,
-                                                    OrderID = us.OrderID,
-                                                    TaskID = us.TaskID,
-                                                    FilePath = us.FilePath,
-                                                    FileName = us.FileName,
-                                                    DateStamp = us.DateStamp
+                                                  ID = us.ID,
+                                                  OrderID = us.OrderID,
+                                                  TaskID = us.TaskID,
+                                                  CustomerID = us.CustomerID,
+                                                  FilePath = us.FilePath,
+                                                  FileName = us.FileName,
+                                                  DateStamp = us.DateStamp
                                               }).Where(k => k.TaskID == taskID).OrderBy(o => o.DateStamp).ToList();
                     return data;
                 }
@@ -46,6 +65,7 @@ namespace OTERT.Controller {
                                             ID = us.ID,
                                             OrderID = us.OrderID,
                                             TaskID = us.TaskID,
+                                            CustomerID = us.CustomerID,
                                             FilePath = us.FilePath,
                                             FileName = us.FileName,
                                             DateStamp = us.DateStamp
@@ -65,6 +85,7 @@ namespace OTERT.Controller {
                                             ID = us.ID,
                                             OrderID = us.OrderID,
                                             TaskID = us.TaskID,
+                                            CustomerID = us.CustomerID,
                                             FilePath = us.FilePath,
                                             FileName = us.FileName,
                                             DateStamp = us.DateStamp
@@ -84,10 +105,51 @@ namespace OTERT.Controller {
                                             ID = us.ID,
                                             OrderID = us.OrderID,
                                             TaskID = us.TaskID,
+                                            CustomerID = us.CustomerID,
                                             FilePath = us.FilePath,
                                             FileName = us.FileName,
                                             DateStamp = us.DateStamp
                                         }).Where(k => k.OrderID == orderID).OrderBy(o => o.DateStamp).Skip(recSkip).Take(recTake).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
+        public List<FileB> GetFilesByCustomerID(int customerID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<FileB> data = (from us in dbContext.Files
+                                        select new FileB {
+                                            ID = us.ID,
+                                            OrderID = us.OrderID,
+                                            TaskID = us.TaskID,
+                                            CustomerID = us.CustomerID,
+                                            FilePath = us.FilePath,
+                                            FileName = us.FileName,
+                                            DateStamp = us.DateStamp
+                                        }).Where(k => k.CustomerID == customerID).OrderBy(o => o.DateStamp).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
+        public List<FileB> GetFilesByCustomerID(int customerID, int recSkip, int recTake) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<FileB> data = (from us in dbContext.Files
+                                        select new FileB {
+                                            ID = us.ID,
+                                            OrderID = us.OrderID,
+                                            TaskID = us.TaskID,
+                                            CustomerID = us.CustomerID,
+                                            FilePath = us.FilePath,
+                                            FileName = us.FileName,
+                                            DateStamp = us.DateStamp
+                                        }).Where(k => k.CustomerID == customerID).OrderBy(o => o.DateStamp).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

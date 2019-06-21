@@ -18,7 +18,7 @@ namespace OTERT.Pages.Administrator {
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
         protected string pageTitle;
-        protected int SalesID, JobsMainID;
+        protected int SalesID, JobsMainID, JobTypesID;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
@@ -28,6 +28,8 @@ namespace OTERT.Pages.Administrator {
                 Session.Remove("SalesID");
                 JobsMainID = -1;
                 Session.Remove("JobsMainID");
+                JobTypesID = -1;
+                Session.Remove("JobTypesID");
             }
         }
 
@@ -71,9 +73,12 @@ namespace OTERT.Pages.Administrator {
                     Session.Remove("SalesID");
                     JobsMainID = -1;
                     Session.Remove("JobsMainID");
+                    JobTypesID = -1;
+                    Session.Remove("JobTypesID");
                     GridEditableItem item = e.Item as GridEditableItem;
                     RadDropDownList ddlSale = item.FindControl("ddlSale") as RadDropDownList;
                     RadDropDownList ddlJobsMain = item.FindControl("ddlJobsMain") as RadDropDownList;
+                    RadDropDownList ddlJobTypes = item.FindControl("ddlJobTypes") as RadDropDownList;
                     try {
                         JobB currJob = e.Item.DataItem as JobB;
                         SalesController cont = new SalesController();
@@ -87,6 +92,11 @@ namespace OTERT.Pages.Administrator {
                         ddlJobsMain.DataTextField = "Name";
                         ddlJobsMain.DataValueField = "ID";
                         ddlJobsMain.DataBind();
+                        JobTypesController cont3 = new JobTypesController();
+                        ddlJobTypes.DataSource = cont3.GetJobTypes();
+                        ddlJobTypes.DataTextField = "Name";
+                        ddlJobTypes.DataValueField = "ID";
+                        ddlJobTypes.DataBind();
                         if (currJob != null) {
                             if (currJob.SalesID != null) {
                                 ddlSale.SelectedIndex = ddlSale.FindItemByValue(currJob.SalesID.ToString()).Index;
@@ -97,11 +107,15 @@ namespace OTERT.Pages.Administrator {
                             }
                             ddlJobsMain.SelectedIndex = ddlJobsMain.FindItemByValue(currJob.JobsMainID.ToString()).Index;
                             Session["JobsMainID"] = currJob.JobsMainID;
+                            ddlJobTypes.SelectedIndex = ddlJobTypes.FindItemByValue(currJob.JobTypesID.ToString()).Index;
+                            Session["JobTypesID"] = currJob.JobTypesID;
                         } else {
                             ddlSale.SelectedIndex = 0;
                             Session["SalesID"] = ddlSale.SelectedItem.Value;
                             ddlJobsMain.SelectedIndex = 0;
                             Session["JobsMainID"] = ddlJobsMain.SelectedItem.Value;
+                            ddlJobTypes.SelectedIndex = 0;
+                            Session["JobTypesID"] = ddlJobTypes.SelectedItem.Value;
                         }
                     }
                     catch (Exception) { }
@@ -164,6 +178,12 @@ namespace OTERT.Pages.Administrator {
                             JobsMainID = -1;
                             Session.Remove("JobsMainID");
                         }
+                        if (Session["JobTypesID"] != null) { JobTypesID = int.Parse(Session["JobTypesID"].ToString()); }
+                        if (JobTypesID > 0) {
+                            curJob.JobTypesID = JobTypesID;
+                            JobTypesID = -1;
+                            Session.Remove("JobTypesID");
+                        }
                         try { dbContext.SaveChanges(); }
                         catch (Exception) { ShowErrorMessage(-1); }
                     }
@@ -202,11 +222,13 @@ namespace OTERT.Pages.Administrator {
                     editableItem.ExtractValues(values);
                     if (Session["SalesID"] != null) { SalesID = int.Parse(Session["SalesID"].ToString()); }
                     if (Session["JobsMainID"] != null) { JobsMainID = int.Parse(Session["JobsMainID"].ToString()); }
-                    if (SalesID>-1 && JobsMainID>0) {
+                    if (Session["JobTypesID"] != null) { JobTypesID = int.Parse(Session["JobTypesID"].ToString()); }
+                    if (SalesID>-1 && JobsMainID>0 && JobTypesID>0) {
                         try {
                             curJob.Name = (string)values["Name"];
                             if (SalesID==0) { curJob.SalesID = null; } else { curJob.SalesID = SalesID; }
                             curJob.JobsMainID = JobsMainID;
+                            curJob.JobTypesID = JobTypesID;
                             if (!string.IsNullOrEmpty((string)values["MinimumTime"])) { curJob.MinimumTime = int.Parse((string)values["MinimumTime"]); } else { curJob.MinimumTime = null; }
                             curJob.InvoiceCode = (string)values["InvoiceCode"];
                             dbContext.Jobs.Add(curJob);
@@ -218,6 +240,8 @@ namespace OTERT.Pages.Administrator {
                             Session.Remove("SalesID");
                             JobsMainID = -1;
                             Session.Remove("JobsMainID");
+                            JobTypesID = -1;
+                            Session.Remove("JobTypesID");
                         }
                     } else { ShowErrorMessage(-1); }
                 }
@@ -306,6 +330,14 @@ namespace OTERT.Pages.Administrator {
             try {
                 JobsMainID = int.Parse(e.Value);
                 Session["JobsMainID"] = JobsMainID;
+            }
+            catch (Exception) { }
+        }
+
+        protected void ddlJobTypes_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                JobTypesID = int.Parse(e.Value);
+                Session["JobTypesID"] = JobTypesID;
             }
             catch (Exception) { }
         }

@@ -1,8 +1,21 @@
 ﻿/* Move down content because we have a fixed navbar that is 50px tall */
+
+html{ height:100%; }
+
 body {
-    /* padding-top: 10px; */
-    /* padding-bottom: 10px; */
-    margin: 8px;
+    min-height: 100%;
+    padding: 0; 
+    margin: 0; 
+    position: relative;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #000000;
+}
+
+body::after{ 
+    content: ''; 
+    display: block; 
+    height: 100px; 
 }
 
 /* Wrapping element */
@@ -36,4 +49,20 @@ input[type="select"] {
     .body-content {
         padding: 0;
     }
+}
+
+header{
+    background:#FFFFFF; 
+    height:110px; 
+}
+
+footer{ 
+    position: absolute; 
+    bottom: 0; 
+    width: 100%; 
+    height: 30px;
+    background: #FFFFFF;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #0066b6;
 }

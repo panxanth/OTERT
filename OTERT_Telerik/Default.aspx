@@ -62,6 +62,8 @@
                             var returnedLogin = JSON.parse(response.d);
                             if (returnedLogin.result == "OK") {
                                 $(location).attr("href", "/Pages/Users/UrbanOnePoint.aspx");
+                            } else if (returnedLogin.result == "OK_Helper")  {
+                                $(location).attr("href", "/Pages/Helpers/DailyList.aspx");
                             } else {
                                 hideErrors();
                                 $("#div_error").fadeIn("slow");
@@ -81,6 +83,10 @@
     </script>
 </head>
 <body>
+    <header>
+        <img alt="" src="/images/ote_header.png" width="700" height="104" />
+    </header>
+    <article>
     <div class="container">
 		<section class="main">
             <form id="form1" runat="server" class="form-1">
@@ -110,5 +116,9 @@
             </div>
 		</section>
     </div>
+    </article>
+    <footer>
+        &nbsp;&nbsp;Copyright &copy; 2019 OTE A.E.
+    </footer>
 </body>
 </html>

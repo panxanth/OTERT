@@ -28,6 +28,7 @@ namespace OTERT_Entity
         public string InvoiceCode { get; set; }
         public Nullable<int> SalesID { get; set; }
         public int JobsMainID { get; set; }
+        public int JobTypesID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tasks> Tasks { get; set; }
@@ -37,5 +38,6 @@ namespace OTERT_Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobFormulas> JobFormulas { get; set; }
         public virtual JobsMain JobsMain { get; set; }
+        public virtual JobTypes JobTypes { get; set; }
     }
 }

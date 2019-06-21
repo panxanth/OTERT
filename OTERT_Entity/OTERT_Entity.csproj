@@ -65,6 +65,9 @@
     <Compile Include="Distances.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DocumentReplacemets.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Events.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
@@ -81,6 +84,9 @@
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="JobsMain.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JobTypes.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Languages.cs">

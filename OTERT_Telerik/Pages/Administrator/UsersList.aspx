@@ -28,13 +28,14 @@
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Height="75px" Width="75px" Transparency="25" InitialDelayTime="500" />
     <div>
-        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" AllowPaging="true" AllowCustomPaging="true" PageSize="10" Skin="Metro"
+        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" AllowPaging="true" AllowCustomPaging="true" PageSize="10" Skin="Metro" AllowFilteringByColumn="true" EnableLinqExpressions="true"
             OnNeedDataSource="gridMain_NeedDataSource" 
             OnUpdateCommand="gridMain_UpdateCommand"
             OnItemCreated="gridMain_ItemCreated" 
             OnDeleteCommand="gridMain_DeleteCommand"
             OnInsertCommand="gridMain_InsertCommand"
             OnItemDataBound="gridMain_ItemDataBound" >
+            <GroupingSettings CaseSensitive="false" />
             <ExportSettings> 
                 <Pdf FontType="Subset" PaperSize="Letter" /> 
                 <Excel Format="Html" /> 
@@ -44,9 +45,12 @@
                 <CommandItemSettings AddNewRecordText="Προσθήκη νέας εγγραφής" RefreshText="Ανανέωση" />
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />
                 <Columns>
-                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
-                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
-                    <telerik:GridTemplateColumn HeaderText="Κατηγορία Χρήστη" HeaderStyle-Width="180px" UniqueName="UserGroupID" DataField="UserGroupID">
+                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" HeaderStyle-Width="50" />
+                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" AllowFiltering="false" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true"  />
+                    <telerik:GridTemplateColumn HeaderText="Κατηγορία Χρήστη" HeaderStyle-Width="180px" UniqueName="UserGroupID" DataField="UserGroupID" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true" HeaderStyle-Font-Bold="true" >
+                        <FilterTemplate>
+		                    <telerik:RadDropDownList runat="server" ID="ddlUserGroupsFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlUserGroupsFilter_SelectedIndexChanged" OnPreRender="ddlUserGroupsFilter_PreRender" />
+	                    </FilterTemplate>
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("UserGroup.Name") %>' runat="server" /> 
                         </ItemTemplate>
@@ -54,26 +58,26 @@
                             <telerik:RadDropDownList runat="server" ID="ddlUserGroups" RenderMode="Lightweight" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlUserGroups_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridBoundColumn DataField="NameGR" HeaderText="Όνομα (GR)">
+                    <telerik:GridBoundColumn DataField="NameGR" HeaderText="Όνομα (GR)" HeaderStyle-Font-Bold="true" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn DataField="NameEN" HeaderText="Όνομα (EN)" Visible="true" />
-                    <telerik:GridBoundColumn DataField="Telephone" HeaderText="Τηλέφωνο" Visible="false" />
-                    <telerik:GridBoundColumn DataField="FAX" HeaderText="FAX" Visible="false" />
-                    <telerik:GridBoundColumn DataField="Email" HeaderText="Email" Visible="false" />
-                    <telerik:GridBoundColumn DataField="UserName" HeaderText="UserName" Visible="false">
+                    <telerik:GridBoundColumn DataField="NameEN" HeaderText="Όνομα (EN)" Visible="true" HeaderStyle-Font-Bold="true"  />
+                    <telerik:GridBoundColumn DataField="Telephone" HeaderText="Τηλέφωνο" Visible="false" HeaderStyle-Font-Bold="true"  />
+                    <telerik:GridBoundColumn DataField="FAX" HeaderText="FAX" Visible="false" HeaderStyle-Font-Bold="true"  />
+                    <telerik:GridBoundColumn DataField="Email" HeaderText="Email" Visible="false" HeaderStyle-Font-Bold="true"  />
+                    <telerik:GridBoundColumn DataField="UserName" HeaderText="UserName" Visible="false" HeaderStyle-Font-Bold="true" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn DataField="Password" HeaderText="Password" Visible="false">
+                    <telerik:GridBoundColumn DataField="Password" HeaderText="Password" Visible="false" HeaderStyle-Font-Bold="true" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridBoundColumn>
-                    <telerik:GridButtonColumn ConfirmText="Να διαγραφεί αυτή η εγγραφή;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" />
+                    <telerik:GridButtonColumn ConfirmText="Να διαγραφεί αυτή η εγγραφή;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="50" />
                 </Columns>
                 <NestedViewTemplate>
 	                <div class="contactWrap">

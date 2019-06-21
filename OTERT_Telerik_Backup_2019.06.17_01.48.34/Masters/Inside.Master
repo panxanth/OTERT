@@ -1,0 +1,170 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Inside.master.cs" Inherits="OTERT.Masters.Inside" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head runat="server">
+    <title><asp:ContentPlaceHolder ID="PHTitle" runat="server" /></title>
+    <telerik:RadStyleSheetManager id="RadStyleSheetManager1" runat="server" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="../Scripts/tooltip-classic.css" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/Site.css" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/mbcsmbmcp.css" />
+    <asp:ContentPlaceHolder ID="PHHead" runat="server" />
+</head>
+<body>
+    <div id="mbmcpebul_wrapper">
+        <ul id="mbmcpebul_table" class="mbmcpebul_menulist css_menu">
+        <%--
+        <li>
+            <div class="buttonbg gradient_button gradient33" style="width: 49px;"><a href="test.aspx">Home</a></div>
+        </li>
+        --%>
+        <li>
+            <div class="buttonbg gradient_button gradient33" style="width: 80px;">
+                <div class="arrow"><a class="button_2">Έργα</a></div>
+            </div>
+            <ul class="gradient_menu gradient99">
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Προσωρινά</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Αστικά</a>
+                            <ul class="gradient_menu gradient67">
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/UrbanOnePoint.aspx" title="">1 Σημείο Κωδικοποίησης</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/UrbanTwoPoints.aspx" title="">2 Σημεία Κωδικοποίησης</a></li>
+                            </ul>
+                        </li>
+                        <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Υπεραστικά</a>
+                            <ul class="gradient_menu gradient67">
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/LongDistanceOnePoint.aspx" title="">1 Σημείο Κωδικοποίησης</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/LongDistanceTwoPoints.aspx" title="">2 Σημεία Κωδικοποίησης</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Έκτακτα</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Επίγεια</a>
+                            <ul class="gradient_menu gradient67">
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/UrbanCalls.aspx" title="">Αστικά</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/LongDistanceCalls.aspx" title="">Υπεραστικά</a></li>
+                            </ul>
+                        </li>
+                        <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Δορυφορικά</a>
+                            <ul class="gradient_menu gradient67">
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/SateliteHS.aspx" title="">HELLASSAT</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/SateliteEU.aspx" title="">EUTELSAT</a></li>
+                            </ul>
+                        </li>
+                        <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Uplink</a>
+                            <ul class="gradient_menu gradient67">
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/Uplink.aspx" title="">Σταθεροί Δορυφορικοί Σταθμοί</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/UplinkSNG.aspx" title="">Μεταφερόμενοι Δορυφορικοί Σταθμοί (SNG)</a></li>
+                            </ul>
+                        </li>
+                        <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Downlink</a>
+                            <ul class="gradient_menu gradient67">
+                                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/Downlink.aspx" title="">Σταθεροί Δορυφορικοί Σταθμοί</a></li>
+                                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/DownlinkSNG.aspx" title="">Μεταφερόμενοι Δορυφορικοί Σταθμοί (SNG)</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/PTStoGR.aspx" title="">ΠΤΣ προς Ελλάδα</a></li>
+                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/PTStoAbroad.aspx" title="">ΠΤΣ προς Εξωτερικό</a></li>
+            </ul>
+        </li>
+        <li>
+            <div class="buttonbg gradient_button gradient33" style="width: 60px;">
+                <a href="/Pages/Users/CustomersList.aspx" class="button_2">Πελάτες</a>
+            </div>
+        </li>
+        <%--
+        <li>
+            <div class="buttonbg gradient_button gradient33" style="width: 80px;">
+                <div class="arrow"><a class="button_2">Products</a></div>
+            </div>
+            <ul class="gradient_menu gradient99">
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Menu Item</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Item 1</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="test.aspx" title="">Item 2</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a href="test.aspx" title="">Another Menu Item</a></li>
+                <li class="gradient_menuitem gradient27 last_item"><a title="">Yet Another</a></li>
+            </ul>
+        </li>
+        --%>
+        <% if (groupID == "1") {%>
+        <li>
+            <div class="buttonbg gradient_button gradient33" style="width: 100px;">
+                <div class="arrow"><a class="button_2">Διαχείριση</a></div>
+            </div>
+            <ul class="gradient_menu gradient99">
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Χρήστες Εφαρμογής</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/UsersList.aspx">Χρήστες</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/UserGroupsList.aspx">Ομάδες Χρηστών</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Γεωγραφικά Δεδομένα</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/CountriesList.aspx">Χώρες</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/languagesList.aspx">Γλώσσες</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/PlacesList.aspx">Τοποθεσίες</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/DistancesList.aspx">Αποστάσεις</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/EventsList.aspx">Γεγονότα</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/RequestedPositionsList.aspx">Αιτούμενες Θέσεις</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Τεχνικά Δεδομένα</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/LineTypesList.aspx">Είδη Γραμμών</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/SatelitesList.aspx">Δορυφόροι</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Πελάτες</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/CustomerTypesList.aspx">Τύποι Πελάτη</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/CustomersList.aspx">Πελάτες</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Τιμές</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/JobsMainList.aspx">Κύριες Κατηγορίες Έργων</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/JobsList.aspx">Κατηγορίες Έργων</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/SalesList.aspx">Εκπτώσεις</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/CountryPricelistsList.aspx">Τιμοκατάλογοι Παρόχων Εξωτερικού</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Παραγγελίες</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/OrderTypesList.aspx">Είδη Παραγγελιών</a></li>
+                    </ul>
+                </li>
+                <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Εκτυπωτικά</a>
+                    <ul class="gradient_menu gradient67">
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/TemplatesGlobal.aspx">Γενικά Στοιχεία</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/TemplatesGlobal.aspx">Στοιχεία ανά Σελίδα</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <%}%>
+        <li>
+            <div class="gradient33" style="width: 400px; text-align: right;"><a class="button_666"><span class="fa fa-user" style="font-size: 18px;"></span>&nbsp;&nbsp;&nbsp;<% =userName %></a></div>
+        </li>
+        <li>
+            <div class="buttonbg gradient_button gradient33" style="width: 100px;"><a href="/Default.aspx">Αποσύνδεση</a></div>
+        </li>
+        </ul>
+    </div>
+    <br />
+    <form id="form1" runat="server">
+    <div>
+        <asp:ContentPlaceHolder ID="PHContent" runat="server" />
+    </div>
+    </form>
+</body>
+</html>

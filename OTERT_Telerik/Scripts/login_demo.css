@@ -2,13 +2,40 @@
 html { height: 100%; }
 
 body {
+    min-height: 100%;
+    padding: 0; 
+    margin: 0; 
+    position: relative;
+
     font-family: Arial, sans-serif;
     font-weight: 300;
-    font-size: 15px;
+    font-size: 14px;
     color: #333;
     -webkit-font-smoothing: antialiased;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+body::after { 
+    content: ''; 
+    display: block; 
+    height: 100px; 
+}
+
+header{
+    background:#FFFFFF; 
+    height:104px;
+}
+
+footer{ 
+    position: absolute; 
+    bottom: 0; 
+    width: 100%; 
+    height: 30px;
+    background: #FFFFFF;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #0066b6;
 }
 
 a {

@@ -61,6 +61,11 @@ namespace OTERT.Model {
         public string Name { get; set; }
     }
 
+    public class JobTypeDTO {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+
     public class CustomerDTO {
         public int ID { get; set; }
         public CountryDTO Country { get; set; }
@@ -109,6 +114,8 @@ namespace OTERT.Model {
         public int ID { get; set; }
         public int JobsMainID { get; set; }
         public JobMainDTO JobsMain { get; set; }
+        public int JobTypesID { get; set; }
+        public JobTypeDTO JobType { get; set; }
         public string Name { get; set; }
         public int? MinimumTime { get; set; }
         public string InvoiceCode { get; set; }
@@ -163,6 +170,7 @@ namespace OTERT.Model {
         public int ID { get; set; }
         public int? TaskID { get; set; }
         public int? OrderID { get; set; }
+        public int? CustomerID { get; set; }
         public string FilePath { get; set; }
         public string FileName { get; set; }
         public DateTime DateStamp { get; set; }

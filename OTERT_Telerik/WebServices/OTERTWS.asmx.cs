@@ -86,7 +86,11 @@ namespace OTERT.WebServices {
                         Session["LogedInUsername"] = loggedUser.UserName;
                         Session["LogedInUsergroupID"] = loggedUser.UserGroup.ID;
                         Session["LogedInUserDisplayName"] = loggedUser.NameGR;
-                        responseObj = new { result = "OK" };
+                        if (loggedUser.UserGroup.Name == "Helper") {
+                            responseObj = new { result = "OK_Helper" };
+                        } else {
+                            responseObj = new { result = "OK" };
+                        }
                     } else {
                         responseObj = new { result = "Unknown" };
                     }

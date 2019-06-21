@@ -31,14 +31,15 @@
         <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" AllowPaging="true" AllowCustomPaging="true" PageSize="10" Skin="Metro"
             OnNeedDataSource="gridMain_NeedDataSource" 
             OnUpdateCommand="gridMain_UpdateCommand">
+            <GroupingSettings CaseSensitive="false" />
             <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές">
                 <CommandItemSettings ShowAddNewRecordButton="false" />
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />
                 <Columns>
-                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
-                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
-                    <telerik:GridBoundColumn DataField="PageID" HeaderText="Κωδικός Σελίδας" ReadOnly="true" Visible="false" />
-                    <telerik:GridBoundColumn DataField="Name" HeaderText="Όνομα">
+                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="PageID" HeaderText="Κωδικός Σελίδας" ReadOnly="true" Visible="false" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="Name" HeaderText="Όνομα" HeaderStyle-Font-Bold="true">
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridBoundColumn>
                 </Columns>

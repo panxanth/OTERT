@@ -78,6 +78,18 @@ namespace OTERT.Model {
         public int KM { get; set; }
     }
 
+    public class DocumentReplacemetB {
+        public int ID { get; set; }
+        public string UniqueName { get; set; }
+        public string Title { get; set; }
+        public string Text { get; set; }
+        public string Type { get; set; }
+        public int? ImageWidth { get; set; }
+        public int? ImageHeight { get; set; }
+        public string BookmarkTitle { get; set; }
+        public string DocumentPart { get; set; }
+    }
+
     public class EventB {
         public int ID { get; set; }
         public PlaceDTO Place { get; set; }
@@ -90,6 +102,7 @@ namespace OTERT.Model {
         public int ID { get; set; }
         public int? TaskID { get; set; }
         public int? OrderID { get; set; }
+        public int? CustomerID { get; set; }
         public string FilePath { get; set; }
         public string FileName { get; set; }
         public DateTime DateStamp { get; set; }
@@ -99,6 +112,8 @@ namespace OTERT.Model {
         public int ID { get; set; }
         public int JobsMainID { get; set; }
         public JobMainDTO JobsMain { get; set; }
+        public int JobTypesID { get; set; }
+        public JobTypeDTO JobType { get; set; }
         public string Name { get; set; }
         public int? MinimumTime { get; set; }
         public string InvoiceCode { get; set; }
@@ -122,6 +137,11 @@ namespace OTERT.Model {
     public class JobMainB {
         public int ID { get; set; }
         public int PageID { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class JobTypeB {
+        public int ID { get; set; }
         public string Name { get; set; }
     }
 
@@ -250,6 +270,16 @@ namespace OTERT.Model {
     public class UserGroupB {
         public int ID { get; set; }
         public string Name { get; set; }
+    }
+
+    public class TaskForH {
+        public int Count { get; set; }
+        public string Customer { get; set; }
+        public string FromPlace { get; set; }
+        public string ToPlace { get; set; }
+        public string FromTime { get; set; }
+        public string ToTime { get; set; }
+        public string Comments { get; set; }
     }
 
 }
