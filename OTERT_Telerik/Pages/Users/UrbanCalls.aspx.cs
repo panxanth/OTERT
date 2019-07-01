@@ -21,7 +21,7 @@ namespace OTERT.Pages.UserPages {
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
         protected int pageID = 5;
-        protected string pageTitle, uploadedFilePath;
+        protected string pageTitle, uploadedFilePath, groupID;
         protected int JobsID, CustomersID, DistancesID;
         const string fileUploadFolder = "~/UploadedFiles/";
 
@@ -37,6 +37,8 @@ namespace OTERT.Pages.UserPages {
                 Session.Remove("DistancesID");
                 uploadedFilePath = "";
             }
+            if (Session["LogedInUsergroupID"] != null) { groupID = Session["LogedInUsergroupID"].ToString(); }
+            else { Response.Redirect("/Default.aspx", true); }
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
@@ -48,6 +50,10 @@ namespace OTERT.Pages.UserPages {
                 gridMain.DataSource = cont.GetTasksForPage(pageID, recSkip, recTake);
             }
             catch (Exception) { }
+        }
+
+        protected void gridMain_PreRender(object sender, EventArgs e) {
+            gridMain.MasterTableView.GetColumn("ExpandColumn").Display = false;
         }
 
         protected void gridMain_ItemCreated(object sender, GridItemEventArgs e) {
@@ -111,6 +117,10 @@ namespace OTERT.Pages.UserPages {
                     //dpDateTimeEndActual.SharedTimeView.Interval = new TimeSpan(0, 30, 0);
                     dpDateTimeEndActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
                     dpDateTimeEndActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
+                    CheckBox chkIsCanceled = (CheckBox)item.FindControl("chkIsCanceled");
+                    chkIsCanceled.Enabled = true;
+                    chkIsCanceled.AutoPostBack = true;
+                    chkIsCanceled.CheckedChanged += new EventHandler(chkIsCanceled_CheckedChanged);
                 }
             } else if (e.Item.OwnerTableView.Name == "AttachedFiles") {
                 if (e.Item is GridDataItem) {
@@ -232,14 +242,28 @@ namespace OTERT.Pages.UserPages {
                 if (e.Item is GridDataItem) {
                     GridDataItem item = (GridDataItem)e.Item;
                     if (item.OwnerTableView.DataSource != null) {
+                        TaskB curTask = (item.OwnerTableView.DataSource as List<TaskB>)[item.DataSetIndex];
                         TableCell curCell = item["RegNo"];
-                        string curComments = (item.OwnerTableView.DataSource as List<TaskB>)[item.DataSetIndex].Comments;
+                        string curComments = curTask.Comments;
                         string curTooltip = "<span><span class=\"tooltip tooltip-effect-4\"><span class=\"tooltip-item\">";
                         curTooltip += curCell.Text;
                         curTooltip += "</span><span class=\"tooltip-content clearfix\"><span class=\"tooltip-text\"><strong>Παρατηρήσεις:</strong><br/>";
                         curTooltip += curComments;
                         curTooltip += "</span></span></span></span>";
                         if (!string.IsNullOrWhiteSpace(curComments)) { curCell.Text = curTooltip; }
+                        System.Drawing.Color hColor = System.Drawing.Color.FromArgb(0, 0, 0);
+                        if (curTask.IsLocked == true) { hColor = System.Drawing.Color.FromArgb(200, 0, 0); }
+                        item["ID"].ForeColor = hColor;
+                        item["RegNo"].ForeColor = hColor;
+                        item["OrderDate"].ForeColor = hColor;
+                        item["CustomerID"].ForeColor = hColor;
+                        item["JobsID"].ForeColor = hColor;
+                        item["DateTimeStartActual"].ForeColor = hColor;
+                        if (curTask.IsLocked == true && groupID != "1") {
+                            item["EditCommandColumn"].Controls[0].Visible = false;
+                            item["btnDelete"].Controls[0].Visible = false;
+                            item["ExapandColumn"].Controls[0].Visible = false;
+                        }
                     }
                 }
             }
@@ -254,6 +278,8 @@ namespace OTERT.Pages.UserPages {
                 RadDropDownList ddlJobs = item.FindControl("ddlJobs") as RadDropDownList;
                 RadDropDownList ddlCustomers = item.FindControl("ddlCustomers") as RadDropDownList;
                 RadDropDownList ddlDistances = item.FindControl("ddlDistances") as RadDropDownList;
+                CheckBox chkIsCanceled = (CheckBox)item.FindControl("chkIsCanceled");
+                
                 try {
                     TaskB currTask = e.Item.DataItem as TaskB;
                     JobsController cont1 = new JobsController();
@@ -278,6 +304,7 @@ namespace OTERT.Pages.UserPages {
                         Session["CustomersID"] = currTask.CustomerID;
                         ddlDistances.SelectedIndex = ddlDistances.FindItemByValue(currTask.DistanceID.ToString()).Index;
                         Session["DistancesID"] = currTask.DistanceID;
+                        chkIsCanceled.Checked = currTask.IsCanceled;
                     } else {
                         ddlJobs.SelectedIndex = 0;
                         Session["JobsID"] = ddlJobs.SelectedItem.Value;
@@ -285,6 +312,7 @@ namespace OTERT.Pages.UserPages {
                         Session["CustomersID"] = ddlCustomers.SelectedItem.Value;
                         ddlDistances.SelectedIndex = 0;
                         Session["DistancesID"] = ddlDistances.SelectedItem.Value;
+                        chkIsCanceled.Checked = false;
                     }
                 }
                 catch (Exception) { }
@@ -331,6 +359,8 @@ namespace OTERT.Pages.UserPages {
                             DistancesID = -1;
                             Session.Remove("DistancesID");
                         }
+                        CheckBox chkIsCanceled = (CheckBox)editableItem.FindControl("chkIsCanceled");
+                        curTask.IsCanceled = chkIsCanceled.Checked;
                         dbContext.SaveChanges();
                     }
                     catch (Exception) { ShowErrorMessage(-1); }
@@ -376,7 +406,9 @@ namespace OTERT.Pages.UserPages {
                             if (values["PaymentDateActual"] != null) { curTask.PaymentDateActual = DateTime.Parse((string)values["PaymentDateActual"]); } else { curTask.PaymentDateActual = null; }
                             curTask.IsForHelpers = (bool)values["IsForHelpers"];
                             curTask.IsLocked = (bool)values["IsLocked"];
-                            curTask.IsCanceled = (bool)values["IsCanceled"];
+                            CheckBox chkIsCanceled = (CheckBox)editableItem.FindControl("chkIsCanceled");
+                            curTask.IsCanceled = chkIsCanceled.Checked;
+                            //curTask.IsCanceled = (bool)values["IsCanceled"];
                             curTask.CancelPrice = 0;
                             curTask.Comments = (string)values["Comments"];
                             curTask.InvoceComments = (string)values["InvoceComments"];
@@ -501,6 +533,90 @@ namespace OTERT.Pages.UserPages {
             string newfilename = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + e.File.GetNameWithoutExtension().Replace(" ", "_") + e.File.GetExtension();
             uploadedFilePath = fileUploadFolder + newfilename;
             e.File.SaveAs(System.IO.Path.Combine(fullPath, newfilename));
+        }
+
+        protected void btnCancelationCancel_Click(object sender, EventArgs e) {
+            Button btnCancelationCancel = (Button)sender;
+            GridEditableItem eitem = (GridEditableItem)btnCancelationCancel.NamingContainer;
+            CheckBox chkIsCanceled = (CheckBox)eitem.FindControl("chkIsCanceled"); ;
+            Label lblCancelationMsg = (Label)eitem.FindControl("lblCancelationMsg");
+            RadDropDownList ddlCancelationPrices = (RadDropDownList)eitem.FindControl("ddlCancelationPrices");
+            Button btnCancelationOK = (Button)eitem.FindControl("btnCancelationOK");
+            lblCancelationMsg.Visible = false;
+            ddlCancelationPrices.Visible = false;
+            btnCancelationOK.Visible = false;
+            btnCancelationCancel.Visible = false;
+            chkIsCanceled.Checked = false;
+            calculateCosts(eitem);
+        }
+
+        protected void btnCancelationOK_Click(object sender, EventArgs e) {
+            Button btnCancelationOK = (Button)sender;
+            GridEditableItem eitem = (GridEditableItem)btnCancelationOK.NamingContainer;
+            CheckBox chkIsCanceled = (CheckBox)eitem.FindControl("chkIsCanceled"); ;
+            Label lblCancelationMsg = (Label)eitem.FindControl("lblCancelationMsg");
+            RadDropDownList ddlCancelationPrices = (RadDropDownList)eitem.FindControl("ddlCancelationPrices");
+            Button btnCancelationCancel = (Button)eitem.FindControl("btnCancelationCancel");
+            lblCancelationMsg.Visible = false;
+            ddlCancelationPrices.Visible = false;
+            btnCancelationOK.Visible = false;
+            btnCancelationCancel.Visible = false;
+            chkIsCanceled.Checked = true;
+            TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
+            txtCostActual.Text = "0";
+        }
+
+        protected void chkIsCanceled_CheckedChanged(object sender, EventArgs e) {
+            CheckBox chkIsCanceled = (CheckBox)sender;
+            GridEditableItem eitem = (GridEditableItem)chkIsCanceled.NamingContainer;
+            Label lblCancelationMsg = (Label)eitem.FindControl("lblCancelationMsg");
+            RadDropDownList ddlCancelationPrices = (RadDropDownList)eitem.FindControl("ddlCancelationPrices");
+            Button btnCancelationOK = (Button)eitem.FindControl("btnCancelationOK");
+            Button btnCancelationCancel = (Button)eitem.FindControl("btnCancelationCancel");
+            if (chkIsCanceled.Checked) {
+                if (Session["JobsID"] != null) {
+                    int jobID = int.Parse(Session["JobsID"].ToString());
+                    JobCancelPricesController cont = new JobCancelPricesController();
+                    List<JobCancelPriceB> curJobCancelPrices = cont.GetJobCancelPrices(jobID);
+                    if (curJobCancelPrices.Count>0) {
+                        ddlCancelationPrices.DataSource = curJobCancelPrices;
+                        ddlCancelationPrices.DataTextField = "Price";
+                        ddlCancelationPrices.DataValueField = "Price";
+                        ddlCancelationPrices.DataBind();
+                        ddlCancelationPrices.Items.Insert(0, new DropDownListItem("Επιλέξτε Ποσό Ακύρωσης", "-1"));
+                        lblCancelationMsg.Visible = false;
+                        ddlCancelationPrices.Visible = true;
+                        btnCancelationOK.Visible = false;
+                        btnCancelationCancel.Visible = false;
+                    } else {
+                        lblCancelationMsg.Text = "Δεν υπάρχουν Ποσά Ακύρωσης για τη συγκεκριμένη Κατηγορία Έργου. Το συνολικό κόστος θα μηδενιστεί!";
+                        lblCancelationMsg.Visible = true;
+                        ddlCancelationPrices.Visible = false;
+                        btnCancelationOK.Visible = true;
+                        btnCancelationCancel.Visible = true;
+                    }
+                }
+            } else {
+                lblCancelationMsg.Visible = false;
+                ddlCancelationPrices.Visible = false;
+                btnCancelationOK.Visible = false;
+                btnCancelationCancel.Visible = false;
+                calculateCosts(eitem);
+            }
+        }
+
+        protected void ddlCancelationPrices_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            RadDropDownList ddlCancelationPrices = (RadDropDownList)sender;
+            if (ddlCancelationPrices.SelectedIndex != 0) {
+                GridEditableItem eitem = (GridEditableItem)ddlCancelationPrices.NamingContainer;
+                TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
+                txtCostActual.Text = ddlCancelationPrices.SelectedItem.Text;
+            }
+        }
+
+        protected void ddlCancelationPrices_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
         }
 
     }
