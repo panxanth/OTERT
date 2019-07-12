@@ -24,11 +24,13 @@ namespace OTERT.Pages.Invoices {
 
     public partial class InvoiceCreate : Page {
 
-        protected RadDatePicker dpDate;
+        protected RadDatePicker dpDateFrom, dpDateTo, dpDateCreated, dpDatePay;
+        protected RadDropDownList ddlCustomers;
         protected RadGrid gridJobs;
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
-        protected Button btnShow;
+        protected RadButton btnShow1;
+        protected Button btnShow2;
         protected string pageTitle, uploadedFilePath;
         const string templatesFolder = "~/Templates/";
         const int PTSFromGreeceID = 14;
@@ -37,7 +39,18 @@ namespace OTERT.Pages.Invoices {
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Τμήμα Υποστήριξης (ΚΕΤ) - Λίστα Ημερ. Μεταδόσεων";
-                dpDate.SelectedDate = DateTime.Now.Date;
+                dpDateFrom.SelectedDate = DateTime.Now.Date;
+                dpDateTo.SelectedDate = DateTime.Now.Date;
+                dpDateCreated.SelectedDate = DateTime.Now.Date;
+                dpDatePay.SelectedDate = DateTime.Now.Date;
+                try {
+                    CustomersController cont = new CustomersController();
+                    ddlCustomers.DataSource = cont.GetCustomersForCountry(1);
+                    ddlCustomers.DataTextField = "NameGR";
+                    ddlCustomers.DataValueField = "ID";
+                    ddlCustomers.DataBind();
+                }
+                catch (Exception) { }
             }
         }
 
@@ -49,7 +62,26 @@ namespace OTERT.Pages.Invoices {
             catch (Exception) { }
         }
 
-        protected void btnShow_Click(object sender, EventArgs e) {
+        protected void btnShow1_Click(object sender, EventArgs e) {
+            try {
+                /*
+                if (dpDate.SelectedDate != null) {
+                    Response.Redirect("DailyListInside.aspx?date="+ dpDate.SelectedDate.ToString(), false);
+                    Context.ApplicationInstance.CompleteRequest();
+                }
+                */
+                string items = string.Empty;
+                foreach (GridDataItem item in gridJobs.MasterTableView.Items) {
+                    CheckBox chk = (CheckBox)item.FindControl("chk");
+                    string value = item.GetDataKeyValue("ID").ToString();
+                    if (chk.Checked) { items += value + ","; }
+                }
+                items = items.TrimEnd(',');
+            }
+            catch (Exception) { }
+        }
+
+        protected void btnShow2_Click(object sender, EventArgs e) {
             try {
                 /*
                 if (dpDate.SelectedDate != null) {
