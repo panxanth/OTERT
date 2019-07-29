@@ -26,6 +26,7 @@ namespace OTERT.Controller {
                                         select new SalesFormulaB {
                                             ID = us.ID,
                                             SalesID = us.SalesID,
+                                            Sale = new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type },
                                             Distance = us.Distance,
                                             SalePercent = us.SalePercent
                                         }).Where(k => k.SalesID == salesID).OrderBy(o => o.Distance).ToList();
@@ -43,6 +44,7 @@ namespace OTERT.Controller {
                                         select new SalesFormulaB {
                                                 ID = us.ID,
                                                 SalesID = us.SalesID,
+                                                Sale = new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type },
                                                 Distance = us.Distance,
                                                 SalePercent = us.SalePercent
                                            }).Where(k => k.SalesID == salesID).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();

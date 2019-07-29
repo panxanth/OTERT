@@ -62,6 +62,15 @@
         <AssociationConnector Association="OTERT_Model.FK_Files_Customers" />
         <EntityTypeShape EntityType="OTERT_Model.JobTypes" Width="1.5" PointX="13.375" PointY="0.875" />
         <AssociationConnector Association="OTERT_Model.FK_Jobs_JobTypes" />
+        <EntityTypeShape EntityType="OTERT_Model.DiscountLine" Width="1.5" PointX="14.75" PointY="2.75" />
+        <EntityTypeShape EntityType="OTERT_Model.Invoices" Width="1.5" PointX="5.25" PointY="2.875" />
+        <EntityTypeShape EntityType="OTERT_Model.TasksLine" Width="1.5" PointX="16.25" PointY="8.375" />
+        <AssociationConnector Association="OTERT_Model.FK_Invoices_Customers" />
+        <AssociationConnector Association="OTERT_Model.FK_DiscountLine_Invoices" />
+        <AssociationConnector Association="OTERT_Model.FK_DiscountLine_Jobs" />
+        <AssociationConnector Association="OTERT_Model.FK_TasksLine_Invoices" />
+        <AssociationConnector Association="OTERT_Model.FK_TasksLine_Jobs" />
+        <AssociationConnector Association="OTERT_Model.FK_TasksLine_Tasks" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

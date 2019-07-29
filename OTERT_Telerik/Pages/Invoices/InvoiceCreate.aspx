@@ -134,15 +134,25 @@
             </telerik:RadButton>
         </asp:PlaceHolder>
         <asp:PlaceHolder ID="phStep4" runat="server">
-            <telerik:RadGrid ID="gridJobsTotal" runat="server" AutoGenerateColumns="false" Skin="Metro" Width="50%"
-                OnNeedDataSource="gridJobsTotal_NeedDataSource">
-                <MasterTableView DataKeyNames="JobID" CommandItemDisplay="Top" CommandItemStyle-HorizontalAlign="Right" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν Κατηγορίες Έργων που να πληρούν αυτές τις συνθήκες">
+            <telerik:RadGrid ID="gridSales" runat="server" AutoGenerateColumns="false" Skin="Metro"
+                OnNeedDataSource="gridSales_NeedDataSource">
+                <MasterTableView DataKeyNames="JobID" CommandItemDisplay="Top" CommandItemStyle-HorizontalAlign="Right" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν Εκπτώσεις για τα συγκεκριμένα Έργα">
+                    <CommandItemTemplate>
+                        <asp:Button ID="btnSelectAllSales" Text="Επιλογή Όλων" runat="server" OnClick="btnSelectAllSales_Click" />
+                        <asp:Button ID="btnDeSelectAllSales" Text="Καθαρισμός" runat="server" OnClick="btnDeSelectAllSales_Click" />
+                    </CommandItemTemplate>   
                     <CommandItemSettings RefreshText="Ανανέωση" ShowAddNewRecordButton="false" />
                     <Columns>
+                        <telerik:GridTemplateColumn>
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chk" runat="server" />
+                            </ItemTemplate>
+                        </telerik:GridTemplateColumn>
                         <telerik:GridBoundColumn DataField="JobID" HeaderText="ID" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
                         <telerik:GridBoundColumn DataField="JobName" HeaderText="Κατηγορία Έργου" ReadOnly="true" />
                         <telerik:GridBoundColumn DataField="TasksCount" HeaderText="Πλήθος Έργων" ReadOnly="true" />
-                        <telerik:GridBoundColumn DataField="TasksCost" HeaderText="Συνολικό Ποσό" ReadOnly="true" />
+                        <telerik:GridBoundColumn DataField="TasksCost" UniqueName="TasksCost" HeaderText="Συνολικό Ποσό" ReadOnly="true" />
+                        <telerik:GridBoundColumn DataField="SalesCost" UniqueName="SalesCost" HeaderText="Συνολική Έκπτωση" ReadOnly="true" />
                     </Columns>
                 </MasterTableView>
             </telerik:RadGrid> 

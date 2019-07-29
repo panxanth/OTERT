@@ -17,6 +17,7 @@ namespace OTERT.Model {
         public bool locked { get; set; }
         public List<string> SelectedJobs { get; set; }
         public List<string> SelectedTasks { get; set; }
+        public List<string> SelectedSales { get; set; }
     }
 
     public class tasksTotalsPerJob {
@@ -24,6 +25,7 @@ namespace OTERT.Model {
         public string JobName { get; set; }
         public int TasksCount { get; set; }
         public decimal TasksCost { get; set; }
+        public decimal SalesCost { get; set; }
     }
 
 }

@@ -198,6 +198,7 @@ namespace OTERT.Model {
     public class SalesFormulaB {
         public int ID { get; set; }
         public int SalesID { get; set; }
+        public SaleDTO Sale { get; set; }
         public decimal? Distance { get; set; }
         public decimal SalePercent { get; set; }
     }
@@ -280,6 +281,41 @@ namespace OTERT.Model {
         public string FromTime { get; set; }
         public string ToTime { get; set; }
         public string Comments { get; set; }
+    }
+
+    public class InvoiceB {
+        public int ID { get; set; }
+        public int CustomerID { get; set; }
+        public CustomerDTO Customer { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public string RegNo { get; set; }
+        public DateTime? DatePaid { get; set; }
+        public decimal? TasksLineAmount { get; set; }
+        public decimal DiscountLineAmount { get; set; }
+        public bool? IsLocked { get; set; }
+    }
+
+    public class DiscountLineB {
+        public int ID { get; set; }
+        public int InvoiceID { get; set; }
+        public InvoiceDTO Invoice { get; set; }
+        public int JobID { get; set; }
+        public JobDTO Job { get; set; }
+        public decimal? TasksAmount { get; set; }
+        public decimal? DiscountAmount { get; set; }
+        public bool Applied { get; set; }
+    }
+
+    public class DTasksLineB {
+        public int ID { get; set; }
+        public int InvoiceID { get; set; }
+        public InvoiceDTO Invoice { get; set; }
+        public int TaskID { get; set; }
+        public TaskDTO Task { get; set; }
+        public int JobID { get; set; }
+        public JobDTO Job { get; set; }
     }
 
 }

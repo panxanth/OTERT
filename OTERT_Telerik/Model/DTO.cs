@@ -181,4 +181,64 @@ namespace OTERT.Model {
         public string Name { get; set; }
     }
 
+    public class TaskDTO {
+        public int ID { get; set; }
+        public int? OrderID { get; set; }
+        public OrderDTO Order { get; set; }
+        public string RegNo { get; set; }
+        public DateTime OrderDate { get; set; }
+        public int CustomerID { get; set; }
+        public CustomerDTO Customer { get; set; }
+        public int? RequestedPositionID { get; set; }
+        public RequestedPositionDTO RequestedPosition { get; set; }
+        public int? JobID { get; set; }
+        public JobDTO Job { get; set; }
+        public int? DistanceID { get; set; }
+        public DistanceDTO Distance { get; set; }
+        public DateTime? DateTimeStartOrder { get; set; }
+        public DateTime? DateTimeEndOrder { get; set; }
+        public int DateTimeDurationOrder { get; set; }
+        public DateTime? DateTimeStartActual { get; set; }
+        public DateTime? DateTimeEndActual { get; set; }
+        public int? DateTimeDurationActual { get; set; }
+        public decimal? CostCalculated { get; set; }
+        public bool InstallationCharges { get; set; }
+        public bool MonthlyCharges { get; set; }
+        public decimal? CallCharges { get; set; }
+        public string TelephoneNumber { get; set; }
+        public decimal? TechnicalSupport { get; set; }
+        public decimal? AddedCharges { get; set; }
+        public decimal? CostActual { get; set; }
+        public DateTime? PaymentDateOrder { get; set; }
+        public DateTime? PaymentDateCalculated { get; set; }
+        public DateTime? PaymentDateActual { get; set; }
+        public bool IsForHelpers { get; set; }
+        public bool IsLocked { get; set; }
+        public bool IsCanceled { get; set; }
+        public decimal? CancelPrice { get; set; }
+        public string Comments { get; set; }
+        public string InvoceComments { get; set; }
+        public int? SateliteID { get; set; }
+        public SateliteDTO Satelite { get; set; }
+        public List<FileB> Files { get; set; }
+        public bool MSN { get; set; }
+        public bool Internet { get; set; }
+        public int? LineTypeID { get; set; }
+        public LineTypeDTO LineType { get; set; }
+    }
+
+    public class InvoiceDTO {
+        public int ID { get; set; }
+        public int CustomerID { get; set; }
+        public CustomerDTO Customer { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public string RegNo { get; set; }
+        public DateTime? DatePaid { get; set; }
+        public decimal? TasksLineAmount { get; set; }
+        public decimal DiscountLineAmount { get; set; }
+        public bool? IsLocked { get; set; }
+    }
+
 }

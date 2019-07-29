@@ -34,6 +34,22 @@ namespace OTERT.Controller {
             }
         }
 
+        public SaleB GetSale(int saleID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    SaleB data = (from us in dbContext.Sales
+                                  select new SaleB {
+                                      ID = us.ID,
+                                      Name = us.Name,
+                                      Type = us.Type
+                                  }).Where(o => o.ID == saleID).FirstOrDefault(); ;
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
         public List<SaleB> GetSales(int recSkip, int recTake) {
             using (var dbContext = new OTERTConnStr()) {
                 try {

@@ -70,6 +70,17 @@
           <Property Name="NameGR" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="NameEN" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="DiscountLine">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceID" Type="int" Nullable="false" />
+          <Property Name="JobID" Type="int" Nullable="false" />
+          <Property Name="TasksAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="DiscountAmount" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="Applied" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Distances">
           <Key>
             <PropertyRef Name="ID" />
@@ -114,6 +125,21 @@
           <Property Name="FilePath" Type="nvarchar(max)" Nullable="false" />
           <Property Name="FileName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="DateStamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Invoices">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="DateFrom" Type="datetime" />
+          <Property Name="DateTo" Type="datetime" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="RegNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="DatePaid" Type="datetime" />
+          <Property Name="TasksLineAmount" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="DiscountLineAmount" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="IsLocked" Type="bit" />
         </EntityType>
         <EntityType Name="JobCancelPrices">
           <Key>
@@ -275,6 +301,15 @@
           <Property Name="MSN" Type="bit" />
           <Property Name="LineTypeID" Type="int" />
         </EntityType>
+        <EntityType Name="TasksLine">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceID" Type="int" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="JobID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="UIControlsVisibility">
           <Key>
             <PropertyRef Name="ID" />
@@ -376,6 +411,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DiscountLine_Invoices">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1" />
+          <End Role="DiscountLine" Type="Self.DiscountLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DiscountLine">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DiscountLine_Jobs">
+          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
+          <End Role="DiscountLine" Type="Self.DiscountLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DiscountLine">
+              <PropertyRef Name="JobID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Distances_JobsMain">
           <End Role="JobsMain" Type="Self.JobsMain" Multiplicity="1" />
           <End Role="Distances" Type="Self.Distances" Multiplicity="*" />
@@ -433,6 +492,18 @@
             </Principal>
             <Dependent Role="Files">
               <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -652,6 +723,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TasksLine_Invoices">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1" />
+          <End Role="TasksLine" Type="Self.TasksLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TasksLine">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksLine_Jobs">
+          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
+          <End Role="TasksLine" Type="Self.TasksLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TasksLine">
+              <PropertyRef Name="JobID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksLine_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
+          <End Role="TasksLine" Type="Self.TasksLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TasksLine">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_UIControlsVisibility_OrderTypes">
           <End Role="OrderTypes" Type="Self.OrderTypes" Multiplicity="1" />
           <End Role="UIControlsVisibility" Type="Self.UIControlsVisibility" Multiplicity="*" />
@@ -681,10 +788,12 @@
           <EntitySet Name="CountryPricelist" EntityType="Self.CountryPricelist" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerTypes" EntityType="Self.CustomerTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DiscountLine" EntityType="Self.DiscountLine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Distances" EntityType="Self.Distances" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentReplacemets" EntityType="Self.DocumentReplacemets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobCancelPrices" EntityType="Self.JobCancelPrices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobFormulas" EntityType="Self.JobFormulas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
@@ -700,6 +809,7 @@
           <EntitySet Name="SalesFormulas" EntityType="Self.SalesFormulas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Satelites" EntityType="Self.Satelites" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TasksLine" EntityType="Self.TasksLine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UIControlsVisibility" EntityType="Self.UIControlsVisibility" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserGroups" EntityType="Self.UserGroups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -727,6 +837,14 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Customers" EntitySet="Customers" />
           </AssociationSet>
+          <AssociationSet Name="FK_DiscountLine_Invoices" Association="Self.FK_DiscountLine_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="DiscountLine" EntitySet="DiscountLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DiscountLine_Jobs" Association="Self.FK_DiscountLine_Jobs">
+            <End Role="Jobs" EntitySet="Jobs" />
+            <End Role="DiscountLine" EntitySet="DiscountLine" />
+          </AssociationSet>
           <AssociationSet Name="fk_Distances_JobsMain" Association="Self.fk_Distances_JobsMain">
             <End Role="JobsMain" EntitySet="JobsMain" />
             <End Role="Distances" EntitySet="Distances" />
@@ -746,6 +864,10 @@
           <AssociationSet Name="FK_Files_Tasks" Association="Self.FK_Files_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Customers" Association="Self.FK_Invoices_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Invoices" EntitySet="Invoices" />
           </AssociationSet>
           <AssociationSet Name="FK_JobCancelPrices_Jobs" Association="Self.FK_JobCancelPrices_Jobs">
             <End Role="Jobs" EntitySet="Jobs" />
@@ -818,6 +940,18 @@
           <AssociationSet Name="fk_Tasks_Satelite" Association="Self.fk_Tasks_Satelite">
             <End Role="Satelites" EntitySet="Satelites" />
             <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksLine_Invoices" Association="Self.FK_TasksLine_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="TasksLine" EntitySet="TasksLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksLine_Jobs" Association="Self.FK_TasksLine_Jobs">
+            <End Role="Jobs" EntitySet="Jobs" />
+            <End Role="TasksLine" EntitySet="TasksLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksLine_Tasks" Association="Self.FK_TasksLine_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="TasksLine" EntitySet="TasksLine" />
           </AssociationSet>
           <AssociationSet Name="fk_UIControlsVisibility_OrderTypes" Association="Self.fk_UIControlsVisibility_OrderTypes">
             <End Role="OrderTypes" EntitySet="OrderTypes" />
@@ -901,6 +1035,7 @@
           <Property Name="SAPCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="IsOTE" Type="Boolean" />
           <NavigationProperty Name="Files" Relationship="OTERT_Model.FK_Files_Customers" FromRole="Customers" ToRole="Files" />
+          <NavigationProperty Name="Invoices" Relationship="OTERT_Model.FK_Invoices_Customers" FromRole="Customers" ToRole="Invoices" />
         </EntityType>
         <EntityType Name="CustomerTypes">
           <Key>
@@ -951,6 +1086,8 @@
           <NavigationProperty Name="JobsMain" Relationship="OTERT_Model.FK_Jobs_JobsMain" FromRole="Jobs" ToRole="JobsMain" />
           <Property Name="JobTypesID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="JobTypes" Relationship="OTERT_Model.FK_Jobs_JobTypes" FromRole="Jobs" ToRole="JobTypes" />
+          <NavigationProperty Name="DiscountLine" Relationship="OTERT_Model.FK_DiscountLine_Jobs" FromRole="Jobs" ToRole="DiscountLine" />
+          <NavigationProperty Name="TasksLine" Relationship="OTERT_Model.FK_TasksLine_Jobs" FromRole="Jobs" ToRole="TasksLine" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -1073,6 +1210,7 @@
           <Property Name="MSN" Type="Boolean" />
           <Property Name="LineTypeID" Type="Int32" />
           <NavigationProperty Name="LineTypes" Relationship="OTERT_Model.FK_Tasks_LineTypes" FromRole="Tasks" ToRole="LineTypes" />
+          <NavigationProperty Name="TasksLine" Relationship="OTERT_Model.FK_TasksLine_Tasks" FromRole="Tasks" ToRole="TasksLine" />
         </EntityType>
         <EntityType Name="UIControlsVisibility">
           <Key>
@@ -1438,6 +1576,33 @@
             <End Role="JobTypes" EntitySet="JobTypes" />
             <End Role="Jobs" EntitySet="Jobs" />
           </AssociationSet>
+          <EntitySet Name="DiscountLine" EntityType="OTERT_Model.DiscountLine" />
+          <EntitySet Name="Invoices" EntityType="OTERT_Model.Invoices" />
+          <EntitySet Name="TasksLine" EntityType="OTERT_Model.TasksLine" />
+          <AssociationSet Name="FK_Invoices_Customers" Association="OTERT_Model.FK_Invoices_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DiscountLine_Invoices" Association="OTERT_Model.FK_DiscountLine_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="DiscountLine" EntitySet="DiscountLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DiscountLine_Jobs" Association="OTERT_Model.FK_DiscountLine_Jobs">
+            <End Role="Jobs" EntitySet="Jobs" />
+            <End Role="DiscountLine" EntitySet="DiscountLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksLine_Invoices" Association="OTERT_Model.FK_TasksLine_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="TasksLine" EntitySet="TasksLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksLine_Jobs" Association="OTERT_Model.FK_TasksLine_Jobs">
+            <End Role="Jobs" EntitySet="Jobs" />
+            <End Role="TasksLine" EntitySet="TasksLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksLine_Tasks" Association="OTERT_Model.FK_TasksLine_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="TasksLine" EntitySet="TasksLine" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="fk_Orders_Customers_1">
           <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
@@ -1714,6 +1879,121 @@
             </Principal>
             <Dependent Role="Jobs">
               <PropertyRef Name="JobTypesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DiscountLine">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="JobID" Type="Int32" Nullable="false" />
+          <Property Name="TasksAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiscountAmount" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="Applied" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Invoices" Relationship="OTERT_Model.FK_DiscountLine_Invoices" FromRole="DiscountLine" ToRole="Invoices" />
+          <NavigationProperty Name="Jobs" Relationship="OTERT_Model.FK_DiscountLine_Jobs" FromRole="DiscountLine" ToRole="Jobs" />
+        </EntityType>
+        <EntityType Name="Invoices">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="DateFrom" Type="DateTime" Precision="3" />
+          <Property Name="DateTo" Type="DateTime" Precision="3" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="RegNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DatePaid" Type="DateTime" Precision="3" />
+          <Property Name="TasksLineAmount" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="DiscountLineAmount" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="IsLocked" Type="Boolean" />
+          <NavigationProperty Name="Customers" Relationship="OTERT_Model.FK_Invoices_Customers" FromRole="Invoices" ToRole="Customers" />
+          <NavigationProperty Name="DiscountLine" Relationship="OTERT_Model.FK_DiscountLine_Invoices" FromRole="Invoices" ToRole="DiscountLine" />
+          <NavigationProperty Name="TasksLine" Relationship="OTERT_Model.FK_TasksLine_Invoices" FromRole="Invoices" ToRole="TasksLine" />
+        </EntityType>
+        <EntityType Name="TasksLine">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="JobID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Invoices" Relationship="OTERT_Model.FK_TasksLine_Invoices" FromRole="TasksLine" ToRole="Invoices" />
+          <NavigationProperty Name="Jobs" Relationship="OTERT_Model.FK_TasksLine_Jobs" FromRole="TasksLine" ToRole="Jobs" />
+          <NavigationProperty Name="Tasks" Relationship="OTERT_Model.FK_TasksLine_Tasks" FromRole="TasksLine" ToRole="Tasks" />
+        </EntityType>
+        <Association Name="FK_Invoices_Customers">
+          <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
+          <End Type="OTERT_Model.Invoices" Role="Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DiscountLine_Invoices">
+          <End Type="OTERT_Model.Invoices" Role="Invoices" Multiplicity="1" />
+          <End Type="OTERT_Model.DiscountLine" Role="DiscountLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DiscountLine">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DiscountLine_Jobs">
+          <End Type="OTERT_Model.Jobs" Role="Jobs" Multiplicity="1" />
+          <End Type="OTERT_Model.DiscountLine" Role="DiscountLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DiscountLine">
+              <PropertyRef Name="JobID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksLine_Invoices">
+          <End Type="OTERT_Model.Invoices" Role="Invoices" Multiplicity="1" />
+          <End Type="OTERT_Model.TasksLine" Role="TasksLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TasksLine">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksLine_Jobs">
+          <End Type="OTERT_Model.Jobs" Role="Jobs" Multiplicity="1" />
+          <End Type="OTERT_Model.TasksLine" Role="TasksLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TasksLine">
+              <PropertyRef Name="JobID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksLine_Tasks">
+          <End Type="OTERT_Model.Tasks" Role="Tasks" Multiplicity="1" />
+          <End Type="OTERT_Model.TasksLine" Role="TasksLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TasksLine">
+              <PropertyRef Name="TaskID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2044,6 +2324,44 @@
             <EntityTypeMapping TypeName="OTERT_Model.JobTypes">
               <MappingFragment StoreEntitySet="JobTypes">
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DiscountLine">
+            <EntityTypeMapping TypeName="OTERT_Model.DiscountLine">
+              <MappingFragment StoreEntitySet="DiscountLine">
+                <ScalarProperty Name="Applied" ColumnName="Applied" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="TasksAmount" ColumnName="TasksAmount" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="OTERT_Model.Invoices">
+              <MappingFragment StoreEntitySet="Invoices">
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="DiscountLineAmount" ColumnName="DiscountLineAmount" />
+                <ScalarProperty Name="TasksLineAmount" ColumnName="TasksLineAmount" />
+                <ScalarProperty Name="DatePaid" ColumnName="DatePaid" />
+                <ScalarProperty Name="RegNo" ColumnName="RegNo" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateTo" ColumnName="DateTo" />
+                <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TasksLine">
+            <EntityTypeMapping TypeName="OTERT_Model.TasksLine">
+              <MappingFragment StoreEntitySet="TasksLine">
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

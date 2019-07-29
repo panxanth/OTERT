@@ -52,5 +52,8 @@ namespace OTERT_Entity
         public virtual DbSet<Files> Files { get; set; }
         public virtual DbSet<DocumentReplacemets> DocumentReplacemets { get; set; }
         public virtual DbSet<JobTypes> JobTypes { get; set; }
+        public virtual DbSet<DiscountLine> DiscountLine { get; set; }
+        public virtual DbSet<Invoices> Invoices { get; set; }
+        public virtual DbSet<TasksLine> TasksLine { get; set; }
     }
 }

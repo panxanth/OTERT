@@ -26,7 +26,7 @@ namespace OTERT.Pages.Invoices {
 
         protected RadDatePicker dpDateFrom, dpDateTo, dpDateCreated, dpDatePay;
         protected RadDropDownList ddlCustomers;
-        protected RadGrid gridJobs, gridTasks, gridJobsTotal;
+        protected RadGrid gridJobs, gridTasks, gridSales;
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
         protected RadButton btnShow1, btnShow2, btnShowPrev2, btnShow3, btnShowPrev3, btnShow4, btnShowPrev4;
@@ -118,26 +118,65 @@ namespace OTERT.Pages.Invoices {
             catch (Exception) { }
         }
 
-        protected void gridJobsTotal_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
+        protected void gridSales_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
             try {
                 wizardData wData = readWizardSteps();
                 TasksController tcont = new TasksController();
+                SalesFormulasController sfcont = new SalesFormulasController();
                 List<TaskB> selectedTasks = tcont.GetTasksForInvoice(wData.CustomerID, wData.DateFrom, wData.DateTo, wData.SelectedJobs, wData.SelectedTasks).OrderBy(o => o.DateTimeStartOrder).ToList();
                 List<int> distinctJobsID = selectedTasks.Where(x => x.JobID != null).Select(x => x.JobID.Value).Distinct().ToList();
                 List<tasksTotalsPerJob> tot = new List<tasksTotalsPerJob>();
                 foreach (int curJobID in distinctJobsID) {
+                    List<SalesFormulaB> curSaleFormulas = new List<SalesFormulaB>();
                     tasksTotalsPerJob curTotal = new tasksTotalsPerJob();
                     curTotal.JobID = curJobID;
                     List<TaskB> tasksForJobID = selectedTasks.Where(x => x.JobID == curJobID).ToList();
                     curTotal.JobName = tasksForJobID.First().Job.Name;
+                    int? salesID = tasksForJobID.First().Job.SalesID;
+                    if (salesID != null) {
+                        curSaleFormulas = sfcont.GetSalesFormulas(salesID.Value);
+                    }
                     curTotal.TasksCount = tasksForJobID.Count();
                     curTotal.TasksCost = 0;
+                    curTotal.SalesCost = 0;
                     foreach (TaskB curTask in tasksForJobID) {
-                        if (curTask.CostActual != null) { curTotal.TasksCost += curTask.CostActual.Value; }
+                        if (curTask.CostActual != null) {
+                            curTotal.TasksCost += curTask.CostActual.Value;
+                            if (curSaleFormulas.Count > 0) {
+                                if (curSaleFormulas.First().Sale.Type == 1) {
+                                    decimal tmpKM = curTask.Distance.KM;
+                                    decimal tmpKmToChk = 0;
+                                    foreach (SalesFormulaB sf in curSaleFormulas) {
+                                        decimal distanceValue = (sf.Distance != null ? sf.Distance.Value : 0);
+                                        if (tmpKM >= distanceValue - tmpKmToChk) {
+                                            curTotal.SalesCost += curTotal.TasksCost * sf.SalePercent / 100;
+                                            tmpKM -= distanceValue;
+                                            tmpKmToChk += distanceValue;
+                                        } else {
+                                            curTotal.SalesCost += curTotal.TasksCost * sf.SalePercent / 100;
+                                            break;
+                                        }
+                                    }
+                                } else if (curSaleFormulas.First().Sale.Type == 2) {
+                                    decimal salePercent = 0;
+                                    if (curTask.Distance.KM > curSaleFormulas.Last().Distance) {
+                                        salePercent = curSaleFormulas.Last().SalePercent;
+                                    } else {
+                                        foreach (SalesFormulaB sf in curSaleFormulas) {
+                                            if (curTask.Distance.KM <= sf.Distance) {
+                                                salePercent = sf.SalePercent;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    curTotal.SalesCost += curTotal.TasksCost * salePercent / 100;
+                                }
+                            }
+                        }
                     }
                     tot.Add(curTotal);
                 }
-                gridJobsTotal.DataSource = tot;
+                gridSales.DataSource = tot;
             }
             catch (Exception) { }
         }
@@ -189,7 +228,7 @@ namespace OTERT.Pages.Invoices {
             }
             Session["wizardStep"] = wData;
             showWizardSteps(wData);
-            gridJobsTotal.Rebind();
+            gridSales.Rebind();
         }
 
         protected void btnShowPrev3_Click(object sender, EventArgs e) {
@@ -201,9 +240,36 @@ namespace OTERT.Pages.Invoices {
 
         protected void btnShow4_Click(object sender, EventArgs e) {
             wizardData wData = readWizardSteps();
-            wData.Step = 4;
-            Session["wizardStep"] = wData;
-            showWizardSteps(wData);
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    OTERT_Entity.Invoices curInvoice;
+                    foreach (GridDataItem item in gridSales.MasterTableView.Items) {
+                        curInvoice = new OTERT_Entity.Invoices();
+                        CheckBox chk = (CheckBox)item.FindControl("chk");
+                        decimal? tasksValue = decimal.Parse(item["TasksCost"].Text);
+                        decimal? salesValue = decimal.Parse(item["SalesCost"].Text);
+                        curInvoice.CustomerID = wData.CustomerID;
+                        curInvoice.DateFrom = wData.DateFrom;
+                        curInvoice.DateTo = wData.DateTo;
+                        curInvoice.RegNo = wData.Code;
+                        curInvoice.IsLocked = wData.locked;
+                        curInvoice.DatePaid = wData.DatePayed;
+                        curInvoice.DateCreated = wData.DateCreated;
+                        curInvoice.TasksLineAmount = tasksValue;
+                        if (chk.Checked) {
+                            curInvoice.DiscountLineAmount = salesValue;
+                        }
+                        dbContext.Invoices.Add(curInvoice);
+                    }
+                    dbContext.SaveChanges();
+                }
+                catch (Exception ex) { }
+            }
+
+
+            //Session["wizardStep"] = wData;
+            //showWizardSteps(wData);
         }
 
         protected void btnShowPrev4_Click(object sender, EventArgs e) {
@@ -236,6 +302,20 @@ namespace OTERT.Pages.Invoices {
 
         protected void btnDeSelectAllTasks_Click(object sender, EventArgs e) {
             foreach (GridDataItem item in gridTasks.MasterTableView.Items) {
+                CheckBox chk = (CheckBox)item.FindControl("chk");
+                chk.Checked = false;
+            }
+        }
+
+        protected void btnSelectAllSales_Click(object sender, EventArgs e) {
+            foreach (GridDataItem item in gridSales.MasterTableView.Items) {
+                CheckBox chk = (CheckBox)item.FindControl("chk");
+                chk.Checked = true;
+            }
+        }
+
+        protected void btnDeSelectAllSales_Click(object sender, EventArgs e) {
+            foreach (GridDataItem item in gridSales.MasterTableView.Items) {
                 CheckBox chk = (CheckBox)item.FindControl("chk");
                 chk.Checked = false;
             }

@@ -18,6 +18,7 @@ namespace OTERT_Entity
         public Tasks()
         {
             this.Files = new HashSet<Files>();
+            this.TasksLine = new HashSet<TasksLine>();
         }
     
         public int ID { get; set; }
@@ -65,5 +66,7 @@ namespace OTERT_Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Files> Files { get; set; }
         public virtual LineTypes LineTypes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TasksLine> TasksLine { get; set; }
     }
 }

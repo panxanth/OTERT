@@ -62,6 +62,9 @@
     <Compile Include="CustomerTypes.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DiscountLine.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Distances.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
@@ -72,6 +75,9 @@
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Files.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Invoices.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="JobCancelPrices.cs">
@@ -133,6 +139,9 @@
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Tasks.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TasksLine.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="UIControlsVisibility.cs">

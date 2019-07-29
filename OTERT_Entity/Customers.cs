@@ -22,6 +22,7 @@ namespace OTERT_Entity
             this.Orders1 = new HashSet<Orders>();
             this.Orders11 = new HashSet<Orders>();
             this.Files = new HashSet<Files>();
+            this.Invoices = new HashSet<Invoices>();
         }
     
         public int ID { get; set; }
@@ -70,5 +71,7 @@ namespace OTERT_Entity
         public virtual ICollection<Orders> Orders11 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Files> Files { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Invoices> Invoices { get; set; }
     }
 }
