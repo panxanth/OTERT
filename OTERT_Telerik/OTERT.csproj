@@ -155,6 +155,7 @@
     <Compile Include="Model\Business.cs" />
     <Compile Include="Model\DTO.cs" />
     <Compile Include="Model\JSON.cs" />
+    <Compile Include="Model\Utils.cs" />
     <Compile Include="Pages\Administrator\CountryPricelistsList.aspx.cs">
       <DependentUpon>CountryPricelistsList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -504,7 +505,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
