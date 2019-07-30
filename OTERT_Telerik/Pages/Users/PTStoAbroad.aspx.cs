@@ -32,7 +32,7 @@ namespace OTERT.Pages.Administrator {
         protected int CustomerID, PositionID, LineTypeID;
         const string fileUploadFolder = "~/UploadedFiles/";
         const string templatesFolder = "~/Templates/";
-        const string pageUniqueName = "KET";
+        const string pageUniqueName = "PTS";
         const int OrderTypeID = 2;
 
         protected void Page_Load(object sender, EventArgs e) {
@@ -318,7 +318,7 @@ namespace OTERT.Pages.Administrator {
                     tableStyle.TableCellProperties.PreferredWidth.LocalValue = new TableWidthUnit(TableWidthUnitType.Percent, 100);
                     tableStyle.TableCellProperties.Padding.LocalValue = new Telerik.Windows.Documents.Primitives.Padding(8);
                     editor.Document.StyleRepository.Add(tableStyle);
-
+                    /*
                     curRep = reps.Find(o => o.UniqueName == "KET_Header_OTELogo");
                     currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)test.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
                     using (Stream firstImage = File.OpenRead(imgFolderPath + curRep.Text)) {
@@ -414,7 +414,7 @@ namespace OTERT.Pages.Administrator {
                             inImage.Image.Width = curRep.ImageWidth.Value;
                         }
                     }
-
+                    */
 
                     bookmarkRangeStart = editor.Document.EnumerateChildrenOfType<BookmarkRangeStart>().Where(rangeStart => rangeStart.Bookmark.Name == "Body_Main").FirstOrDefault();
                     editor.MoveToInlineEnd(bookmarkRangeStart);
@@ -423,9 +423,9 @@ namespace OTERT.Pages.Administrator {
                     tblContent.LayoutType = TableLayoutType.AutoFit;
                     ThemableColor cellBackground = new ThemableColor(System.Windows.Media.Colors.Beige);
                     for (int i = 0; i < tasksForOrder.Count + 1; i++) {
-                        Telerik.Windows.Documents.Flow.Model.TableRow row = tblContent.Rows.AddTableRow();
+                        Telerik.Windows.Documents.Flow.Model.TableRow row1 = tblContent.Rows.AddTableRow();
                         for (int j = 0; j < 7; j++) {
-                            Telerik.Windows.Documents.Flow.Model.TableCell cell = row.Cells.AddTableCell();
+                            Telerik.Windows.Documents.Flow.Model.TableCell cell = row1.Cells.AddTableCell();
                             if (i == 0) {
                                 if (j == 0) {
                                     currRun = cell.Blocks.AddParagraph().Inlines.AddRun("Τ.Ε.Κ.");
@@ -433,74 +433,105 @@ namespace OTERT.Pages.Administrator {
                                     currRun.Properties.FontSize.LocalValue = 15.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
-                                    cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 5);
+                                    //cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 5);
                                 } else if (j == 1) {
                                     currRun = cell.Blocks.AddParagraph().Inlines.AddRun("ΤΛΦ ΧΡΕΩΣΗΣ");
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 15.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
-                                    cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 20);
+                                    //cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 20);
                                 } else if (j == 2) {
                                     currRun = cell.Blocks.AddParagraph().Inlines.AddRun("ΕΠΩΝΥΜΙΑ ΠΕΛΑΤΗ");
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 15.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
-                                    cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 20);
+                                    //cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 20);
                                 } else if (j == 3) {
                                     currRun = cell.Blocks.AddParagraph().Inlines.AddRun("ΗΜ/ΝΙΑ");
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 15.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
-                                    cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 20);
+                                    //cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 20);
                                 } else if (j == 4) {
                                     currRun = cell.Blocks.AddParagraph().Inlines.AddRun("Κ.Τ. 6630(€)");
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 15.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
-                                    cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 35);
+                                    //cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 35);
                                 } else if (j == 5) {
                                     currRun = cell.Blocks.AddParagraph().Inlines.AddRun("Κ.Τ. 6951(€)");
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 15.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
-                                    cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 35);
+                                    //cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 35);
                                 } else if (j == 6) {
                                     currRun = cell.Blocks.AddParagraph().Inlines.AddRun("SDR");
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 15.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
-                                    cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 35);
+                                    //cell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 35);
                                 }
                             } else {
                                 int k = i - 1;
                                 if (j == 0) {
-                                    currRun = cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].Customer.ChargeTelephone);
-                                    currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                    currRun.Properties.FontSize.LocalValue = 15.0;
-                                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
-                                    currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                                    currRun = cell.Blocks.AddParagraph().Inlines.AddRun("");
                                 } else if (j == 1) {
                                     cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].Customer.ChargeTelephone);
                                 } else if (j == 2) {
                                     cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].Customer.NameGR);
                                 } else if (j == 3) {
-                                    cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].Customer.ChargeTelephone + " - " + tasksForOrder[k].Customer.ChargeTelephone);
+                                    cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].DateTimeStartOrder != null ? tasksForOrder[k].DateTimeStartOrder.Value.ToShortDateString() : "");
                                 } else if (j == 4) {
-                                    cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].Customer.ChargeTelephone);
+                                    cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].CostActual.ToString());
                                 } else if (j == 5) {
-                                    cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].Customer.ChargeTelephone);
+                                    cell.Blocks.AddParagraph().Inlines.AddRun();
                                 } else if (j == 6) {
-                                    cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].Customer.ChargeTelephone);
+                                    cell.Blocks.AddParagraph().Inlines.AddRun();
                                 }
                             }
                         }
                     }
+                    for (int i = 0; i < 2; i++) {
+                        Telerik.Windows.Documents.Flow.Model.TableRow row2 = tblContent.Rows.AddTableRow();
+                        for (int j = 0; j < 7; j++) {
+                            Telerik.Windows.Documents.Flow.Model.TableCell cell = row2.Cells.AddTableCell();
+                            currRun = cell.Blocks.AddParagraph().Inlines.AddRun("");
+                        }
+                    }
+                    Telerik.Windows.Documents.Flow.Model.TableRow row = tblContent.Rows.AddTableRow();
+                    for (int j = 0; j < 7; j++) {
+                        Telerik.Windows.Documents.Flow.Model.TableCell cell = row.Cells.AddTableCell();
+                        if (j == 0) {
+                            currRun = cell.Blocks.AddParagraph().Inlines.AddRun("");
+                        } else if (j == 1) {
+                            currRun = cell.Blocks.AddParagraph().Inlines.AddRun("");
+                        } else if (j == 2) {
+                            currRun = cell.Blocks.AddParagraph().Inlines.AddRun("");
+                        } else if (j == 3) {
+                            currRun = cell.Blocks.AddParagraph().Inlines.AddRun("ΣΥΝΟΛΟ");
+                            currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                            currRun.Properties.FontSize.LocalValue = 15.0;
+                            currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                            currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                        } else if (j == 4) {
+                            decimal totCost = 0;
+                            for (int tr = 0; tr < tasksForOrder.Count(); tr++) {
+                                totCost += (tasksForOrder[tr].CostActual != null ? tasksForOrder[tr].CostActual.Value : 0);
+                            }
+                            currRun = cell.Blocks.AddParagraph().Inlines.AddRun(totCost.ToString());
+                        } else if (j == 5) {
+                            currRun = cell.Blocks.AddParagraph().Inlines.AddRun("");
+                        } else if (j == 6) {
+                            currRun = cell.Blocks.AddParagraph().Inlines.AddRun("");
+                        }
+                    }
+
                     curDoc.UpdateFields();
                     exportDOCX(curDoc);
                 }
