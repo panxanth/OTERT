@@ -19,7 +19,10 @@
         </Scripts>
     </telerik:RadScriptManager>
     <script type="text/javascript">
-        //Put your JavaScript code here.
+        function RequestStart(sender, args) {
+            var re = new RegExp("\.btnPrint$|\.lnkDownload$|\.btnDownArrow$|\.btnUpArrow$", "ig");
+            if (args.get_eventTarget().match(re)) { args.set_enableAjax(false); }
+        }
     </script>
     <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
@@ -30,6 +33,7 @@
                 </UpdatedControls>
             </telerik:AjaxSetting>
         </AjaxSettings>
+        <ClientEvents OnRequestStart="RequestStart" />
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Height="75px" Width="75px" Transparency="25" InitialDelayTime="500" />
     <div>
@@ -40,7 +44,8 @@
             OnDeleteCommand="gridMain_DeleteCommand"
             OnInsertCommand="gridMain_InsertCommand" 
             OnItemDataBound="gridMain_ItemDataBound"
-            OnDetailTableDataBind="gridMain_DetailTableDataBind" >
+            OnDetailTableDataBind="gridMain_DetailTableDataBind" 
+            OnItemCommand="gridMain_ItemCommand" >
             <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές" Name="Master">
                 <CommandItemSettings AddNewRecordText="Προσθήκη νέας εγγραφής" RefreshText="Ανανέωση" />
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />
@@ -191,6 +196,12 @@
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
                     <telerik:GridCheckBoxColumn DataField="IsLocked" HeaderText="Κλειδωμένο Έργο" Visible="false" DataType="System.Boolean" />
+                    <telerik:GridTemplateColumn UniqueName="btnPrintColumn" HeaderText="" AllowFiltering="false">
+                        <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                        <ItemTemplate>
+                            <asp:Button ID="btnPrint" runat="server" Text="Εκτύπωση" CommandName="invPrint"></asp:Button>
+                        </ItemTemplate>
+                    </telerik:GridTemplateColumn>
                     <telerik:GridButtonColumn UniqueName="btnDelete" ConfirmText="Να διαγραφεί αυτή η Παραγγελία;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                 </Columns>
                 <EditFormSettings>

@@ -9,10 +9,10 @@ namespace OTERT.Controller {
 
     public class OrdersController {
 
-        public int CountOrders() {
+        public int CountOrders(int orderType) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
-                    return dbContext.Orders.Count();
+                    return dbContext.Orders.Where(o => o.OrderTypeID == orderType).Count();
                 }
                 catch (Exception) { return -1; }
             }
@@ -122,7 +122,7 @@ namespace OTERT.Controller {
             }
         }
 
-        public List<OrderB> GetOrders() {
+        public List<OrderB> GetOrders(int orderType) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
@@ -218,14 +218,14 @@ namespace OTERT.Controller {
                                                                  NameEN = us.Events.NameEN
                                              },
                                              IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
-                                         }).OrderBy(o => o.ID).ToList();
+                                         }).Where(o => o.OrderTypeID == orderType).OrderBy(o => o.ID).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
             }
         }
 
-        public List<OrderB> GetOrders(int recSkip, int recTake) {
+        public List<OrderB> GetOrders(int orderType, int recSkip, int recTake) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
@@ -322,7 +322,7 @@ namespace OTERT.Controller {
                                                                    NameEN = us.Events.NameEN
                                              },
                                              IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
-                                         }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                                         }).Where(o => o.OrderTypeID == orderType).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
