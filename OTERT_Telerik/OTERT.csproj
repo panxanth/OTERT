@@ -228,6 +228,10 @@
       <DependentUpon>Invoice.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\PrintTemplates\PrintMailPTSToGR.aspx.cs">
+      <DependentUpon>PrintMailPTSToGR.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\PrintTemplates\KETDailyList.aspx.cs">
       <DependentUpon>KETDailyList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -379,6 +383,7 @@
     <Content Include="Pages\Administrator\DistancesList.aspx" />
     <Content Include="Pages\PrintTemplates\InvoiceDetailed.aspx" />
     <Content Include="Pages\PrintTemplates\Invoice.aspx" />
+    <Content Include="Pages\PrintTemplates\PrintMailPTSToGR.aspx" />
     <Content Include="Pages\PrintTemplates\KETDailyList.aspx" />
     <Content Include="Pages\Administrator\UsersList.aspx" />
     <Content Include="Pages\Helpers\DailyList.aspx" />
@@ -452,6 +457,7 @@
     <Content Include="Templates\KET.docx" />
     <Content Include="Templates\Invoice.docx" />
     <Content Include="Templates\PTS.docx" />
+    <Content Include="Templates\mailCosmote.docx" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

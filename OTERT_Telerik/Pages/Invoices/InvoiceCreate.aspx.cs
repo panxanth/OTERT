@@ -266,8 +266,6 @@ namespace OTERT.Pages.Invoices {
                 }
                 catch (Exception ex) { }
             }
-
-
             //Session["wizardStep"] = wData;
             //showWizardSteps(wData);
         }

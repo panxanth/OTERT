@@ -13,9 +13,11 @@ namespace OTERT.Masters {
         public string userName = "";
 
         protected void Page_Load(object sender, EventArgs e) {
-            if (Session["LogedInUsername"] == null) { Response.Redirect("/Default.aspx", true); }
-            if (Session["LogedInUsergroupID"] != null) { groupID = Session["LogedInUsergroupID"].ToString(); }
-            if (Session["LogedInUserDisplayName"] != null) { userName = Session["LogedInUserDisplayName"].ToString(); }
+            //if (Session["LogedInUsername"] == null) { Response.Redirect("/Default.aspx", true); }
+            //if (Session["LogedInUsergroupID"] != null) { groupID = Session["LogedInUsergroupID"].ToString(); }
+            //if (Session["LogedInUserDisplayName"] != null) { userName = Session["LogedInUserDisplayName"].ToString(); }
+            groupID = "1";
+            userName = "Πάνος Ξανθόπουλος";
         }
 
     }
