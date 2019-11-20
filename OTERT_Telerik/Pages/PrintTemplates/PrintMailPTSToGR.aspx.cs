@@ -209,21 +209,24 @@ namespace OTERT.Pages.PrintTemplates {
                         curRow++;
                     }
 
-                    currPar = insertParagraph(editor);
-                    currPar = insertParagraph(editor);
-                    currRun = editor.InsertText("ΣΗΜΕΙΩΣΕΙΣ ΠΕΛΑΤΗ:");
-                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
-                    currRun.Properties.ForegroundColor.LocalValue = new ThemableColor(System.Windows.Media.Color.FromRgb(255, 0, 0));
-                    currPar = insertParagraph(editor);
-                    currPar.Indentation.LeftIndent = Telerik.Windows.Documents.Media.Unit.InchToDip(1);
-                    currRun = editor.InsertText("ISDN  -  Nr. 2x64 KB channels to use for each line with G722 codec protocol.");
-                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
-                    currRun.Properties.ForegroundColor.LocalValue = new ThemableColor(System.Windows.Media.Color.FromRgb(255, 0, 0));
-                    currPar = insertParagraph(editor);
-                    currPar.Indentation.LeftIndent = Telerik.Windows.Documents.Media.Unit.InchToDip(1);
-                    currRun = editor.InsertText("ADSL  -  DHCP IPSEC CISCO VPN standard compatible.");
-                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
-                    currRun.Properties.ForegroundColor.LocalValue = new ThemableColor(System.Windows.Media.Color.FromRgb(255, 0, 0));
+                    var distinctTasksC = tasksForOrder.Select(m => new { m.Comments }).Distinct().ToList();
+                    if (distinctTasksC.Count > 0) {
+                        currPar = insertParagraph(editor);
+                        currPar = insertParagraph(editor);
+                        currRun = editor.InsertText("ΣΗΜΕΙΩΣΕΙΣ ΠΕΛΑΤΗ:");
+                        currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                        currRun.Properties.ForegroundColor.LocalValue = new ThemableColor(System.Windows.Media.Color.FromRgb(255, 0, 0));
+                        foreach (var dItem in distinctTasksC) {
+                            if (!string.IsNullOrEmpty(dItem.Comments)) {
+                                TaskB demoTask = tasksForOrder.Where(k => k.Comments == dItem.Comments).FirstOrDefault();
+                                currPar = insertParagraph(editor);
+                                currPar.Indentation.LeftIndent = Telerik.Windows.Documents.Media.Unit.InchToDip(1);
+                                currRun = editor.InsertText(demoTask.LineType.Name + "  -  " + demoTask.Comments);
+                                currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                                currRun.Properties.ForegroundColor.LocalValue = new ThemableColor(System.Windows.Media.Color.FromRgb(255, 0, 0));
+                            }
+                        }
+                    }
 
                     currPar = insertParagraph(editor);
                     currPar = insertParagraph(editor);
