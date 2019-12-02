@@ -574,26 +574,22 @@ namespace OTERT.Pages.Administrator {
                         try {
                             editableItem.UpdateValues(curTask);
                             if (Session["CustomerID"] != null) { CustomerID = int.Parse(Session["CustomerID"].ToString()); }
-                            if (CustomerID > 0) {
-                                curTask.CustomerID = CustomerID;
-                                CustomerID = -1;
-                                Session.Remove("CustomerID");
-                            }
+                            if (CustomerID > 0) { curTask.CustomerID = CustomerID; }
                             if (Session["PositionID"] != null) { PositionID = int.Parse(Session["PositionID"].ToString()); }
-                            if (PositionID > 0) {
-                                curTask.RequestedPositionID = PositionID;
-                                PositionID = -1;
-                                Session.Remove("PositionID");
-                            }
+                            if (PositionID > 0) { curTask.RequestedPositionID = PositionID; }
                             if (Session["LineTypeID"] != null) { LineTypeID = int.Parse(Session["LineTypeID"].ToString()); }
-                            if (LineTypeID > 0) {
-                                curTask.DistancesID = LineTypeID;
-                                LineTypeID = -1;
-                                Session.Remove("LineTypeID");
-                            }
+                            if (LineTypeID > 0) { curTask.LineTypeID = LineTypeID; }
                             dbContext.SaveChanges();
                         }
                         catch (Exception) { ShowErrorMessage(-1); }
+                        finally {
+                            CustomerID = -1;
+                            Session.Remove("CustomerID");
+                            PositionID = -1;
+                            Session.Remove("PositionID");
+                            LineTypeID = -1;
+                            Session.Remove("LineTypeID");
+                        }
                     }
                 }
             }
