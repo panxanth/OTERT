@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="PrintMailPTSToGR.aspx.cs" Inherits="OTERT.Pages.PrintTemplates.PrintMailPTSToGR" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="PrintMailPTSFromGR.aspx.cs" Inherits="OTERT.Pages.PrintTemplates.PrintMailPTSFromGR" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 

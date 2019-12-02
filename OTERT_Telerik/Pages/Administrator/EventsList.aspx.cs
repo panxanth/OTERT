@@ -78,8 +78,8 @@ namespace OTERT.Pages.Administrator {
                         ddlPlaces.DataTextField = "NameGR";
                         ddlPlaces.DataValueField = "ID";
                         ddlPlaces.DataBind();
-                        ddlPlaces.SelectedIndex = ddlPlaces.FindItemByValue(currEvent.PlaceID.ToString()).Index;
-                        Session["PlaceID"] = currEvent.PlaceID;
+                        ddlPlaces.SelectedIndex = 0;
+                        Session["PlaceID"] = ddlPlaces.SelectedItem.Value;
                     }
                 }
                 catch (Exception) { }

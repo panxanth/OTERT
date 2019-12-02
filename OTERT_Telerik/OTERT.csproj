@@ -228,6 +228,18 @@
       <DependentUpon>Invoice.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\PrintTemplates\PrintMailPTSFromGR.aspx.cs">
+      <DependentUpon>PrintMailPTSFromGR.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\PrintTemplates\PrintMailPTSFromGRAdmin.aspx.cs">
+      <DependentUpon>PrintMailPTSFromGRAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\PrintTemplates\PrintMailPTSToGRAdmin.aspx.cs">
+      <DependentUpon>PrintMailPTSToGRAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\PrintTemplates\PrintMailPTSToGR.aspx.cs">
       <DependentUpon>PrintMailPTSToGR.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -383,6 +395,9 @@
     <Content Include="Pages\Administrator\DistancesList.aspx" />
     <Content Include="Pages\PrintTemplates\InvoiceDetailed.aspx" />
     <Content Include="Pages\PrintTemplates\Invoice.aspx" />
+    <Content Include="Pages\PrintTemplates\PrintMailPTSFromGR.aspx" />
+    <Content Include="Pages\PrintTemplates\PrintMailPTSFromGRAdmin.aspx" />
+    <Content Include="Pages\PrintTemplates\PrintMailPTSToGRAdmin.aspx" />
     <Content Include="Pages\PrintTemplates\PrintMailPTSToGR.aspx" />
     <Content Include="Pages\PrintTemplates\KETDailyList.aspx" />
     <Content Include="Pages\Administrator\UsersList.aspx" />

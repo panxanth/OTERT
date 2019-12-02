@@ -33,7 +33,7 @@ namespace OTERT.Controller {
                                                           ImageHeight = us.ImageHeight,
                                                           BookmarkTitle = us.BookmarkTitle,
                                                           DocumentPart = us.DocumentPart
-                                                      }).OrderBy(o => o.Title).ToList();
+                                                      }).OrderBy(o => o.ID).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

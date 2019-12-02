@@ -39,13 +39,13 @@
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />
                 <Columns>
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
-                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" />
-                    <telerik:GridBoundColumn DataField="NameGR" HeaderText="Όνομα (GR)" >
+                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Wrap="false" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="NameGR" HeaderText="Όνομα (GR)" HeaderStyle-Font-Bold="true" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn DataField="NameEN" HeaderText="Όνομα (ΕΝ)" />
+                    <telerik:GridBoundColumn DataField="NameEN" HeaderText="Όνομα (ΕΝ)" HeaderStyle-Font-Bold="true" />
                     <telerik:GridButtonColumn ConfirmText="Να διαγραφεί αυτή η Αιτούμενη Θέση;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" />
                 </Columns>
                 <EditFormSettings>

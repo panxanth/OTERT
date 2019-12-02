@@ -48,8 +48,8 @@
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />
                 <Columns>
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" />
-                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" AllowFiltering="false" />
-                    <telerik:GridTemplateColumn HeaderText="Χώρα" HeaderStyle-Width="180px" UniqueName="CountryID" DataField="CountryID" AllowFiltering="false">
+                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" AllowFiltering="false" HeaderStyle-Width="70" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridTemplateColumn HeaderText="Χώρα" HeaderStyle-Width="180px" UniqueName="CountryID" DataField="CountryID" AllowFiltering="false" HeaderStyle-Font-Bold="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Place.Country.NameGR") %>' runat="server" /> 
                         </ItemTemplate>
@@ -57,7 +57,7 @@
                             <telerik:RadDropDownList runat="server" ID="ddlCountries" RenderMode="Lightweight" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlCountries_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridTemplateColumn HeaderText="Τοποθεσία" UniqueName="PlaceID" DataField="PlaceID" AllowFiltering="false">
+                    <telerik:GridTemplateColumn HeaderText="Τοποθεσία" UniqueName="PlaceID" DataField="PlaceID" AllowFiltering="false" HeaderStyle-Font-Bold="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Place.NameGR") %>' runat="server" /> 
                         </ItemTemplate>
@@ -65,12 +65,12 @@
                             <telerik:RadDropDownList runat="server" ID="ddlPlaces" RenderMode="Lightweight" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlPlaces_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridBoundColumn DataField="NameGR" HeaderText="Όνομα (GR)" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true">
+                    <telerik:GridBoundColumn DataField="NameGR" HeaderText="Όνομα (GR)" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true" HeaderStyle-Font-Bold="true">
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </ColumnValidationSettings>
                     </telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn DataField="NameEN" HeaderText="Όνομα (EN)" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true" />
+                    <telerik:GridBoundColumn DataField="NameEN" HeaderText="Όνομα (EN)" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true" HeaderStyle-Font-Bold="true" />
                     <telerik:GridButtonColumn ConfirmText="Να διαγραφεί αυτή η εγγραφή;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" />
                 </Columns>
                 <EditFormSettings>

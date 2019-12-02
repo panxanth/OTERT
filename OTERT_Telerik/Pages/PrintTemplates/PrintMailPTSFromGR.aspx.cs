@@ -21,7 +21,7 @@ using OTERT_Entity;
 
 namespace OTERT.Pages.PrintTemplates {
 
-    public partial class PrintMailPTSToGR : Page {
+    public partial class PrintMailPTSFromGR : Page {
 
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
@@ -30,14 +30,14 @@ namespace OTERT.Pages.PrintTemplates {
         protected string pageTitle, uploadedFilePath, textFromSession;
         const string templatesFolder = "~/Templates/";
         const string fileUploadFolder = "~/UploadedFiles/";
-        const string sqlUniqueName = "mailPTSToGR";
+        const string sqlUniqueName = "mailPTSFromGR";
         const string docTemplate = "mailCosmote";
-        const int OrderTypeID = 1;
+        const int OrderTypeID = 2;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
-                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Εκτυπωτικά > Επιστολή ΠΤΣ προς Ελλάδα";
-                gridMain.MasterTableView.Caption = "Εκτυπωτικά > Επιστολή ΠΤΣ προς Ελλάδα";
+                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Εκτυπωτικά > Επιστολή ΠΤΣ προς Εξωτερικό";
+                gridMain.MasterTableView.Caption = "Εκτυπωτικά > Επιστολή ΠΤΣ προς Εξωτερικό";
                 textFromSession = "";
                 Session.Remove("textFromSession");
             }
