@@ -21,7 +21,7 @@ using OTERT_Entity;
 
 namespace OTERT.Pages.PrintTemplates {
 
-    public partial class PrintMailPTSFromGR : Page {
+    public partial class PrintMailPTSToAbroad : Page {
 
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
@@ -30,7 +30,7 @@ namespace OTERT.Pages.PrintTemplates {
         protected string pageTitle, uploadedFilePath, textFromSession;
         const string templatesFolder = "~/Templates/";
         const string fileUploadFolder = "~/UploadedFiles/";
-        const string sqlUniqueName = "mailPTSFromGR";
+        const string sqlUniqueName = "mailPTSToAbroad";
         const string docTemplate = "mailCosmote";
         const int OrderTypeID = 2;
 
@@ -78,176 +78,248 @@ namespace OTERT.Pages.PrintTemplates {
                     currPar = insertParagraph(editor);
                     currPar = insertParagraph(editor);
                     currPar.TextAlignment = Alignment.Right;
-                    currRun = editor.InsertText("ΑΘΗΝΑ " + DateTime.Now.ToString("dd/MM/yyyy"));
+                    currRun = editor.InsertText("ATHENS " + DateTime.Now.ToString("dd/MM/yyyy"));
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currPar = insertParagraph(editor);
                     currPar.TextAlignment = Alignment.Right;
                     string regNo = curOrder.RegNo == null ? "" : curOrder.RegNo;
-                    currRun = editor.InsertText("ΑΡΙΘ. ΠΡΩΤ. " + regNo);
+                    currRun = editor.InsertText("REF. " + regNo);
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currPar = insertParagraph(editor);
                     currPar = insertParagraph(editor);
-                    currRun = editor.InsertText("ΟΡΓAΝΙΣΜΟΣ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ ΤΗΣ ΕΛΛΑΔΟΣ ΑΕ");
-                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
-                    currPar = insertParagraph(editor);
-                    currRun = editor.InsertText("GENTRANS ATHENS");
-                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
-                    currPar = insertParagraph(editor);
-                    Telerik.Windows.Documents.Flow.Model.Table infoTable = editor.InsertTable(3, 2);
+                    Telerik.Windows.Documents.Flow.Model.Table infoTable = editor.InsertTable(4, 2);
                     infoTable.Borders = new TableBorders(new Border(Telerik.Windows.Documents.Flow.Model.Styles.BorderStyle.None));
                     currPar = infoTable.Rows[0].Cells[0].Blocks.AddParagraph();
                     currPar.Spacing.SpacingAfter = 0;
-                    currRun = currPar.Inlines.AddRun("Πληροφορίες:");
+                    currRun = currPar.Inlines.AddRun("Information:");
                     currPar = infoTable.Rows[0].Cells[1].Blocks.AddParagraph();
                     currPar.Spacing.SpacingAfter = 0;
                     curRep = reps.Where(o => o.Title == "Πληροφορίες").FirstOrDefault();
-                    if (curRep != null) { currRun = currPar.Inlines.AddRun(curRep.Text); }
+                    if (curRep != null) {
+                        currRun = currPar.Inlines.AddRun(curRep.Text);
+                        currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    }
                     currPar = infoTable.Rows[1].Cells[0].Blocks.AddParagraph();
                     currPar.Spacing.SpacingAfter = 0;
-                    currRun = currPar.Inlines.AddRun("Τηλέφωνο:");
+                    currRun = currPar.Inlines.AddRun("Phone:");
                     currPar = infoTable.Rows[1].Cells[1].Blocks.AddParagraph();
                     currPar.Spacing.SpacingAfter = 0;
                     curRep = reps.Where(o => o.Title == "Τηλέφωνο").FirstOrDefault();
-                    if (curRep != null) { currRun = currPar.Inlines.AddRun(curRep.Text); }
+                    if (curRep != null) {
+                        currRun = currPar.Inlines.AddRun(curRep.Text);
+                        currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    }
                     currPar = infoTable.Rows[2].Cells[0].Blocks.AddParagraph();
                     currPar.Spacing.SpacingAfter = 0;
                     currRun = currPar.Inlines.AddRun("FAX:");
                     currPar = infoTable.Rows[2].Cells[1].Blocks.AddParagraph();
                     currPar.Spacing.SpacingAfter = 0;
                     curRep = reps.Where(o => o.Title == "FAX").FirstOrDefault();
-                    if (curRep != null) { currRun = currPar.Inlines.AddRun(curRep.Text); }
+                    if (curRep != null) {
+                        currRun = currPar.Inlines.AddRun(curRep.Text);
+                        currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    }
+                    currPar = infoTable.Rows[3].Cells[0].Blocks.AddParagraph();
+                    currPar.Spacing.SpacingAfter = 0;
+                    currRun = currPar.Inlines.AddRun("Email:");
+                    currPar = infoTable.Rows[3].Cells[1].Blocks.AddParagraph();
+                    currPar.Spacing.SpacingAfter = 0;
+                    curRep = reps.Where(o => o.Title == "Email").FirstOrDefault();
+                    if (curRep != null) {
+                        Run currRun2 = currPar.Inlines.AddRun();
+                        editor.MoveToInlineEnd(currRun2);
+                        editor.InsertHyperlink(curRep.Text, "mailto:"+ curRep.Text, false);
+                        editor.MoveToTableEnd(infoTable);
+                    }
                     currPar = insertParagraph(editor);
-                    currPar = insertParagraph(editor);
-                    currRun = editor.InsertText("ΘΕΜΑ:	ΠΡΟΣΩΡΙΝΕΣ ΤΗΛΕΦΩΝΙΚΕΣ ΣΥΝΔΕΣΕΙΣ");
-                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
-                    currPar = insertParagraph(editor);
+                    editor.MoveToParagraphStart(currPar);
                     Telerik.Windows.Documents.Flow.Model.Table toTable = editor.InsertTable(3, 2);
                     toTable.Borders = new TableBorders(new Border(Telerik.Windows.Documents.Flow.Model.Styles.BorderStyle.None));
                     currPar = toTable.Rows[0].Cells[0].Blocks.AddParagraph();
                     currPar.Spacing.SpacingAfter = 0;
-                    currRun = currPar.Inlines.AddRun("Αιτηθείσα χώρα:");
+                    currRun = currPar.Inlines.AddRun("ATT.:");
                     currPar = toTable.Rows[0].Cells[1].Blocks.AddParagraph();
                     currPar.Spacing.SpacingAfter = 0;
-                    string curC = curCust.Country.NameGR == null ? "" : toUpperGR(curCust.Country.NameGR);
-                    currRun = currPar.Inlines.AddRun(curC);
-                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    if (!string.IsNullOrEmpty(tasksForOrder[0].Customer.NameEN)) {
+                        currRun = currPar.Inlines.AddRun(tasksForOrder[0].Customer.NameEN);
+                        currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    }
                     currPar = toTable.Rows[1].Cells[0].Blocks.AddParagraph();
                     currPar.Spacing.SpacingAfter = 0;
-                    currRun = currPar.Inlines.AddRun("Χώρος διεξαγωγής:");
+                    currRun = currPar.Inlines.AddRun("Phone:");
                     currPar = toTable.Rows[1].Cells[1].Blocks.AddParagraph();
                     currPar.Spacing.SpacingAfter = 0;
-                    string curP = curOrder.Event.Place.NameGR == null ? "" : toUpperGR(curOrder.Event.Place.NameGR);
-                    currRun = currPar.Inlines.AddRun(curP);
-                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    if (!string.IsNullOrEmpty(tasksForOrder[0].Customer.Telephone1)) {
+                        currRun = currPar.Inlines.AddRun(tasksForOrder[0].Customer.Telephone1);
+                        currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    }
                     currPar = toTable.Rows[2].Cells[0].Blocks.AddParagraph();
                     currPar.Spacing.SpacingAfter = 0;
-                    currRun = currPar.Inlines.AddRun("Κάλυψη γεγονότος:");
+                    currRun = currPar.Inlines.AddRun("FAX:");
                     currPar = toTable.Rows[2].Cells[1].Blocks.AddParagraph();
                     currPar.Spacing.SpacingAfter = 0;
-                    string curE = curOrder.Event.NameGR == null ? "" : toUpperGR(curOrder.Event.NameGR);
-                    currRun = currPar.Inlines.AddRun(curE);
+                    if (!string.IsNullOrEmpty(tasksForOrder[0].Customer.FAX1)) {
+                        currRun = currPar.Inlines.AddRun(tasksForOrder[0].Customer.FAX1);
+                        currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    }
+                    currPar = insertParagraph(editor);
+                    currPar = insertParagraph(editor);
+                    currRun = editor.InsertText("SUBJECT:  TEMPORARΥ TELEPHONE LINES");
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currPar = insertParagraph(editor);
                     currPar = insertParagraph(editor);
                     currPar.TextAlignment = Alignment.Justified;
-                    var distinctTasksLT = tasksForOrder.Select(m => new { m.LineTypeID, m.Internet, m.MSN }).Distinct().ToList();
-                    string concatString = "";
-                    int distinctItems = 0;
-                    foreach (var dItem in distinctTasksLT) {
-                        if (distinctItems > 0) { concatString += ", "; }
-                        TaskB demoTask = tasksForOrder.Where(k => k.LineTypeID == dItem.LineTypeID && k.Internet == dItem.Internet && k.MSN == dItem.MSN).FirstOrDefault();
-                        int itemCount = tasksForOrder.Where(k => k.LineTypeID == dItem.LineTypeID && k.Internet == dItem.Internet && k.MSN == dItem.MSN).Count();
-                        concatString += itemCount.ToString() + " " + demoTask.LineType.Name;
-                        if (demoTask.Internet == true && demoTask.MSN == true) { concatString += " με ασύρματο ρούτερ και με MSN"; }
-                        else if (demoTask.Internet == true) { concatString += " με ασύρματο ρούτερ"; }
-                        else if (demoTask.MSN == true) { concatString += " με MSN"; }
-                        distinctItems++;
-                    }
-                    currRun = editor.InsertText("Παρακαλούμε για την παροχή των εξής Προσωρινών Τηλεφωνικών Συνδέσεων για λογαριασμό του πιο κάτω πελάτη στη αντίστοιχη θέση: " + concatString + ".");
+                    currRun = editor.InsertText("You are kindly requested to provide " + tasksForOrder.Count.ToString() + " temporary telephone lines.");
+                    currPar = insertParagraph(editor);
+                    Telerik.Windows.Documents.Flow.Model.Table eventTable = editor.InsertTable(2, 2);
+                    eventTable.Borders = new TableBorders(new Border(Telerik.Windows.Documents.Flow.Model.Styles.BorderStyle.None));
+                    currPar = eventTable.Rows[0].Cells[0].Blocks.AddParagraph();
+                    currPar.Spacing.SpacingAfter = 0;
+                    currRun = currPar.Inlines.AddRun("in:");
+                    currPar = eventTable.Rows[0].Cells[1].Blocks.AddParagraph();
+                    currPar.Spacing.SpacingAfter = 0;
+                    string curP = curOrder.Event.Place.NameEN == null ? "" : curOrder.Event.Place.NameEN;
+                    currRun = currPar.Inlines.AddRun(curP);
+                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    currPar = eventTable.Rows[1].Cells[0].Blocks.AddParagraph();
+                    currPar.Spacing.SpacingAfter = 0;
+                    currRun = currPar.Inlines.AddRun("event:");
+                    currPar = eventTable.Rows[1].Cells[1].Blocks.AddParagraph();
+                    currPar.Spacing.SpacingAfter = 0;
+                    string curE = curOrder.Event.NameEN == null ? "" : curOrder.Event.NameEN;
+                    currRun = currPar.Inlines.AddRun(curE);
+                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currPar = insertParagraph(editor);
                     currPar = insertParagraph(editor);
                     int tRows = tasksForOrder.Count + 1;
                     Telerik.Windows.Documents.Flow.Model.Table contentTable = editor.InsertTable(tRows, 5);
                     toTable.Borders = new TableBorders(new Border(Telerik.Windows.Documents.Flow.Model.Styles.BorderStyle.None));
                     currPar = contentTable.Rows[0].Cells[0].Blocks.AddParagraph();
-                    currRun = currPar.Inlines.AddRun("Πελάτης Εξωτερικού:");
+                    currRun = currPar.Inlines.AddRun("Customer Name");
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currPar = contentTable.Rows[0].Cells[1].Blocks.AddParagraph();
-                    currRun = currPar.Inlines.AddRun("Από");
+                    currRun = currPar.Inlines.AddRun("From");
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currPar = contentTable.Rows[0].Cells[2].Blocks.AddParagraph();
-                    currRun = currPar.Inlines.AddRun("Έως:");
+                    currRun = currPar.Inlines.AddRun("To");
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currPar = contentTable.Rows[0].Cells[3].Blocks.AddParagraph();
-                    currRun = currPar.Inlines.AddRun("Θέση:");
+                    currRun = currPar.Inlines.AddRun("Place of Instal.");
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currPar = contentTable.Rows[0].Cells[4].Blocks.AddParagraph();
-                    currRun = currPar.Inlines.AddRun("Σύνδεση:");
+                    currRun = currPar.Inlines.AddRun("");
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     int curRow = 1;
                     foreach (TaskB curTask in tasksForOrder) {
                         currPar = contentTable.Rows[curRow].Cells[0].Blocks.AddParagraph();
-                        currRun = currPar.Inlines.AddRun(curCust.NameGR);
+                        currRun = currPar.Inlines.AddRun(curCust.NameEN);
                         currPar = contentTable.Rows[curRow].Cells[1].Blocks.AddParagraph();
                         currRun = currPar.Inlines.AddRun(curTask.DateTimeStartOrder.ToString());
                         currPar = contentTable.Rows[curRow].Cells[2].Blocks.AddParagraph();
                         currRun = currPar.Inlines.AddRun(curTask.DateTimeEndOrder.ToString());
                         currPar = contentTable.Rows[curRow].Cells[3].Blocks.AddParagraph();
-                        currRun = currPar.Inlines.AddRun(curTask.RequestedPosition.NameGR);
+                        currRun = currPar.Inlines.AddRun(curTask.RequestedPosition.NameEN);
                         currPar = contentTable.Rows[curRow].Cells[4].Blocks.AddParagraph();
                         string LineType2Print = curTask.LineType.Name;
                         if (curTask.Internet == true) { LineType2Print += " + WIFI ROUTER"; }
                         currRun = currPar.Inlines.AddRun(LineType2Print);
                         curRow++;
                     }
-                    var distinctTasksC = tasksForOrder.Select(m => new { m.Comments }).Distinct().ToList();
-                    if (distinctTasksC.Count > 0) {
-                        currPar = insertParagraph(editor);
-                        currPar = insertParagraph(editor);
-                        currRun = editor.InsertText("ΣΗΜΕΙΩΣΕΙΣ ΠΕΛΑΤΗ:");
-                        currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
-                        currRun.Properties.ForegroundColor.LocalValue = new ThemableColor(System.Windows.Media.Color.FromRgb(255, 0, 0));
-                        foreach (var dItem in distinctTasksC) {
-                            if (!string.IsNullOrEmpty(dItem.Comments)) {
-                                TaskB demoTask = tasksForOrder.Where(k => k.Comments == dItem.Comments).FirstOrDefault();
-                                currPar = insertParagraph(editor);
-                                currPar.Indentation.LeftIndent = Telerik.Windows.Documents.Media.Unit.InchToDip(1);
-                                currRun = editor.InsertText(demoTask.LineType.Name + "  -  " + demoTask.Comments);
-                                currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
-                                currRun.Properties.ForegroundColor.LocalValue = new ThemableColor(System.Windows.Media.Color.FromRgb(255, 0, 0));
-                            }
-                        }
+                    var distinctTasksLT = tasksForOrder.Select(m => new { m.LineTypeID, m.Internet, m.MSN }).Distinct().ToList();
+                    string concatString = "";
+                    int distinctItems = 0;
+                    foreach (var dItem in distinctTasksLT) {
+                        if (distinctItems > 0 && distinctItems < distinctTasksLT.Count-1) { concatString += ", "; } else if (distinctItems > 0 && distinctItems == distinctTasksLT.Count-1) { concatString += " & "; }
+                        TaskB demoTask = tasksForOrder.Where(k => k.LineTypeID == dItem.LineTypeID && k.Internet == dItem.Internet && k.MSN == dItem.MSN).FirstOrDefault();
+                        int itemCount = tasksForOrder.Where(k => k.LineTypeID == dItem.LineTypeID && k.Internet == dItem.Internet && k.MSN == dItem.MSN).Count();
+                        concatString += itemCount.ToString() + " " + demoTask.LineType.Name;
+                        if (demoTask.Internet == true && demoTask.MSN == true) { concatString += " with router and MSN"; } else if (demoTask.Internet == true) { concatString += " with router"; } else if (demoTask.MSN == true) { concatString += " with MSN"; }
+                        distinctItems++;
                     }
                     currPar = insertParagraph(editor);
                     currPar = insertParagraph(editor);
-                    currRun = editor.InsertText("Εγκατάσταση στο  OB VAN/TV COMPOUND");
+                    currRun = editor.InsertText("Please provide " + concatString);
+                    currRun.Properties.FontSize.LocalValue = Telerik.Windows.Documents.Media.Unit.PointToDip(9);
+                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    currPar = insertParagraph(editor);
+                    currRun = editor.InsertText("Contact Person: " + reps.Where(o => o.Title == "Contact Person").FirstOrDefault().Text + "  Mob:" + reps.Where(o => o.Title == "Κινητό C.P.").FirstOrDefault().Text);
+                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    currPar = insertParagraph(editor);
+                    currRun = editor.InsertText("Please advise on allocated numbers A.S.A.P. to the e-mail address: ");
+                    editor.InsertHyperlink(curRep.Text, "mailto:" + curRep.Text, false);
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currPar = insertParagraph(editor);
                     currPar = insertParagraph(editor);
-                    currRun = editor.InsertText("Ανταποκριτής: Mr. Leo Giovanni  +393357415070");
+                    currRun = editor.InsertText("HELLENIC TELECOMMUNICATIONS ORGANIZATION SA (OTE GROUP OF COMPANIES)");
+                    currPar = insertParagraph(editor);
+                    currRun = editor.InsertText("VAT Number: ");
+                    currRun = editor.InsertText("EL 094019245");
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currPar = insertParagraph(editor);
                     currPar = insertParagraph(editor);
-                    currRun = editor.InsertText("Παρακαλούμε να μας γνωρίσετε τον αριθμό κλήσης που θα διαθέσετε.");
+                    currRun = editor.InsertText("Responsible for the payments is our company:");
                     currPar = insertParagraph(editor);
-                    currRun = editor.InsertText("H χρέωση θα γίνει από το Τμήμα Ρ/Τ Μεταδόσεων.");
+                    currRun = editor.InsertText("HELLENIC TELECOMMUNICATIONS ORGANIZATION SA (OTE GROUP OF COMPANIES) via its Billing department bellow");
                     currPar = insertParagraph(editor);
                     currPar = insertParagraph(editor);
+                    currRun = editor.InsertText("Delivery invoice address for the original invoice (Post mail):");
                     currPar = insertParagraph(editor);
-                    currPar.Indentation.LeftIndent = Telerik.Windows.Documents.Media.Unit.InchToDip(3);
-                    //currPar.TextAlignment = Alignment.Center;
-                    curRep = reps.Where(o => o.Title == "Προϊστάμενος").FirstOrDefault();
-                    if (curRep != null) { currRun = editor.InsertText(curRep.Text); }
-                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    currRun = editor.InsertText("OTE INTERNATIONAL SOLUTION SA (OTEGLOBE)");
+                    curRep = reps.Where(o => o.Title == "OTEGlobe Διεύθυνση 1").FirstOrDefault();
                     currPar = insertParagraph(editor);
-                    currPar.Indentation.LeftIndent = Telerik.Windows.Documents.Media.Unit.InchToDip(3);
-                    currPar.Indentation.HangingIndent = Telerik.Windows.Documents.Media.Unit.InchToDip(0);
-                    currPar.Indentation.RightIndent = Telerik.Windows.Documents.Media.Unit.InchToDip(0);
-                    currPar.Indentation.FirstLineIndent = Telerik.Windows.Documents.Media.Unit.InchToDip(0);
-                    currPar.TextAlignment = Alignment.Left;
-                    curRep = reps.Where(o => o.Title == "Τίτλος").FirstOrDefault();
-                    if (curRep != null) { currRun = editor.InsertText(curRep.Text); }
-                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    if (curRep != null) {
+                        //currPar = insertParagraph(editor);
+                        //currRun = editor.InsertText(curRep.Text);
+                        currRun = editor.InsertLine(curRep.Text);
+                    }
+                    curRep = reps.Where(o => o.Title == "OTEGlobe Διεύθυνση 2").FirstOrDefault();
+                    if (curRep != null) {
+                        //currPar = insertParagraph(editor);
+                        //currRun = editor.InsertText(curRep.Text);
+                        currRun = editor.InsertLine(curRep.Text);
+                    }
+                    curRep = reps.Where(o => o.Title == "OTEGlobe Site").FirstOrDefault();
+                    if (curRep != null) {
+                        //currPar = insertParagraph(editor);
+                        editor.InsertHyperlink(curRep.Text, "http://" + curRep.Text, false);
+                    }
+                    currPar = insertParagraph(editor);
+                    currPar = insertParagraph(editor);
+                    string rep = "";
+                    curRep = reps.Where(o => o.Title == "Person In Charge").FirstOrDefault();
+                    if (curRep != null) { rep += curRep.Text; }
+                    curRep = reps.Where(o => o.Title == "Person In Charge (Phone)").FirstOrDefault();
+                    if (curRep != null) { rep += curRep.Text; }
+                    if (!string.IsNullOrEmpty(rep)) {
+                        currRun = editor.InsertText("(Person in charge " + rep + ")");
+                        currPar = insertParagraph(editor);
+                    }
+                    curRep = reps.Where(o => o.Title == "Person In Charge (Email)").FirstOrDefault();
+                    if (curRep != null) {
+                        currRun = editor.InsertText("Email: ");
+                        editor.InsertHyperlink(curRep.Text, "mailto:" + curRep.Text, false);
+                        currPar = insertParagraph(editor);
+                    }
+                    currRun = editor.InsertText("Email: ");
+                    editor.InsertHyperlink("CreditControl@oteglobe.gr", "mailto:CreditControl@oteglobe.gr", false);
+                    currPar = insertParagraph(editor);
+                    currPar = insertParagraph(editor);
+                    curRep = reps.Where(o => o.Title == "Email").FirstOrDefault();
+                    if (curRep != null) {
+                        currPar = insertParagraph(editor);
+                        currRun = editor.InsertText("You could notify a copy of the invoice (as a pdf) to this e-mail: ");
+                        editor.InsertHyperlink(curRep.Text, "mailto:" + curRep.Text, false);
+                        currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    }
+                    currPar = insertParagraph(editor);
+                    currRun = editor.InsertText("The charges will be settled via Bank transfer.");
+                    currPar = insertParagraph(editor);
+                    currPar = insertParagraph(editor);
+                    currRun = editor.InsertText("Best regards,");
+                    currPar = insertParagraph(editor);
+                    currRun = editor.InsertText("SAOUSOPOULOU ANNA");
+                    currPar = insertParagraph(editor);
+                    currRun = editor.InsertText("MANAGER OF GENTRANS, ATHENS");
                     curDoc.UpdateFields();
                     exportDOCX(curDoc);
                 }

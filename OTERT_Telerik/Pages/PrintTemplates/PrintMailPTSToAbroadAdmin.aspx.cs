@@ -21,7 +21,7 @@ using OTERT_Entity;
 
 namespace OTERT.Pages.PrintTemplates {
 
-    public partial class PrintMailPTSFromGRAdmin : Page {
+    public partial class PrintMailPTSToAbroadAdmin : Page {
 
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
@@ -30,7 +30,7 @@ namespace OTERT.Pages.PrintTemplates {
         protected string pageTitle, uploadedFilePath, textFromSession;
         const string templatesFolder = "~/Templates/";
         const string fileUploadFolder = "~/UploadedFiles/";
-        const string sqlUniqueName = "mailPTSFromGR";
+        const string sqlUniqueName = "mailPTSToAbroad";
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {

@@ -228,12 +228,12 @@
       <DependentUpon>Invoice.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\PrintTemplates\PrintMailPTSFromGR.aspx.cs">
-      <DependentUpon>PrintMailPTSFromGR.aspx</DependentUpon>
+    <Compile Include="Pages\PrintTemplates\PrintMailPTSToAbroad.aspx.cs">
+      <DependentUpon>PrintMailPTSToAbroad.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\PrintTemplates\PrintMailPTSFromGRAdmin.aspx.cs">
-      <DependentUpon>PrintMailPTSFromGRAdmin.aspx</DependentUpon>
+    <Compile Include="Pages\PrintTemplates\PrintMailPTSToAbroadAdmin.aspx.cs">
+      <DependentUpon>PrintMailPTSToAbroadAdmin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\PrintTemplates\PrintMailPTSToGRAdmin.aspx.cs">
@@ -395,8 +395,8 @@
     <Content Include="Pages\Administrator\DistancesList.aspx" />
     <Content Include="Pages\PrintTemplates\InvoiceDetailed.aspx" />
     <Content Include="Pages\PrintTemplates\Invoice.aspx" />
-    <Content Include="Pages\PrintTemplates\PrintMailPTSFromGR.aspx" />
-    <Content Include="Pages\PrintTemplates\PrintMailPTSFromGRAdmin.aspx" />
+    <Content Include="Pages\PrintTemplates\PrintMailPTSToAbroad.aspx" />
+    <Content Include="Pages\PrintTemplates\PrintMailPTSToAbroadAdmin.aspx" />
     <Content Include="Pages\PrintTemplates\PrintMailPTSToGRAdmin.aspx" />
     <Content Include="Pages\PrintTemplates\PrintMailPTSToGR.aspx" />
     <Content Include="Pages\PrintTemplates\KETDailyList.aspx" />
@@ -527,7 +527,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
