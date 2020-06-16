@@ -413,6 +413,7 @@ namespace OTERT.Pages.UserPages {
                             curTask.Comments = (string)values["Comments"];
                             curTask.InvoceComments = (string)values["InvoceComments"];
                             curTask.SateliteID = null;
+                            curTask.DateStamp = DateTime.Now;
                             dbContext.Tasks.Add(curTask);
                             dbContext.SaveChanges();
                         }

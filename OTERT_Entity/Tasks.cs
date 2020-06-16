@@ -56,6 +56,7 @@ namespace OTERT_Entity
         public Nullable<bool> Internet { get; set; }
         public Nullable<bool> MSN { get; set; }
         public Nullable<int> LineTypeID { get; set; }
+        public System.DateTime DateStamp { get; set; }
     
         public virtual Customers Customers { get; set; }
         public virtual Jobs Jobs { get; set; }

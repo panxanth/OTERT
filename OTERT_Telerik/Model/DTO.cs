@@ -225,6 +225,7 @@ namespace OTERT.Model {
         public bool Internet { get; set; }
         public int? LineTypeID { get; set; }
         public LineTypeDTO LineType { get; set; }
+        public DateTime DateStamp { get; set; }
     }
 
     public class InvoiceDTO {

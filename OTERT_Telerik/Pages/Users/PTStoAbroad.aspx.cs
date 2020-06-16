@@ -679,6 +679,7 @@ namespace OTERT.Pages.Administrator {
                             curTask.Internet = (bool)values["Internet"];
                             curTask.MSN = (bool)values["MSN"];
                             curTask.LineTypeID = LineTypeID;
+                            curTask.DateStamp = DateTime.Now;
                             dbContext.Tasks.Add(curTask);
                             dbContext.SaveChanges();
                         }
