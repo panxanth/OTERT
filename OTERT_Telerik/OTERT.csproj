@@ -23,6 +23,7 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <UpgradeBackupLocation />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -119,6 +120,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RadGrid.Main.resx</DependentUpon>
     </Compile>
+    <Compile Include="Controller\TaskLinesController.cs" />
+    <Compile Include="Controller\InvoicesController.cs" />
     <Compile Include="Controller\JobCancelPricesController.cs" />
     <Compile Include="Controller\FilesController.cs" />
     <Compile Include="Controller\JobFormulasController.cs" />
@@ -218,6 +221,10 @@
     </Compile>
     <Compile Include="Pages\Administrator\DistancesList.aspx.cs">
       <DependentUpon>DistancesList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Invoices\InvoiceShow.aspx.cs">
+      <DependentUpon>InvoiceShow.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\PrintTemplates\InvoiceDetailed.aspx.cs">
@@ -393,6 +400,7 @@
     <Content Include="Pages\Administrator\PlacesList.aspx" />
     <Content Include="Pages\Administrator\JobsMainList.aspx" />
     <Content Include="Pages\Administrator\DistancesList.aspx" />
+    <Content Include="Pages\Invoices\InvoiceShow.aspx" />
     <Content Include="Pages\PrintTemplates\InvoiceDetailed.aspx" />
     <Content Include="Pages\PrintTemplates\Invoice.aspx" />
     <Content Include="Pages\PrintTemplates\PrintMailPTSToAbroad.aspx" />
@@ -473,6 +481,7 @@
     <Content Include="Templates\Invoice.docx" />
     <Content Include="Templates\PTS.docx" />
     <Content Include="Templates\mailCosmote.docx" />
+    <Content Include="Templates\InvoiceDetails.docx" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

@@ -375,7 +375,7 @@ namespace OTERT.Controller {
                                             Internet = us.Internet == null ? false : (bool)us.Internet,
                                             LineTypeID = us.LineTypeID,
                                             LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
-                                            }).Where(o => (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && selectedJobs.Contains(o.JobID.ToString())).OrderBy(o => o.OrderDate).ToList();
+                                            }).Where(o => (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && selectedJobs.Contains(o.JobID.ToString()) && o.CostActual.GetValueOrDefault() > 0).OrderBy(o => o.OrderDate).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -493,7 +493,7 @@ namespace OTERT.Controller {
                                             Internet = us.Internet == null ? false : (bool)us.Internet,
                                             LineTypeID = us.LineTypeID,
                                             LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name }
-                                        }).Where(o => (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && selectedJobs.Contains(o.JobID.ToString()) && selectedTasks.Contains(o.ID.ToString())).OrderBy(o => o.OrderDate).ToList();
+                                        }).Where(o => (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && selectedJobs.Contains(o.JobID.ToString()) && selectedTasks.Contains(o.ID.ToString()) && o.CostActual.GetValueOrDefault() > 0).OrderBy(o => o.OrderDate).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

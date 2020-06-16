@@ -34,6 +34,7 @@ namespace OTERT.Pages.Invoices {
         protected RadTextBox txtAccountNo;
         protected RadCheckBox chkIsLocked;
         protected string pageTitle, uploadedFilePath;
+        protected UserB loggedUser;
         const string templatesFolder = "~/Templates/";
         const int PTSFromGreeceID = 14;
         const int PTSToGreeceID = 13;
@@ -41,7 +42,7 @@ namespace OTERT.Pages.Invoices {
         protected void Page_Load(object sender, EventArgs e) {
             wizardData wData;
             if (!Page.IsPostBack) {
-                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Τμήμα Υποστήριξης (ΚΕΤ) - Λίστα Ημερ. Μεταδόσεων";
+                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Τιμολόγια > Δημιουργία Νέου Τιμολογίου";
                 dpDateFrom.SelectedDate = DateTime.Now.Date;
                 dpDateTo.SelectedDate = DateTime.Now.Date;
                 dpDateCreated.SelectedDate = DateTime.Now.Date;
@@ -59,6 +60,7 @@ namespace OTERT.Pages.Invoices {
                 }
                 catch (Exception) { }
             }
+            if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
 
         protected void showWizardSteps(wizardData wData) {
@@ -244,23 +246,39 @@ namespace OTERT.Pages.Invoices {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     OTERT_Entity.Invoices curInvoice;
+                    curInvoice = new OTERT_Entity.Invoices();
+                    curInvoice.CustomerID = wData.CustomerID;
+                    curInvoice.DateFrom = wData.DateFrom;
+                    curInvoice.DateTo = wData.DateTo;
+                    curInvoice.RegNo = wData.Code;
+                    curInvoice.IsLocked = wData.locked;
+                    curInvoice.DatePaid = wData.DatePayed;
+                    curInvoice.DateCreated = wData.DateCreated;
+                    TasksController tcont = new TasksController();
+                    List<TaskB> invTasks = tcont.GetTasksForInvoice(curInvoice.CustomerID, wData.DateFrom, wData.DateTo, wData.SelectedJobs, wData.SelectedTasks);
+                    decimal totalTasksCost = 0;
+                    foreach (TaskB curTask in invTasks){ totalTasksCost += curTask.CostActual.GetValueOrDefault(); }
+                    curInvoice.TasksLineAmount = totalTasksCost;
+                    /*
                     foreach (GridDataItem item in gridSales.MasterTableView.Items) {
-                        curInvoice = new OTERT_Entity.Invoices();
                         CheckBox chk = (CheckBox)item.FindControl("chk");
                         decimal? tasksValue = decimal.Parse(item["TasksCost"].Text);
                         decimal? salesValue = decimal.Parse(item["SalesCost"].Text);
-                        curInvoice.CustomerID = wData.CustomerID;
-                        curInvoice.DateFrom = wData.DateFrom;
-                        curInvoice.DateTo = wData.DateTo;
-                        curInvoice.RegNo = wData.Code;
-                        curInvoice.IsLocked = wData.locked;
-                        curInvoice.DatePaid = wData.DatePayed;
-                        curInvoice.DateCreated = wData.DateCreated;
                         curInvoice.TasksLineAmount = tasksValue;
                         if (chk.Checked) {
                             curInvoice.DiscountLineAmount = salesValue;
                         }
                         dbContext.Invoices.Add(curInvoice);
+                    }
+                    */
+                    dbContext.Invoices.Add(curInvoice);
+                    dbContext.SaveChanges();
+                    foreach (TaskB curTask in invTasks) {
+                        TasksLine newTaskLine = new TasksLine();
+                        newTaskLine.InvoiceID = curInvoice.ID;
+                        newTaskLine.TaskID = curTask.ID;
+                        newTaskLine.JobID = curTask.JobID.GetValueOrDefault();
+                        dbContext.TasksLine.Add(newTaskLine);
                     }
                     dbContext.SaveChanges();
                 }

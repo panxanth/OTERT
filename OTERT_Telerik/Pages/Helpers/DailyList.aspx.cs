@@ -29,6 +29,7 @@ namespace OTERT.Pages.Helpers {
         protected RadWindowManager RadWindowManager1;
         protected Button btnShow;
         protected string pageTitle, uploadedFilePath;
+        protected UserB loggedUser;
         const string templatesFolder = "~/Templates/";
 
         protected void Page_Load(object sender, EventArgs e) {
@@ -36,6 +37,7 @@ namespace OTERT.Pages.Helpers {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Τμήμα Υποστήριξης (ΚΕΤ) - Λίστα Ημερ. Μεταδόσεων";
                 dpDate.SelectedDate = DateTime.Now.Date;
             }
+            if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
 
         protected void btnShow_Click(object sender, EventArgs e) {

@@ -18,12 +18,14 @@ namespace OTERT.Pages.Administrator {
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
         protected string pageTitle;
+        protected UserB loggedUser;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Γλωσσών";
                 gridMain.MasterTableView.Caption = "Γλώσσες";
             }
+            if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
@@ -35,10 +37,6 @@ namespace OTERT.Pages.Administrator {
                 gridMain.DataSource = cont.GetLanguages(recSkip, recTake);
             }
             catch (Exception) { }
-
-        }
-
-        protected void gridMain_ItemCreated(object sender, GridItemEventArgs e) {
 
         }
 

@@ -30,9 +30,10 @@ namespace OTERT.Pages.Administrator {
         protected string pageTitle, uploadedFilePath;
         protected int Customer1ID, EventID, CountryID;
         protected int CustomerID, PositionID, LineTypeID;
+        protected UserB loggedUser;
         const string fileUploadFolder = "~/UploadedFiles/";
         const string templatesFolder = "~/Templates/";
-        const string pageUniqueName = "PTS";
+        const string pageUniqueName = "PTS";   
         const int OrderTypeID = 1;
 
         protected void Page_Load(object sender, EventArgs e) {
@@ -52,6 +53,7 @@ namespace OTERT.Pages.Administrator {
                 LineTypeID = -1;
                 Session.Remove("LineTypeID");
             }
+            if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {

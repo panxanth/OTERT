@@ -30,6 +30,7 @@ namespace OTERT.Pages.Helpers {
         protected RadWindowManager RadWindowManager1;
         protected Button btnExportDOCX, btnExportXLSX;
         protected string pageTitle, uploadedFilePath;
+        protected UserB loggedUser;
         const string fileUploadFolder = "~/UploadedFiles/";
         const string templatesFolder = "~/Templates/";
         const string pageUniqueName = "KET";
@@ -44,6 +45,7 @@ namespace OTERT.Pages.Helpers {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Τμήμα Υποστήριξης (ΚΕΤ) - Λίστα Ημερ. Μεταδόσεων";
                 gridMain.MasterTableView.Caption = "Λίστα Ημερ. Μεταδόσεων (" + forDate.ToShortDateString() + ")";
             }
+            if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
@@ -325,7 +327,11 @@ namespace OTERT.Pages.Helpers {
                             } else if (j == 3) {
                                 cell.Blocks.AddParagraph().Inlines.AddRun(lstDummy.Where(o => o.Count == i).FirstOrDefault().FromTime + " - " + lstDummy.Where(o => o.Count == i).FirstOrDefault().ToTime);
                             } else if (j == 4) {
-                                cell.Blocks.AddParagraph().Inlines.AddRun(lstDummy.Where(o => o.Count == i).FirstOrDefault().Comments);
+                                if (!string.IsNullOrEmpty(lstDummy.Where(o => o.Count == i).FirstOrDefault().Comments)) {
+                                    cell.Blocks.AddParagraph().Inlines.AddRun(lstDummy.Where(o => o.Count == i).FirstOrDefault().Comments);
+                                } else {
+                                    cell.Blocks.AddParagraph().Inlines.AddRun("");
+                                }
                             }
                         }
                     }

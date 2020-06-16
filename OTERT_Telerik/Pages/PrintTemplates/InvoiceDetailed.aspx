@@ -114,8 +114,6 @@
                 </EditFormSettings>
             </MasterTableView>
         </telerik:RadGrid>
-        <br /><br />
-        <asp:Button ID="btnPrint" runat="server" Text="Εκτύπωση Δοκιμαστικής Σελίδας" OnClick="btnPrint_Click" />
         <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" />
     </div>
 </asp:Content>

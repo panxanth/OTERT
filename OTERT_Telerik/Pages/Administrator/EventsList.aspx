@@ -31,7 +31,6 @@
             AllowFilteringByColumn="True" PagerStyle-AlwaysVisible="true"
             OnNeedDataSource="gridMain_NeedDataSource" 
             OnUpdateCommand="gridMain_UpdateCommand"
-            OnItemCreated="gridMain_ItemCreated" 
             OnDeleteCommand="gridMain_DeleteCommand"
             OnInsertCommand="gridMain_InsertCommand"
             OnItemDataBound="gridMain_ItemDataBound"

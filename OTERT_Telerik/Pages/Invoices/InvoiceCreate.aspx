@@ -47,8 +47,8 @@
                 <tr>
                     <td>Κωδικός Τιμολογίου από Λογιστήριο: </td>
                     <td>
-                        <telerik:RadTextBox RenderMode="Lightweight" runat="server" ID="txtAccountNo" Width="200px" EmptyMessage="Enter username" />
-                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtAccountNo" ErrorMessage="!" ForeColor="Red" />
+                        <telerik:RadTextBox RenderMode="Lightweight" runat="server" ID="txtAccountNo" Width="200px" EmptyMessage="" />
+                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtAccountNo" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" ForeColor="Red" />
                     </td>
                     <td></td>
                 </tr>
@@ -64,6 +64,7 @@
                 </tr>
                 <tr>
                     <td>
+                        <br /><br />
                         <telerik:RadButton RenderMode="Lightweight" ID="btnShow1" runat="server" SingleClick="true" SingleClickText="Please wait..." OnClick="btnShow1_Click" Text="Επόμενο">
                             <Icon PrimaryIconCssClass="rbNext" />
                         </telerik:RadButton>
@@ -92,7 +93,8 @@
                         <telerik:GridBoundColumn DataField="Name" HeaderText="Τίτλος" ReadOnly="true" />
                     </Columns>
                 </MasterTableView>
-            </telerik:RadGrid>         
+            </telerik:RadGrid>
+            <br /><br />
             <telerik:RadButton RenderMode="Lightweight" ID="btnShowPrev2" runat="server" SingleClick="true" SingleClickText="Please wait..." OnClick="btnShowPrev2_Click" Text="Προηγούμενο">
                 <Icon PrimaryIconCssClass="rbPrevious" />
             </telerik:RadButton>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -126,6 +128,7 @@
                     </Columns>
                 </MasterTableView>
             </telerik:RadGrid>  
+            <br /><br />
             <telerik:RadButton RenderMode="Lightweight" ID="btnShowPrev3" runat="server" SingleClick="true" SingleClickText="Please wait..." OnClick="btnShowPrev3_Click" Text="Προηγούμενο">
                 <Icon PrimaryIconCssClass="rbPrevious" />
             </telerik:RadButton>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -156,6 +159,7 @@
                     </Columns>
                 </MasterTableView>
             </telerik:RadGrid> 
+            <br /><br />
             <telerik:RadButton RenderMode="Lightweight" ID="btnShowPrev4" runat="server" SingleClick="true" SingleClickText="Please wait..." OnClick="btnShowPrev4_Click" Text="Προηγούμενο">
                 <Icon PrimaryIconCssClass="rbPrevious" />
             </telerik:RadButton>&nbsp;&nbsp;&nbsp;&nbsp;

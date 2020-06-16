@@ -293,7 +293,7 @@ namespace OTERT.Model {
         public string RegNo { get; set; }
         public DateTime? DatePaid { get; set; }
         public decimal? TasksLineAmount { get; set; }
-        public decimal DiscountLineAmount { get; set; }
+        public decimal? DiscountLineAmount { get; set; }
         public bool? IsLocked { get; set; }
     }
 
@@ -308,7 +308,7 @@ namespace OTERT.Model {
         public bool Applied { get; set; }
     }
 
-    public class DTasksLineB {
+    public class TasksLineB {
         public int ID { get; set; }
         public int InvoiceID { get; set; }
         public InvoiceDTO Invoice { get; set; }

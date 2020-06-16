@@ -19,6 +19,7 @@ namespace OTERT.Pages.Administrator {
         protected RadWindowManager RadWindowManager1;
         protected string pageTitle;
         protected int SalesID, JobsMainID, JobTypesID;
+        protected UserB loggedUser;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
@@ -31,6 +32,7 @@ namespace OTERT.Pages.Administrator {
                 JobTypesID = -1;
                 Session.Remove("JobTypesID");
             }
+            if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {

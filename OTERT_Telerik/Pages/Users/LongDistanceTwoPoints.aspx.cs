@@ -21,8 +21,9 @@ namespace OTERT.Pages.UserPages {
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
         protected int pageID = 4;
-        protected string pageTitle, uploadedFilePath, groupID;
+        protected string pageTitle, uploadedFilePath;
         protected int JobsID, CustomersID, DistancesID;
+        protected UserB loggedUser;
         const string fileUploadFolder = "~/UploadedFiles/";
 
         protected void Page_Load(object sender, EventArgs e) {
@@ -37,8 +38,7 @@ namespace OTERT.Pages.UserPages {
                 Session.Remove("DistancesID");
                 uploadedFilePath = "";
             }
-            if (Session["LogedInUsergroupID"] != null) { groupID = Session["LogedInUsergroupID"].ToString(); }
-            else { Response.Redirect("/Default.aspx", true); }
+            if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
@@ -164,9 +164,9 @@ namespace OTERT.Pages.UserPages {
                 string formula = "";
                 if (orderStartDate > nullDate && orderEndDate > nullDate && orderEndDate > orderStartDate) {
                     TimeSpan orderSpan = orderEndDate.Subtract(orderStartDate);
-                    txtOrderDurationOrder.Text = ((int)Math.Ceiling(orderSpan.TotalDays)).ToString();
-                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalDays), -1, selectedDistance.KM);
-                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(orderSpan.TotalDays)).ToString());
+                    txtOrderDurationOrder.Text = ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString();
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalMinutes), -1, selectedDistance.KM);
+                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString());
                     //formula = formula.Replace("#BANDWIDTH#", bandwidth.ToString());
                     formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
                     formula = formula.Replace(",", ".");
@@ -176,9 +176,9 @@ namespace OTERT.Pages.UserPages {
                 }
                 if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
                     TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
-                    txtActualDuration.Text = ((int)Math.Ceiling(actualSpan.TotalDays)).ToString();
-                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalDays), -1, selectedDistance.KM);
-                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(actualSpan.TotalDays)).ToString());
+                    txtActualDuration.Text = ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString();
+                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalMinutes), -1, selectedDistance.KM);
+                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString());
                     //formula = formula.Replace("#BANDWIDTH#", bandwidth.ToString());
                     formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
                     formula = formula.Replace(",", ".");
@@ -263,7 +263,7 @@ namespace OTERT.Pages.UserPages {
                         item["CustomerID"].ForeColor = hColor;
                         item["JobsID"].ForeColor = hColor;
                         item["DateTimeStartActual"].ForeColor = hColor;
-                        if (curTask.IsLocked == true && groupID != "1") {
+                        if (curTask.IsLocked == true && loggedUser.UserGroupID != 1) {
                             item["EditCommandColumn"].Controls[0].Visible = false;
                             item["btnDelete"].Controls[0].Visible = false;
                             item["ExapandColumn"].Controls[0].Visible = false;

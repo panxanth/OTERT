@@ -4,20 +4,24 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using OTERT.Model;
+using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
 
 namespace OTERT.Masters {
 
     public partial class Inside : System.Web.UI.MasterPage {
 
-        public string groupID = "";
+        public int groupID = -1;
         public string userName = "";
 
         protected void Page_Load(object sender, EventArgs e) {
-            //if (Session["LogedInUsername"] == null) { Response.Redirect("/Default.aspx", true); }
-            //if (Session["LogedInUsergroupID"] != null) { groupID = Session["LogedInUsergroupID"].ToString(); }
-            //if (Session["LogedInUserDisplayName"] != null) { userName = Session["LogedInUserDisplayName"].ToString(); }
-            groupID = "1";
-            userName = "Πάνος Ξανθόπουλος";
+            if (Session["LoggedUser"] == null) {
+                Response.Redirect("/Default.aspx", true);
+            } else {
+                UserB loggedUser = Session["LoggedUser"] as UserB;
+                groupID = loggedUser.UserGroupID;
+                userName = loggedUser.NameGR;
+            } 
         }
 
     }

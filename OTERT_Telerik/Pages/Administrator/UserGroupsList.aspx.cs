@@ -18,12 +18,14 @@ namespace OTERT.Pages.Administrator {
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
         protected string pageTitle;
+        protected UserB loggedUser;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Ομάδων Χρηστών";
                 gridMain.MasterTableView.Caption = "Ομάδες Χρηστών";
             }
+            if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
@@ -39,9 +41,7 @@ namespace OTERT.Pages.Administrator {
 
         }
 
-        protected void gridMain_ItemCreated(object sender, GridItemEventArgs e) {
-
-        }
+        protected void gridMain_ItemCreated(object sender, GridItemEventArgs e) { }
 
         private void ShowErrorMessage(int errCode) {
             if (errCode == 1) {

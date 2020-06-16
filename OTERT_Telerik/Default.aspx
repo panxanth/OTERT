@@ -118,7 +118,7 @@
     </div>
     </article>
     <footer>
-        &nbsp;&nbsp;Copyright &copy; 2019 OTE A.E.
+        &nbsp;&nbsp;Copyright &copy; 2020 OTE A.E.
     </footer>
 </body>
 </html>

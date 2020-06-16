@@ -21,7 +21,7 @@
     <div id="mbmcpebul_wrapper">
         <ul id="mbmcpebul_table" class="mbmcpebul_menulist css_menu">
         <!-- ********** Μενού "Έργα" ********** //-->
-        <% if (groupID != "4") {%>
+        <% if (groupID != 4) {%>
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 80px;">
                 <div class="arrow"><a class="button_2">Έργα</a></div>
@@ -97,6 +97,7 @@
                 <div class="arrow"><a class="button_2">Τιμολόγια</a></div>
             </div>
             <ul class="gradient_menu gradient99">
+                <li class="gradient_menuitem gradient27"><a href="/Pages/Invoices/InvoiceShow.aspx" title="">Αναζήτηση Τιμολογίου</a></li>
                 <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Invoices/InvoiceCreate.aspx" title="">Δημιουργία Νέου Τιμολογίου</a></li>
             </ul>
         </li>
@@ -111,7 +112,7 @@
             </ul>
         </li>
         <!-- ********** Μενού "Διαχείριση" ********** //-->
-        <% if (groupID == "1") {%>
+        <% if (groupID == 1) {%>
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 100px;">
                 <div class="arrow"><a class="button_2">Διαχείριση</a></div>
@@ -185,7 +186,7 @@
     </form>
     </article>
     <footer>
-        &nbsp;&nbsp;Copyright &copy; 2019 OTE A.E.
+        &nbsp;&nbsp;Copyright &copy; 2020 OTE A.E.
     </footer>
 </body>
 </html>

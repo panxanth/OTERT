@@ -28,6 +28,7 @@ namespace OTERT.Pages.PrintTemplates {
         protected RadWindowManager RadWindowManager1;
         protected Button btnPrint;
         protected string pageTitle, uploadedFilePath, textFromSession;
+        protected UserB loggedUser;
         const string templatesFolder = "~/Templates/";
         const string fileUploadFolder = "~/UploadedFiles/";
         const string sqlUniqueName = "mailPTSToAbroad";
@@ -41,6 +42,7 @@ namespace OTERT.Pages.PrintTemplates {
                 textFromSession = "";
                 Session.Remove("textFromSession");
             }
+            if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
