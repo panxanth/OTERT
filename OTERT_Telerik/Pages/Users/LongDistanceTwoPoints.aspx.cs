@@ -172,7 +172,7 @@ namespace OTERT.Pages.UserPages {
                     formula = formula.Replace(",", ".");
                     double calculatedCost = Evaluator.EvalToDouble(formula);
                     if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
-                    txtCostCalculated.Text = calculatedCost.ToString();
+                    txtCostCalculated.Text = Math.Round(calculatedCost, 2).ToString("#.##");
                 }
                 if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
                     TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
@@ -184,7 +184,7 @@ namespace OTERT.Pages.UserPages {
                     formula = formula.Replace(",", ".");
                     double calculatedCost = Evaluator.EvalToDouble(formula);
                     if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
-                    txtCostActual.Text = calculatedCost.ToString();
+                    txtCostActual.Text = Math.Round(calculatedCost, 2).ToString("#.##");
                 }
             }
         }

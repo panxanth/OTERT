@@ -79,7 +79,8 @@ namespace OTERT.WebServices {
                         Email = us.Email,
                         UserName = us.UserName,
                         Password = us.Password,
-                        UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name }
+                        UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name },
+                        UserGroupID = us.UserGroupID
                     }).FirstOrDefault();
                     object responseObj;
                     if (loggedUser != null) {
