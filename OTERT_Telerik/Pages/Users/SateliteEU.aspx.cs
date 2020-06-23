@@ -174,32 +174,51 @@ namespace OTERT.Pages.UserPages {
             int jobID = -1;
             if (Session["JobsID"] != null) {
                 jobID = int.Parse(Session["JobsID"].ToString());
+                JobsController jc = new JobsController();
+                JobB currentJob = jc.GetJob(jobID);
+                int minDuration = 0;
+                if (currentJob != null) { minDuration = currentJob.MinimumTime.GetValueOrDefault(); }
                 JobFormulasController cont = new JobFormulasController();
                 List<JobFormulaB> curJobFormulas = cont.GetJobFormulas(jobID);
                 string formula = "";
-                if (orderStartDate > nullDate && orderEndDate > nullDate && orderEndDate > orderStartDate) {
-                    TimeSpan orderSpan = orderEndDate.Subtract(orderStartDate);
-                    txtOrderDurationOrder.Text = ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString();
-                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(orderSpan.TotalMinutes), double.Parse(selectedSatelite.Frequency.Replace(".", ",")), -1);
-                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(orderSpan.TotalMinutes)).ToString());
-                    formula = formula.Replace("#BANDWIDTH#", selectedSatelite.Frequency);
-                    //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
-                    formula = formula.Replace(",", ".");
-                    double calculatedCost = Evaluator.EvalToDouble(formula);
-                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text.Replace(".", ",")); }
-                    txtCostCalculated.Text = calculatedCost.ToString();
-                }
                 if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
                     TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
-                    txtActualDuration.Text = ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString();
-                    formula = findFormula(curJobFormulas, (int)Math.Ceiling(actualSpan.TotalMinutes), double.Parse(selectedSatelite.Frequency), -1);
-                    formula = formula.Replace("#TIME#", ((int)Math.Ceiling(actualSpan.TotalMinutes)).ToString());
+                    int askedDuration = (int)Math.Ceiling(actualSpan.TotalMinutes);
+                    if (askedDuration < minDuration) { askedDuration = minDuration; }
+                    txtActualDuration.Text = askedDuration.ToString();
+                    formula = findFormula(curJobFormulas, askedDuration, double.Parse(selectedSatelite.Frequency), -1);
+                    formula = formula.Replace("#TIME#", askedDuration.ToString());
                     formula = formula.Replace("#BANDWIDTH#", selectedSatelite.Frequency);
                     //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
                     formula = formula.Replace(",", ".");
                     double calculatedCost = Evaluator.EvalToDouble(formula);
+                    txtCostCalculated.Text = calculatedCost.ToString();
                     if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text.Replace(".", ",")); }
                     txtCostActual.Text = calculatedCost.ToString();
+                } else if (orderStartDate > nullDate && orderEndDate > nullDate && orderEndDate > orderStartDate) {
+                    TimeSpan orderSpan = orderEndDate.Subtract(orderStartDate);
+                    int askedDuration = (int)Math.Ceiling(orderSpan.TotalMinutes);
+                    if (askedDuration < minDuration) { askedDuration = minDuration; }
+                    txtOrderDurationOrder.Text = askedDuration.ToString();
+                    formula = findFormula(curJobFormulas, askedDuration, double.Parse(selectedSatelite.Frequency.Replace(".", ",")), -1);
+                    formula = formula.Replace("#TIME#", askedDuration.ToString());
+                    formula = formula.Replace("#BANDWIDTH#", selectedSatelite.Frequency);
+                    //formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
+                    formula = formula.Replace(",", ".");
+                    double calculatedCost = Evaluator.EvalToDouble(formula);
+                    //if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text.Replace(".", ",")); }
+                    txtCostCalculated.Text = calculatedCost.ToString();
+                }
+                if ((actualStartDate == nullDate || actualEndDate == nullDate || actualEndDate <= actualStartDate) && (orderStartDate == nullDate || orderEndDate == nullDate || orderEndDate <= orderStartDate)) {
+                    txtActualDuration.Text = "";
+                    txtCostActual.Text = "";
+                    txtOrderDurationOrder.Text = "";
+                    txtCostCalculated.Text = "";
+                } else if ((actualStartDate == nullDate || actualEndDate == nullDate || actualEndDate <= actualStartDate) && (orderStartDate != nullDate && orderEndDate != nullDate && orderEndDate > orderStartDate)) {
+                    txtActualDuration.Text = "";
+                    txtCostActual.Text = "";
+                } else if ((actualStartDate != nullDate && actualEndDate != nullDate && actualEndDate > actualStartDate) && (orderStartDate == nullDate || orderEndDate == nullDate || orderEndDate <= orderStartDate)) {
+                    txtOrderDurationOrder.Text = "";
                 }
             }
         }
@@ -451,6 +470,7 @@ namespace OTERT.Pages.UserPages {
                             curTask.InvoceComments = (string)values["InvoceComments"];
                             curTask.SateliteID = SatelitesID;
                             curTask.DateStamp = DateTime.Now;
+                            curTask.EnteredByUser = loggedUser.NameGR;
                             dbContext.Tasks.Add(curTask);
                             dbContext.SaveChanges();
                         }

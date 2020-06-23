@@ -301,6 +301,7 @@
           <Property Name="MSN" Type="bit" />
           <Property Name="LineTypeID" Type="int" />
           <Property Name="DateStamp" Type="datetime" Nullable="false" />
+          <Property Name="EnteredByUser" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="TasksLine">
           <Key>
@@ -1213,6 +1214,7 @@
           <NavigationProperty Name="LineTypes" Relationship="OTERT_Model.FK_Tasks_LineTypes" FromRole="Tasks" ToRole="LineTypes" />
           <NavigationProperty Name="TasksLine" Relationship="OTERT_Model.FK_TasksLine_Tasks" FromRole="Tasks" ToRole="TasksLine" />
           <Property Name="DateStamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EnteredByUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="UIControlsVisibility">
           <Key>
@@ -2177,6 +2179,7 @@
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="OTERT_Model.Tasks">
               <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="EnteredByUser" ColumnName="EnteredByUser" />
                 <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
                 <ScalarProperty Name="LineTypeID" ColumnName="LineTypeID" />
                 <ScalarProperty Name="MSN" ColumnName="MSN" />

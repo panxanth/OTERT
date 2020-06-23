@@ -226,6 +226,7 @@ namespace OTERT.Model {
         public int? LineTypeID { get; set; }
         public LineTypeDTO LineType { get; set; }
         public DateTime DateStamp { get; set; }
+        public string EnteredByUser { get; set; }
     }
 
     public class InvoiceDTO {
