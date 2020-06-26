@@ -28,7 +28,7 @@ namespace OTERT.Controller {
                     if (!string.IsNullOrEmpty(recFilter)) {
                         count = dbContext.Tasks.Where(o => o.Jobs.JobsMain.PageID == PageID && o.OrderID == null).Where(recFilter).Count();
                     } else {
-                        count = dbContext.Tasks.Count();
+                        count = dbContext.Tasks.Where(o => o.Jobs.JobsMain.PageID == PageID && o.OrderID == null).Count();
                     }
                     return count;
                 }

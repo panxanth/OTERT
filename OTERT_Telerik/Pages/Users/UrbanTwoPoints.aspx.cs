@@ -330,7 +330,7 @@ namespace OTERT.Pages.UserPages {
                 }
                 catch (Exception) { }
             }
-            if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
+            if (e.Item is GridEditableItem && e.Item.IsInEditMode && e.Item.OwnerTableView.Name == "Master") {
                 JobsID = -1;
                 Session.Remove("JobsID");
                 CustomersID = -1;
@@ -343,7 +343,7 @@ namespace OTERT.Pages.UserPages {
                 RadDropDownList ddlDistances = item.FindControl("ddlDistances") as RadDropDownList;
                 CheckBox chkIsCanceled = (CheckBox)item.FindControl("chkIsCanceled");
                 RadDateTimePicker dpOrderDate = (RadDateTimePicker)item["OrderDate"].Controls[0];
-                try {
+                try { 
                     TaskB currTask = e.Item.DataItem as TaskB;
                     JobsController cont1 = new JobsController();
                     ddlJobs.DataSource = cont1.GetJobsForPageID(pageID);

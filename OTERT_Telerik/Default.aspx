@@ -35,6 +35,7 @@
                 } else {
                     hideErrors();
                     var data = new jsonData(name, password);
+                    //url: "http://ote-rt.ote.gr/WebServices/OTERTWS.asmx/ValidateLogin",
                     $.ajax({
                         type: "POST",
                         url: "http://otert/WebServices/OTERTWS.asmx/ValidateLogin",

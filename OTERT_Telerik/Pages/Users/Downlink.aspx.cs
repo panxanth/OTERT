@@ -315,7 +315,7 @@ namespace OTERT.Pages.UserPages {
                 }
                 catch (Exception) { }
             }
-            if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
+            if (e.Item is GridEditableItem && e.Item.IsInEditMode && e.Item.OwnerTableView.Name == "Master") {
                 JobsID = -1;
                 Session.Remove("JobsID");
                 CustomersID = -1;
