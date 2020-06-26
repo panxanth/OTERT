@@ -43,7 +43,7 @@ namespace OTERT.Pages.Helpers {
             if (DateTime.TryParse(forDateStr, out tmpDate)) { forDate = tmpDate; }
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Τμήμα Υποστήριξης (ΚΕΤ) - Λίστα Ημερ. Μεταδόσεων";
-                gridMain.MasterTableView.Caption = "Λίστα Ημερ. Μεταδόσεων (" + forDate.ToShortDateString() + ")";
+                gridMain.MasterTableView.Caption = "Λίστα Ημερ. Μεταδόσεων (" + forDate.ToString("dd/MM/yyyy") + ")";
             }
             if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
@@ -147,18 +147,13 @@ namespace OTERT.Pages.Helpers {
                 DocumentReplacemetB curRep;
                 BookmarkRangeStart bookmarkRangeStart;
                 RadFlowDocument curDoc = LoadSampleDocument(pageUniqueName);
-
                 RadFlowDocumentEditor editor = new RadFlowDocumentEditor(curDoc);
-                //System.Text.RegularExpressions.Regex textRegex = new System.Text.RegularExpressions.Regex("ΣΑΟΥΣΟΠΟΥΛΟΥ ΑΝΝΑ");
-                //editor.ReplaceText("ΣΑΟΥΣΟΠΟΥΛΟΥ ΑΝΝΑ", txtNew.Text, true, true);
                 List<BookmarkRangeStart> test = editor.Document.EnumerateChildrenOfType<BookmarkRangeStart>().ToList();
                 Telerik.Windows.Documents.Flow.Model.TableCell currCell;
                 Run currRun;
 
                 Header defaultHeader = editor.Document.Sections.First().Headers.Default;
                 Footer defaultFooter = editor.Document.Sections.First().Footers.Default;
-                //Telerik.Windows.Documents.Flow.Model.Table headerTable = defaultHeader.Blocks.OfType<Telerik.Windows.Documents.Flow.Model.Table>().First();
-                //Telerik.Windows.Documents.Flow.Model.TableCell firstCell = headerTable.Rows[0].Cells[0];
 
                 Telerik.Windows.Documents.Flow.Model.Styles.Style tableStyle = new Telerik.Windows.Documents.Flow.Model.Styles.Style("TableStyle", StyleType.Table);
                 tableStyle.Name = "Table Style";
@@ -351,7 +346,7 @@ namespace OTERT.Pages.Helpers {
             }
             Response.ClearHeaders();
             Response.ClearContent();
-            Response.AppendHeader("content-disposition", "attachment; filename=ExportedFile.docx");
+            Response.AppendHeader("content-disposition", "attachment; filename=Daily_Transmissions_List_" + forDate.ToString("dd-MM-yyyy") + ".docx");
             Response.ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
             Response.BinaryWrite(renderedBytes);
             Response.End();

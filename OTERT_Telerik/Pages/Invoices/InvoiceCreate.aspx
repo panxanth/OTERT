@@ -46,10 +46,7 @@
                 </tr>
                 <tr>
                     <td>Κωδικός Τιμολογίου από Λογιστήριο: </td>
-                    <td>
-                        <telerik:RadTextBox RenderMode="Lightweight" runat="server" ID="txtAccountNo" Width="200px" EmptyMessage="" />
-                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtAccountNo" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" ForeColor="Red" />
-                    </td>
+                    <td><telerik:RadTextBox RenderMode="Lightweight" runat="server" ID="txtAccountNo" Width="200px" EmptyMessage="" /></td>
                     <td></td>
                 </tr>
                 <tr>

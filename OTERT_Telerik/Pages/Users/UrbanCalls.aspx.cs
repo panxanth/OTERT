@@ -29,7 +29,7 @@ namespace OTERT.Pages.UserPages {
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Έργα > Έκτακτα > Επίγεια > Αστικά";
-                gridMain.MasterTableView.Caption = "Έργα > Έκτακτα > Επίγεια > Αστικά";
+                gridMain.MasterTableView.Caption = "<div id='MTVCaption'>Έργα > Έκτακτα > Επίγεια > Αστικά</div>";
                 JobsID = -1;
                 Session.Remove("JobsID");
                 CustomersID = -1;
@@ -44,10 +44,11 @@ namespace OTERT.Pages.UserPages {
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
             int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
             int recTake = gridMain.PageSize;
+            string recFilter = gridMain.MasterTableView.FilterExpression;
             try {
                 TasksController cont = new TasksController();
-                gridMain.VirtualItemCount = cont.CountTasksForPageID(pageID);
-                gridMain.DataSource = cont.GetTasksForPage(pageID, recSkip, recTake);
+                gridMain.VirtualItemCount = cont.CountTasksForPageID(pageID, recFilter);
+                gridMain.DataSource = cont.GetTasksForPage(pageID, recSkip, recTake, recFilter);
             }
             catch (Exception) { }
         }
@@ -65,8 +66,14 @@ namespace OTERT.Pages.UserPages {
                 }
                 if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                     GridEditableItem item = e.Item as GridEditableItem;
-                    RadDatePicker dpOrderDate = (RadDatePicker)item["OrderDate"].Controls[0];
+                    RadDateTimePicker dpOrderDate = (RadDateTimePicker)item["OrderDate"].Controls[0];
                     dpOrderDate.DateInput.Width = Unit.Pixel(250);
+                    dpOrderDate.DatePopupButton.ToolTip = "Επιλογή ημερομηνίας παραγγελίας";
+                    dpOrderDate.TimePopupButton.ToolTip = "Επιλογή ώρας παραγγελίας";
+                    dpOrderDate.DateInput.DateFormat = "dd/MM/yyyy  HH:mm";
+                    dpOrderDate.DateInput.DisplayDateFormat = "dd/MM/yyyy  HH:mm";
+                    dpOrderDate.SharedTimeView.HeaderText = "Επιλέξτε Ώρα";
+                    dpOrderDate.SharedTimeView.TimeFormat = "HH:mm";
                     RadDatePicker dpPaymentDateOrder = (RadDatePicker)item["PaymentDateOrder"].Controls[0];
                     dpPaymentDateOrder.DateInput.Width = Unit.Pixel(250);
                     RadDatePicker dpPaymentDateCalculated = (RadDatePicker)item["PaymentDateCalculated"].Controls[0];
@@ -257,6 +264,7 @@ namespace OTERT.Pages.UserPages {
         }
 
         protected void gridMain_ItemDataBound(object sender, GridItemEventArgs e) {
+            /*
             if (e.Item.OwnerTableView.Name == "Master") {
                 if (e.Item is GridDataItem) {
                     GridDataItem item = (GridDataItem)e.Item;
@@ -286,6 +294,27 @@ namespace OTERT.Pages.UserPages {
                     }
                 }
             }
+            */
+            if (e.Item is GridFilteringItem) {
+                GridFilteringItem filterItem = (GridFilteringItem)e.Item;
+                RadDropDownList clist = (RadDropDownList)filterItem.FindControl("ddlCustomersFilter");
+                RadDropDownList jlist = (RadDropDownList)filterItem.FindControl("ddlJobsFilter");
+                try {
+                    CustomersController ccont = new CustomersController();
+                    clist.DataSource = ccont.GetCustomers();
+                    clist.DataTextField = "NameGR";
+                    clist.DataValueField = "ID";
+                    clist.DataBind();
+                    clist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
+                    JobsController jcont = new JobsController();
+                    jlist.DataSource = jcont.GetJobsForPageID(pageID);
+                    jlist.DataTextField = "Name";
+                    jlist.DataValueField = "ID";
+                    jlist.DataBind();
+                    jlist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
+                }
+                catch (Exception) { }
+            }
             if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                 JobsID = -1;
                 Session.Remove("JobsID");
@@ -298,7 +327,7 @@ namespace OTERT.Pages.UserPages {
                 RadDropDownList ddlCustomers = item.FindControl("ddlCustomers") as RadDropDownList;
                 RadDropDownList ddlDistances = item.FindControl("ddlDistances") as RadDropDownList;
                 CheckBox chkIsCanceled = (CheckBox)item.FindControl("chkIsCanceled");
-                
+                RadDateTimePicker dpOrderDate = (RadDateTimePicker)item["OrderDate"].Controls[0];
                 try {
                     TaskB currTask = e.Item.DataItem as TaskB;
                     JobsController cont1 = new JobsController();
@@ -332,6 +361,7 @@ namespace OTERT.Pages.UserPages {
                         ddlDistances.SelectedIndex = 0;
                         Session["DistancesID"] = ddlDistances.SelectedItem.Value;
                         chkIsCanceled.Checked = false;
+                        dpOrderDate.SelectedDate = DateTime.Now.Date;
                     }
                 }
                 catch (Exception) { }
@@ -636,6 +666,66 @@ namespace OTERT.Pages.UserPages {
         }
 
         protected void ddlCancelationPrices_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
+        }
+
+        protected void ddlCustomersFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
+            List<string> columnExpressions = new List<string>(expressions);
+            foreach (string expression in columnExpressions) {
+                if (expression.Contains("CustomerID")) {
+                    columnExpressions.Remove(expression);
+                    break;
+                }
+            }
+            string finalExpression = string.Join("AND", columnExpressions.ToArray());
+            if (e.Value != "0") {
+                if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
+                finalExpression += "(CustomerID = " + e.Value + ")";
+                gridMain.MasterTableView.GetColumn("CustomerID").CurrentFilterFunction = GridKnownFunction.EqualTo;
+                gridMain.MasterTableView.GetColumn("CustomerID").CurrentFilterValue = e.Value;
+            } else {
+                gridMain.MasterTableView.GetColumn("CustomerID").CurrentFilterFunction = GridKnownFunction.NoFilter;
+                gridMain.MasterTableView.GetColumn("CustomerID").CurrentFilterValue = null;
+            }
+            gridMain.MasterTableView.FilterExpression = finalExpression;
+            ViewState[list.ClientID] = e.Value;
+            gridMain.MasterTableView.Rebind();
+        }
+
+        protected void ddlCustomersFilter_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
+        }
+
+        protected void ddlJobsFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
+            List<string> columnExpressions = new List<string>(expressions);
+            foreach (string expression in columnExpressions) {
+                if (expression.Contains("JobID")) {
+                    columnExpressions.Remove(expression);
+                    break;
+                }
+            }
+            string finalExpression = string.Join("AND", columnExpressions.ToArray());
+            if (e.Value != "0") {
+                if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
+                finalExpression += "(JobID = " + e.Value + ")";
+                gridMain.MasterTableView.GetColumn("JobID").CurrentFilterFunction = GridKnownFunction.EqualTo;
+                gridMain.MasterTableView.GetColumn("JobID").CurrentFilterValue = e.Value;
+            } else {
+                gridMain.MasterTableView.GetColumn("JobID").CurrentFilterFunction = GridKnownFunction.NoFilter;
+                gridMain.MasterTableView.GetColumn("JobID").CurrentFilterValue = null;
+            }
+            gridMain.MasterTableView.FilterExpression = finalExpression;
+            ViewState[list.ClientID] = e.Value;
+            gridMain.MasterTableView.Rebind();
+        }
+
+        protected void ddlJobsFilter_PreRender(object sender, EventArgs e) {
             RadDropDownList list = sender as RadDropDownList;
             if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
         }

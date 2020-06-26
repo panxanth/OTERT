@@ -11,6 +11,10 @@
     <link rel="stylesheet" type="text/css" href="../Scripts/Site.css" />
     <link rel="stylesheet" type="text/css" href="../Scripts/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="../Scripts/mbcsmbmcp.css" />
+    <style type="text/css">
+        #MTVCaption {font-weight: bold;}
+        .rgCaption { font-weight:bold ! important; } 
+    </style>
     <asp:ContentPlaceHolder ID="PHHead" runat="server" />
 </head>
 <body>

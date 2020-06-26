@@ -14,8 +14,8 @@ namespace ExpressionParser {
 
         public static double EvalToDouble(string statement) {
             string s = EvalToString(statement);
-            //string k = s.Replace(".", ",");
-            return double.Parse(s);
+            string k = s.Replace(".", ",");
+            return double.Parse(k);
         }
 
         public static string EvalToString(string statement) {
