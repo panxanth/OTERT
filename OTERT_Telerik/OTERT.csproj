@@ -431,6 +431,9 @@
     <Content Include="Scripts\normalize.css" />
     <Content Include="Scripts\tooltip-classic.css" />
     <Content Include="Templates\OTE.png" />
+    <Content Include="UploadedFiles\2019-31-3--21-29-43_OTE.png" />
+    <Content Include="UploadedFiles\2019-31-3--21-29-55_OTE_2.png" />
+    <Content Include="UploadedFiles\2019-31-3--21-30-22_ELOT.png" />
     <Content Include="WebServices\OTERTWS.asmx" />
     <Content Include="WebServices\test.asmx" />
   </ItemGroup>
@@ -502,9 +505,7 @@
     </Content>
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UploadedFiles\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -536,7 +537,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
