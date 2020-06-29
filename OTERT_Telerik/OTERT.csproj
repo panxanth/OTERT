@@ -485,6 +485,7 @@
     <Content Include="Templates\PTS.docx" />
     <Content Include="Templates\mailCosmote.docx" />
     <Content Include="Templates\InvoiceDetails.docx" />
+    <Content Include="Templates\InvoiceMail.docx" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -537,7 +538,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

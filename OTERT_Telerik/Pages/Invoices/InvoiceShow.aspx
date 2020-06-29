@@ -91,6 +91,12 @@
                                 <asp:Button ID="btnPrintDetail" runat="server" Text="Εκτύπωση Αναλυτικού" CommandName="invPrintDetail"></asp:Button>
                             </ItemTemplate>
                         </telerik:GridTemplateColumn>
+                        <telerik:GridTemplateColumn UniqueName="btnPrintMailColumn" HeaderText="" AllowFiltering="false">
+                            <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                            <ItemTemplate>
+                                <asp:Button ID="btnPrintMail" runat="server" Text="Εκτύπωση Επιστολής" CommandName="invPrintMail"></asp:Button>
+                            </ItemTemplate>
+                        </telerik:GridTemplateColumn>
                     </Columns>
                 </MasterTableView>
             </telerik:RadGrid>
