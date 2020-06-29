@@ -228,9 +228,41 @@ namespace OTERT.Pages.Invoices {
                 string value = item.GetDataKeyValue("ID").ToString();
                 if (chk.Checked) { wData.SelectedTasks.Add(value); }
             }
-            Session["wizardStep"] = wData;
-            showWizardSteps(wData);
-            gridSales.Rebind();
+            //Session["wizardStep"] = wData;
+            //showWizardSteps(wData);
+            //gridSales.Rebind();
+            //wizardData wData = readWizardSteps();
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    OTERT_Entity.Invoices curInvoice;
+                    curInvoice = new OTERT_Entity.Invoices();
+                    curInvoice.CustomerID = wData.CustomerID;
+                    curInvoice.DateFrom = wData.DateFrom;
+                    curInvoice.DateTo = wData.DateTo;
+                    curInvoice.RegNo = wData.Code;
+                    curInvoice.IsLocked = wData.locked;
+                    curInvoice.DatePaid = wData.DatePayed;
+                    curInvoice.DateCreated = wData.DateCreated;
+                    TasksController tcont = new TasksController();
+                    List<TaskB> invTasks = tcont.GetTasksForInvoice(curInvoice.CustomerID, wData.DateFrom, wData.DateTo, wData.SelectedJobs, wData.SelectedTasks);
+                    decimal totalTasksCost = 0;
+                    foreach (TaskB curTask in invTasks) { totalTasksCost += curTask.CostActual.GetValueOrDefault(); }
+                    curInvoice.TasksLineAmount = totalTasksCost;
+                    dbContext.Invoices.Add(curInvoice);
+                    dbContext.SaveChanges();
+                    foreach (TaskB curTask in invTasks) {
+                        TasksLine newTaskLine = new TasksLine();
+                        newTaskLine.InvoiceID = curInvoice.ID;
+                        newTaskLine.TaskID = curTask.ID;
+                        newTaskLine.JobID = curTask.JobID.GetValueOrDefault();
+                        dbContext.TasksLine.Add(newTaskLine);
+                    }
+                    dbContext.SaveChanges();
+                }
+                catch (Exception ex) { }
+                Response.Redirect("~/Pages/Invoices/InvoiceShow.aspx", false);
+            }
         }
 
         protected void btnShowPrev3_Click(object sender, EventArgs e) {
@@ -283,6 +315,7 @@ namespace OTERT.Pages.Invoices {
                     dbContext.SaveChanges();
                 }
                 catch (Exception ex) { }
+                Response.Redirect("/Pages/Invoices/InvoiceShow.aspx", false);
             }
             //Session["wizardStep"] = wData;
             //showWizardSteps(wData);

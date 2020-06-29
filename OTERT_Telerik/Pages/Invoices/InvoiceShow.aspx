@@ -94,6 +94,49 @@
                     </Columns>
                 </MasterTableView>
             </telerik:RadGrid>
+            <br /><br />
+            <table>
+                <tr>
+                    <td>ΗΜΕΡ/ΝΙΑ </td>
+                    <td><asp:CheckBox ID="chkDate" Checked="true" runat="server" /></td>
+                </tr>
+                <tr>
+                    <td>ΔΙΑΔΡΟΜΗ </td>
+                    <td><asp:CheckBox ID="chkRoute" Checked="true" runat="server" EnableViewState="true" /></td>
+                </tr>
+                <tr>
+                    <td>ΑΠΟ </td>
+                    <td><asp:CheckBox ID="chkDateFrom" Checked="true" runat="server" EnableViewState="true" /></td>
+                </tr>
+                <tr>
+                    <td>ΕΩΣ </td>
+                    <td><asp:CheckBox ID="chkDateTo" Checked="true" runat="server" EnableViewState="true" /></td>
+                </tr>
+                <tr>
+                    <td>ΔΙΑΡΚΕΙΑ </td>
+                    <td><asp:CheckBox ID="chkTotalTime" Checked="true" runat="server" EnableViewState="true" /></td>
+                </tr>
+                <tr>
+                    <td>ΑΠΟΣΤΑΣΗ </td>
+                    <td><asp:CheckBox ID="chkTotalDistance" Checked="true" runat="server" EnableViewState="true" /></td>
+                </tr>
+                <tr>
+                    <td>ΤΕΛΟΣ ΜΕΤΑΔΟΣΗΣ </td>
+                    <td><asp:CheckBox ID="chkTransferCost" Checked="true" runat="server" EnableViewState="true" /></td>
+                </tr>
+                <tr>
+                    <td>ΔΙΑΦΟΡΕΣ ΧΡΕΩΣΕΙΣ </td>
+                    <td><asp:CheckBox ID="chkAddedCharges" Checked="true" runat="server" EnableViewState="true" /></td>
+                </tr>
+                <tr>
+                    <td>ΣΥΝΟΛΟ </td>
+                    <td><asp:CheckBox ID="chkTotalCost" Checked="true" runat="server" EnableViewState="true" /></td>
+                </tr>
+                <tr>
+                    <td>ΠΑΡΑΤΗΡΗΣΕΙΣ </td>
+                    <td><asp:CheckBox ID="chkComments" Checked="true" runat="server" EnableViewState="true" /></td>
+                </tr>
+            </table>
         </asp:PlaceHolder>
         <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" />
     </div>

@@ -67,7 +67,7 @@ namespace OTERT.Controller {
                                                 TasksLineAmount = us.TasksLineAmount,
                                                 DiscountLineAmount = us.DiscountLineAmount,
                                                 IsLocked = us.IsLocked
-                                           }).OrderBy(o => o.DateCreated).ToList();
+                                           }).OrderByDescending(o => o.ID).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -129,7 +129,7 @@ namespace OTERT.Controller {
                     if (dateFrom > nullDate) { data = data.Where(o => o.DateFrom >= dateFrom); }
                     if (dateTo > nullDate) { data = data.Where(o => o.DateTo <= dateTo); }
                     if (!string.IsNullOrEmpty(regNo.Trim())) { data = data.Where(o => o.RegNo == regNo); }
-                    return data.OrderBy(o => o.DateCreated).ToList();
+                    return data.OrderByDescending(o => o.ID).ToList();
                 }
                 catch (Exception) { return null; }
             }
