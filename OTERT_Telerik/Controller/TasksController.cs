@@ -6,6 +6,7 @@ using System.Web;
 using OTERT.Model;
 using OTERT_Entity;
 using System.Data.Entity;
+using Telerik.Web.UI;
 
 namespace OTERT.Controller {
 
@@ -26,13 +27,38 @@ namespace OTERT.Controller {
                     int count = 0;
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     if (!string.IsNullOrEmpty(recFilter)) {
-                        count = dbContext.Tasks.Where(o => o.Jobs.JobsMain.PageID == PageID && o.OrderID == null).Where(recFilter).Count();
+                        IQueryable test = dbContext.Tasks.Where(o => o.Jobs.JobsMain.PageID == PageID && o.OrderID == null);
+                        string[] expressions = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
+                        List<string> columnExpressions = new List<string>(expressions);
+                        List<string> OrderDateExpressions = columnExpressions.Where(item => item.Contains("OrderDate")).ToList();
+                        columnExpressions.RemoveAll(item => item.Contains("OrderDate"));
+                        recFilter = string.Join("AND", columnExpressions.ToArray());
+                        if (OrderDateExpressions.Count > 0) {
+                            List<DateTime> orderDates = new List<DateTime>();
+                            foreach (string dtExpression in OrderDateExpressions) {
+                                string[] dateExp = dtExpression.Split(new char[] { '"' });
+                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                DateTime newDate;
+                                if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                    orderDates.Add(newDate);
+                                }
+                            } 
+                            if (orderDates.Count == 2) {
+                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
+                                recFilter += "OrderDate >= @0 AND OrderDate <= @1";
+                                test = test.Where(recFilter, new DateTime(orderDates[0].Year, orderDates[0].Month, orderDates[0].Day, orderDates[0].Hour, orderDates[0].Minute, 0), new DateTime(orderDates[1].Year, orderDates[1].Month, orderDates[1].Day, orderDates[1].Hour, orderDates[1].Minute, 0));
+                                count = test.Count();
+                            }
+                        } else {
+                            test = test.Where(recFilter);
+                            count = test.Count();
+                        }
                     } else {
                         count = dbContext.Tasks.Where(o => o.Jobs.JobsMain.PageID == PageID && o.OrderID == null).Count();
                     }
                     return count;
                 }
-                catch (Exception) { return -1; }
+                catch (Exception ex) { return -1; }
             }
         }
 
@@ -757,22 +783,6 @@ namespace OTERT.Controller {
         }
 
         public List<TaskB> GetTasksForPage(int PageID, int recSkip, int recTake, string recFilter) {
-            /*
-            string finalFilter = "";
-            if (recFilter.Contains("DateTime.Parse(")) {
-                var filters = recFilter.Split(new string[] { "DateTime.Parse(" }, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < filters.Count(); i++) {
-                    if (i != 0) {
-                        var oldDate = filters[i].Substring(1, 22);
-                        var newDate = DateTime.Parse(oldDate);
-                        filters[i] = filters[i].Replace('\"' + oldDate + "\")", "DateTime(" + newDate.Year + ',' + newDate.Month + ',' + newDate.Day + ',' + newDate.Hour + ',' + newDate.Minute + ',' + newDate.Second + ")");
-                    }
-                    finalFilter += filters[i];
-                }
-            } else {
-                finalFilter = recFilter;
-            }
-            */
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
@@ -886,7 +896,32 @@ namespace OTERT.Controller {
                                                   DateStamp = us.DateStamp,
                                                   EnteredByUser = us.EnteredByUser
                                               });
-                    if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
+                    if (!string.IsNullOrEmpty(recFilter)) {
+                        IQueryable test = dbContext.Tasks.Where(o => o.Jobs.JobsMain.PageID == PageID && o.OrderID == null);
+                        string[] expressions = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
+                        List<string> columnExpressions = new List<string>(expressions);
+                        List<string> OrderDateExpressions = columnExpressions.Where(item => item.Contains("OrderDate")).ToList();
+                        columnExpressions.RemoveAll(item => item.Contains("OrderDate"));
+                        recFilter = string.Join("AND", columnExpressions.ToArray());
+                        if (OrderDateExpressions.Count > 0) {
+                            List<DateTime> orderDates = new List<DateTime>();
+                            foreach (string dtExpression in OrderDateExpressions) {
+                                string[] dateExp = dtExpression.Split(new char[] { '"' });
+                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                DateTime newDate;
+                                if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                    orderDates.Add(newDate);
+                                }
+                            }
+                            if (orderDates.Count == 2) {
+                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
+                                recFilter += "OrderDate >= @0 AND OrderDate <= @1";
+                                datatmp = datatmp.Where(recFilter, new DateTime(orderDates[0].Year, orderDates[0].Month, orderDates[0].Day, orderDates[0].Hour, orderDates[0].Minute, 0), new DateTime(orderDates[1].Year, orderDates[1].Month, orderDates[1].Day, orderDates[1].Hour, orderDates[1].Minute, 0));
+                            }
+                        } else {
+                            datatmp = datatmp.Where(recFilter);
+                        }
+                    }
                     List<TaskB> data = datatmp.Where(k => k.Job.JobsMain.PageID == PageID && k.OrderID == null).OrderByDescending(o => o.ID).Skip(recSkip).Take(recTake).ToList();
                     foreach(TaskB curTask in data) {
                         curTask.Files = (from us in dbContext.Files
@@ -901,7 +936,7 @@ namespace OTERT.Controller {
                     }
                     return data;
                 }
-                catch (Exception) { return null; }
+                catch (Exception ex) { return null; }
             }
         }
 
