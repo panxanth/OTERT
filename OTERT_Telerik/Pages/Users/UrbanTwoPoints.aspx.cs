@@ -45,10 +45,11 @@ namespace OTERT.Pages.UserPages {
             int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
             int recTake = gridMain.PageSize;
             string recFilter = gridMain.MasterTableView.FilterExpression;
+            GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
             try {
                 TasksController cont = new TasksController();
                 gridMain.VirtualItemCount = cont.CountTasksForPageID(pageID, recFilter);
-                gridMain.DataSource = cont.GetTasksForPage(pageID, recSkip, recTake, recFilter);
+                gridMain.DataSource = cont.GetTasksForPage(pageID, recSkip, recTake, recFilter, gridSortExxpressions);
             }
             catch (Exception) { }
         }
@@ -63,6 +64,13 @@ namespace OTERT.Pages.UserPages {
                     GridDataItem item = (GridDataItem)e.Item;
                     ElasticButton img = (ElasticButton)item["btnDelete"].Controls[0];
                     img.ToolTip = "Διαγραφή";
+                }
+                if (e.Item is GridFilteringItem) {
+                    GridFilteringItem filterItem = (GridFilteringItem)e.Item;
+                    (filterItem["OrderDate"].Controls[0] as LiteralControl).Text = "Από: ";
+                    (filterItem["OrderDate"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
+                    (filterItem["DateTimeStartActual"].Controls[0] as LiteralControl).Text = "Από: ";
+                    (filterItem["DateTimeStartActual"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
                 }
                 if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                     GridEditableItem item = e.Item as GridEditableItem;

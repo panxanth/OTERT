@@ -28,31 +28,71 @@ namespace OTERT.Controller {
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     if (!string.IsNullOrEmpty(recFilter)) {
                         IQueryable test = dbContext.Tasks.Where(o => o.Jobs.JobsMain.PageID == PageID && o.OrderID == null);
-                        string[] expressions = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
-                        List<string> columnExpressions = new List<string>(expressions);
+                        string[] expressionsAND = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
+                        List<string> columnExpressions = new List<string>();
+                        for (int k = 0; k < expressionsAND.Length; k++) {
+                            if (!expressionsAND[k].Contains("OR")) {
+                                columnExpressions.Add(expressionsAND[k]); 
+                            } else {
+                                string[] expressionsOR = expressionsAND[k].Split(new string[] { "OR" }, StringSplitOptions.None);
+                                for (int i = 0; i < expressionsOR.Length; i++) { columnExpressions.Add(expressionsOR[i]); }
+                            }
+                        }
+
                         List<string> OrderDateExpressions = columnExpressions.Where(item => item.Contains("OrderDate")).ToList();
-                        columnExpressions.RemoveAll(item => item.Contains("OrderDate"));
+                        List<string> StartActualExpressions = columnExpressions.Where(item => item.Contains("DateTimeStartActual")).ToList();
+                        columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual"));
                         recFilter = string.Join("AND", columnExpressions.ToArray());
+                        if (!string.IsNullOrEmpty(recFilter)) { test = test.Where(recFilter); }
                         if (OrderDateExpressions.Count > 0) {
                             List<DateTime> orderDates = new List<DateTime>();
                             foreach (string dtExpression in OrderDateExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
                                 string format = "M/d/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
-                                if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
-                                    orderDates.Add(newDate);
+                                if (dateExp.Length > 1) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                        orderDates.Add(newDate);
+                                    }
                                 }
                             } 
                             if (orderDates.Count == 2) {
                                 if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
-                                recFilter += "OrderDate >= @0 AND OrderDate <= @1";
+                                if (OrderDateExpressions[0].Contains(">=")) {
+                                    recFilter = "OrderDate >= @0 AND OrderDate <= @1";
+                                } else {
+                                    recFilter = "OrderDate < @0 OR OrderDate > @1";
+                                }
                                 test = test.Where(recFilter, new DateTime(orderDates[0].Year, orderDates[0].Month, orderDates[0].Day, orderDates[0].Hour, orderDates[0].Minute, 0), new DateTime(orderDates[1].Year, orderDates[1].Month, orderDates[1].Day, orderDates[1].Hour, orderDates[1].Minute, 0));
-                                count = test.Count();
+                            } else {
+                                test = test.Where(OrderDateExpressions[0]);
                             }
-                        } else {
-                            test = test.Where(recFilter);
-                            count = test.Count();
                         }
+                        if (StartActualExpressions.Count > 0) {
+                            List<DateTime> startActualDates = new List<DateTime>();
+                            foreach (string dtExpression in StartActualExpressions) {
+                                string[] dateExp = dtExpression.Split(new char[] { '"' });
+                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                DateTime newDate;
+                                if (dateExp.Length > 1) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                        startActualDates.Add(newDate);
+                                    }
+                                }
+                            }
+                            if (startActualDates.Count == 2) {
+                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
+                                if (StartActualExpressions[0].Contains(">=")) {
+                                    recFilter = "DateTimeStartActual >= @0 AND DateTimeStartActual <= @1";
+                                } else {
+                                    recFilter = "DateTimeStartActual < @0 OR DateTimeStartActual > @1";
+                                }
+                                test = test.Where(recFilter, new DateTime(startActualDates[0].Year, startActualDates[0].Month, startActualDates[0].Day, startActualDates[0].Hour, startActualDates[0].Minute, 0), new DateTime(startActualDates[1].Year, startActualDates[1].Month, startActualDates[1].Day, startActualDates[1].Hour, startActualDates[1].Minute, 0));
+                            } else {
+                                test = test.Where(StartActualExpressions[0]);
+                            }
+                        }
+                        count = test.Count();
                     } else {
                         count = dbContext.Tasks.Where(o => o.Jobs.JobsMain.PageID == PageID && o.OrderID == null).Count();
                     }
@@ -782,7 +822,7 @@ namespace OTERT.Controller {
             }
         }
 
-        public List<TaskB> GetTasksForPage(int PageID, int recSkip, int recTake, string recFilter) {
+        public List<TaskB> GetTasksForPage(int PageID, int recSkip, int recTake, string recFilter, GridSortExpressionCollection gridSortExxpressions) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
@@ -898,31 +938,78 @@ namespace OTERT.Controller {
                                               });
                     if (!string.IsNullOrEmpty(recFilter)) {
                         IQueryable test = dbContext.Tasks.Where(o => o.Jobs.JobsMain.PageID == PageID && o.OrderID == null);
-                        string[] expressions = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
-                        List<string> columnExpressions = new List<string>(expressions);
+                        string[] expressionsAND = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
+
+                        List<string> columnExpressions = new List<string>();
+                        for (int k = 0; k < expressionsAND.Length; k++) {
+                            if (!expressionsAND[k].Contains("OR")) {
+                                columnExpressions.Add(expressionsAND[k]);
+                            } else {
+                                string[] expressionsOR = expressionsAND[k].Split(new string[] { "OR" }, StringSplitOptions.None);
+                                for (int i = 0; i < expressionsOR.Length; i++) { columnExpressions.Add(expressionsOR[i]); }
+                            }
+                        }
                         List<string> OrderDateExpressions = columnExpressions.Where(item => item.Contains("OrderDate")).ToList();
-                        columnExpressions.RemoveAll(item => item.Contains("OrderDate"));
+                        List<string> StartActualExpressions = columnExpressions.Where(item => item.Contains("DateTimeStartActual")).ToList();
+                        columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual"));
                         recFilter = string.Join("AND", columnExpressions.ToArray());
+                        if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
                         if (OrderDateExpressions.Count > 0) {
                             List<DateTime> orderDates = new List<DateTime>();
                             foreach (string dtExpression in OrderDateExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
                                 string format = "M/d/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
-                                if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
-                                    orderDates.Add(newDate);
+                                if (dateExp.Length > 1) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                        orderDates.Add(newDate);
+                                    }
                                 }
                             }
                             if (orderDates.Count == 2) {
                                 if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
-                                recFilter += "OrderDate >= @0 AND OrderDate <= @1";
+                                if (OrderDateExpressions[0].Contains(">=")) {
+                                    recFilter = "OrderDate >= @0 AND OrderDate <= @1";
+                                } else {
+                                    recFilter = "OrderDate < @0 OR OrderDate > @1";
+                                }
                                 datatmp = datatmp.Where(recFilter, new DateTime(orderDates[0].Year, orderDates[0].Month, orderDates[0].Day, orderDates[0].Hour, orderDates[0].Minute, 0), new DateTime(orderDates[1].Year, orderDates[1].Month, orderDates[1].Day, orderDates[1].Hour, orderDates[1].Minute, 0));
+                            } else {
+                                datatmp = datatmp.Where(OrderDateExpressions[0]);
                             }
-                        } else {
-                            datatmp = datatmp.Where(recFilter);
+                        }
+                        if (StartActualExpressions.Count > 0) {
+                            List<DateTime> startActualDates = new List<DateTime>();
+                            foreach (string dtExpression in StartActualExpressions) {
+                                string[] dateExp = dtExpression.Split(new char[] { '"' });
+                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                DateTime newDate;
+                                if (dateExp.Length > 1) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                        startActualDates.Add(newDate);
+                                    }
+                                }
+                            }
+                            if (startActualDates.Count == 2) {
+                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
+                                if (StartActualExpressions[0].Contains(">=")) {
+                                    recFilter = "DateTimeStartActual >= @0 AND DateTimeStartActual <= @1";
+                                } else {
+                                    recFilter = "DateTimeStartActual < @0 OR DateTimeStartActual > @1";
+                                }
+                                datatmp = datatmp.Where(recFilter, new DateTime(startActualDates[0].Year, startActualDates[0].Month, startActualDates[0].Day, startActualDates[0].Hour, startActualDates[0].Minute, 0), new DateTime(startActualDates[1].Year, startActualDates[1].Month, startActualDates[1].Day, startActualDates[1].Hour, startActualDates[1].Minute, 0));
+                            } else {
+                                datatmp = datatmp.Where(StartActualExpressions[0]);
+                            }
                         }
                     }
-                    List<TaskB> data = datatmp.Where(k => k.Job.JobsMain.PageID == PageID && k.OrderID == null).OrderByDescending(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                    datatmp = datatmp.Where(k => k.Job.JobsMain.PageID == PageID && k.OrderID == null);
+                    if (gridSortExxpressions.Count > 0) {
+                        datatmp = datatmp.OrderBy(gridSortExxpressions[0].FieldName + " " + gridSortExxpressions[0].SortOrder);
+                    } else {
+                        datatmp = datatmp.OrderByDescending(o => o.ID);
+                    }
+                    List<TaskB> data = datatmp.Skip(recSkip).Take(recTake).ToList();
                     foreach(TaskB curTask in data) {
                         curTask.Files = (from us in dbContext.Files
                                         select new FileB {

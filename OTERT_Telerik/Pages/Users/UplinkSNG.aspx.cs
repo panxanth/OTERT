@@ -46,10 +46,11 @@ namespace OTERT.Pages.UserPages {
             int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
             int recTake = gridMain.PageSize;
             string recFilter = gridMain.MasterTableView.FilterExpression;
+            GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
             try {
                 TasksController cont = new TasksController();
                 gridMain.VirtualItemCount = cont.CountTasksForPageID(pageID, recFilter);
-                gridMain.DataSource = cont.GetTasksForPage(pageID, recSkip, recTake, recFilter);
+                gridMain.DataSource = cont.GetTasksForPage(pageID, recSkip, recTake, recFilter, gridSortExxpressions);
             }
             catch (Exception) { }
         }
