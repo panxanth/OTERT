@@ -275,6 +275,10 @@
       <DependentUpon>InvoiceCreate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Users\FilesList.aspx.cs">
+      <DependentUpon>FilesList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Users\CustomersList.aspx.cs">
       <DependentUpon>CustomersList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -412,6 +416,7 @@
     <Content Include="Pages\Helpers\DailyList.aspx" />
     <Content Include="Pages\Helpers\DailyListInside.aspx" />
     <Content Include="Pages\Invoices\InvoiceCreate.aspx" />
+    <Content Include="Pages\Users\FilesList.aspx" />
     <Content Include="Pages\Users\CustomersList.aspx" />
     <Content Include="Pages\Users\Downlink.aspx" />
     <Content Include="Pages\Users\DownlinkSNG.aspx" />
@@ -538,7 +543,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -108,6 +108,17 @@ namespace OTERT.Model {
         public DateTime DateStamp { get; set; }
     }
 
+    public class File4ListB {
+        public int ID { get; set; }
+        public int? TaskID { get; set; }
+        public int? OrderID { get; set; }
+        public int? CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public string FilePath { get; set; }
+        public string FileName { get; set; }
+        public DateTime DateStamp { get; set; }
+    }
+
     public class JobB {
         public int ID { get; set; }
         public int JobsMainID { get; set; }
