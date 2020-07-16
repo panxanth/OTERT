@@ -605,10 +605,12 @@ namespace OTERT.Pages.UserPages {
 
         protected void uplFile_FileUploaded(object sender, FileUploadedEventArgs e) {
             string fullPath = Server.MapPath(fileUploadFolder);
+            string newFolder = DateTime.Now.ToString("yyyy-MM");
+            fullPath += newFolder;
             bool exists = System.IO.Directory.Exists(fullPath);
             if (!exists) { System.IO.Directory.CreateDirectory(fullPath); }
             string newfilename = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + e.File.GetNameWithoutExtension().Replace(" ", "_") + e.File.GetExtension();
-            uploadedFilePath = fileUploadFolder + newfilename;
+            uploadedFilePath = fileUploadFolder + newFolder + "/" + newfilename;
             e.File.SaveAs(System.IO.Path.Combine(fullPath, newfilename));
         }
 
