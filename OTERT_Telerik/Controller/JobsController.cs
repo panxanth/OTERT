@@ -57,7 +57,7 @@ namespace OTERT.Controller {
                                            InvoiceCode = us.InvoiceCode,
                                            SalesID = us.SalesID,
                                            Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
-                                       }).OrderBy(o => o.ID).ToList();
+                                       }).OrderBy(o => o.Name).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -80,7 +80,7 @@ namespace OTERT.Controller {
                                             InvoiceCode = us.InvoiceCode,
                                             SalesID = us.SalesID,
                                             Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
-                                        }).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                                        }).OrderBy(o => o.Name).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

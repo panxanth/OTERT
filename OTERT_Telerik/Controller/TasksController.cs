@@ -102,6 +102,207 @@ namespace OTERT.Controller {
             }
         }
 
+        public int CountAllTasks(string recFilter) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    int count = 0;
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    if (!string.IsNullOrEmpty(recFilter)) {
+                        IQueryable test = dbContext.Tasks.Where(o => o.OrderID == null);
+                        string[] expressionsAND = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
+                        List<string> columnExpressions = new List<string>();
+                        for (int k = 0; k < expressionsAND.Length; k++) {
+                            if (!expressionsAND[k].Contains("OR")) {
+                                columnExpressions.Add(expressionsAND[k]);
+                            } else {
+                                string[] expressionsOR = expressionsAND[k].Split(new string[] { "OR" }, StringSplitOptions.None);
+                                for (int i = 0; i < expressionsOR.Length; i++) { columnExpressions.Add(expressionsOR[i]); }
+                            }
+                        }
+
+                        List<string> OrderDateExpressions = columnExpressions.Where(item => item.Contains("OrderDate")).ToList();
+                        List<string> StartActualExpressions = columnExpressions.Where(item => item.Contains("DateTimeStartActual")).ToList();
+                        columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual"));
+                        recFilter = string.Join("AND", columnExpressions.ToArray());
+                        if (!string.IsNullOrEmpty(recFilter)) { test = test.Where(recFilter); }
+                        if (OrderDateExpressions.Count > 0) {
+                            List<DateTime> orderDates = new List<DateTime>();
+                            foreach (string dtExpression in OrderDateExpressions) {
+                                string[] dateExp = dtExpression.Split(new char[] { '"' });
+                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                DateTime newDate;
+                                if (dateExp.Length > 1) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                        orderDates.Add(newDate);
+                                    }
+                                }
+                            }
+                            if (orderDates.Count == 2) {
+                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
+                                if (OrderDateExpressions[0].Contains(">=")) {
+                                    recFilter = "OrderDate >= @0 AND OrderDate <= @1";
+                                } else {
+                                    recFilter = "OrderDate < @0 OR OrderDate > @1";
+                                }
+                                test = test.Where(recFilter, new DateTime(orderDates[0].Year, orderDates[0].Month, orderDates[0].Day, orderDates[0].Hour, orderDates[0].Minute, 0), new DateTime(orderDates[1].Year, orderDates[1].Month, orderDates[1].Day, orderDates[1].Hour, orderDates[1].Minute, 0));
+                            } else {
+                                test = test.Where(OrderDateExpressions[0]);
+                            }
+                        }
+                        if (StartActualExpressions.Count > 0) {
+                            List<DateTime> startActualDates = new List<DateTime>();
+                            foreach (string dtExpression in StartActualExpressions) {
+                                string[] dateExp = dtExpression.Split(new char[] { '"' });
+                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                DateTime newDate;
+                                if (dateExp.Length > 1) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                        startActualDates.Add(newDate);
+                                    }
+                                }
+                            }
+                            if (startActualDates.Count == 2) {
+                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
+                                if (StartActualExpressions[0].Contains(">=")) {
+                                    recFilter = "DateTimeStartActual >= @0 AND DateTimeStartActual <= @1";
+                                } else {
+                                    recFilter = "DateTimeStartActual < @0 OR DateTimeStartActual > @1";
+                                }
+                                test = test.Where(recFilter, new DateTime(startActualDates[0].Year, startActualDates[0].Month, startActualDates[0].Day, startActualDates[0].Hour, startActualDates[0].Minute, 0), new DateTime(startActualDates[1].Year, startActualDates[1].Month, startActualDates[1].Day, startActualDates[1].Hour, startActualDates[1].Minute, 0));
+                            } else {
+                                test = test.Where(StartActualExpressions[0]);
+                            }
+                        }
+                        count = test.Count();
+                    } else {
+                        count = dbContext.Tasks.Where(o => o.OrderID == null).Count();
+                    }
+                    return count;
+                }
+                catch (Exception ex) { return -1; }
+            }
+        }
+
+        public TaskB GetTask(int taskID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    TaskB data = (from us in dbContext.Tasks
+                                        select new TaskB {
+                                            ID = us.ID,
+                                            OrderID = us.OrderID,
+                                            Order = new OrderDTO {
+                                                ID = us.OrderID == null ? -1 : us.Orders.ID,
+                                                OrderTypeID = us.OrderID == null ? -1 : us.Orders.OrderTypeID,
+                                                RegNo = us.OrderID == null ? "" : us.Orders.RegNo,
+                                                Customer1ID = us.OrderID == null ? -1 : us.Orders.Customer1ID,
+                                                Customer2ID = us.OrderID == null ? -1 : us.Orders.Customer2ID,
+                                                EventID = us.OrderID == null ? -1 : us.Orders.EventID
+                                            },
+                                            RegNo = us.RegNo,
+                                            OrderDate = us.OrderDate,
+                                            CustomerID = us.CustomerID,
+                                            Customer = new CustomerDTO {
+                                                ID = us.Customers.ID,
+                                                CountryID = us.Customers.CountryID,
+                                                NameGR = us.Customers.NameGR,
+                                                NameEN = us.Customers.NameEN,
+                                                NamedInvoiceGR = us.Customers.NamedInvoiceGR,
+                                                NamedInvoiceEN = us.Customers.NamedInvoiceEN,
+                                                ZIPCode = us.Customers.ZIPCode,
+                                                CityGR = us.Customers.CityGR,
+                                                CityEN = us.Customers.CityEN,
+                                                ChargeTelephone = us.Customers.ChargeTelephone,
+                                                Telephone1 = us.Customers.Telephone1,
+                                                Telephone2 = us.Customers.Telephone2,
+                                                FAX1 = us.Customers.FAX1,
+                                                FAX2 = us.Customers.FAX2,
+                                                Address1GR = us.Customers.Address1GR,
+                                                Address1EN = us.Customers.Address1EN,
+                                                Address2GR = us.Customers.Address2GR,
+                                                Address2EN = us.Customers.Address2EN,
+                                                ContactPersonGR = us.Customers.ContactPersonGR,
+                                                ContactPersonEN = us.Customers.ContactPersonEN,
+                                                CustomerTypeID = us.Customers.CustomerTypeID,
+                                                LanguageID = us.Customers.LanguageID,
+                                                Email = us.Customers.Email,
+                                                URL = us.Customers.URL,
+                                                AFM = us.Customers.AFM,
+                                                DOY = us.Customers.DOY,
+                                                SAPCode = us.Customers.SAPCode,
+                                                UserID = us.Customers.UserID,
+                                                Comments = us.Customers.Comments,
+                                                IsProvider = us.Customers.IsProvider,
+                                                IsOTE = us.Customers.IsOTE
+                                            },
+                                            RequestedPositionID = us.RequestedPositionID,
+                                            RequestedPosition = new RequestedPositionDTO {
+                                                ID = us.RequestedPositionID == null ? -1 : us.RequestedPositions.ID,
+                                                NameGR = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameGR,
+                                                NameEN = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameEN
+                                            },
+                                            JobID = us.JobID,
+                                            Job = new JobDTO {
+                                                ID = us.Jobs.ID,
+                                                JobsMainID = us.Jobs.JobsMainID,
+                                                JobsMain = new JobMainDTO { ID = us.Jobs.JobsMain.ID, Name = us.Jobs.JobsMain.Name, PageID = us.Jobs.JobsMain.PageID },
+                                                Name = us.Jobs.Name,
+                                                MinimumTime = us.Jobs.MinimumTime,
+                                                InvoiceCode = us.Jobs.InvoiceCode,
+                                                SalesID = us.Jobs.SalesID
+                                            },
+                                            DistanceID = us.DistancesID,
+                                            Distance = new DistanceDTO {
+                                                ID = us.Distances.ID,
+                                                JobsMainID = us.Distances.JobsMainID,
+                                                JobsMain = new JobMainDTO { ID = us.Distances.JobsMain.ID, Name = us.Distances.JobsMain.Name, PageID = us.Distances.JobsMain.PageID },
+                                                Description = us.Distances.Position1 + " - " + us.Distances.Position2 + " (" + us.Distances.KM.ToString() + " km)",
+                                                Position1 = us.Distances.Position1,
+                                                Position2 = us.Distances.Position2,
+                                                KM = us.Distances.KM
+                                            },
+                                            DateTimeStartOrder = us.DateTimeStartOrder,
+                                            DateTimeEndOrder = us.DateTimeEndOrder,
+                                            DateTimeDurationOrder = us.DateTimeDurationOrder,
+                                            DateTimeStartActual = us.DateTimeStartActual,
+                                            DateTimeEndActual = us.DateTimeEndActual,
+                                            DateTimeDurationActual = us.DateTimeDurationActual,
+                                            CostCalculated = us.CostCalculated,
+                                            InstallationCharges = us.InstallationCharges == null ? false : (bool)us.InstallationCharges,
+                                            MonthlyCharges = us.MonthlyCharges == null ? false : (bool)us.MonthlyCharges,
+                                            CallCharges = us.CallCharges,
+                                            TelephoneNumber = us.TelephoneNumber,
+                                            TechnicalSupport = us.TechnicalSupport,
+                                            AddedCharges = us.AddedCharges,
+                                            CostActual = us.CostActual,
+                                            PaymentDateOrder = us.PaymentDateOrder,
+                                            PaymentDateCalculated = us.PaymentDateCalculated,
+                                            PaymentDateActual = us.PaymentDateActual,
+                                            IsForHelpers = us.IsForHelpers == null ? false : (bool)us.IsForHelpers,
+                                            IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
+                                            IsCanceled = us.IsCanceled == null ? false : (bool)us.IsCanceled,
+                                            CancelPrice = us.CancelPrice,
+                                            Comments = us.Comments,
+                                            InvoceComments = us.InvoceComments,
+                                            SateliteID = us.SateliteID,
+                                            Satelite = new SateliteDTO {
+                                                ID = us.SateliteID == null ? -1 : us.Satelites.ID,
+                                                Name = us.SateliteID == null ? "" : us.Satelites.Name,
+                                                Frequency = us.SateliteID == null ? "" : us.Satelites.Frequency
+                                            },
+                                            MSN = us.MSN == null ? false : (bool)us.MSN,
+                                            Internet = us.Internet == null ? false : (bool)us.Internet,
+                                            LineTypeID = us.LineTypeID,
+                                            LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name },
+                                            DateStamp = us.DateStamp,
+                                            EnteredByUser = us.EnteredByUser
+                                        }).Where (k => k.ID == taskID).FirstOrDefault();
+                    return data;
+                }
+                catch (Exception ex) { return null; }
+            }
+        }
+
         public List<TaskB> GetTasks() {
             using (var dbContext = new OTERTConnStr()) {
                 try {
@@ -1005,7 +1206,11 @@ namespace OTERT.Controller {
                     }
                     datatmp = datatmp.Where(k => k.Job.JobsMain.PageID == PageID && k.OrderID == null);
                     if (gridSortExxpressions.Count > 0) {
-                        datatmp = datatmp.OrderBy(gridSortExxpressions[0].FieldName + " " + gridSortExxpressions[0].SortOrder);
+                        string sortFieldName = "";
+                        if (gridSortExxpressions[0].FieldName == "CustomerID") { sortFieldName = "Customer.NameGR"; }
+                        else if (gridSortExxpressions[0].FieldName == "JobID") { sortFieldName = "Job.Name"; }
+                        else { sortFieldName = gridSortExxpressions[0].FieldName; }
+                        datatmp = datatmp.OrderBy(sortFieldName + " " + gridSortExxpressions[0].SortOrder);
                     } else {
                         datatmp = datatmp.OrderByDescending(o => o.ID);
                     }
@@ -1021,6 +1226,202 @@ namespace OTERT.Controller {
                                             DateStamp = us.DateStamp
                                         }).Where(k => k.TaskID == curTask.ID && k.OrderID == null).OrderBy(o => o.DateStamp).ToList();
                     }
+                    return data;
+                }
+                catch (Exception ex) { return null; }
+            }
+        }
+
+        public List<TaskB> GetAllTasks(int recSkip, int recTake, string recFilter, GridSortExpressionCollection gridSortExxpressions) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    IQueryable<TaskB> datatmp = (from us in dbContext.Tasks
+                                                 select new TaskB {
+                                                     ID = us.ID,
+                                                     OrderID = us.OrderID,
+                                                     Order = new OrderDTO {
+                                                         ID = us.OrderID == null ? -1 : us.Orders.ID,
+                                                         OrderTypeID = us.OrderID == null ? -1 : us.Orders.OrderTypeID,
+                                                         RegNo = us.OrderID == null ? "" : us.Orders.RegNo,
+                                                         Customer1ID = us.OrderID == null ? -1 : us.Orders.Customer1ID,
+                                                         Customer2ID = us.OrderID == null ? -1 : us.Orders.Customer2ID,
+                                                         EventID = us.OrderID == null ? -1 : us.Orders.EventID
+                                                     },
+                                                     RegNo = us.RegNo,
+                                                     OrderDate = us.OrderDate,
+                                                     CustomerID = us.CustomerID,
+                                                     Customer = new CustomerDTO {
+                                                         ID = us.Customers.ID,
+                                                         CountryID = us.Customers.CountryID,
+                                                         NameGR = us.Customers.NameGR,
+                                                         NameEN = us.Customers.NameEN,
+                                                         NamedInvoiceGR = us.Customers.NamedInvoiceGR,
+                                                         NamedInvoiceEN = us.Customers.NamedInvoiceEN,
+                                                         ZIPCode = us.Customers.ZIPCode,
+                                                         CityGR = us.Customers.CityGR,
+                                                         CityEN = us.Customers.CityEN,
+                                                         ChargeTelephone = us.Customers.ChargeTelephone,
+                                                         Telephone1 = us.Customers.Telephone1,
+                                                         Telephone2 = us.Customers.Telephone2,
+                                                         FAX1 = us.Customers.FAX1,
+                                                         FAX2 = us.Customers.FAX2,
+                                                         Address1GR = us.Customers.Address1GR,
+                                                         Address1EN = us.Customers.Address1EN,
+                                                         Address2GR = us.Customers.Address2GR,
+                                                         Address2EN = us.Customers.Address2EN,
+                                                         ContactPersonGR = us.Customers.ContactPersonGR,
+                                                         ContactPersonEN = us.Customers.ContactPersonEN,
+                                                         CustomerTypeID = us.Customers.CustomerTypeID,
+                                                         LanguageID = us.Customers.LanguageID,
+                                                         Email = us.Customers.Email,
+                                                         URL = us.Customers.URL,
+                                                         AFM = us.Customers.AFM,
+                                                         DOY = us.Customers.DOY,
+                                                         SAPCode = us.Customers.SAPCode,
+                                                         UserID = us.Customers.UserID,
+                                                         Comments = us.Customers.Comments,
+                                                         IsProvider = us.Customers.IsProvider,
+                                                         IsOTE = us.Customers.IsOTE
+                                                     },
+                                                     RequestedPositionID = us.RequestedPositionID,
+                                                     RequestedPosition = new RequestedPositionDTO {
+                                                         ID = us.RequestedPositionID == null ? -1 : us.RequestedPositions.ID,
+                                                         NameGR = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameGR,
+                                                         NameEN = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameEN
+                                                     },
+                                                     JobID = us.JobID,
+                                                     Job = new JobDTO {
+                                                         ID = us.Jobs.ID,
+                                                         JobsMainID = us.Jobs.JobsMainID,
+                                                         JobsMain = new JobMainDTO { ID = us.Jobs.JobsMain.ID, Name = us.Jobs.JobsMain.Name, PageID = us.Jobs.JobsMain.PageID },
+                                                         Name = us.Jobs.Name,
+                                                         MinimumTime = us.Jobs.MinimumTime,
+                                                         InvoiceCode = us.Jobs.InvoiceCode,
+                                                         SalesID = us.Jobs.SalesID
+                                                     },
+                                                     DistanceID = us.DistancesID,
+                                                     Distance = new DistanceDTO {
+                                                         ID = us.Distances.ID,
+                                                         JobsMainID = us.Distances.JobsMainID,
+                                                         JobsMain = new JobMainDTO { ID = us.Distances.JobsMain.ID, Name = us.Distances.JobsMain.Name, PageID = us.Distances.JobsMain.PageID },
+                                                         Description = us.Distances.Position1 + " - " + us.Distances.Position2 + " (" + us.Distances.KM.ToString() + " km)",
+                                                         Position1 = us.Distances.Position1,
+                                                         Position2 = us.Distances.Position2,
+                                                         KM = us.Distances.KM
+                                                     },
+                                                     DateTimeStartOrder = us.DateTimeStartOrder,
+                                                     DateTimeEndOrder = us.DateTimeEndOrder,
+                                                     DateTimeDurationOrder = us.DateTimeDurationOrder,
+                                                     DateTimeStartActual = us.DateTimeStartActual,
+                                                     DateTimeEndActual = us.DateTimeEndActual,
+                                                     DateTimeDurationActual = us.DateTimeDurationActual,
+                                                     CostCalculated = us.CostCalculated,
+                                                     InstallationCharges = us.InstallationCharges == null ? false : (bool)us.InstallationCharges,
+                                                     MonthlyCharges = us.MonthlyCharges == null ? false : (bool)us.MonthlyCharges,
+                                                     CallCharges = us.CallCharges,
+                                                     TelephoneNumber = us.TelephoneNumber,
+                                                     TechnicalSupport = us.TechnicalSupport,
+                                                     AddedCharges = us.AddedCharges,
+                                                     CostActual = us.CostActual,
+                                                     PaymentDateOrder = us.PaymentDateOrder,
+                                                     PaymentDateCalculated = us.PaymentDateCalculated,
+                                                     PaymentDateActual = us.PaymentDateActual,
+                                                     IsForHelpers = us.IsForHelpers == null ? false : (bool)us.IsForHelpers,
+                                                     IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
+                                                     IsCanceled = us.IsCanceled == null ? false : (bool)us.IsCanceled,
+                                                     CancelPrice = us.CancelPrice,
+                                                     Comments = us.Comments,
+                                                     InvoceComments = us.InvoceComments,
+                                                     SateliteID = us.SateliteID,
+                                                     Satelite = new SateliteDTO {
+                                                         ID = us.SateliteID == null ? -1 : us.Satelites.ID,
+                                                         Name = us.SateliteID == null ? "" : us.Satelites.Name,
+                                                         Frequency = us.SateliteID == null ? "" : us.Satelites.Frequency
+                                                     },
+                                                     MSN = us.MSN == null ? false : (bool)us.MSN,
+                                                     Internet = us.Internet == null ? false : (bool)us.Internet,
+                                                     LineTypeID = us.LineTypeID,
+                                                     LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name },
+                                                     DateStamp = us.DateStamp,
+                                                     EnteredByUser = us.EnteredByUser
+                                                 });
+                    if (!string.IsNullOrEmpty(recFilter)) {
+                        IQueryable test = dbContext.Tasks.Where(o =>o.OrderID == null);
+                        string[] expressionsAND = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
+
+                        List<string> columnExpressions = new List<string>();
+                        for (int k = 0; k < expressionsAND.Length; k++) {
+                            if (!expressionsAND[k].Contains("OR")) {
+                                columnExpressions.Add(expressionsAND[k]);
+                            } else {
+                                string[] expressionsOR = expressionsAND[k].Split(new string[] { "OR" }, StringSplitOptions.None);
+                                for (int i = 0; i < expressionsOR.Length; i++) { columnExpressions.Add(expressionsOR[i]); }
+                            }
+                        }
+                        List<string> OrderDateExpressions = columnExpressions.Where(item => item.Contains("OrderDate")).ToList();
+                        List<string> StartActualExpressions = columnExpressions.Where(item => item.Contains("DateTimeStartActual")).ToList();
+                        columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual"));
+                        recFilter = string.Join("AND", columnExpressions.ToArray());
+                        if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
+                        if (OrderDateExpressions.Count > 0) {
+                            List<DateTime> orderDates = new List<DateTime>();
+                            foreach (string dtExpression in OrderDateExpressions) {
+                                string[] dateExp = dtExpression.Split(new char[] { '"' });
+                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                DateTime newDate;
+                                if (dateExp.Length > 1) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                        orderDates.Add(newDate);
+                                    }
+                                }
+                            }
+                            if (orderDates.Count == 2) {
+                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
+                                if (OrderDateExpressions[0].Contains(">=")) {
+                                    recFilter = "OrderDate >= @0 AND OrderDate <= @1";
+                                } else {
+                                    recFilter = "OrderDate < @0 OR OrderDate > @1";
+                                }
+                                datatmp = datatmp.Where(recFilter, new DateTime(orderDates[0].Year, orderDates[0].Month, orderDates[0].Day, orderDates[0].Hour, orderDates[0].Minute, 0), new DateTime(orderDates[1].Year, orderDates[1].Month, orderDates[1].Day, orderDates[1].Hour, orderDates[1].Minute, 0));
+                            } else {
+                                datatmp = datatmp.Where(OrderDateExpressions[0]);
+                            }
+                        }
+                        if (StartActualExpressions.Count > 0) {
+                            List<DateTime> startActualDates = new List<DateTime>();
+                            foreach (string dtExpression in StartActualExpressions) {
+                                string[] dateExp = dtExpression.Split(new char[] { '"' });
+                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                DateTime newDate;
+                                if (dateExp.Length > 1) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                        startActualDates.Add(newDate);
+                                    }
+                                }
+                            }
+                            if (startActualDates.Count == 2) {
+                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
+                                if (StartActualExpressions[0].Contains(">=")) {
+                                    recFilter = "DateTimeStartActual >= @0 AND DateTimeStartActual <= @1";
+                                } else {
+                                    recFilter = "DateTimeStartActual < @0 OR DateTimeStartActual > @1";
+                                }
+                                datatmp = datatmp.Where(recFilter, new DateTime(startActualDates[0].Year, startActualDates[0].Month, startActualDates[0].Day, startActualDates[0].Hour, startActualDates[0].Minute, 0), new DateTime(startActualDates[1].Year, startActualDates[1].Month, startActualDates[1].Day, startActualDates[1].Hour, startActualDates[1].Minute, 0));
+                            } else {
+                                datatmp = datatmp.Where(StartActualExpressions[0]);
+                            }
+                        }
+                    }
+                    datatmp = datatmp.Where(k => k.OrderID == null);
+                    if (gridSortExxpressions.Count > 0) {
+                        string sortFieldName = "";
+                        if (gridSortExxpressions[0].FieldName == "CustomerID") { sortFieldName = "Customer.NameGR"; } else if (gridSortExxpressions[0].FieldName == "JobID") { sortFieldName = "Job.Name"; } else { sortFieldName = gridSortExxpressions[0].FieldName; }
+                        datatmp = datatmp.OrderBy(sortFieldName + " " + gridSortExxpressions[0].SortOrder);
+                    } else {
+                        datatmp = datatmp.OrderByDescending(o => o.ID);
+                    }
+                    List<TaskB> data = datatmp.Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception ex) { return null; }

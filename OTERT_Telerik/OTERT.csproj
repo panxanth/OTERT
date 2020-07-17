@@ -307,6 +307,10 @@
       <DependentUpon>UrbanOnePoint.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Users\TasksList.aspx.cs">
+      <DependentUpon>TasksList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Users\UrbanTwoPoints.aspx.cs">
       <DependentUpon>UrbanTwoPoints.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -387,6 +391,7 @@
     <Content Include="App_Data\RadCaptcha\Y.wav" />
     <Content Include="App_Data\RadCaptcha\Z.wav" />
     <Content Include="Default.aspx" />
+    <Content Include="Images\mag.png" />
     <Content Include="Images\ote_header.png" />
     <Content Include="Pages\Administrator\CountryPricelistsList.aspx" />
     <Content Include="Pages\Administrator\JobsList.aspx" />
@@ -424,6 +429,7 @@
     <Content Include="Pages\Users\PTStoGR.aspx" />
     <Content Include="Pages\Users\LongDistanceTwoPoints.aspx" />
     <Content Include="Pages\Users\UrbanOnePoint.aspx" />
+    <Content Include="Pages\Users\TasksList.aspx" />
     <Content Include="Pages\Users\UrbanTwoPoints.aspx" />
     <Content Include="Pages\Users\LongDistanceOnePoint.aspx" />
     <Content Include="Pages\Users\LongDistanceCalls.aspx" />
@@ -543,7 +549,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -52,7 +52,7 @@
 		                    <telerik:RadDropDownList runat="server" ID="ddlCustomerFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="280px" DropDownHeight="400px" OnSelectedIndexChanged="ddlCustomerFilter_SelectedIndexChanged" OnPreRender="ddlCustomerFilter_PreRender" />
 	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridDateTimeColumn UniqueName="DateStamp" DataField="DateStamp" HeaderText="Ημ/νία Καταχώρησης" DataType="System.DateTime" DataFormatString="{0:dd/MM/yyyy HH:mm}" PickerType="DateTimePicker" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="200px" />
+                    <telerik:GridDateTimeColumn UniqueName="DateStamp" DataField="DateStamp" HeaderText="Ημ/νία Καταχώρησης" DataType="System.DateTime" DataFormatString="{0:dd/MM/yyyy HH:mm}" PickerType="DateTimePicker" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="200px" FilterDateFormat="{0:dd/MM/yyyy HH:mm}" />
                 </Columns>
             </MasterTableView>
         </telerik:RadGrid>

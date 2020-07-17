@@ -85,6 +85,7 @@
                 <div class="arrow"><a class="button_2">Λίστες</a></div>
             </div>
             <ul class="gradient_menu gradient99">
+                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/TasksList.aspx" title="">Έργα</a></li>
                 <li class="gradient_menuitem gradient27"><a href="/Pages/Users/FilesList.aspx" title="">Αρχεία</a></li>
                 <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/CustomersList.aspx" title="">Πελάτες</a></li>
             </ul>
