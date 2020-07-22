@@ -43,16 +43,32 @@ namespace OTERT.Pages.UserPages {
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
+            int taskID = -1;
+            if (Request.QueryString["ID"] != null && Request.QueryString["ID"] != string.Empty) {
+                int.TryParse(Request.QueryString["ID"], out taskID);
+            }
             int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
             int recTake = gridMain.PageSize;
             string recFilter = gridMain.MasterTableView.FilterExpression;
             GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
-            try {
-                TasksController cont = new TasksController();
-                gridMain.VirtualItemCount = cont.CountTasksForPageID(pageID, recFilter);
-                gridMain.DataSource = cont.GetTasksForPage(pageID, recSkip, recTake, recFilter, gridSortExxpressions);
+            if (taskID < 0) {
+                try {
+                    TasksController cont = new TasksController();
+                    gridMain.VirtualItemCount = cont.CountTasksForPageID(pageID, recFilter);
+                    gridMain.DataSource = cont.GetTasksForPage(pageID, recSkip, recTake, recFilter, gridSortExxpressions);
+                }
+                catch (Exception) { }
+            } else {
+                try {
+                    TasksController cont = new TasksController();
+                    gridMain.VirtualItemCount = 1;
+                    List<TaskB> ds = new List<TaskB>();
+                    TaskB singleTask = cont.GetTask(taskID);
+                    if (singleTask != null) { ds.Add(singleTask); }
+                    gridMain.DataSource = ds;
+                }
+                catch (Exception) { }
             }
-            catch (Exception) { }
         }
 
         protected void gridMain_PreRender(object sender, EventArgs e) {

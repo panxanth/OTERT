@@ -66,7 +66,7 @@ namespace OTERT.Pages.UserPages {
                     if (singleTask != null) { ds.Add(singleTask); }
                     gridMain.DataSource = ds;
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
             }
         }
 
