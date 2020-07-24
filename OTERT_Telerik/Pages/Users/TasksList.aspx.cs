@@ -7,11 +7,19 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Web.UI.WebControls;
 using Telerik.Web.UI;
+using xi = Telerik.Web.UI.ExportInfrastructure;
 using Telerik.Web.UI.Calendar;
 using ExpressionParser;
 using OTERT.Model;
 using OTERT.Controller;
 using OTERT_Entity;
+using Telerik.Windows.Documents.Spreadsheet.FormatProviders;
+using Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.Xlsx;
+using Telerik.Windows.Documents.Spreadsheet.FormatProviders.TextBased.Csv;
+using Telerik.Windows.Documents.Spreadsheet.FormatProviders.TextBased.Txt;
+using Telerik.Windows.Documents.Spreadsheet.Model;
+using Telerik.Windows.Documents.Spreadsheet.Utilities;
+using System.IO;
 
 namespace OTERT.Pages.UserPages {
 
@@ -22,6 +30,10 @@ namespace OTERT.Pages.UserPages {
         protected RadWindowManager RadWindowManager1;
         protected string pageTitle;
         protected UserB loggedUser;
+
+        const string EnUSCultureAccountFormatString = "_($ #,##0.00_);_($ (#,##0.00);_(@_)";
+        protected readonly ThemableColor InvoiceBackground = ThemableColor.FromArgb(255, 44, 62, 80);
+        protected readonly ThemableColor InvoiceHeaderForeground = ThemableColor.FromArgb(255, 255, 255, 255);
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
@@ -242,6 +254,90 @@ namespace OTERT.Pages.UserPages {
             FilesController cont = new FilesController();
             detailtabl.VirtualItemCount = cont.CountFiles(taskID);
             detailtabl.DataSource = cont.GetFilesByTaskID(taskID, recSkip, recTake);
+        }
+
+        protected void btnExportXLSX_Click(object sender, EventArgs e) {
+            IWorkbookFormatProvider formatProvider = new XlsxFormatProvider();
+            Workbook workbook = CreateWorkbook();
+            byte[] renderedBytes = null;
+            using (MemoryStream ms = new MemoryStream()) {
+                formatProvider.Export(workbook, ms);
+                renderedBytes = ms.ToArray();
+            }
+            Response.ClearHeaders();
+            Response.ClearContent();
+            Response.AppendHeader("content-disposition", "attachment; filename=ExportedFile.xlsx");
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.BinaryWrite(renderedBytes);
+            Response.End();
+        }
+
+        protected Workbook CreateWorkbook() {
+            Workbook workbook = new Workbook();
+            workbook.Sheets.Add(SheetType.Worksheet);
+            Worksheet worksheet = workbook.ActiveWorksheet;
+            List<TaskB> tasks = new List<TaskB>();
+            try {
+                string recFilter = gridMain.MasterTableView.FilterExpression;
+                GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
+                TasksController cont = new TasksController();
+                int tasksCount = cont.CountAllTasks(recFilter);
+                tasks = cont.GetAllTasks(0, tasksCount, recFilter, gridSortExxpressions);
+            }
+            catch (Exception) { }
+            PrepareInvoiceDocument(worksheet, tasks.Count);
+            int currentRow = 2;
+            foreach (TaskB curTask in tasks) {
+                worksheet.Cells[currentRow, 0].SetValue(curTask.ID.ToString());
+                worksheet.Cells[currentRow, 1].SetValue(curTask.RegNo);
+                worksheet.Cells[currentRow, 2].SetValue(curTask.OrderDate);
+                worksheet.Cells[currentRow, 3].SetValue(curTask.Customer.NameGR);
+                worksheet.Cells[currentRow, 4].SetValue(curTask.Job.Name);
+                currentRow++;
+            }
+            for (int i = 0; i < worksheet.Columns.Count; i++) { worksheet.Columns[i].AutoFitWidth(); }
+            return workbook;
+        }
+
+        protected void PrepareInvoiceDocument(Worksheet worksheet, int itemsCount) {
+            int lastItemIndexRow = 1 + itemsCount;
+            CellIndex firstRowFirstCellIndex = new CellIndex(0, 0);
+            CellIndex firstRowLastCellIndex = new CellIndex(0, 22);
+            CellIndex lastRowFirstCellIndex = new CellIndex(lastItemIndexRow + 1, 0);
+            CellIndex lastRowLastCellIndex = new CellIndex(lastItemIndexRow + 1, 22);
+            worksheet.Cells[firstRowFirstCellIndex, firstRowLastCellIndex].MergeAcross();
+            CellBorder border = new CellBorder(CellBorderStyle.DashDot, InvoiceBackground);
+            worksheet.Cells[firstRowFirstCellIndex, lastRowLastCellIndex].SetBorders(new CellBorders(border, border, border, border, null, null, null, null));
+            worksheet.Cells[lastRowFirstCellIndex, lastRowLastCellIndex].SetBorders(new CellBorders(border, border, border, border, null, null, null, null));
+            worksheet.Cells[firstRowFirstCellIndex].SetValue("INVOICE");
+            worksheet.Cells[firstRowFirstCellIndex].SetFontSize(20);
+
+            worksheet.Cells[1, 0].SetValue("A/A");
+            worksheet.Cells[1, 1].SetValue("Αριθμός Πρωτοκόλλου");
+            worksheet.Cells[1, 2].SetValue("Ημερομηνία Παραγγελίας");
+            worksheet.Cells[1, 2].SetHorizontalAlignment(RadHorizontalAlignment.Right);
+            worksheet.Cells[1, 3].SetValue("Πελάτης");
+            worksheet.Cells[1, 3].SetHorizontalAlignment(RadHorizontalAlignment.Right);
+            worksheet.Cells[1, 4].SetValue("Κατηγορία Έργου");
+            worksheet.Cells[1, 4].SetHorizontalAlignment(RadHorizontalAlignment.Right);
+
+            /*
+            worksheet.Cells[IndexRowItemStart, IndexColumnProductID, IndexRowItemStart, IndexColumnSubTotal].SetFill(new GradientFill(GradientType.Horizontal, InvoiceBackground, InvoiceBackground));
+            worksheet.Cells[IndexRowItemStart, IndexColumnProductID, IndexRowItemStart, IndexColumnSubTotal].SetForeColor(InvoiceHeaderForeground);
+            worksheet.Cells[IndexRowItemStart, IndexColumnUnitPrice, lastItemIndexRow, IndexColumnUnitPrice].SetFormat(new CellValueFormat(EnUSCultureAccountFormatString));
+            worksheet.Cells[IndexRowItemStart, IndexColumnSubTotal, lastItemIndexRow, IndexColumnSubTotal].SetFormat(new CellValueFormat(EnUSCultureAccountFormatString));
+
+            worksheet.Cells[lastItemIndexRow + 1, IndexColumnUnitPrice].SetValue("TOTAL: ");
+            worksheet.Cells[lastItemIndexRow + 1, IndexColumnSubTotal].SetFormat(new CellValueFormat(EnUSCultureAccountFormatString));
+
+            string subTotalColumnCellRange = NameConverter.ConvertCellRangeToName(
+                new CellIndex(IndexRowItemStart + 1, IndexColumnSubTotal),
+                new CellIndex(lastItemIndexRow, IndexColumnSubTotal));
+
+            worksheet.Cells[lastItemIndexRow + 1, IndexColumnSubTotal].SetValue(string.Format("=SUM({0})", subTotalColumnCellRange));
+
+            worksheet.Cells[lastItemIndexRow + 1, IndexColumnUnitPrice, lastItemIndexRow + 1, IndexColumnSubTotal].SetFontSize(20);
+            */
         }
 
     }

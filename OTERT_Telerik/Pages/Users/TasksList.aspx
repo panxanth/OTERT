@@ -36,7 +36,7 @@
             OnDetailTableDataBind="gridMain_DetailTableDataBind" 
             OnPreRender="gridMain_PreRender">
             <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" AllowFilteringByColumn="True" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές" Name="Master">
-                <CommandItemSettings ShowAddNewRecordButton="false" RefreshText="Ανανέωση" />
+                <CommandItemSettings ExportToExcelText="Εξαγωγή Αρχείου Excel" ShowAddNewRecordButton="false" RefreshText="Ανανέωση" />
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />
                 <DetailTables>
                     <telerik:GridTableView DataKeyNames="ID" Width="100%" runat="server" CommandItemDisplay="Top" Name="AttachedFiles" Caption="Συνοδευτικά Αρχεία" NoDetailRecordsText="Δεν υπάρχουν Συνοδευτικά Αρχεία" AllowFilteringByColumn="false" >
@@ -79,6 +79,8 @@
                 </Columns>
             </MasterTableView>
         </telerik:RadGrid>
+        <br /><br />
+        <telerik:RadButton RenderMode="Lightweight" Text="Εξαγωγή Αρχείου Excel" ID="btnExportXLSX" CssClass="downloadButton" OnClick="btnExportXLSX_Click" runat="server" />
         <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" />
     </div>
 </asp:Content>
