@@ -31,9 +31,11 @@ namespace OTERT.Pages.UserPages {
         protected string pageTitle;
         protected UserB loggedUser;
 
-        const string EnUSCultureAccountFormatString = "_($ #,##0.00_);_($ (#,##0.00);_(@_)";
-        protected readonly ThemableColor InvoiceBackground = ThemableColor.FromArgb(255, 44, 62, 80);
-        protected readonly ThemableColor InvoiceHeaderForeground = ThemableColor.FromArgb(255, 255, 255, 255);
+        protected readonly ThemableColor cellBackground = ThemableColor.FromArgb(0, 255, 255, 255);
+        protected readonly ThemableColor tcBlack = ThemableColor.FromArgb(255, 0, 0, 0);
+        protected readonly ThemableColor tcWhite = ThemableColor.FromArgb(255, 255, 255, 255);
+        protected readonly string dateFormat = "dd/MM/yyyy HH:mm";
+        protected readonly string currencyFormat = "#,##0.00 €";
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
@@ -266,7 +268,7 @@ namespace OTERT.Pages.UserPages {
 
         protected void btnExportXLSX_Click(object sender, EventArgs e) {
             IWorkbookFormatProvider formatProvider = new XlsxFormatProvider();
-            Workbook workbook = CreateWorkbook();
+            Workbook workbook = createWorkbook();
             byte[] renderedBytes = null;
             using (MemoryStream ms = new MemoryStream()) {
                 formatProvider.Export(workbook, ms);
@@ -274,16 +276,17 @@ namespace OTERT.Pages.UserPages {
             }
             Response.ClearHeaders();
             Response.ClearContent();
-            Response.AppendHeader("content-disposition", "attachment; filename=ExportedFile.xlsx");
+            Response.AppendHeader("content-disposition", "attachment; filename=DYEP-RT-Report-" + DateTime.Now.ToString("dd-MM-yyyy") + ".xlsx");
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             Response.BinaryWrite(renderedBytes);
             Response.End();
         }
 
-        protected Workbook CreateWorkbook() {
+        protected Workbook createWorkbook() {
             Workbook workbook = new Workbook();
             workbook.Sheets.Add(SheetType.Worksheet);
             Worksheet worksheet = workbook.ActiveWorksheet;
+            worksheet.Name = "OTE RT";
             List<TaskB> tasks = new List<TaskB>();
             try {
                 string recFilter = gridMain.MasterTableView.FilterExpression;
@@ -293,59 +296,232 @@ namespace OTERT.Pages.UserPages {
                 tasks = cont.GetAllTasks(0, tasksCount, recFilter, gridSortExxpressions);
             }
             catch (Exception) { }
-            PrepareInvoiceDocument(worksheet, tasks.Count);
-            int currentRow = 2;
+            prepareDocument(worksheet);
+            int currentRow = 1;
+            CellBorder border = new CellBorder(CellBorderStyle.Thin, tcBlack);
+            CellBorders borders = new CellBorders(border, border, border, border, null, null, null, null);
+            double fontSize = 12;
             foreach (TaskB curTask in tasks) {
                 worksheet.Cells[currentRow, 0].SetValue(curTask.ID.ToString());
+                worksheet.Cells[currentRow, 0].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 0].SetBorders(borders);
                 worksheet.Cells[currentRow, 1].SetValue(curTask.RegNo);
+                worksheet.Cells[currentRow, 1].SetFormat(new CellValueFormat("@"));
+                worksheet.Cells[currentRow, 1].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 1].SetBorders(borders);
                 worksheet.Cells[currentRow, 2].SetValue(curTask.OrderDate);
+                worksheet.Cells[currentRow, 2].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 2].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 2].SetBorders(borders);
                 worksheet.Cells[currentRow, 3].SetValue(curTask.Customer.NameGR);
+                worksheet.Cells[currentRow, 3].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 3].SetBorders(borders);
                 worksheet.Cells[currentRow, 4].SetValue(curTask.Job.Name);
+                worksheet.Cells[currentRow, 4].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 4].SetBorders(borders);
+                string distance = curTask.Distance.Position1 + " - " + curTask.Distance.Position2 + " (" + curTask.Distance.KM.ToString() + ")";
+                worksheet.Cells[currentRow, 5].SetValue(distance);
+                worksheet.Cells[currentRow, 5].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 5].SetBorders(borders);
+                worksheet.Cells[currentRow, 6].SetValue(curTask.DateTimeStartOrder.GetValueOrDefault());
+                worksheet.Cells[currentRow, 6].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 6].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 6].SetBorders(borders);
+                worksheet.Cells[currentRow, 7].SetValue(curTask.DateTimeEndOrder.GetValueOrDefault());
+                worksheet.Cells[currentRow, 7].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 7].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 7].SetBorders(borders);
+                worksheet.Cells[currentRow, 8].SetValue(curTask.DateTimeDurationOrder);
+                worksheet.Cells[currentRow, 8].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 8].SetBorders(borders);
+                worksheet.Cells[currentRow, 9].SetValue(double.Parse(curTask.AddedCharges.GetValueOrDefault().ToString()));
+                worksheet.Cells[currentRow, 9].SetFormat(new CellValueFormat(currencyFormat));
+                worksheet.Cells[currentRow, 9].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 9].SetBorders(borders);
+                worksheet.Cells[currentRow, 10].SetValue(double.Parse(curTask.CostCalculated.GetValueOrDefault().ToString()));
+                worksheet.Cells[currentRow, 10].SetFormat(new CellValueFormat(currencyFormat));
+                worksheet.Cells[currentRow, 10].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 10].SetBorders(borders);
+                worksheet.Cells[currentRow, 11].SetValue(curTask.DateTimeStartActual.GetValueOrDefault());
+                worksheet.Cells[currentRow, 11].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 11].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 11].SetBorders(borders);
+                worksheet.Cells[currentRow, 12].SetValue(curTask.DateTimeEndActual.GetValueOrDefault());
+                worksheet.Cells[currentRow, 12].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 12].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 12].SetBorders(borders);
+                worksheet.Cells[currentRow, 13].SetValue(curTask.DateTimeDurationActual.GetValueOrDefault());
+                worksheet.Cells[currentRow, 13].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 13].SetBorders(borders);
+                worksheet.Cells[currentRow, 14].SetValue(curTask.PaymentDateOrder.GetValueOrDefault());
+                worksheet.Cells[currentRow, 14].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 14].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 14].SetBorders(borders);
+                worksheet.Cells[currentRow, 15].SetValue(double.Parse(curTask.CostActual.GetValueOrDefault().ToString()));
+                worksheet.Cells[currentRow, 15].SetFormat(new CellValueFormat(currencyFormat));
+                worksheet.Cells[currentRow, 15].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 15].SetBorders(borders);
+                worksheet.Cells[currentRow, 16].SetValue(curTask.PaymentDateCalculated.GetValueOrDefault());
+                worksheet.Cells[currentRow, 16].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 16].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 16].SetBorders(borders);
+                worksheet.Cells[currentRow, 17].SetValue(curTask.PaymentDateActual.GetValueOrDefault());
+                worksheet.Cells[currentRow, 17].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 17].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 17].SetBorders(borders);
+                string isCanc = "ΟΧΙ";
+                if (curTask.IsCanceled == true) { isCanc = "ΝΑΙ"; }
+                worksheet.Cells[currentRow, 18].SetValue(isCanc);
+                worksheet.Cells[currentRow, 18].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 18].SetBorders(borders);
+                worksheet.Cells[currentRow, 19].SetValue(curTask.Comments);
+                worksheet.Cells[currentRow, 19].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 19].SetBorders(borders);
+                worksheet.Cells[currentRow, 20].SetValue(curTask.InvoceComments);
+                worksheet.Cells[currentRow, 20].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 20].SetBorders(borders);
                 currentRow++;
             }
             for (int i = 0; i < worksheet.Columns.Count; i++) { worksheet.Columns[i].AutoFitWidth(); }
             return workbook;
         }
 
-        protected void PrepareInvoiceDocument(Worksheet worksheet, int itemsCount) {
-            int lastItemIndexRow = 1 + itemsCount;
-            CellIndex firstRowFirstCellIndex = new CellIndex(0, 0);
-            CellIndex firstRowLastCellIndex = new CellIndex(0, 22);
-            CellIndex lastRowFirstCellIndex = new CellIndex(lastItemIndexRow + 1, 0);
-            CellIndex lastRowLastCellIndex = new CellIndex(lastItemIndexRow + 1, 22);
-            worksheet.Cells[firstRowFirstCellIndex, firstRowLastCellIndex].MergeAcross();
-            CellBorder border = new CellBorder(CellBorderStyle.DashDot, InvoiceBackground);
-            worksheet.Cells[firstRowFirstCellIndex, lastRowLastCellIndex].SetBorders(new CellBorders(border, border, border, border, null, null, null, null));
-            worksheet.Cells[lastRowFirstCellIndex, lastRowLastCellIndex].SetBorders(new CellBorders(border, border, border, border, null, null, null, null));
-            worksheet.Cells[firstRowFirstCellIndex].SetValue("INVOICE");
-            worksheet.Cells[firstRowFirstCellIndex].SetFontSize(20);
-
-            worksheet.Cells[1, 0].SetValue("A/A");
-            worksheet.Cells[1, 1].SetValue("Αριθμός Πρωτοκόλλου");
-            worksheet.Cells[1, 2].SetValue("Ημερομηνία Παραγγελίας");
-            worksheet.Cells[1, 2].SetHorizontalAlignment(RadHorizontalAlignment.Right);
-            worksheet.Cells[1, 3].SetValue("Πελάτης");
-            worksheet.Cells[1, 3].SetHorizontalAlignment(RadHorizontalAlignment.Right);
-            worksheet.Cells[1, 4].SetValue("Κατηγορία Έργου");
-            worksheet.Cells[1, 4].SetHorizontalAlignment(RadHorizontalAlignment.Right);
-
-            /*
-            worksheet.Cells[IndexRowItemStart, IndexColumnProductID, IndexRowItemStart, IndexColumnSubTotal].SetFill(new GradientFill(GradientType.Horizontal, InvoiceBackground, InvoiceBackground));
-            worksheet.Cells[IndexRowItemStart, IndexColumnProductID, IndexRowItemStart, IndexColumnSubTotal].SetForeColor(InvoiceHeaderForeground);
-            worksheet.Cells[IndexRowItemStart, IndexColumnUnitPrice, lastItemIndexRow, IndexColumnUnitPrice].SetFormat(new CellValueFormat(EnUSCultureAccountFormatString));
-            worksheet.Cells[IndexRowItemStart, IndexColumnSubTotal, lastItemIndexRow, IndexColumnSubTotal].SetFormat(new CellValueFormat(EnUSCultureAccountFormatString));
-
-            worksheet.Cells[lastItemIndexRow + 1, IndexColumnUnitPrice].SetValue("TOTAL: ");
-            worksheet.Cells[lastItemIndexRow + 1, IndexColumnSubTotal].SetFormat(new CellValueFormat(EnUSCultureAccountFormatString));
-
-            string subTotalColumnCellRange = NameConverter.ConvertCellRangeToName(
-                new CellIndex(IndexRowItemStart + 1, IndexColumnSubTotal),
-                new CellIndex(lastItemIndexRow, IndexColumnSubTotal));
-
-            worksheet.Cells[lastItemIndexRow + 1, IndexColumnSubTotal].SetValue(string.Format("=SUM({0})", subTotalColumnCellRange));
-
-            worksheet.Cells[lastItemIndexRow + 1, IndexColumnUnitPrice, lastItemIndexRow + 1, IndexColumnSubTotal].SetFontSize(20);
-            */
+        protected void prepareDocument(Worksheet worksheet) {
+            PatternFill pfGreen = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 153, 204, 0), System.Windows.Media.Colors.Transparent);
+            PatternFill pfOrange = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 255, 204, 0), System.Windows.Media.Colors.Transparent);
+            PatternFill pfRed = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 255, 0, 0), System.Windows.Media.Colors.Transparent);
+            CellBorder border = new CellBorder(CellBorderStyle.Thin, tcBlack);
+            CellBorders borders = new CellBorders(border, border, border, border, null, null, null, null);
+            double fontSize = 12;
+            worksheet.Cells[0, 0].SetValue("A/A");
+            worksheet.Cells[0, 0].SetFontSize(fontSize);
+            worksheet.Cells[0, 0].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 0].SetIsBold(true);
+            worksheet.Cells[0, 0].SetFill(pfGreen);
+            worksheet.Cells[0, 0].SetBorders(borders);
+            worksheet.Cells[0, 1].SetValue("Αριθμός Πρωτοκόλλου");
+            worksheet.Cells[0, 1].SetFontSize(fontSize);
+            worksheet.Cells[0, 1].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 1].SetIsBold(true);
+            worksheet.Cells[0, 1].SetFill(pfGreen);
+            worksheet.Cells[0, 1].SetBorders(borders);
+            worksheet.Cells[0, 2].SetValue("Ημερομηνία Παραγγελίας");
+            worksheet.Cells[0, 2].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 2].SetFontSize(fontSize);
+            worksheet.Cells[0, 2].SetIsBold(true);
+            worksheet.Cells[0, 2].SetFill(pfOrange);
+            worksheet.Cells[0, 2].SetBorders(borders);
+            worksheet.Cells[0, 3].SetValue("Πελάτης");
+            worksheet.Cells[0, 3].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 3].SetFontSize(fontSize);
+            worksheet.Cells[0, 3].SetIsBold(true);
+            worksheet.Cells[0, 3].SetFill(pfGreen);
+            worksheet.Cells[0, 3].SetBorders(borders);
+            worksheet.Cells[0, 4].SetValue("Κατηγορία Έργου");
+            worksheet.Cells[0, 4].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 4].SetFontSize(fontSize);
+            worksheet.Cells[0, 4].SetIsBold(true);
+            worksheet.Cells[0, 4].SetFill(pfGreen);
+            worksheet.Cells[0, 4].SetBorders(borders);
+            worksheet.Cells[0, 5].SetValue("Διαδρομή (km)");
+            worksheet.Cells[0, 5].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 5].SetFontSize(fontSize);
+            worksheet.Cells[0, 5].SetIsBold(true);
+            worksheet.Cells[0, 5].SetFill(pfGreen);
+            worksheet.Cells[0, 5].SetBorders(borders);
+            worksheet.Cells[0, 6].SetValue("Προγραμματισμένη Ημερομηνία Έναρξης");
+            worksheet.Cells[0, 6].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 6].SetFontSize(fontSize);
+            worksheet.Cells[0, 6].SetIsBold(true);
+            worksheet.Cells[0, 6].SetFill(pfGreen);
+            worksheet.Cells[0, 6].SetBorders(borders);
+            worksheet.Cells[0, 7].SetValue("Προγραμματισμένη Ημερομηνία Λήξης");
+            worksheet.Cells[0, 7].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 7].SetFontSize(fontSize);
+            worksheet.Cells[0, 7].SetIsBold(true);
+            worksheet.Cells[0, 7].SetFill(pfGreen);
+            worksheet.Cells[0, 7].SetBorders(borders);
+            worksheet.Cells[0, 8].SetValue("Προγραμματισμένη Διάρκεια");
+            worksheet.Cells[0, 8].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 8].SetFontSize(fontSize);
+            worksheet.Cells[0, 8].SetIsBold(true);
+            worksheet.Cells[0, 8].SetFill(pfGreen);
+            worksheet.Cells[0, 8].SetBorders(borders);
+            worksheet.Cells[0, 9].SetValue("Πρόσθετα Τέλη");
+            worksheet.Cells[0, 9].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 9].SetFontSize(fontSize);
+            worksheet.Cells[0, 9].SetIsBold(true);
+            worksheet.Cells[0, 9].SetForeColor(tcWhite);
+            worksheet.Cells[0, 9].SetFill(pfRed);
+            worksheet.Cells[0, 9].SetBorders(borders);
+            worksheet.Cells[0, 10].SetValue("Προϋπολογιζόμενο Κόστος");
+            worksheet.Cells[0, 10].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 10].SetFontSize(fontSize);
+            worksheet.Cells[0, 10].SetIsBold(true);
+            worksheet.Cells[0, 10].SetForeColor(tcWhite);
+            worksheet.Cells[0, 10].SetFill(pfRed);
+            worksheet.Cells[0, 10].SetBorders(borders);
+            worksheet.Cells[0, 11].SetValue("Ημερομηνία Υλοποίησης (Έναρξη)");
+            worksheet.Cells[0, 11].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 11].SetFontSize(fontSize);
+            worksheet.Cells[0, 11].SetIsBold(true);
+            worksheet.Cells[0, 11].SetFill(pfOrange);
+            worksheet.Cells[0, 11].SetBorders(borders);
+            worksheet.Cells[0, 12].SetValue("Ημερομηνία Υλοποίησης (Λήξη)");
+            worksheet.Cells[0, 12].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 12].SetFontSize(fontSize);
+            worksheet.Cells[0, 12].SetIsBold(true);
+            worksheet.Cells[0, 12].SetFill(pfOrange);
+            worksheet.Cells[0, 12].SetBorders(borders);
+            worksheet.Cells[0, 13].SetValue("Τελική Διάρκεια");
+            worksheet.Cells[0, 13].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 13].SetFontSize(fontSize);
+            worksheet.Cells[0, 13].SetIsBold(true);
+            worksheet.Cells[0, 13].SetFill(pfGreen);
+            worksheet.Cells[0, 13].SetBorders(borders);
+            worksheet.Cells[0, 14].SetValue("Ημερομηνία Εντολής Τιμολόγησης");
+            worksheet.Cells[0, 14].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 14].SetFontSize(fontSize);
+            worksheet.Cells[0, 14].SetIsBold(true);
+            worksheet.Cells[0, 14].SetFill(pfOrange);
+            worksheet.Cells[0, 14].SetBorders(borders);
+            worksheet.Cells[0, 15].SetValue("Ποσό Είσπραξης");
+            worksheet.Cells[0, 15].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 15].SetFontSize(fontSize);
+            worksheet.Cells[0, 15].SetIsBold(true);
+            worksheet.Cells[0, 15].SetForeColor(tcWhite);
+            worksheet.Cells[0, 15].SetFill(pfRed);
+            worksheet.Cells[0, 15].SetBorders(borders);
+            worksheet.Cells[0, 16].SetValue("Προγραμματισμένη Ημερομηνία Είσπραξης");
+            worksheet.Cells[0, 16].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 16].SetFontSize(fontSize);
+            worksheet.Cells[0, 16].SetIsBold(true);
+            worksheet.Cells[0, 16].SetFill(pfOrange);
+            worksheet.Cells[0, 16].SetBorders(borders);
+            worksheet.Cells[0, 17].SetValue("Πραγματική Ημερομηνία Είσπραξης");
+            worksheet.Cells[0, 17].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 17].SetFontSize(fontSize);
+            worksheet.Cells[0, 17].SetIsBold(true);
+            worksheet.Cells[0, 17].SetFill(pfOrange);
+            worksheet.Cells[0, 17].SetBorders(borders);
+            worksheet.Cells[0, 18].SetValue("Ακυρώθηκε;");
+            worksheet.Cells[0, 18].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 18].SetFontSize(fontSize);
+            worksheet.Cells[0, 18].SetIsBold(true);
+            worksheet.Cells[0, 18].SetFill(pfGreen);
+            worksheet.Cells[0, 18].SetBorders(borders);
+            worksheet.Cells[0, 19].SetValue("Παρατηρήσεις");
+            worksheet.Cells[0, 19].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 19].SetFontSize(fontSize);
+            worksheet.Cells[0, 19].SetIsBold(true);
+            worksheet.Cells[0, 19].SetFill(pfGreen);
+            worksheet.Cells[0, 19].SetBorders(borders);
+            worksheet.Cells[0, 20].SetValue("Παρατηρήσεις Τιμολογίου");
+            worksheet.Cells[0, 20].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 20].SetFontSize(fontSize);
+            worksheet.Cells[0, 20].SetIsBold(true);
+            worksheet.Cells[0, 20].SetFill(pfGreen);
+            worksheet.Cells[0, 20].SetBorders(borders);
         }
 
     }

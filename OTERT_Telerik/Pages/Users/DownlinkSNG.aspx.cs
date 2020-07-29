@@ -88,6 +88,14 @@ namespace OTERT.Pages.UserPages {
                     (filterItem["OrderDate"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
                     (filterItem["DateTimeStartActual"].Controls[0] as LiteralControl).Text = "Από: ";
                     (filterItem["DateTimeStartActual"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
+                    RadDateTimePicker OrderDateFrom = filterItem["OrderDate"].Controls[1] as RadDateTimePicker;
+                    OrderDateFrom.TimePopupButton.Visible = false;
+                    RadDateTimePicker OrderDateTo = filterItem["OrderDate"].Controls[4] as RadDateTimePicker;
+                    OrderDateTo.TimePopupButton.Visible = false;
+                    RadDateTimePicker startActualFrom = filterItem["DateTimeStartActual"].Controls[1] as RadDateTimePicker;
+                    startActualFrom.TimePopupButton.Visible = false;
+                    RadDateTimePicker startActualTo = filterItem["DateTimeStartActual"].Controls[4] as RadDateTimePicker;
+                    startActualTo.TimePopupButton.Visible = false;
                 }
                 if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                     GridEditableItem item = e.Item as GridEditableItem;
