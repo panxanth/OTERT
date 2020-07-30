@@ -72,12 +72,20 @@ namespace OTERT.Pages.UserPages {
                     (filterItem["DateTimeStartActual"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
                     RadDateTimePicker OrderDateFrom = filterItem["OrderDate"].Controls[1] as RadDateTimePicker;
                     OrderDateFrom.TimePopupButton.Visible = false;
+                    OrderDateFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
+                    OrderDateFrom.DateInput.DateFormat = "d/M/yyyy";
                     RadDateTimePicker OrderDateTo = filterItem["OrderDate"].Controls[4] as RadDateTimePicker;
                     OrderDateTo.TimePopupButton.Visible = false;
+                    OrderDateTo.DateInput.DisplayDateFormat = "d/M/yyyy";
+                    OrderDateTo.DateInput.DateFormat = "d/M/yyyy";
                     RadDateTimePicker startActualFrom = filterItem["DateTimeStartActual"].Controls[1] as RadDateTimePicker;
                     startActualFrom.TimePopupButton.Visible = false;
+                    startActualFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
+                    startActualFrom.DateInput.DateFormat = "d/M/yyyy";
                     RadDateTimePicker startActualTo = filterItem["DateTimeStartActual"].Controls[4] as RadDateTimePicker;
                     startActualTo.TimePopupButton.Visible = false;
+                    startActualTo.DateInput.DisplayDateFormat = "d/M/yyyy";
+                    startActualTo.DateInput.DateFormat = "d/M/yyyy";
                 }
             }
         }
