@@ -46,8 +46,8 @@ namespace OTERT.Pages.UserPages {
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
-            int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
-            int recTake = gridMain.PageSize;
+            int recSkip = gridMain.MasterTableView.CurrentPageIndex * gridMain.MasterTableView.PageSize;
+            int recTake = gridMain.MasterTableView.PageSize;
             string recFilter = gridMain.MasterTableView.FilterExpression;
             GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
             try {

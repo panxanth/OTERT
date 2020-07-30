@@ -47,8 +47,8 @@ namespace OTERT.Pages.UserPages {
             if (Request.QueryString["ID"] != null && Request.QueryString["ID"] != string.Empty) {
                 int.TryParse(Request.QueryString["ID"], out taskID);
             }
-            int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
-            int recTake = gridMain.PageSize;
+            int recSkip = gridMain.MasterTableView.CurrentPageIndex * gridMain.MasterTableView.PageSize;
+            int recTake = gridMain.MasterTableView.PageSize;
             string recFilter = gridMain.MasterTableView.FilterExpression;
             GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
             if (taskID < 0) {

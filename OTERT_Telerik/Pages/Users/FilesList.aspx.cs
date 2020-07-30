@@ -63,6 +63,10 @@ namespace OTERT.Pages.UserPages {
                 GridFilteringItem filterItem = (GridFilteringItem)e.Item;
                 (filterItem["DateStamp"].Controls[0] as LiteralControl).Text = "Από: ";
                 (filterItem["DateStamp"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
+                RadDateTimePicker OrderDateFrom = filterItem["DateStamp"].Controls[1] as RadDateTimePicker;
+                OrderDateFrom.TimePopupButton.Visible = false;
+                RadDateTimePicker OrderDateTo = filterItem["DateStamp"].Controls[4] as RadDateTimePicker;
+                OrderDateTo.TimePopupButton.Visible = false;
             }
         }
 
