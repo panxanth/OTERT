@@ -342,18 +342,30 @@ namespace OTERT.Pages.UserPages {
                 worksheet.Cells[currentRow,10].SetFormat(new CellValueFormat(currencyFormat));
                 worksheet.Cells[currentRow,10].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,10].SetBorders(borders);
-                worksheet.Cells[currentRow,11].SetValue(curTask.DateTimeStartActual.GetValueOrDefault());
+                if (curTask.DateTimeStartActual.GetValueOrDefault().Year > 2000) {
+                    worksheet.Cells[currentRow, 11].SetValue(curTask.DateTimeStartActual.GetValueOrDefault());
+                } else {
+                    worksheet.Cells[currentRow, 11].SetValue("");
+                }
                 worksheet.Cells[currentRow,11].SetFormat(new CellValueFormat(dateFormat));
                 worksheet.Cells[currentRow,11].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,11].SetBorders(borders);
-                worksheet.Cells[currentRow,12].SetValue(curTask.DateTimeEndActual.GetValueOrDefault());
+                if (curTask.DateTimeEndActual.GetValueOrDefault().Year > 2000) {
+                    worksheet.Cells[currentRow, 12].SetValue(curTask.DateTimeEndActual.GetValueOrDefault());
+                } else {
+                    worksheet.Cells[currentRow, 12].SetValue("");
+                }
                 worksheet.Cells[currentRow,12].SetFormat(new CellValueFormat(dateFormat));
                 worksheet.Cells[currentRow,12].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,12].SetBorders(borders);
                 worksheet.Cells[currentRow,13].SetValue(curTask.DateTimeDurationActual.GetValueOrDefault());
                 worksheet.Cells[currentRow,13].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,13].SetBorders(borders);
-                worksheet.Cells[currentRow,14].SetValue(curTask.PaymentDateOrder.GetValueOrDefault());
+                if (curTask.PaymentDateOrder.GetValueOrDefault().Year > 2000) {
+                    worksheet.Cells[currentRow, 14].SetValue(curTask.PaymentDateOrder.GetValueOrDefault());
+                } else {
+                    worksheet.Cells[currentRow, 14].SetValue("");
+                }
                 worksheet.Cells[currentRow,14].SetFormat(new CellValueFormat(dateFormat));
                 worksheet.Cells[currentRow,14].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,14].SetBorders(borders);
@@ -361,11 +373,19 @@ namespace OTERT.Pages.UserPages {
                 worksheet.Cells[currentRow,15].SetFormat(new CellValueFormat(currencyFormat));
                 worksheet.Cells[currentRow,15].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,15].SetBorders(borders);
-                worksheet.Cells[currentRow,16].SetValue(curTask.PaymentDateCalculated.GetValueOrDefault());
+                if (curTask.PaymentDateCalculated.GetValueOrDefault().Year > 2000) {
+                    worksheet.Cells[currentRow, 16].SetValue(curTask.PaymentDateCalculated.GetValueOrDefault());
+                } else {
+                    worksheet.Cells[currentRow, 16].SetValue("");
+                }
                 worksheet.Cells[currentRow,16].SetFormat(new CellValueFormat(dateFormat));
                 worksheet.Cells[currentRow,16].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,16].SetBorders(borders);
-                worksheet.Cells[currentRow,17].SetValue(curTask.PaymentDateActual.GetValueOrDefault());
+                if (curTask.PaymentDateActual.GetValueOrDefault().Year > 2000) {
+                    worksheet.Cells[currentRow, 17].SetValue(curTask.PaymentDateActual.GetValueOrDefault());
+                } else {
+                    worksheet.Cells[currentRow, 17].SetValue("");
+                }
                 worksheet.Cells[currentRow,17].SetFormat(new CellValueFormat(dateFormat));
                 worksheet.Cells[currentRow,17].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,17].SetBorders(borders);
@@ -444,14 +464,14 @@ namespace OTERT.Pages.UserPages {
             worksheet.Cells[0, 6].SetFontSize(fontSize);
             worksheet.Cells[0, 6].SetIsBold(true);
             //worksheet.Cells[0, 6].SetIsWrapped(true);
-            worksheet.Cells[0, 6].SetFill(pfGreen);
+            worksheet.Cells[0, 6].SetFill(pfOrange);
             worksheet.Cells[0, 6].SetBorders(borders);
             worksheet.Cells[0, 7].SetValue("Προγραμματισμένη Ημερομηνία Λήξης");
             worksheet.Cells[0, 7].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 7].SetFontSize(fontSize);
             worksheet.Cells[0, 7].SetIsBold(true);
             //worksheet.Cells[0, 7].SetIsWrapped(true);
-            worksheet.Cells[0, 7].SetFill(pfGreen);
+            worksheet.Cells[0, 7].SetFill(pfOrange);
             worksheet.Cells[0, 7].SetBorders(borders);
             worksheet.Cells[0, 8].SetValue("Προγραμματισμένη Διάρκεια");
             worksheet.Cells[0, 8].SetHorizontalAlignment(RadHorizontalAlignment.Center);
