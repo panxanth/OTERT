@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="LongDistanceOnePoint.aspx.cs" Inherits="OTERT.Pages.UserPages.LongDistanceOnePoint" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" Culture="el-GR" AutoEventWireup="true" CodeBehind="LongDistanceOnePoint.aspx.cs" Inherits="OTERT.Pages.UserPages.LongDistanceOnePoint" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 

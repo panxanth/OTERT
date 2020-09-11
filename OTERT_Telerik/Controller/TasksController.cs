@@ -24,6 +24,7 @@ namespace OTERT.Controller {
         public int CountTasksForPageID(int PageID, string recFilter) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
+                    System.Globalization.DateTimeFormatInfo greek = new System.Globalization.CultureInfo("el-GR").DateTimeFormat;
                     int count = 0;
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     if (!string.IsNullOrEmpty(recFilter)) {
@@ -50,10 +51,10 @@ namespace OTERT.Controller {
                             List<DateTime> orderDates = new List<DateTime>();
                             foreach (string dtExpression in OrderDateExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
-                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                string format = "d/M/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
                                 if (dateExp.Length > 1) {
-                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
                                         orderDates.Add(newDate);
                                     }
                                 }
@@ -74,10 +75,10 @@ namespace OTERT.Controller {
                             List<DateTime> startActualDates = new List<DateTime>();
                             foreach (string dtExpression in StartActualExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
-                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                string format = "d/M/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
                                 if (dateExp.Length > 1) {
-                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
                                         startActualDates.Add(newDate);
                                     }
                                 }
@@ -107,6 +108,7 @@ namespace OTERT.Controller {
         public int CountAllTasks(string recFilter) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
+                    System.Globalization.DateTimeFormatInfo greek = new System.Globalization.CultureInfo("el-GR").DateTimeFormat;
                     int count = 0;
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     if (!string.IsNullOrEmpty(recFilter)) {
@@ -133,10 +135,10 @@ namespace OTERT.Controller {
                             List<DateTime> orderDates = new List<DateTime>();
                             foreach (string dtExpression in OrderDateExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
-                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                string format = "d/M/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
                                 if (dateExp.Length > 1) {
-                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
                                         orderDates.Add(newDate);
                                     }
                                 }
@@ -157,10 +159,10 @@ namespace OTERT.Controller {
                             List<DateTime> startActualDates = new List<DateTime>();
                             foreach (string dtExpression in StartActualExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
-                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                string format = "d/M/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
                                 if (dateExp.Length > 1) {
-                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
                                         startActualDates.Add(newDate);
                                     }
                                 }
@@ -1158,14 +1160,15 @@ namespace OTERT.Controller {
                         columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual"));
                         recFilter = string.Join("AND", columnExpressions.ToArray());
                         if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
+                        System.Globalization.DateTimeFormatInfo greek = new System.Globalization.CultureInfo("el-GR").DateTimeFormat;
                         if (OrderDateExpressions.Count > 0) {
                             List<DateTime> orderDates = new List<DateTime>();
                             foreach (string dtExpression in OrderDateExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
-                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                string format = "d/M/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
                                 if (dateExp.Length > 1) {
-                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
                                         orderDates.Add(newDate);
                                     }
                                 }
@@ -1186,10 +1189,10 @@ namespace OTERT.Controller {
                             List<DateTime> startActualDates = new List<DateTime>();
                             foreach (string dtExpression in StartActualExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
-                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                string format = "d/M/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
                                 if (dateExp.Length > 1) {
-                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
                                         startActualDates.Add(newDate);
                                     }
                                 }
@@ -1366,14 +1369,15 @@ namespace OTERT.Controller {
                         columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual"));
                         recFilter = string.Join("AND", columnExpressions.ToArray());
                         if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
+                        System.Globalization.DateTimeFormatInfo greek = new System.Globalization.CultureInfo("el-GR").DateTimeFormat;
                         if (OrderDateExpressions.Count > 0) {
                             List<DateTime> orderDates = new List<DateTime>();
                             foreach (string dtExpression in OrderDateExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
-                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                string format = "d/M/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
                                 if (dateExp.Length > 1) {
-                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
                                         orderDates.Add(newDate);
                                     }
                                 }
@@ -1394,10 +1398,10 @@ namespace OTERT.Controller {
                             List<DateTime> startActualDates = new List<DateTime>();
                             foreach (string dtExpression in StartActualExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
-                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                string format = "d/M/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
                                 if (dateExp.Length > 1) {
-                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
                                         startActualDates.Add(newDate);
                                     }
                                 }
