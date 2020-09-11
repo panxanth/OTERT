@@ -46,6 +46,27 @@ namespace OTERT.Controller {
             }
         }
 
+        public List<DistanceB> GetDistances() {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    IQueryable<DistanceB> datatmp = (from us in dbContext.Distances
+                                                     select new DistanceB {
+                                                         ID = us.ID,
+                                                         JobsMainID = us.JobsMainID,
+                                                         JobsMain = new JobMainDTO { ID = us.JobsMain.ID, PageID = us.JobsMain.PageID, Name = us.JobsMain.Name },
+                                                         Description = us.Position1 + " - " + us.Position2 + " (" + us.KM.ToString() + " km)",
+                                                         Position1 = us.Position1,
+                                                         Position2 = us.Position2,
+                                                         KM = us.KM
+                                                     });
+                    List<DistanceB> data = datatmp.OrderBy(o => o.Position1).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
         public List<DistanceB> GetDistances(int recSkip, int recTake, string recFilter) {
             using (var dbContext = new OTERTConnStr()) {
                 try {

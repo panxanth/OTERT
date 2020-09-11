@@ -75,6 +75,14 @@
 		                    <telerik:RadDropDownList runat="server" ID="ddlJobsFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="300px" DropDownHeight="400px" OnSelectedIndexChanged="ddlJobsFilter_SelectedIndexChanged" OnPreRender="ddlJobsFilter_PreRender" />
 	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
+                    <telerik:GridTemplateColumn HeaderText="Από" UniqueName="DistanceID" DataField="DistanceID" SortExpression="DistanceID" HeaderStyle-Font-Bold="true" AllowSorting="true">
+                        <ItemTemplate>
+                            <asp:Label Text='<% #Eval("Distance.Description") %>' runat="server" /> 
+                        </ItemTemplate>
+                        <FilterTemplate>
+		                    <telerik:RadDropDownList runat="server" ID="ddlPositionsFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="300px" DropDownHeight="400px" OnSelectedIndexChanged="ddlPositionsFilter_SelectedIndexChanged" OnPreRender="ddlPositionsFilter_PreRender" />
+	                    </FilterTemplate>
+                    </telerik:GridTemplateColumn>
                     <telerik:GridDateTimeColumn UniqueName="DateTimeStartActual" DataField="DateTimeStartActual" HeaderText="Ημ/νία Υλοποίησης (Έναρξη)" DataType="System.DateTime" PickerType="DateTimePicker" DataFormatString="{0:dd/MM/yyyy HH:mm}" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="150px" />
                 </Columns>
             </MasterTableView>

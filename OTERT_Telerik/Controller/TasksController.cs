@@ -38,12 +38,14 @@ namespace OTERT.Controller {
                                 for (int i = 0; i < expressionsOR.Length; i++) { columnExpressions.Add(expressionsOR[i]); }
                             }
                         }
-
                         List<string> OrderDateExpressions = columnExpressions.Where(item => item.Contains("OrderDate")).ToList();
                         List<string> StartActualExpressions = columnExpressions.Where(item => item.Contains("DateTimeStartActual")).ToList();
                         columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual"));
                         recFilter = string.Join("AND", columnExpressions.ToArray());
-                        if (!string.IsNullOrEmpty(recFilter)) { test = test.Where(recFilter); }
+                        if (!string.IsNullOrEmpty(recFilter)) {
+                            recFilter = recFilter.Replace("DistanceID", "DistancesID");
+                            test = test.Where(recFilter); 
+                        }
                         if (OrderDateExpressions.Count > 0) {
                             List<DateTime> orderDates = new List<DateTime>();
                             foreach (string dtExpression in OrderDateExpressions) {
@@ -119,12 +121,14 @@ namespace OTERT.Controller {
                                 for (int i = 0; i < expressionsOR.Length; i++) { columnExpressions.Add(expressionsOR[i]); }
                             }
                         }
-
                         List<string> OrderDateExpressions = columnExpressions.Where(item => item.Contains("OrderDate")).ToList();
                         List<string> StartActualExpressions = columnExpressions.Where(item => item.Contains("DateTimeStartActual")).ToList();
                         columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual"));
                         recFilter = string.Join("AND", columnExpressions.ToArray());
-                        if (!string.IsNullOrEmpty(recFilter)) { test = test.Where(recFilter); }
+                        if (!string.IsNullOrEmpty(recFilter)) {
+                            recFilter = recFilter.Replace("DistanceID", "DistancesID");
+                            test = test.Where(recFilter); 
+                        }
                         if (OrderDateExpressions.Count > 0) {
                             List<DateTime> orderDates = new List<DateTime>();
                             foreach (string dtExpression in OrderDateExpressions) {
@@ -1140,7 +1144,6 @@ namespace OTERT.Controller {
                     if (!string.IsNullOrEmpty(recFilter)) {
                         IQueryable test = dbContext.Tasks.Where(o => o.Jobs.JobsMain.PageID == PageID && o.OrderID == null);
                         string[] expressionsAND = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
-
                         List<string> columnExpressions = new List<string>();
                         for (int k = 0; k < expressionsAND.Length; k++) {
                             if (!expressionsAND[k].Contains("OR")) {
@@ -1209,7 +1212,7 @@ namespace OTERT.Controller {
                         string sortFieldName = "";
                         if (gridSortExxpressions[0].FieldName == "CustomerID") { sortFieldName = "Customer.NameGR"; }
                         else if (gridSortExxpressions[0].FieldName == "JobID") { sortFieldName = "Job.Name"; }
-                        else { sortFieldName = gridSortExxpressions[0].FieldName; }
+                        else if (gridSortExxpressions[0].FieldName == "DistanceID") { sortFieldName = "Distance.Description"; } else { sortFieldName = gridSortExxpressions[0].FieldName; }
                         datatmp = datatmp.OrderBy(sortFieldName + " " + gridSortExxpressions[0].SortOrder);
                     } else {
                         datatmp = datatmp.OrderByDescending(o => o.ID);
@@ -1349,7 +1352,6 @@ namespace OTERT.Controller {
                     if (!string.IsNullOrEmpty(recFilter)) {
                         IQueryable test = dbContext.Tasks.Where(o =>o.OrderID == null);
                         string[] expressionsAND = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
-
                         List<string> columnExpressions = new List<string>();
                         for (int k = 0; k < expressionsAND.Length; k++) {
                             if (!expressionsAND[k].Contains("OR")) {
@@ -1416,7 +1418,10 @@ namespace OTERT.Controller {
                     datatmp = datatmp.Where(k => k.OrderID == null);
                     if (gridSortExxpressions.Count > 0) {
                         string sortFieldName = "";
-                        if (gridSortExxpressions[0].FieldName == "CustomerID") { sortFieldName = "Customer.NameGR"; } else if (gridSortExxpressions[0].FieldName == "JobID") { sortFieldName = "Job.Name"; } else { sortFieldName = gridSortExxpressions[0].FieldName; }
+                        if (gridSortExxpressions[0].FieldName == "CustomerID") { sortFieldName = "Customer.NameGR"; } 
+                        else if (gridSortExxpressions[0].FieldName == "JobID") { sortFieldName = "Job.Name"; } 
+                        else if (gridSortExxpressions[0].FieldName == "DistanceID") { sortFieldName = "Distance.Description"; } 
+                        else { sortFieldName = gridSortExxpressions[0].FieldName; }
                         datatmp = datatmp.OrderBy(sortFieldName + " " + gridSortExxpressions[0].SortOrder);
                     } else {
                         datatmp = datatmp.OrderByDescending(o => o.ID);

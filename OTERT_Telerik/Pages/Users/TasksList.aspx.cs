@@ -127,6 +127,7 @@ namespace OTERT.Pages.UserPages {
                     GridFilteringItem filterItem = (GridFilteringItem)e.Item;
                     RadDropDownList clist = (RadDropDownList)filterItem.FindControl("ddlCustomersFilter");
                     RadDropDownList jlist = (RadDropDownList)filterItem.FindControl("ddlJobsFilter");
+                    RadDropDownList plist = (RadDropDownList)filterItem.FindControl("ddlPositionsFilter");
                     try {
                         CustomersController ccont = new CustomersController();
                         clist.DataSource = ccont.GetCustomers();
@@ -140,6 +141,12 @@ namespace OTERT.Pages.UserPages {
                         jlist.DataValueField = "ID";
                         jlist.DataBind();
                         jlist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
+                        DistancesController dcont = new DistancesController();
+                        plist.DataSource = dcont.GetDistances();
+                        plist.DataTextField = "Description";
+                        plist.DataValueField = "ID";
+                        plist.DataBind();
+                        plist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
                     }
                     catch (Exception) { }
                 }
@@ -259,6 +266,36 @@ namespace OTERT.Pages.UserPages {
         }
 
         protected void ddlJobsFilter_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
+        }
+
+        protected void ddlPositionsFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
+            List<string> columnExpressions = new List<string>(expressions);
+            foreach (string expression in columnExpressions) {
+                if (expression.Contains("DistanceID")) {
+                    columnExpressions.Remove(expression);
+                    break;
+                }
+            }
+            string finalExpression = string.Join("AND", columnExpressions.ToArray());
+            if (e.Value != "0") {
+                if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
+                finalExpression += "(DistanceID = " + e.Value + ")";
+                gridMain.MasterTableView.GetColumn("DistanceID").CurrentFilterFunction = GridKnownFunction.EqualTo;
+                gridMain.MasterTableView.GetColumn("DistanceID").CurrentFilterValue = e.Value;
+            } else {
+                gridMain.MasterTableView.GetColumn("DistanceID").CurrentFilterFunction = GridKnownFunction.NoFilter;
+                gridMain.MasterTableView.GetColumn("DistanceID").CurrentFilterValue = null;
+            }
+            gridMain.MasterTableView.FilterExpression = finalExpression;
+            ViewState[list.ClientID] = e.Value;
+            gridMain.MasterTableView.Rebind();
+        }
+
+        protected void ddlPositionsFilter_PreRender(object sender, EventArgs e) {
             RadDropDownList list = sender as RadDropDownList;
             if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
         }
