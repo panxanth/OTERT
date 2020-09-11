@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="RequestedPositionsList.aspx.cs" Inherits="OTERT.Pages.Administrator.RequestedPositionsList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" Culture="el-GR" AutoEventWireup="true" Culture="el-GR" CodeBehind="RequestedPositionsList.aspx.cs" Inherits="OTERT.Pages.Administrator.RequestedPositionsList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 

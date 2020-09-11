@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="LongDistanceTwoPoints.aspx.cs" Inherits="OTERT.Pages.UserPages.LongDistanceTwoPoints" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" Culture="el-GR" AutoEventWireup="true" CodeBehind="LongDistanceTwoPoints.aspx.cs" Inherits="OTERT.Pages.UserPages.LongDistanceTwoPoints" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 

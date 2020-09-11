@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="UrbanOnePoint.aspx.cs" Inherits="OTERT.Pages.UserPages.UrbanOnePoint" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" Culture="el-GR" AutoEventWireup="true" CodeBehind="UrbanOnePoint.aspx.cs" Inherits="OTERT.Pages.UserPages.UrbanOnePoint" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 
