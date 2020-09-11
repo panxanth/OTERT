@@ -218,6 +218,7 @@ namespace OTERT.Pages.UserPages {
                     double calculatedCost = Evaluator.EvalToDouble(formula);
                     txtCostCalculated.Text = calculatedCost.ToString();
                     if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
+                    calculatedCost = Math.Round(calculatedCost, 2, MidpointRounding.AwayFromZero);
                     txtCostActual.Text = Math.Round(calculatedCost, 2).ToString("#.##");
                 } else if (orderStartDate > nullDate && orderEndDate > nullDate && orderEndDate > orderStartDate) {
                     TimeSpan orderSpan = orderEndDate.Subtract(orderStartDate);
@@ -231,6 +232,7 @@ namespace OTERT.Pages.UserPages {
                     formula = formula.Replace(",", ".");
                     double calculatedCost = Evaluator.EvalToDouble(formula);
                     //if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
+                    calculatedCost = Math.Round(calculatedCost, 2, MidpointRounding.AwayFromZero);
                     txtCostCalculated.Text = Math.Round(calculatedCost, 2).ToString("#.##");
                 }
                 if ((actualStartDate == nullDate || actualEndDate == nullDate || actualEndDate <= actualStartDate) && (orderStartDate == nullDate || orderEndDate == nullDate || orderEndDate <= orderStartDate)) {

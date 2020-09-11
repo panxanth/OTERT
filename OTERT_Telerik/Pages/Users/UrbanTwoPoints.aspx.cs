@@ -227,6 +227,7 @@ namespace OTERT.Pages.UserPages {
                     formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
                     formula = formula.Replace(",", ".");
                     double calculatedCost = Evaluator.EvalToDouble(formula);
+                    calculatedCost = Math.Round(calculatedCost, 2, MidpointRounding.AwayFromZero);
                     txtCostCalculated.Text = calculatedCost.ToString();
                     if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
                     txtCostActual.Text = Math.Round(calculatedCost, 2).ToString("#.##");
@@ -241,6 +242,7 @@ namespace OTERT.Pages.UserPages {
                     formula = formula.Replace("#DISTANCE#", selectedDistance.KM.ToString());
                     formula = formula.Replace(",", ".");
                     double calculatedCost = Evaluator.EvalToDouble(formula);
+                    calculatedCost = Math.Round(calculatedCost, 2, MidpointRounding.AwayFromZero);
                     //if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text); }
                     txtCostCalculated.Text = Math.Round(calculatedCost, 2).ToString("#.##");
                 }

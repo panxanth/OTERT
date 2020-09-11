@@ -15,10 +15,10 @@ namespace ExpressionParser {
         public static double EvalToDouble(string statement) {
             string s = EvalToString(statement);
             // Development
-            string k = s.Replace(".", ",");
-            return double.Parse(k);
+            //string k = s.Replace(".", ",");
+            //return double.Parse(k);
             // Production
-            //return double.Parse(s);
+            return double.Parse(s);
         }
 
         public static string EvalToString(string statement) {

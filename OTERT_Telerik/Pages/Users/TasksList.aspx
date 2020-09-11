@@ -75,7 +75,7 @@
 		                    <telerik:RadDropDownList runat="server" ID="ddlJobsFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="300px" DropDownHeight="400px" OnSelectedIndexChanged="ddlJobsFilter_SelectedIndexChanged" OnPreRender="ddlJobsFilter_PreRender" />
 	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridTemplateColumn HeaderText="Από" UniqueName="DistanceID" DataField="DistanceID" SortExpression="DistanceID" HeaderStyle-Font-Bold="true" AllowSorting="true">
+                    <telerik:GridTemplateColumn HeaderText="Απόσταση" UniqueName="DistanceID" DataField="DistanceID" SortExpression="DistanceID" HeaderStyle-Font-Bold="true" AllowSorting="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Distance.Description") %>' runat="server" /> 
                         </ItemTemplate>
