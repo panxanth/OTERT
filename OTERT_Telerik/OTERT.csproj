@@ -223,6 +223,10 @@
       <DependentUpon>DistancesList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Invoices\InvoiceEdit.aspx.cs">
+      <DependentUpon>InvoiceEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Invoices\InvoiceShow.aspx.cs">
       <DependentUpon>InvoiceShow.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -409,6 +413,7 @@
     <Content Include="Pages\Administrator\PlacesList.aspx" />
     <Content Include="Pages\Administrator\JobsMainList.aspx" />
     <Content Include="Pages\Administrator\DistancesList.aspx" />
+    <Content Include="Pages\Invoices\InvoiceEdit.aspx" />
     <Content Include="Pages\Invoices\InvoiceShow.aspx" />
     <Content Include="Pages\PrintTemplates\InvoiceDetailed.aspx" />
     <Content Include="Pages\PrintTemplates\Invoice.aspx" />
@@ -549,7 +554,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

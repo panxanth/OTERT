@@ -20,6 +20,7 @@ using ExpressionParser;
 using OTERT.Model;
 using OTERT.Controller;
 using OTERT_Entity;
+using OTERT.Pages.PrintTemplates;
 
 namespace OTERT.Pages.Invoices {
 
@@ -50,69 +51,67 @@ namespace OTERT.Pages.Invoices {
         const decimal fpa = 0.23M;
 
         protected void Page_Load(object sender, EventArgs e) {
-            wizardData wData;
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Τιμολόγια > Αναζήτηση Τιμολογίου";
-                dpDateFrom.SelectedDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-                dpDateTo.SelectedDate = DateTime.Now.Date;
-                wData = new wizardData();
-                wData.Step = 1;
-                Session["wizardStep"] = wData;
-                showWizardSteps(wData);
-                try {
-                    CustomersController cont = new CustomersController();
-                    ddlCustomers.DataSource = cont.GetCustomersForCountry(1);
-                    ddlCustomers.DataTextField = "NameGR";
-                    ddlCustomers.DataValueField = "ID";
-                    ddlCustomers.DataBind();
-                }
-                catch (Exception) { }
+                gridInvoices.MasterTableView.Caption = "Τιμολόγια > Αναζήτηση Τιμολογίου";
             }
             if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
 
-        protected void showWizardSteps(wizardData wData) {
-            switch (wData.Step) {
-                case 1:
-                    phStep1.Visible = true;
-                    phStep2.Visible = false;
-                    break;
-                case 2:
-                    phStep1.Visible = true;
-                    phStep2.Visible = true;
-                    break;
-                default:
-                    phStep1.Visible = true;
-                    phStep2.Visible = false;
-                    break;
-            }
-        } 
-
-        protected wizardData readWizardSteps() {
-            wizardData wData = (Session["wizardStep"] != null ? (wizardData)Session["wizardStep"] : new wizardData());
-            return (wData);
-        }
-
         protected void gridInvoices_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
+            int recSkip = gridInvoices.MasterTableView.CurrentPageIndex * gridInvoices.MasterTableView.PageSize;
+            int recTake = gridInvoices.MasterTableView.PageSize;
+            string recFilter = gridInvoices.MasterTableView.FilterExpression;
+            GridSortExpressionCollection gridSortExxpressions = gridInvoices.MasterTableView.SortExpressions;
             try {
-                wizardData wData = readWizardSteps();
                 InvoicesController icont = new InvoicesController();
-                //gridInvoices.DataSource = icont.GetInvoices().Where(o => o.JobsMainID != PTSFromGreeceID && o.JobsMainID != PTSToGreeceID).OrderBy(o => o.Name);
-                gridInvoices.DataSource = icont.GetInvoices(wData.CustomerID, wData.DateFrom, wData.DateTo, wData.Code).OrderBy(o => o.Customer.NameGR);
+                gridInvoices.VirtualItemCount = icont.CountInvoices(recFilter);
+                gridInvoices.DataSource = icont.GetInvoices(recSkip, recTake, recFilter, gridSortExxpressions).OrderBy(o => o.Customer.NameGR).OrderByDescending(o => o.DateFrom);
+                //gridInvoices.DataSource = icont.GetInvoices(wData.CustomerID, wData.DateFrom, wData.DateTo, wData.Code).OrderBy(o => o.Customer.NameGR);
             }
             catch (Exception) { }
         }
 
-        protected void btnShow_Click(object sender, EventArgs e) {
-            wizardData wData = readWizardSteps();
-            wData.Step = 2;
-            wData.CustomerID = int.Parse(ddlCustomers.SelectedItem.Value);
-            wData.DateFrom = (dpDateFrom.SelectedDate != null ? (DateTime)dpDateFrom.SelectedDate : new DateTime(1900,1,1));
-            wData.DateTo = (dpDateTo.SelectedDate != null ? (DateTime)dpDateTo.SelectedDate : new DateTime(1900, 1, 1));
-            wData.Code = txtAccountNo.Text.Trim();
-            Session["wizardInv"] = wData;
-            showWizardSteps(wData);
-            gridInvoices.Rebind();
+        protected void gridInvoices_ItemCreated(object sender, GridItemEventArgs e) {
+            if (e.Item is GridFilteringItem) {
+                GridFilteringItem filterItem = (GridFilteringItem)e.Item;
+                (filterItem["DateFrom"].Controls[0] as LiteralControl).Text = "Από: ";
+                (filterItem["DateFrom"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
+                (filterItem["DateTo"].Controls[0] as LiteralControl).Text = "Από: ";
+                (filterItem["DateTo"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
+                RadDateTimePicker DateFromFrom = filterItem["DateFrom"].Controls[1] as RadDateTimePicker;
+                DateFromFrom.TimePopupButton.Visible = false;
+                DateFromFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
+                DateFromFrom.DateInput.DateFormat = "d/M/yyyy";
+                RadDateTimePicker DateFromTo = filterItem["DateFrom"].Controls[4] as RadDateTimePicker;
+                DateFromTo.TimePopupButton.Visible = false;
+                DateFromTo.DateInput.DisplayDateFormat = "d/M/yyyy";
+                DateFromTo.DateInput.DateFormat = "d/M/yyyy";
+                RadDateTimePicker DateToFrom = filterItem["DateTo"].Controls[1] as RadDateTimePicker;
+                DateToFrom.TimePopupButton.Visible = false;
+                DateToFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
+                DateToFrom.DateInput.DateFormat = "d/M/yyyy";
+                RadDateTimePicker DateToTo = filterItem["DateTo"].Controls[4] as RadDateTimePicker;
+                DateToTo.TimePopupButton.Visible = false;
+                DateToTo.DateInput.DisplayDateFormat = "d/M/yyyy";
+                DateToTo.DateInput.DateFormat = "d/M/yyyy";
+            }
+        }
+
+        protected void gridInvoices_ItemDataBound(object sender, GridItemEventArgs e) {
+            if (e.Item is GridFilteringItem) {
+                GridFilteringItem filterItem = (GridFilteringItem)e.Item;
+                RadDropDownList clist = (RadDropDownList)filterItem.FindControl("ddlCustomersFilter");
+                try {
+                    CustomersController ccont = new CustomersController();
+                    clist.DataSource = ccont.GetCustomers();
+                    clist.DataTextField = "NameGR";
+                    clist.DataValueField = "ID";
+                    clist.DataBind();
+                    clist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
+                }
+                catch (Exception) { }
+            }
         }
 
         protected void gridInvoices_ItemCommand(object sender, GridCommandEventArgs e) {
@@ -1832,6 +1831,19 @@ namespace OTERT.Pages.Invoices {
             }
         }
 
+        protected void gridInvoices_EditCommand(object source, GridCommandEventArgs e) {
+            GridEditableItem editableItem = ((GridEditableItem)e.Item);
+            int ID = (int)editableItem.GetDataKeyValue("ID");
+            try {
+                InvoicesController cont = new InvoicesController();
+                InvoiceB curInv = cont.GetInvoice(ID);
+                if (curInv != null) {
+                    Response.Redirect("InvoiceEdit.aspx?id=" + ID.ToString(), false);
+                }
+            }
+            catch (Exception) { }
+        }
+
         protected bool[] getVisibleColumns() {
             bool[] array2return = new bool[10];
             array2return[0] = chkDate.Checked;
@@ -1909,6 +1921,36 @@ namespace OTERT.Pages.Invoices {
                 document2 = fileFormatProvider.Import(input);
             }
             return document2;
+        }
+
+        protected void ddlCustomersFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            string[] expressions = gridInvoices.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
+            List<string> columnExpressions = new List<string>(expressions);
+            foreach (string expression in columnExpressions) {
+                if (expression.Contains("CustomerID")) {
+                    columnExpressions.Remove(expression);
+                    break;
+                }
+            }
+            string finalExpression = string.Join("AND", columnExpressions.ToArray());
+            if (e.Value != "0") {
+                if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
+                finalExpression += "(CustomerID = " + e.Value + ")";
+                gridInvoices.MasterTableView.GetColumn("CustomerID").CurrentFilterFunction = GridKnownFunction.EqualTo;
+                gridInvoices.MasterTableView.GetColumn("CustomerID").CurrentFilterValue = e.Value;
+            } else {
+                gridInvoices.MasterTableView.GetColumn("CustomerID").CurrentFilterFunction = GridKnownFunction.NoFilter;
+                gridInvoices.MasterTableView.GetColumn("CustomerID").CurrentFilterValue = null;
+            }
+            gridInvoices.MasterTableView.FilterExpression = finalExpression;
+            ViewState[list.ClientID] = e.Value;
+            gridInvoices.MasterTableView.Rebind();
+        }
+
+        protected void ddlCustomersFilter_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
         }
 
     }
