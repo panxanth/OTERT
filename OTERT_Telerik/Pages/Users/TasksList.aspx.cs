@@ -445,6 +445,13 @@ namespace OTERT.Pages.UserPages {
                 worksheet.Cells[currentRow,20].SetValue(curTask.InvoceComments);
                 worksheet.Cells[currentRow,20].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,20].SetBorders(borders);
+                worksheet.Cells[currentRow, 21].SetValue(curTask.EnteredByUser);
+                worksheet.Cells[currentRow, 21].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 21].SetBorders(borders);
+                worksheet.Cells[currentRow, 22].SetValue(curTask.DateStamp);
+                worksheet.Cells[currentRow, 22].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 22].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 22].SetBorders(borders);
                 currentRow++;
             }
             for (int i = 0; i < worksheet.Columns.Count; i++) { worksheet.Columns[i].AutoFitWidth(); }
@@ -463,6 +470,7 @@ namespace OTERT.Pages.UserPages {
             PatternFill pfGreen = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 153, 204, 0), System.Windows.Media.Colors.Transparent);
             PatternFill pfOrange = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 255, 204, 0), System.Windows.Media.Colors.Transparent);
             PatternFill pfRed = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 255, 0, 0), System.Windows.Media.Colors.Transparent);
+            PatternFill pfBlue = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 0, 0, 255), System.Windows.Media.Colors.Transparent);
             CellBorder border = new CellBorder(CellBorderStyle.Thin, tcBlack);
             CellBorders borders = new CellBorders(border, border, border, border, null, null, null, null);
             double fontSize = 12;
@@ -609,6 +617,20 @@ namespace OTERT.Pages.UserPages {
             worksheet.Cells[0, 20].SetIsBold(true);
             worksheet.Cells[0, 20].SetFill(pfGreen);
             worksheet.Cells[0, 20].SetBorders(borders);
+            worksheet.Cells[0, 21].SetValue("Χρήστης");
+            worksheet.Cells[0, 21].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 21].SetFontSize(fontSize);
+            worksheet.Cells[0, 21].SetIsBold(true);
+            worksheet.Cells[0, 21].SetForeColor(tcWhite);
+            worksheet.Cells[0, 21].SetFill(pfBlue);
+            worksheet.Cells[0, 21].SetBorders(borders);
+            worksheet.Cells[0, 22].SetValue("Ημερομηνία Καταχώρησης");
+            worksheet.Cells[0, 22].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 22].SetFontSize(fontSize);
+            worksheet.Cells[0, 22].SetIsBold(true);
+            worksheet.Cells[0, 22].SetForeColor(tcWhite);
+            worksheet.Cells[0, 22].SetFill(pfBlue);
+            worksheet.Cells[0, 22].SetBorders(borders);
         }
 
     }
