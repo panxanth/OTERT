@@ -83,6 +83,7 @@
 		                    <telerik:RadDropDownList runat="server" ID="ddlPositionsFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="300px" DropDownHeight="400px" OnSelectedIndexChanged="ddlPositionsFilter_SelectedIndexChanged" OnPreRender="ddlPositionsFilter_PreRender" />
 	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
+                    <telerik:GridDateTimeColumn UniqueName="DateTimeStartOrder" DataField="DateTimeStartOrder" HeaderText="Προγραμματισμένη Ημ/νία Έναρξης" DataType="System.DateTime" PickerType="DateTimePicker" DataFormatString="{0:dd/MM/yyyy HH:mm}" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="150px" HeaderStyle-Wrap="false" />
                     <telerik:GridDateTimeColumn UniqueName="DateTimeStartActual" DataField="DateTimeStartActual" HeaderText="Ημ/νία Υλοποίησης (Έναρξη)" DataType="System.DateTime" PickerType="DateTimePicker" DataFormatString="{0:dd/MM/yyyy HH:mm}" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="150px" />
                 </Columns>
             </MasterTableView>

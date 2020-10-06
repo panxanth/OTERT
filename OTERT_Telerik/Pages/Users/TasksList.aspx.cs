@@ -68,6 +68,8 @@ namespace OTERT.Pages.UserPages {
                     GridFilteringItem filterItem = (GridFilteringItem)e.Item;
                     (filterItem["OrderDate"].Controls[0] as LiteralControl).Text = "Από: ";
                     (filterItem["OrderDate"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
+                    (filterItem["DateTimeStartOrder"].Controls[0] as LiteralControl).Text = "Από: ";
+                    (filterItem["DateTimeStartOrder"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
                     (filterItem["DateTimeStartActual"].Controls[0] as LiteralControl).Text = "Από: ";
                     (filterItem["DateTimeStartActual"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
                     RadDateTimePicker OrderDateFrom = filterItem["OrderDate"].Controls[1] as RadDateTimePicker;
@@ -78,6 +80,14 @@ namespace OTERT.Pages.UserPages {
                     OrderDateTo.TimePopupButton.Visible = false;
                     OrderDateTo.DateInput.DisplayDateFormat = "d/M/yyyy";
                     OrderDateTo.DateInput.DateFormat = "d/M/yyyy";
+                    RadDateTimePicker startOrderFrom = filterItem["DateTimeStartOrder"].Controls[1] as RadDateTimePicker;
+                    startOrderFrom.TimePopupButton.Visible = false;
+                    startOrderFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
+                    startOrderFrom.DateInput.DateFormat = "d/M/yyyy";
+                    RadDateTimePicker startOrderTo = filterItem["DateTimeStartOrder"].Controls[4] as RadDateTimePicker;
+                    startOrderTo.TimePopupButton.Visible = false;
+                    startOrderTo.DateInput.DisplayDateFormat = "d/M/yyyy";
+                    startOrderTo.DateInput.DateFormat = "d/M/yyyy";
                     RadDateTimePicker startActualFrom = filterItem["DateTimeStartActual"].Controls[1] as RadDateTimePicker;
                     startActualFrom.TimePopupButton.Visible = false;
                     startActualFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
