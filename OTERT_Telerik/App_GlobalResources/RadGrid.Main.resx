@@ -259,13 +259,13 @@
     <value>Please do not remove this key.</value>
   </data>
   <data name="SortedAscToolTip" xml:space="preserve">
-    <value>Sorted asc</value>
+    <value>Aύξουσα ταξινόμηση</value>
   </data>
   <data name="SortedDescToolTip" xml:space="preserve">
-    <value>Sorted desc</value>
+    <value>Φθίνουσα ταξινόμηση</value>
   </data>
   <data name="SortToolTip" xml:space="preserve">
-    <value>Click here to sort</value>
+    <value>Πατήστε για ταξινόμηση</value>
   </data>
   <data name="StatusReadyText" xml:space="preserve">
     <value>Ready</value>

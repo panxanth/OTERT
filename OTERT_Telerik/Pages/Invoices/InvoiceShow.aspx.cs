@@ -73,6 +73,11 @@ namespace OTERT.Pages.Invoices {
         }
 
         protected void gridInvoices_ItemCreated(object sender, GridItemEventArgs e) {
+            if (e.Item is GridDataItem) {
+                GridDataItem item = (GridDataItem)e.Item;
+                ElasticButton img = (ElasticButton)item["btnDelete"].Controls[0];
+                img.ToolTip = "Διαγραφή";
+            }
             if (e.Item is GridFilteringItem) {
                 GridFilteringItem filterItem = (GridFilteringItem)e.Item;
                 (filterItem["DateFrom"].Controls[0] as LiteralControl).Text = "Από: ";
@@ -80,18 +85,22 @@ namespace OTERT.Pages.Invoices {
                 (filterItem["DateTo"].Controls[0] as LiteralControl).Text = "Από: ";
                 (filterItem["DateTo"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
                 RadDateTimePicker DateFromFrom = filterItem["DateFrom"].Controls[1] as RadDateTimePicker;
+                DateFromFrom.DatePopupButton.ToolTip = "Ημερολόγιο";
                 DateFromFrom.TimePopupButton.Visible = false;
                 DateFromFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
                 DateFromFrom.DateInput.DateFormat = "d/M/yyyy";
                 RadDateTimePicker DateFromTo = filterItem["DateFrom"].Controls[4] as RadDateTimePicker;
+                DateFromTo.DatePopupButton.ToolTip = "Ημερολόγιο";
                 DateFromTo.TimePopupButton.Visible = false;
                 DateFromTo.DateInput.DisplayDateFormat = "d/M/yyyy";
                 DateFromTo.DateInput.DateFormat = "d/M/yyyy";
                 RadDateTimePicker DateToFrom = filterItem["DateTo"].Controls[1] as RadDateTimePicker;
+                DateToFrom.DatePopupButton.ToolTip = "Ημερολόγιο";
                 DateToFrom.TimePopupButton.Visible = false;
                 DateToFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
                 DateToFrom.DateInput.DateFormat = "d/M/yyyy";
                 RadDateTimePicker DateToTo = filterItem["DateTo"].Controls[4] as RadDateTimePicker;
+                DateToTo.DatePopupButton.ToolTip = "Ημερολόγιο";
                 DateToTo.TimePopupButton.Visible = false;
                 DateToTo.DateInput.DisplayDateFormat = "d/M/yyyy";
                 DateToTo.DateInput.DateFormat = "d/M/yyyy";
@@ -111,6 +120,19 @@ namespace OTERT.Pages.Invoices {
                     clist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
                 }
                 catch (Exception) { }
+            }
+            if (e.Item is GridDataItem) {
+                GridDataItem dataItem = (GridDataItem)e.Item;
+                InvoiceB curInvoice = (InvoiceB)dataItem.DataItem;
+                if (loggedUser.UserGroupID != 1) {
+                    if (curInvoice.IsLocked == true) {
+                        dataItem["Edit"].Enabled = false;
+                        ((ImageButton)dataItem["Edit"].Controls[0]).Enabled = false;
+                        ((ImageButton)dataItem["Edit"].Controls[0]).ImageUrl = "~/Images/lock.png";
+                        ((ImageButton)dataItem["Edit"].Controls[0]).Attributes.Add("style", "pointer-events: none;");
+                        dataItem["Edit"].Attributes.Add("style", "pointer-events: none;");
+                    }
+                }
             }
         }
 
@@ -1842,6 +1864,51 @@ namespace OTERT.Pages.Invoices {
                 }
             }
             catch (Exception) { }
+        }
+
+        protected void gridInvoices_DeleteCommand(object source, GridCommandEventArgs e) {
+            var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
+            using (var dbContext = new OTERTConnStr()) {
+                var curInvoice = dbContext.Invoices.Where(n => n.ID == ID).FirstOrDefault();
+                if (curInvoice != null) {
+                    if (curInvoice.IsLocked != true) {
+                        List<TasksLine> curTaskLines = dbContext.TasksLine.Where(k => k.InvoiceID == ID).ToList();
+                        foreach (TasksLine curTasksLine in curTaskLines) {
+                            dbContext.TasksLine.Remove(curTasksLine);
+                            try { dbContext.SaveChanges(); }
+                            catch (Exception) { ShowErrorMessage(-1); }
+                        }
+                        List<DiscountLine> curDiscountLines = dbContext.DiscountLine.Where(k => k.InvoiceID == ID).ToList();
+                        foreach (DiscountLine curDiscountLine in curDiscountLines) {
+                            dbContext.DiscountLine.Remove(curDiscountLine);
+                            try { dbContext.SaveChanges(); }
+                            catch (Exception) { ShowErrorMessage(-1); }
+                        }
+                        dbContext.Invoices.Remove(curInvoice);
+                        try { dbContext.SaveChanges(); }
+                        catch (Exception ex) {
+                            string err = ex.InnerException.InnerException.Message;
+                            int errCode = -1;
+                            if (err.StartsWith("The DELETE statement conflicted with the REFERENCE constraint")) { errCode = 1; }
+                            ShowErrorMessage(errCode);
+                        }
+                    } else { ShowErrorMessage(2); }
+                }
+            }
+        }
+
+        private void ShowErrorMessage(int errCode) {
+            switch (errCode) {
+                case 1:
+                    RadWindowManager1.RadAlert("Το συγκεκριμένο Τιμολόγιο σχετίζεται με κάποιο Έργο και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
+                    break;
+                case 2:
+                    RadWindowManager1.RadAlert("Το συγκεκριμένο Τιμολόγιο είναι κλειδωμένο και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
+                    break;
+                default:
+                    RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
+                    break;
+            }
         }
 
         protected bool[] getVisibleColumns() {

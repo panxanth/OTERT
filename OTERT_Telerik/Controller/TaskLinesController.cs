@@ -73,6 +73,17 @@ namespace OTERT.Controller {
             }
         }
 
+        public List<int> GetAllTaskIDForInoice(int invoiceID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<int> data = (from us in dbContext.TasksLine where us.InvoiceID == invoiceID select us.TaskID).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
     }
 
 }

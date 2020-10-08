@@ -1276,7 +1276,7 @@ namespace Resources.RadGrid {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorted asc.
+        ///   Looks up a localized string similar to Aύξουσα ταξινόμηση.
         /// </summary>
         internal static string SortedAscToolTip {
             get {
@@ -1285,7 +1285,7 @@ namespace Resources.RadGrid {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorted desc.
+        ///   Looks up a localized string similar to Φθίνουσα ταξινόμηση.
         /// </summary>
         internal static string SortedDescToolTip {
             get {
@@ -1294,7 +1294,7 @@ namespace Resources.RadGrid {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click here to sort.
+        ///   Looks up a localized string similar to Πατήστε για ταξινόμηση.
         /// </summary>
         internal static string SortToolTip {
             get {

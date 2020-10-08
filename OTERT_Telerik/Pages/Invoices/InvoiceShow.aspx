@@ -34,6 +34,7 @@
         <telerik:RadGrid ID="gridInvoices" runat="server" AutoGenerateColumns="false"  MasterTableView-AllowPaging="true" MasterTableView-AllowCustomPaging="true" MasterTableView-PageSize="10" EnableViewState="true" Skin="Metro" Width="100%"
             AllowFilteringByColumn="True" PagerStyle-AlwaysVisible="true" MasterTableView-AllowSorting="true" MasterTableView-AllowCustomSorting="true"
             OnEditCommand="gridInvoices_EditCommand"
+            OnDeleteCommand="gridInvoices_DeleteCommand"
             OnNeedDataSource="gridInvoices_NeedDataSource"
             OnItemCreated="gridInvoices_ItemCreated" 
             OnItemDataBound="gridInvoices_ItemDataBound" 
@@ -42,7 +43,7 @@
                 <CommandItemSettings RefreshText="Ανανέωση" ShowAddNewRecordButton="false" />
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />
                 <Columns>
-                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" ButtonType="ImageButton" />
+                    <telerik:GridEditCommandColumn UniqueName="Edit" EditText="Επεξεργασία" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" ButtonType="ImageButton" />
                     <telerik:GridBoundColumn DataField="ID" HeaderText="ID" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Font-Bold="true" AllowFiltering="false" AllowSorting="false" />
                     <telerik:GridTemplateColumn UniqueName="CustomerID" DataField="CustomerID" SortExpression="CustomerID" HeaderText="Πελάτης" ReadOnly="true" HeaderStyle-Font-Bold="true" AllowSorting="true" >
                         <ItemTemplate>
@@ -55,6 +56,7 @@
                     <telerik:GridDateTimeColumn UniqueName="DateFrom" DataField="DateFrom" HeaderText="Ημ/νία Έναρξης" ReadOnly="true" DataType="System.DateTime" PickerType="DateTimePicker" DataFormatString="{0:dd/MM/yyyy HH:mm}" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="150px" />
                     <telerik:GridDateTimeColumn UniqueName="DateTo" DataField="DateTo" HeaderText="Ημ/νία Λήξης" ReadOnly="true" DataType="System.DateTime" PickerType="DateTimePicker" DataFormatString="{0:dd/MM/yyyy HH:mm}" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="150px" />
                     <telerik:GridBoundColumn DataField="RegNo" HeaderText="Κωδικός Τιμολογίου" ReadOnly="true" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true" HeaderStyle-Font-Bold="true" FilterControlWidth="140px" />
+                    <telerik:GridButtonColumn UniqueName="btnDelete" ConfirmText="Να διαγραφεί αυτό το Τιμολόγιο;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                     <telerik:GridTemplateColumn UniqueName="btnPrintColumn" HeaderText="" AllowFiltering="false">
                         <ItemStyle HorizontalAlign="Center"></ItemStyle>
                         <ItemTemplate>
