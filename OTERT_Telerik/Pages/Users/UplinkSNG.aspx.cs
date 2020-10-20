@@ -445,6 +445,7 @@ namespace OTERT.Pages.UserPages {
                         }
                         CheckBox chkIsCanceled = (CheckBox)editableItem.FindControl("chkIsCanceled");
                         curTask.IsCanceled = chkIsCanceled.Checked;
+                        if (curTask.IsCanceled == true) { curTask.IsForHelpers = false; }
                         dbContext.SaveChanges();
                     }
                     catch (Exception) { ShowErrorMessage(-1); }
@@ -492,7 +493,7 @@ namespace OTERT.Pages.UserPages {
                             curTask.IsLocked = (bool)values["IsLocked"];
                             CheckBox chkIsCanceled = (CheckBox)editableItem.FindControl("chkIsCanceled");
                             curTask.IsCanceled = chkIsCanceled.Checked;
-                            //curTask.IsCanceled = (bool)values["IsCanceled"];
+                            if (curTask.IsCanceled == true) { curTask.IsForHelpers = false; }
                             curTask.CancelPrice = 0;
                             curTask.Comments = (string)values["Comments"];
                             curTask.InvoceComments = (string)values["InvoceComments"];
@@ -699,6 +700,8 @@ namespace OTERT.Pages.UserPages {
                 GridEditableItem eitem = (GridEditableItem)ddlCancelationPrices.NamingContainer;
                 TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
                 txtCostActual.Text = ddlCancelationPrices.SelectedItem.Text;
+                CheckBox chkIsForHelpers = (CheckBox)eitem["chkIsForHelpers"].Controls[0];
+                chkIsForHelpers.Checked = false;
             }
         }
 
