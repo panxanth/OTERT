@@ -42,6 +42,22 @@ namespace OTERT.Controller {
             }
         }
 
+        public List<CountryB> GetGreece() {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<CountryB> data = (from us in dbContext.Countries
+                                           select new CountryB {
+                                               ID = us.ID,
+                                               NameGR = us.NameGR,
+                                               NameEN = us.NameEN
+                                           }).Where(o => o.ID == 1).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
         public List<CountryB> GetCountries(int recSkip, int recTake, string recFilter) {
             using (var dbContext = new OTERTConnStr()) {
                 try {

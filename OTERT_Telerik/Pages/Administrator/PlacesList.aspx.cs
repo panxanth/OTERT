@@ -50,6 +50,10 @@ namespace OTERT.Pages.Administrator {
                 newID = -1;
                 Session.Remove("CountryID");
                 GridEditableItem item = e.Item as GridEditableItem;
+                TextBox txtNameGR = (TextBox)item["NameGR"].Controls[0];
+                txtNameGR.Width = Unit.Pixel(300);
+                TextBox txtNameEN = (TextBox)item["NameEN"].Controls[0];
+                txtNameEN.Width = Unit.Pixel(300);
                 RadDropDownList list = item.FindControl("ddlCountries") as RadDropDownList;
                 try {
                     PlaceB currPlace = e.Item.DataItem as PlaceB;

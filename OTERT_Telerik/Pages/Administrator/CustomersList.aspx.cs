@@ -78,7 +78,7 @@ namespace OTERT.Pages.Administrator {
                         ddlCountries.SelectedIndex = ddlCountries.FindItemByValue(currCustomer.CountryID.ToString()).Index;
                         Session["CountryID"] = currCustomer.CountryID;
                     } else {
-                        ddlCountries.SelectedIndex = 0;
+                        ddlCountries.SelectedIndex = ddlCountries.FindItemByValue("1").Index; ;
                         Session["CountryID"] = ddlCountries.SelectedItem.Value;
                     }
                     CustomerTypesController customerTypesCont = new CustomerTypesController();
@@ -102,7 +102,7 @@ namespace OTERT.Pages.Administrator {
                         ddlLanguages.SelectedIndex = ddlLanguages.FindItemByValue(currCustomer.LanguageID.ToString()).Index;
                         Session["LanguageID"] = currCustomer.LanguageID;
                     } else {
-                        ddlLanguages.SelectedIndex = 0;
+                        ddlLanguages.SelectedIndex = ddlLanguages.FindItemByValue("1").Index;
                         Session["LanguageID"] = ddlLanguages.SelectedItem.Value;
                     }
                     UsersController usersCont = new UsersController();
@@ -257,6 +257,7 @@ namespace OTERT.Pages.Administrator {
                             selCustomer.UserID = userID;
                             selCustomer.Comments = (string)values["Comments"];
                             selCustomer.IsProvider = (bool)values["IsProvider"];
+                            selCustomer.IsPTS = (bool)values["IsPTS"];
                             dbContext.Customers.Add(selCustomer);
                             dbContext.SaveChanges();
                         }

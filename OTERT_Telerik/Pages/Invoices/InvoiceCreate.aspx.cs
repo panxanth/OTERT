@@ -260,7 +260,7 @@ namespace OTERT.Pages.Invoices {
                     }
                     dbContext.SaveChanges();
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
                 Response.Redirect("~/Pages/Invoices/InvoiceShow.aspx", false);
             }
         }
@@ -314,7 +314,7 @@ namespace OTERT.Pages.Invoices {
                     }
                     dbContext.SaveChanges();
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
                 Response.Redirect("/Pages/Invoices/InvoiceShow.aspx", false);
             }
             //Session["wizardStep"] = wData;

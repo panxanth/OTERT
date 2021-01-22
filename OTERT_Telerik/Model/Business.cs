@@ -60,6 +60,7 @@ namespace OTERT.Model {
         public string Comments { get; set; }
         public bool? IsProvider { get; set; }
         public bool? IsOTE { get; set; }
+        public bool? IsPTS { get; set; }
     }
 
     public class CustomerTypeB {

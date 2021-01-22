@@ -48,7 +48,7 @@ namespace OTERT.Pages.UserPages {
                 RadDropDownList ctflist = (RadDropDownList)filterItem.FindControl("ddlCustomerFilter");
                 try {
                     CustomersController ctcont = new CustomersController();
-                    ctflist.DataSource = ctcont.GetCustomers();
+                    ctflist.DataSource = ctcont.GetAllCustomers();
                     ctflist.DataTextField = "NameGR";
                     ctflist.DataValueField = "ID";
                     ctflist.DataBind();

@@ -22,6 +22,7 @@ namespace OTERT.Controller {
                                                  TaskID = us.TaskID,
                                                  Task = new TaskDTO {
                                                      ID = us.Tasks.ID,
+                                                     RegNo = us.Tasks.RegNo,
                                                      RequestedPositionID = us.Tasks.RequestedPositionID,
                                                      DistanceID = us.Tasks.DistancesID,
                                                      Distance = new DistanceDTO { 
@@ -36,7 +37,8 @@ namespace OTERT.Controller {
                                                      CostCalculated = us.Tasks.CostCalculated,
                                                      AddedCharges = us.Tasks.AddedCharges,
                                                      CostActual = us.Tasks.CostActual,
-                                                     InvoceComments = us.Tasks.InvoceComments
+                                                     InvoceComments = us.Tasks.InvoceComments,
+                                                     IsCanceled = us.Tasks.IsCanceled == null ? false : (bool)us.Tasks.IsCanceled
                                                  },
                                                  JobID = us.JobID,
                                                  Job = new JobDTO {
@@ -44,7 +46,7 @@ namespace OTERT.Controller {
                                                      Name = us.Tasks.Jobs.Name,
                                                      InvoiceCode = us.Tasks.Jobs.InvoiceCode
                                                  }
-                                             }).Where(o => o.InvoiceID == invoiceID).ToList();
+                                             }).Where(o => o.InvoiceID == invoiceID).OrderBy(k => k.Task.DateTimeStartActual).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
