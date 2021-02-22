@@ -61,6 +61,7 @@
           <Property Name="Comments" Type="nvarchar(max)" />
           <Property Name="IsProvider" Type="bit" />
           <Property Name="IsOTE" Type="bit" />
+          <Property Name="IsPTS" Type="bit" />
         </EntityType>
         <EntityType Name="CustomerTypes">
           <Key>
@@ -280,21 +281,21 @@
           <Property Name="DateTimeStartActual" Type="datetime" />
           <Property Name="DateTimeEndActual" Type="datetime" />
           <Property Name="DateTimeDurationActual" Type="int" />
-          <Property Name="CostCalculated" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CostCalculated" Type="decimal" Precision="18" Scale="2" />
           <Property Name="InstallationCharges" Type="bit" />
           <Property Name="MonthlyCharges" Type="bit" />
-          <Property Name="CallCharges" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CallCharges" Type="decimal" Precision="18" Scale="2" />
           <Property Name="TelephoneNumber" Type="varchar" MaxLength="100" />
-          <Property Name="TechnicalSupport" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="AddedCharges" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="CostActual" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TechnicalSupport" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="AddedCharges" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CostActual" Type="decimal" Precision="18" Scale="2" />
           <Property Name="PaymentDateOrder" Type="datetime" />
           <Property Name="PaymentDateCalculated" Type="datetime" />
           <Property Name="PaymentDateActual" Type="datetime" />
           <Property Name="IsForHelpers" Type="bit" />
           <Property Name="IsLocked" Type="bit" />
           <Property Name="IsCanceled" Type="bit" />
-          <Property Name="CancelPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CancelPrice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Comments" Type="nvarchar(max)" />
           <Property Name="InvoceComments" Type="nvarchar(max)" />
           <Property Name="Internet" Type="bit" />
@@ -1038,6 +1039,7 @@
           <Property Name="IsOTE" Type="Boolean" />
           <NavigationProperty Name="Files" Relationship="OTERT_Model.FK_Files_Customers" FromRole="Customers" ToRole="Files" />
           <NavigationProperty Name="Invoices" Relationship="OTERT_Model.FK_Invoices_Customers" FromRole="Customers" ToRole="Invoices" />
+          <Property Name="IsPTS" Type="Boolean" />
         </EntityType>
         <EntityType Name="CustomerTypes">
           <Key>
@@ -1182,21 +1184,21 @@
           <Property Name="DateTimeStartActual" Type="DateTime" Precision="3" />
           <Property Name="DateTimeEndActual" Type="DateTime" Precision="3" />
           <Property Name="DateTimeDurationActual" Type="Int32" />
-          <Property Name="CostCalculated" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CostCalculated" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="InstallationCharges" Type="Boolean" />
           <Property Name="MonthlyCharges" Type="Boolean" />
-          <Property Name="CallCharges" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CallCharges" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="TelephoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="TechnicalSupport" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="AddedCharges" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="CostActual" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TechnicalSupport" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AddedCharges" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CostActual" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PaymentDateOrder" Type="DateTime" Precision="3" />
           <Property Name="PaymentDateCalculated" Type="DateTime" Precision="3" />
           <Property Name="PaymentDateActual" Type="DateTime" Precision="3" />
           <Property Name="IsForHelpers" Type="Boolean" />
           <Property Name="IsLocked" Type="Boolean" />
           <Property Name="IsCanceled" Type="Boolean" />
-          <Property Name="CancelPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CancelPrice" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InvoceComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customers" Relationship="Self.fk_Tasks_Customers" FromRole="Tasks" ToRole="Customers" />
@@ -2033,6 +2035,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="OTERT_Model.Customers">
               <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="IsPTS" ColumnName="IsPTS" />
                 <ScalarProperty Name="IsOTE" ColumnName="IsOTE" />
                 <ScalarProperty Name="SAPCode" ColumnName="SAPCode" />
                 <ScalarProperty Name="NamedInvoiceEN" ColumnName="NamedInvoiceEN" />

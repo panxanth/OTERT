@@ -72,6 +72,7 @@
                 <Columns>
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" />
                     <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" AllowFiltering="false" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" HeaderStyle-Wrap="false" />
+                    <telerik:GridCheckBoxColumn DataField="IsPTS" HeaderText="Πελάτης ΠΤΣ" DataType="System.Boolean" AutoPostBackOnFilter="true" CurrentFilterFunction="NoFilter" ShowFilterIcon="true" HeaderStyle-Font-Bold="true" HeaderStyle-Wrap="false" />
                     <telerik:GridBoundColumn DataField="NameGR" HeaderText="Όνομα (GR)" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true" HeaderStyle-Font-Bold="true">
                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                             <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
@@ -148,7 +149,7 @@
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
                     <telerik:GridBoundColumn DataField="Comments" HeaderText="Σχόλια" Visible="false" HeaderStyle-Font-Bold="true" />
-                    <telerik:GridCheckBoxColumn DataField="IsProvider" HeaderText="Πάροχος" DataType="System.Boolean" AutoPostBackOnFilter="true" CurrentFilterFunction="NoFilter" ShowFilterIcon="true" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridCheckBoxColumn DataField="IsProvider" HeaderText="Πάροχος" DataType="System.Boolean" Visible="false" HeaderStyle-Font-Bold="true" />
                     <telerik:GridButtonColumn ConfirmText="Να διαγραφεί αυτή η εγγραφή;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" />
                 </Columns>
                 <EditFormSettings>

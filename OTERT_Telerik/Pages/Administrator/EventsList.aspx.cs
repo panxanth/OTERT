@@ -55,6 +55,10 @@ namespace OTERT.Pages.Administrator {
                 GridEditableItem item = e.Item as GridEditableItem;
                 RadDropDownList ddlPlaces = item.FindControl("ddlPlaces") as RadDropDownList;
                 RadDropDownList ddlCountries = item.FindControl("ddlCountries") as RadDropDownList;
+                TextBox txtNameGR = (TextBox)item["NameGR"].Controls[0];
+                txtNameGR.Width = Unit.Pixel(300);
+                TextBox txtNameEN = (TextBox)item["NameEN"].Controls[0];
+                txtNameEN.Width = Unit.Pixel(300);
                 try {
                     EventB currEvent = e.Item.DataItem as EventB;
                     CountriesController ccont = new CountriesController();

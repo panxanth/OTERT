@@ -81,12 +81,8 @@
         <br /><br />
         <table>
             <tr>
-                <td>ΗΜΕΡ/ΝΙΑ </td>
-                <td><asp:CheckBox ID="chkDate" Checked="true" runat="server" /></td>
-            </tr>
-            <tr>
-                <td>ΔΙΑΔΡΟΜΗ </td>
-                <td><asp:CheckBox ID="chkRoute" Checked="true" runat="server" EnableViewState="true" /></td>
+                <td>ΑΡΙΘΜΟΣ ΚΡΑΤΗΣΗΣ </td>
+                <td><asp:CheckBox ID="chkOrderNo" Checked="true" runat="server" /></td>
             </tr>
             <tr>
                 <td>ΑΠΟ </td>
@@ -101,6 +97,10 @@
                 <td><asp:CheckBox ID="chkTotalTime" Checked="true" runat="server" EnableViewState="true" /></td>
             </tr>
             <tr>
+                <td>ΔΙΑΔΡΟΜΗ </td>
+                <td><asp:CheckBox ID="chkRoute" Checked="true" runat="server" EnableViewState="true" /></td>
+            </tr>
+            <tr>
                 <td>ΑΠΟΣΤΑΣΗ </td>
                 <td><asp:CheckBox ID="chkTotalDistance" Checked="true" runat="server" EnableViewState="true" /></td>
             </tr>
@@ -109,12 +109,16 @@
                 <td><asp:CheckBox ID="chkTransferCost" Checked="true" runat="server" EnableViewState="true" /></td>
             </tr>
             <tr>
-                <td>ΔΙΑΦΟΡΕΣ ΧΡΕΩΣΕΙΣ </td>
+                <td>ΔΙΑΦΟΡΕΣ ΧΡΕΩΣΕΙΣ&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td><asp:CheckBox ID="chkAddedCharges" Checked="true" runat="server" EnableViewState="true" /></td>
             </tr>
             <tr>
                 <td>ΣΥΝΟΛΟ </td>
                 <td><asp:CheckBox ID="chkTotalCost" Checked="true" runat="server" EnableViewState="true" /></td>
+            </tr>
+            <tr>
+                <td>ΑΚΥΡΩΜΕΝΟ </td>
+                <td><asp:CheckBox ID="chkIsCanceled" Checked="true" runat="server" EnableViewState="true" /></td>
             </tr>
             <tr>
                 <td>ΠΑΡΑΤΗΡΗΣΕΙΣ </td>

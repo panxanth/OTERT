@@ -144,18 +144,18 @@ namespace OTERT.Pages.Administrator {
                     try {
                         OrderB currOrder = e.Item.DataItem as OrderB;
                         CountriesController ccont = new CountriesController();
-                        ddlCountry.DataSource = ccont.GetCountries();
+                        ddlCountry.DataSource = ccont.GetGreece();
                         ddlCountry.DataTextField = "NameGR";
                         ddlCountry.DataValueField = "ID";
                         ddlCountry.DataBind();
-                        ddlCountry.Items.Insert(0, new DropDownListItem("Όλες οι Χώρες ...", "0"));
+                        //ddlCountry.Items.Insert(0, new DropDownListItem("Όλες οι Χώρες ...", "0"));
                         CustomersController custcont = new CustomersController();
-                        ddlCustomer1.DataSource = custcont.GetProviders();
+                        ddlCustomer1.DataSource = custcont.GetOTE();
                         ddlCustomer1.DataTextField = "NameGR";
                         ddlCustomer1.DataValueField = "ID";
                         ddlCustomer1.DataBind();
                         EventsController econt = new EventsController();
-                        ddlEvent.DataSource = econt.GetEvents();
+                        ddlEvent.DataSource = econt.GetGreekEvents();
                         ddlEvent.DataTextField = "NameGR";
                         ddlEvent.DataValueField = "ID";
                         ddlEvent.DataBind();
@@ -203,7 +203,7 @@ namespace OTERT.Pages.Administrator {
                         txtRegNo.Text = curOrder.RegNo;
                         TaskB currTask = e.Item.DataItem as TaskB;
                         CustomersController ccont = new CustomersController();
-                        ddlCustomers.DataSource = ccont.GetCustomers();
+                        ddlCustomers.DataSource = ccont.GetForeignProviders();
                         ddlCustomers.DataTextField = "NameGR";
                         ddlCustomers.DataValueField = "ID";
                         ddlCustomers.DataBind();
@@ -484,13 +484,13 @@ namespace OTERT.Pages.Administrator {
                                 if (j == 0) {
                                     currRun = cell.Blocks.AddParagraph().Inlines.AddRun("");
                                 } else if (j == 1) {
-                                    cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].Customer.ChargeTelephone);
+                                    cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].Customer.ChargeTelephone != null ? tasksForOrder[k].Customer.ChargeTelephone : "");
                                 } else if (j == 2) {
-                                    cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].Customer.NameGR);
+                                    cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].Customer.NameGR != null ? tasksForOrder[k].Customer.NameGR : "");
                                 } else if (j == 3) {
                                     cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].DateTimeStartOrder != null ? tasksForOrder[k].DateTimeStartOrder.Value.ToShortDateString() : "");
                                 } else if (j == 4) {
-                                    cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].CostActual.ToString());
+                                    cell.Blocks.AddParagraph().Inlines.AddRun(tasksForOrder[k].CostActual != null ? tasksForOrder[k].CostActual.ToString() : "");
                                 } else if (j == 5) {
                                     cell.Blocks.AddParagraph().Inlines.AddRun();
                                 } else if (j == 6) {
@@ -850,7 +850,7 @@ namespace OTERT.Pages.Administrator {
                 Session["LineTypeID"] = LineTypeID;
                 RadDropDownList ddlLineType = (RadDropDownList)sender;
                 GridEditableItem eitem = (GridEditableItem)ddlLineType.NamingContainer;
-                calculateCosts(eitem);
+                //calculateCosts(eitem);
             }
             catch (Exception) { }
         }
@@ -858,7 +858,7 @@ namespace OTERT.Pages.Administrator {
         protected void txtAddedCharges_TextChanged(object sender, EventArgs e) {
             TextBox txtAddedCharges = ((TextBox)(sender));
             GridEditableItem eitem = (GridEditableItem)txtAddedCharges.NamingContainer;
-            calculateCosts(eitem);
+            //calculateCosts(eitem);
         }
 
         protected void dpDate_SelectedIndexChanged(object sender, SelectedDateChangedEventArgs e) {
@@ -870,13 +870,13 @@ namespace OTERT.Pages.Administrator {
         protected void cbInternet_CheckedChanged(object sender, EventArgs e) {
             CheckBox cbInternet = (CheckBox)sender;
             GridEditableItem eitem = (GridEditableItem)cbInternet.NamingContainer;
-            calculateCosts(eitem);
+            //calculateCosts(eitem);
         }
 
         protected void cbMSN_CheckedChanged(object sender, EventArgs e) {
             CheckBox cbMSN = (CheckBox)sender;
             GridEditableItem eitem = (GridEditableItem)cbMSN.NamingContainer;
-            calculateCosts(eitem);
+            //calculateCosts(eitem);
         }
 
         protected void calculateCosts(GridEditableItem eitem) {
@@ -898,22 +898,22 @@ namespace OTERT.Pages.Administrator {
             TextBox txtActualDuration = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
             TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
             TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
-            if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate && plist != null) {
+            //if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate && plist != null) {
+            if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
                 TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
                 int duration = 0;
-                txtActualDuration.Text = duration.ToString();
-                if (plist.PaymentIsForWholeMonth == true) {
-                    duration = Math.Abs((actualEndDate.Month - actualStartDate.Month) + 12 * (actualEndDate.Year - actualStartDate.Year));
-                } else {
+                //if (plist.PaymentIsForWholeMonth == true) {
+                    //duration = Math.Abs((actualEndDate.Month - actualStartDate.Month) + 12 * (actualEndDate.Year - actualStartDate.Year));
+                //} else {
                     duration = (int)Math.Ceiling(actualSpan.TotalDays);
-                }
+                //}
                 txtActualDuration.Text = duration.ToString();
-                double costPerDay = (double)plist.MonthlyCharges.Value / 30;
-                double calculatedCost = (double)plist.InstallationCost.Value + (costPerDay * duration);
-                if (cbInternet.Checked) { calculatedCost += (double)plist.Internet.Value; }
-                if (cbMSN.Checked) { calculatedCost += (double)plist.MSN.Value; }
-                if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text.Replace(".", ",")); }
-                txtCostActual.Text = calculatedCost.ToString();
+                //double costPerDay = (double)plist.MonthlyCharges.Value / 30;
+                //double calculatedCost = (double)plist.InstallationCost.Value + (costPerDay * duration);
+                //if (cbInternet.Checked) { calculatedCost += (double)plist.Internet.Value; }
+                //if (cbMSN.Checked) { calculatedCost += (double)plist.MSN.Value; }
+                //if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text.Replace(".", ",")); }
+                //txtCostActual.Text = calculatedCost.ToString();
             }
         }
 
