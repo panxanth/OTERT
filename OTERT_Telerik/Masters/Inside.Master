@@ -24,7 +24,7 @@
     <article>
     <div id="mbmcpebul_wrapper">
         <ul id="mbmcpebul_table" class="mbmcpebul_menulist css_menu">
-        <!-- ********** Μενού "Έργα" ********** //-->
+        <!-- ********** Μενού "Έργα" ********** -->
         <% if (groupID != 4) {%>
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 80px;">
@@ -79,7 +79,7 @@
                 <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/PTStoAbroad.aspx" title="">ΠΤΣ προς Εξωτερικό</a></li>
             </ul>
         </li>
-        <!-- ********** Μενού "Πελάτες" ********** //-->
+        <!-- ********** Μενού "Πελάτες" ********** -->
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 80px;">
                 <div class="arrow"><a class="button_2">Λίστες</a></div>
@@ -90,7 +90,7 @@
                 <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/CustomersList.aspx" title="">Πελάτες</a></li>
             </ul>
         </li>
-        <!-- ********** Μενού "Εκτυπωτικά" ********** //-->
+        <!-- ********** Μενού "Εκτυπωτικά" ********** -->
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 100px;">
                 <div class="arrow"><a class="button_2">Εκτυπωτικά</a></div>
@@ -100,7 +100,7 @@
                 <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/PrintTemplates/PrintMailPTSToAbroad.aspx" title="">Επιστολή ΠΤΣ προς Εξωτερικό</a></li>
             </ul>
         </li>
-        <!-- ********** Μενού "Τιμολόγια" ********** //-->
+        <!-- ********** Μενού "Τιμολόγια" ********** -->
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 100px;">
                 <div class="arrow"><a class="button_2">Τιμολόγια</a></div>
@@ -111,7 +111,7 @@
             </ul>
         </li>
         <%}%>
-        <!-- ********** Μενού "Τμήμα Υποστήριξης (ΚΕΤ)" ********** //-->
+        <!-- ********** Μενού "Τμήμα Υποστήριξης (ΚΕΤ)" ********** -->
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 180px;">
                 <div class="arrow"><a class="button_2">Τμήμα Υποστήριξης (ΚΕΤ)</a></div>
@@ -120,7 +120,7 @@
                 <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Helpers/DailyList.aspx" title="">Λίστα Ημερ. Μεταδόσεων</a></li>
             </ul>
         </li>
-        <!-- ********** Μενού "Διαχείριση" ********** //-->
+        <!-- ********** Μενού "Διαχείριση" ********** -->
         <% if (groupID == 1) {%>
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 100px;">
@@ -129,14 +129,14 @@
             <ul class="gradient_menu gradient99">
                 <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Χρήστες Εφαρμογής</a>
                     <ul class="gradient_menu gradient67">
-                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/UsersList.aspx">Χρήστες</a></li>
-                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/UserGroupsList.aspx">Ομάδες Χρηστών</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/UsersList.aspx">Χρήστες</a></li>
+                        <!-- <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/UserGroupsList.aspx">Ομάδες Χρηστών</a></li> -->
                     </ul>
                 </li>
                 <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Γεωγραφικά Δεδομένα</a>
                     <ul class="gradient_menu gradient67">
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/CountriesList.aspx">Χώρες</a></li>
-                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/languagesList.aspx">Γλώσσες</a></li>
+                        <!-- <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/languagesList.aspx">Γλώσσες</a></li> -->
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/PlacesList.aspx">Τοποθεσίες</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/DistancesList.aspx">Αποστάσεις</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/EventsList.aspx">Γεγονότα</a></li>
@@ -157,18 +157,20 @@
                 </li>
                 <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Τιμές</a>
                     <ul class="gradient_menu gradient67">
-                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/JobsMainList.aspx">Κύριες Κατηγορίες Έργων</a></li>
-                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/JobTypesList.aspx">Τύποι Έργων</a></li>
+                        <!-- <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/JobsMainList.aspx">Κύριες Κατηγορίες Έργων</a></li> -->
+                        <!-- <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/JobTypesList.aspx">Τύποι Έργων</a></li> -->
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/JobsList.aspx">Κατηγορίες Έργων</a></li>
-                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/SalesList.aspx">Εκπτώσεις</a></li>
+                        <!-- <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/SalesList.aspx">Εκπτώσεις</a></li> -->
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/CountryPricelistsList.aspx">Τιμοκατάλογοι Παρόχων Εξωτερικού</a></li>
                     </ul>
                 </li>
+                <!-- 
                 <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Παραγγελίες</a>
                     <ul class="gradient_menu gradient67">
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/OrderTypesList.aspx">Είδη Παραγγελιών</a></li>
                     </ul>
                 </li>
+                -->
                 <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Εκτυπωτικά</a>
                     <ul class="gradient_menu gradient67">
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PrintMailPTSToGRAdmin.aspx">Επιστολή ΠΤΣ προς Ελλάδα</a></li>
