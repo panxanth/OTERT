@@ -27,7 +27,7 @@
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Height="75px" Width="75px" Transparency="25" InitialDelayTime="500" />
     <div>
-        <telerik:RadDatePicker RenderMode="Lightweight" ID="dpDate" Width="50%" runat="server" DateInput-Label="Επιλέξτε ημερομηνία: " Culture="el-GR">
+        <telerik:RadDatePicker RenderMode="Lightweight" ID="dpDate" Width="300px" runat="server" DateInput-Label="Επιλέξτε ημερομηνία: " Culture="el-GR">
         </telerik:RadDatePicker>
         <br /><br />
         <asp:Button ID="btnShow" runat="server" Text="Προβολή" OnClick="btnShow_Click" />

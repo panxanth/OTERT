@@ -56,6 +56,8 @@ namespace OTERT.Pages.Administrator {
                 RadAutoCompleteBox txtPosition1 = item.FindControl("txtPosition1") as RadAutoCompleteBox;
                 RadAutoCompleteBox txtPosition2 = item.FindControl("txtPosition2") as RadAutoCompleteBox;
                 RadDropDownList ddlJobsMain = item.FindControl("ddlJobsMain") as RadDropDownList;
+                RadDropDownList ddlPosition1 = item.FindControl("ddlPosition1") as RadDropDownList;
+                RadDropDownList ddlPosition2 = item.FindControl("ddlPosition2") as RadDropDownList;
                 try {
                     DistanceB currDistance = e.Item.DataItem as DistanceB;
                     JobsMainController cont = new JobsMainController();
@@ -63,6 +65,12 @@ namespace OTERT.Pages.Administrator {
                     ddlJobsMain.DataTextField = "Name";
                     ddlJobsMain.DataValueField = "ID";
                     ddlJobsMain.DataBind();
+                    DistancesController dcont = new DistancesController();
+                    List<string> distPos = dcont.GetDistinctPositions();
+                    ddlPosition1.DataSource = distPos;
+                    ddlPosition1.DataBind();
+                    ddlPosition2.DataSource = distPos;
+                    ddlPosition2.DataBind();
                     if (currDistance != null) {
                         txtPosition1.Entries.Add(new AutoCompleteBoxEntry(currDistance.Position1, currDistance.Position1));
                         txtPosition2.Entries.Add(new AutoCompleteBoxEntry(currDistance.Position2, currDistance.Position2));
@@ -185,6 +193,24 @@ namespace OTERT.Pages.Administrator {
             Session["Position2"] = autoComplete.Entries[0].Text;
         }
 
+        protected void ddlPosition1_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                RadAutoCompleteBox txtPosition = FindControlRecursive(Page, "txtPosition1") as RadAutoCompleteBox;
+                txtPosition.Entries.Add(new AutoCompleteBoxEntry(e.Text, e.Text));
+                Session["Position1"] = e.Text;
+            }
+            catch (Exception) { }
+        }
+
+        protected void ddlPosition2_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                RadAutoCompleteBox txtPosition = FindControlRecursive(Page, "txtPosition2") as RadAutoCompleteBox;
+                txtPosition.Entries.Add(new AutoCompleteBoxEntry(e.Text, e.Text));
+                Session["Position2"] = e.Text;
+            }
+            catch (Exception) { }
+        }
+
         protected void ddlJobsMainFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
             RadDropDownList list = sender as RadDropDownList;
             string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
@@ -213,6 +239,15 @@ namespace OTERT.Pages.Administrator {
         protected void ddlJobsMainFilter_PreRender(object sender, EventArgs e) {
             RadDropDownList list = sender as RadDropDownList;
             if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
+        }
+
+        protected Control FindControlRecursive(Control container, string name) {
+            if ((container.ID != null) && (container.ID.Equals(name))) { return container; }
+            foreach (Control ctrl in container.Controls) {
+                Control foundCtrl = FindControlRecursive(ctrl, name);
+                if (foundCtrl != null) { return foundCtrl; }
+            }
+            return null;
         }
 
     }

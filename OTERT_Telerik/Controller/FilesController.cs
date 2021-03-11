@@ -24,6 +24,7 @@ namespace OTERT.Controller {
         public int CountFiles(string recFilter) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
+                    System.Globalization.DateTimeFormatInfo greek = new System.Globalization.CultureInfo("el-GR").DateTimeFormat;
                     int count = 0;
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     if (!string.IsNullOrEmpty(recFilter)) {
@@ -57,10 +58,10 @@ namespace OTERT.Controller {
                             List<DateTime> orderDates = new List<DateTime>();
                             foreach (string dtExpression in DateStampExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
-                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                string format = "d/M/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
                                 if (dateExp.Length > 1) {
-                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
                                         orderDates.Add(newDate);
                                     }
                                 }
@@ -229,6 +230,7 @@ namespace OTERT.Controller {
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
+                    System.Globalization.DateTimeFormatInfo greek = new System.Globalization.CultureInfo("el-GR").DateTimeFormat;
                     IQueryable<File4ListB> datatmp = (from us in dbContext.Files
                                                     select new File4ListB {
                                                         ID = us.ID,
@@ -261,10 +263,10 @@ namespace OTERT.Controller {
                             List<DateTime> orderDates = new List<DateTime>();
                             foreach (string dtExpression in OrderDateExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
-                                string format = "M/d/yyyy,h:mm:ss,tt";
+                                string format = "d/M/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
                                 if (dateExp.Length > 1) {
-                                    if (DateTime.TryParseExact(dateExp[1], format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
                                         orderDates.Add(newDate);
                                     }
                                 }

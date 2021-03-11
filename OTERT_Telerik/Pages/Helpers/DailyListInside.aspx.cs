@@ -16,6 +16,8 @@ using Telerik.Windows.Documents.Flow.Model.Styles;
 using Telerik.Windows.Documents.Spreadsheet.Model;
 using Telerik.Windows.Documents.Common.FormatProviders;
 using Telerik.Windows.Documents.Flow.FormatProviders.Docx;
+using Telerik.Windows.Documents.Spreadsheet.FormatProviders;
+using Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.Xlsx;
 using ExpressionParser;
 using OTERT.Model;
 using OTERT.Controller;
@@ -36,6 +38,10 @@ namespace OTERT.Pages.Helpers {
         const string pageUniqueName = "KET";
 
         protected DateTime forDate = DateTime.Parse("1900-01-01");
+        protected readonly ThemableColor cellBackground = ThemableColor.FromArgb(0, 255, 255, 255);
+        protected readonly ThemableColor tcBlack = ThemableColor.FromArgb(255, 0, 0, 0);
+        protected readonly ThemableColor tcWhite = ThemableColor.FromArgb(255, 255, 255, 255);
+        protected readonly string dateFormat = "dd/MM/yyyy HH:mm";
 
         protected void Page_Load(object sender, EventArgs e) {
             string forDateStr = Request.QueryString["date"].ToString();
@@ -78,64 +84,104 @@ namespace OTERT.Pages.Helpers {
         }
 
         protected void btnExportXLSX_Click(object sender, EventArgs e) {
-            /*
-            var document = new RadFlowDocument();
-            var editor = new RadFlowDocumentEditor(document);
-            editor.ParagraphFormatting.TextAlignment.LocalValue = Alignment.Justified;
-            editor.InsertLine("Dear Telerik User,");
-            editor.InsertText("We're happy to introduce the new Telerik RadWordsProcessing component for WPF. High performance library that enables you to read, write and manipulate documents in DOCX, RTF and plain text format. The document model is independent from UI and ");
-            Run run = editor.InsertText("does not require");
-            run.Underline.Pattern = UnderlinePattern.Single;
-            editor.InsertLine(" Microsoft Office.");
-            editor.InsertText("bold, ").FontWeight = System.Windows.FontWeights.Bold;
-            editor.InsertText("italic, ").FontStyle = System.Windows.FontStyles.Italic;
-            editor.InsertText("underline,").Underline.Pattern = UnderlinePattern.Single;
-            editor.InsertText(" font sizes and ").FontSize = 20;
-            editor.InsertText("colors ").ForegroundColor = new ThemableColor(System.Windows.Media.Colors.Green);
-            editor.InsertText("or ");
-            editor.InsertText("colors2 ").ForegroundColor = new ThemableColor(System.Windows.Media.Color.FromRgb(255,0,0));
-            editor.InsertLine("as well as text alignment and indentation. Other options include tables, hyperlinks, inline and floating images. Even more sweetness is added by the built-in styles and themes.");
-            editor.InsertText("Here at Telerik we strive to provide the best services possible and fulfill all needs you as a customer may have. We would appreciate any feedback you send our way through the ");
-            editor.InsertHyperlink("public forums", "http://www.telerik.com/forums", false, "Telerik Forums");
-            editor.InsertLine(" or support ticketing system.");
-            editor.InsertLine("We hope you'll enjoy RadWordsProcessing as much as we do. Happy coding!");
-            editor.InsertParagraph();
-            editor.InsertLine("Kind regards,");
-            editor.InsertLine("Telerik Admin");
-            exportDOCX(document);
-            */
-            try {
-                DocumentReplacemetsController cont = new DocumentReplacemetsController();
-                List<DocumentReplacemetB> reps = new List<DocumentReplacemetB>();
-                reps = cont.GetDocumentReplacemets("GLOBAL");
-                DocumentReplacemetB curRep = reps.Find(o => o.Title == "Τίτλος Test");
-                if (curRep != null) {
-                    RadFlowDocument curDoc = LoadSampleDocument(pageUniqueName);
-                    RadFlowDocumentEditor editor = new RadFlowDocumentEditor(curDoc);
-                    //System.Text.RegularExpressions.Regex textRegex = new System.Text.RegularExpressions.Regex("ΣΑΟΥΣΟΠΟΥΛΟΥ ΑΝΝΑ");
-                    //editor.ReplaceText("ΣΑΟΥΣΟΠΟΥΛΟΥ ΑΝΝΑ", txtNew.Text, true, true);
-                    BookmarkRangeStart bookmarkRangeStart = editor.Document.EnumerateChildrenOfType<BookmarkRangeStart>().Where(rangeStart => rangeStart.Bookmark.Name == "Name2Change").FirstOrDefault();
-                    editor.MoveToInlineEnd(bookmarkRangeStart);
-                    editor.InsertText(curRep.Text);
-                    exportXLSX(curDoc);
-                }
-            }
-            catch (Exception) { }
-        }
-
-        protected void exportXLSX(RadFlowDocument doc) {
-            IFormatProvider<RadFlowDocument> formatProvider = new DocxFormatProvider();
+            IWorkbookFormatProvider formatProvider = new XlsxFormatProvider();
+            Workbook workbook = createWorkbook();
             byte[] renderedBytes = null;
             using (MemoryStream ms = new MemoryStream()) {
-                formatProvider.Export(doc, ms);
+                formatProvider.Export(workbook, ms);
                 renderedBytes = ms.ToArray();
             }
             Response.ClearHeaders();
             Response.ClearContent();
-            Response.AppendHeader("content-disposition", "attachment; filename=ExportedFile.docx");
-            Response.ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+            Response.AppendHeader("content-disposition", "attachment; filename=Daily_Transmissions_List_" + forDate.ToString("dd-MM-yyyy") + ".xlsx");
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             Response.BinaryWrite(renderedBytes);
             Response.End();
+        }
+
+        protected Workbook createWorkbook() {
+            Workbook workbook = new Workbook();
+            workbook.Sheets.Add(SheetType.Worksheet);
+            Worksheet worksheet = workbook.ActiveWorksheet;
+            worksheet.Name = "KET " + forDate.ToString("dd-MM-yyyy");
+            List<TaskForH> tasks = getTasksForHelpers(forDate);
+            prepareDocument(worksheet);
+            int currentRow = 1;
+            CellBorder border = new CellBorder(CellBorderStyle.Thin, tcBlack);
+            CellBorders borders = new CellBorders(border, border, border, border, null, null, null, null);
+            double fontSize = 12;
+            foreach (TaskForH curTask in tasks) {
+                worksheet.Cells[currentRow, 0].SetValue(curTask.Count.ToString());
+                worksheet.Cells[currentRow, 0].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 0].SetBorders(borders);
+                worksheet.Cells[currentRow, 1].SetValue(curTask.Customer);
+                worksheet.Cells[currentRow, 1].SetFormat(new CellValueFormat("@"));
+                worksheet.Cells[currentRow, 1].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 1].SetBorders(borders);
+                worksheet.Cells[currentRow, 2].SetValue(curTask.FromPlace);
+                worksheet.Cells[currentRow, 2].SetFormat(new CellValueFormat("@"));
+                worksheet.Cells[currentRow, 2].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 2].SetBorders(borders);
+                worksheet.Cells[currentRow, 3].SetValue(curTask.FromTime + " - " + curTask.ToTime);
+                worksheet.Cells[currentRow, 3].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 3].SetBorders(borders);
+                worksheet.Cells[currentRow, 4].SetValue(curTask.Comments);
+                worksheet.Cells[currentRow, 4].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 4].SetBorders(borders);
+                currentRow++;
+            }
+            for (int i = 0; i < worksheet.Columns.Count; i++) { worksheet.Columns[i].AutoFitWidth(); }
+            for (int i = 0; i < worksheet.Columns.Count; i++) {
+                ColumnSelection columnSelection = worksheet.Columns[i];
+                ColumnWidth columnWidth = columnSelection.GetWidth().Value;
+                columnSelection.SetWidth(new ColumnWidth(columnWidth.Value + 10, columnWidth.IsCustom));
+            }
+            ColumnSelection columnSelection4 = worksheet.Columns[4];
+            ColumnWidth columnWidth4 = columnSelection4.GetWidth().Value;
+            columnSelection4.SetWidth(new ColumnWidth(columnWidth4.Value + 10, columnWidth4.IsCustom));
+            return workbook;
+        }
+
+        protected void prepareDocument(Worksheet worksheet) {
+            PatternFill pfGreen = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 153, 204, 0), System.Windows.Media.Colors.Transparent);
+            PatternFill pfOrange = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 255, 204, 0), System.Windows.Media.Colors.Transparent);
+            PatternFill pfRed = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 255, 0, 0), System.Windows.Media.Colors.Transparent);
+            PatternFill pfBlue = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 0, 0, 255), System.Windows.Media.Colors.Transparent);
+            CellBorder border = new CellBorder(CellBorderStyle.Thin, tcBlack);
+            CellBorders borders = new CellBorders(border, border, border, border, null, null, null, null);
+            double fontSize = 12;
+            worksheet.Cells[0, 0].SetValue("A/A");
+            worksheet.Cells[0, 0].SetFontSize(fontSize);
+            worksheet.Cells[0, 0].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 0].SetIsBold(true);
+            worksheet.Cells[0, 0].SetFill(pfGreen);
+            worksheet.Cells[0, 0].SetBorders(borders);
+            worksheet.Cells[0, 1].SetValue("ΑΙΤΩΝ");
+            worksheet.Cells[0, 1].SetFontSize(fontSize);
+            worksheet.Cells[0, 1].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 1].SetIsBold(true);
+            //worksheet.Cells[0, 1].SetIsWrapped(true);
+            worksheet.Cells[0, 1].SetFill(pfGreen);
+            worksheet.Cells[0, 1].SetBorders(borders);
+            worksheet.Cells[0, 2].SetValue("ΑΠΟ");
+            worksheet.Cells[0, 2].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 2].SetFontSize(fontSize);
+            worksheet.Cells[0, 2].SetIsBold(true);
+            //worksheet.Cells[0, 2].SetIsWrapped(true);
+            worksheet.Cells[0, 2].SetFill(pfOrange);
+            worksheet.Cells[0, 2].SetBorders(borders);
+            worksheet.Cells[0, 3].SetValue("ΩΡΑ");
+            worksheet.Cells[0, 3].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 3].SetFontSize(fontSize);
+            worksheet.Cells[0, 3].SetIsBold(true);
+            worksheet.Cells[0, 3].SetFill(pfGreen);
+            worksheet.Cells[0, 3].SetBorders(borders);
+            worksheet.Cells[0, 4].SetValue("ΠΑΡΑΤΗΡΗΣΕΙΣ");
+            worksheet.Cells[0, 4].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 4].SetFontSize(fontSize);
+            worksheet.Cells[0, 4].SetIsBold(true);
+            worksheet.Cells[0, 4].SetFill(pfGreen);
+            worksheet.Cells[0, 4].SetBorders(borders);
         }
 
         protected void btnExportDOCX_Click(object sender, EventArgs e) {
@@ -231,7 +277,7 @@ namespace OTERT.Pages.Helpers {
                 curRep = reps.Find(o => o.UniqueName == "KET_Header_Date");
                 bookmarkRangeStart = defaultHeader.EnumerateChildrenOfType<BookmarkRangeStart>().Where(rangeStart => rangeStart.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault();
                 editor.MoveToInlineEnd(bookmarkRangeStart);
-                editor.InsertText(DateTime.Now.ToString(curRep.Text, new System.Globalization.CultureInfo("el-GR")));
+                editor.InsertText(forDate.ToString(curRep.Text, new System.Globalization.CultureInfo("el-GR")));
 
                 curRep = reps.Find(o => o.UniqueName == "KET_Header_To");
                 bookmarkRangeStart = defaultHeader.EnumerateChildrenOfType<BookmarkRangeStart>().Where(rangeStart => rangeStart.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault();

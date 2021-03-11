@@ -31,8 +31,7 @@
             AllowFilteringByColumn="True" PagerStyle-AlwaysVisible="true" MasterTableView-AllowSorting="true" MasterTableView-AllowCustomSorting="true"
             OnNeedDataSource="gridMain_NeedDataSource"
             OnItemDataBound="gridMain_ItemDataBound" 
-            OnItemCreated="gridMain_ItemCreated" 
-            OnSortCommand="gridMain_SortCommand">
+            OnItemCreated="gridMain_ItemCreated">
             <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" AllowFilteringByColumn="True" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές">
                 <CommandItemSettings ShowAddNewRecordButton="false" />
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />
@@ -56,6 +55,9 @@
                 </Columns>
             </MasterTableView>
         </telerik:RadGrid>
+        <br /><br />
+        &nbsp;<telerik:RadButton RenderMode="Lightweight" Text="Εξαγωγή Αρχείου Zip" ID="btnExportZip" CssClass="downloadButton" OnClick="btnExportZip_Click" runat="server" />
         <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" />
+        <asp:Literal ID="litErrors" runat="server" />
     </div>
 </asp:Content>

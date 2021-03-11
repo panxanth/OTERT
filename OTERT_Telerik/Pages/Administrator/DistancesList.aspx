@@ -2,8 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="PHHead" runat="server">
-</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="PHHead" runat="server"></asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PHContent" runat="server">
     <telerik:RadScriptManager ID="RadScriptManager1" runat="server">
@@ -64,6 +63,7 @@
                                 DataValueField="Positions" 
                                 InputType="Text" AllowCustomEntry="True" Filter="StartsWith" TextSettings-SelectionMode="Single"
                                 OnTextChanged="txtPosition1_TextChanged" />
+                            <telerik:RadDropDownList runat="server" ID="ddlPosition1" RenderMode="Lightweight" DropDownHeight="200" Width="300px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlPosition1_SelectedIndexChanged" />
                             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPosition1" ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
@@ -78,6 +78,7 @@
                                 DataValueField="Positions" 
                                 InputType="Text" AllowCustomEntry="True" Filter="StartsWith" TextSettings-SelectionMode="Single" 
                                 OnTextChanged="txtPosition2_TextChanged" />
+                            <telerik:RadDropDownList runat="server" ID="ddlPosition2" RenderMode="Lightweight" DropDownHeight="200" Width="300px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlPosition2_SelectedIndexChanged" />
                             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPosition2" ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>

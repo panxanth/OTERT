@@ -102,8 +102,23 @@ namespace OTERT.Controller {
                                                 Position1 = us.Position1,
                                                 Position2 = us.Position2,
                                                 KM = us.KM
-                                            }).Where(k => k.JobsMain.PageID == PageID).OrderBy(o => o.Position1).ToList();
+                                            }).Where(k => k.JobsMain.PageID == PageID).OrderBy(o => o.Description).ToList();
                     return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
+        public List<string> GetDistinctPositions() {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<string> Posotion1 = (from us in dbContext.Distances select us.Position1).ToList();
+                    List<string> Posotion2 = (from us in dbContext.Distances select us.Position2).ToList();
+                    Posotion1.AddRange(Posotion2);
+                    List<string> Positions = new HashSet<string>(Posotion1).ToList();
+                    Positions.Sort();
+                    return Positions;
                 }
                 catch (Exception) { return null; }
             }
