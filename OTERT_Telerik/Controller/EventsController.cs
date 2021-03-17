@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using OTERT.Model;
 using OTERT_Entity;
+using Telerik.Web.UI;
 
 namespace OTERT.Controller {
 
@@ -102,7 +103,7 @@ namespace OTERT.Controller {
             }
         }
 
-        public List<EventB> GetEvents(int recSkip, int recTake) {
+        public List<EventB> GetEvents(int recSkip, int recTake, string recFilter, GridSortExpressionCollection gridSortExxpressions) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;

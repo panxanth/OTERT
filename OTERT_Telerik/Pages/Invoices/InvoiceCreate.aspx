@@ -31,8 +31,7 @@
             <table>
                 <tr>
                     <td>Πελάτης: </td>
-                    <td><telerik:RadDropDownList RenderMode="Lightweight" ID="ddlCustomers" runat="server" DropDownHeight="200px" Width="200px" DropDownWidth="200px" AutoPostBack="false" CausesValidation="false" /></td>
-                    <td></td>
+                    <td colspan="2"><telerik:RadDropDownList RenderMode="Lightweight" ID="ddlCustomers" runat="server" DropDownHeight="200px" Width="400px" DropDownWidth="400px" AutoPostBack="false" CausesValidation="false" /></td>
                 </tr>
                 <tr>
                     <td>Ημ/νία Τιμολογίου: </td>

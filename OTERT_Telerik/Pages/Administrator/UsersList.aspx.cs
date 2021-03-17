@@ -36,10 +36,11 @@ namespace OTERT.Pages.Administrator {
             int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
             int recTake = gridMain.PageSize;
             string recFilter = gridMain.MasterTableView.FilterExpression;
+            GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
             try {
                 UsersController cont = new UsersController();
                 gridMain.VirtualItemCount = cont.CountUsers(recFilter);
-                gridMain.DataSource = cont.GetUsers(recSkip, recTake, recFilter);
+                gridMain.DataSource = cont.GetUsers(recSkip, recTake, recFilter, gridSortExxpressions);
             }
             catch (Exception) { }
 

@@ -5,6 +5,7 @@ using System.Linq.Dynamic;
 using System.Web;
 using OTERT.Model;
 using OTERT_Entity;
+using Telerik.Web.UI;
 
 namespace OTERT.Controller {
 
@@ -49,7 +50,7 @@ namespace OTERT.Controller {
             }
         }
 
-        public List<UserB> GetUsers(int recSkip, int recTake, string recFilter) {
+        public List<UserB> GetUsers(int recSkip, int recTake, string recFilter, GridSortExpressionCollection gridSortExxpressions) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
@@ -67,7 +68,12 @@ namespace OTERT.Controller {
                                                     UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name }
                                                 });
                     if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
-                    List<UserB> data = datatmp.OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                    if (gridSortExxpressions.Count > 0) {
+                        datatmp = datatmp.OrderBy(gridSortExxpressions[0].FieldName + " " + gridSortExxpressions[0].SortOrder);
+                    } else {
+                        datatmp = datatmp.OrderByDescending(o => o.ID);
+                    }
+                    List<UserB> data = datatmp.Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

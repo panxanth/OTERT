@@ -401,7 +401,7 @@ namespace OTERT.Controller {
                                                 IsProvider = us.IsProvider,
                                                 IsOTE = us.IsOTE,
                                                 IsPTS = us.IsPTS
-                                            }).Where(k => k.CountryID == CountryID).OrderBy(o => o.NameGR).ToList();
+                                            }).Where(k => k.CountryID == CountryID && k.IsPTS == false).OrderBy(o => o.NameGR).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

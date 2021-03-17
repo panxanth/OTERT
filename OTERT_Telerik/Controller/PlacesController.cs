@@ -5,6 +5,7 @@ using System.Linq.Dynamic;
 using System.Web;
 using OTERT.Model;
 using OTERT_Entity;
+using Telerik.Web.UI;
 
 namespace OTERT.Controller {
 
@@ -44,7 +45,7 @@ namespace OTERT.Controller {
             }
         }
 
-        public List<PlaceB> GetPlaces(int recSkip, int recTake, string recFilter) {
+        public List<PlaceB> GetPlaces(int recSkip, int recTake, string recFilter, GridSortExpressionCollection gridSortExxpressions) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
@@ -57,7 +58,12 @@ namespace OTERT.Controller {
                                                      Country = new CountryDTO { ID = us.Countries.ID, NameGR = us.Countries.NameGR, NameEN = us.Countries.NameEN }
                                                  });
                     if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
-                    List<PlaceB> data = datatmp.OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                    if (gridSortExxpressions.Count > 0) {
+                        datatmp = datatmp.OrderBy(gridSortExxpressions[0].FieldName + " " + gridSortExxpressions[0].SortOrder);
+                    } else {
+                        datatmp = datatmp.OrderByDescending(o => o.ID);
+                    }
+                    List<PlaceB> data = datatmp.Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

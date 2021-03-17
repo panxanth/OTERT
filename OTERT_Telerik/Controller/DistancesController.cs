@@ -5,6 +5,7 @@ using System.Linq.Dynamic;
 using System.Web;
 using OTERT.Model;
 using OTERT_Entity;
+using Telerik.Web.UI;
 
 namespace OTERT.Controller {
 
@@ -16,7 +17,19 @@ namespace OTERT.Controller {
                     int count = 0;
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     if (!string.IsNullOrEmpty(recFilter)) {
-                        count = dbContext.Distances.Where(recFilter).Count();
+                        //count = dbContext.Distances.Where(recFilter).Count();
+
+                        IQueryable<DistanceB> datatmp = (from us in dbContext.Distances
+                                                         select new DistanceB {
+                                                             ID = us.ID,
+                                                             JobsMainID = us.JobsMainID,
+                                                             JobsMain = new JobMainDTO { ID = us.JobsMain.ID, PageID = us.JobsMain.PageID, Name = us.JobsMain.Name },
+                                                             Description = us.Position1 + " - " + us.Position2 + " (" + us.KM.ToString() + " km)",
+                                                             Position1 = us.Position1,
+                                                             Position2 = us.Position2,
+                                                             KM = us.KM
+                                                         });
+                        count = datatmp.Where(recFilter).Count();
                     } else {
                         count = dbContext.Distances.Count();
                     }
@@ -67,7 +80,7 @@ namespace OTERT.Controller {
             }
         }
 
-        public List<DistanceB> GetDistances(int recSkip, int recTake, string recFilter) {
+        public List<DistanceB> GetDistances(int recSkip, int recTake, string recFilter, GridSortExpressionCollection gridSortExxpressions) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
@@ -82,7 +95,12 @@ namespace OTERT.Controller {
                                                         KM = us.KM
                                                     });
                     if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
-                    List<DistanceB> data = datatmp.OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                    if (gridSortExxpressions.Count > 0) {
+                        datatmp = datatmp.OrderBy(gridSortExxpressions[0].FieldName + " " + gridSortExxpressions[0].SortOrder);
+                    } else {
+                        datatmp = datatmp.OrderByDescending(o => o.ID);
+                    }
+                    List<DistanceB> data = datatmp.Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

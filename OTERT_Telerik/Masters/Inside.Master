@@ -145,7 +145,7 @@
                 </li>
                 <li class="gradient_menuitem gradient27"><a class="with_arrow" title="">Τεχνικά Δεδομένα</a>
                     <ul class="gradient_menu gradient67">
-                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/LineTypesList.aspx">Είδη Γραμμών</a></li>
+                        <!-- <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/LineTypesList.aspx">Είδη Γραμμών</a></li> -->
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/SatelitesList.aspx">Δορυφόροι</a></li>
                     </ul>
                 </li>
@@ -184,6 +184,15 @@
             </ul>
         </li>
         <%}%>
+        <!-- ********** Μενού "Manual" ********** -->
+        <li>
+            <div class="buttonbg gradient_button gradient33" style="width: 90px;">
+                <div class="arrow"><a class="button_2">Βοήθεια</a></div>
+            </div>
+            <ul class="gradient_menu gradient99">
+                <li class="gradient_menuitem gradient27 last_item"><a href="/images/Manual.docx" title="">Εγχειρίδιο Χρήσης</a></li>
+            </ul>
+        </li>
         <li>
             <div class="gradient33" style="width: 400px; text-align: right;"><a class="button_666"><span class="fa fa-user" style="font-size: 18px;"></span>&nbsp;&nbsp;&nbsp;<% =userName %></a></div>
         </li>

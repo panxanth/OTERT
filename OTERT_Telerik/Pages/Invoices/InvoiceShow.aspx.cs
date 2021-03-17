@@ -113,7 +113,7 @@ namespace OTERT.Pages.Invoices {
                 RadDropDownList clist = (RadDropDownList)filterItem.FindControl("ddlCustomersFilter");
                 try {
                     CustomersController ccont = new CustomersController();
-                    clist.DataSource = ccont.GetCustomers();
+                    clist.DataSource = ccont.GetCustomersForCountry(1);
                     clist.DataTextField = "NameGR";
                     clist.DataValueField = "ID";
                     clist.DataBind();

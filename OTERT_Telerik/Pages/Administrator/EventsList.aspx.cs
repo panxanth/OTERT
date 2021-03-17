@@ -38,10 +38,12 @@ namespace OTERT.Pages.Administrator {
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
             int recSkip = gridMain.CurrentPageIndex * gridMain.PageSize;
             int recTake = gridMain.PageSize;
+            string recFilter = gridMain.MasterTableView.FilterExpression;
+            GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
             try {
                 EventsController cont = new EventsController();
                 gridMain.VirtualItemCount = cont.CountEvents();
-                gridMain.DataSource = cont.GetEvents(recSkip, recTake);
+                gridMain.DataSource = cont.GetEvents(recSkip, recTake, recFilter, gridSortExxpressions);
             }
             catch (Exception) { }
         }
