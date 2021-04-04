@@ -134,11 +134,15 @@ namespace OTERT.Pages.Helpers {
             for (int i = 0; i < worksheet.Columns.Count; i++) {
                 ColumnSelection columnSelection = worksheet.Columns[i];
                 ColumnWidth columnWidth = columnSelection.GetWidth().Value;
-                columnSelection.SetWidth(new ColumnWidth(columnWidth.Value + 10, columnWidth.IsCustom));
+                double curColWidth = columnWidth.Value + 10;
+                if (curColWidth > 2000) { curColWidth = 2000; }
+                columnSelection.SetWidth(new ColumnWidth(curColWidth, columnWidth.IsCustom));
             }
             ColumnSelection columnSelection4 = worksheet.Columns[4];
             ColumnWidth columnWidth4 = columnSelection4.GetWidth().Value;
-            columnSelection4.SetWidth(new ColumnWidth(columnWidth4.Value + 10, columnWidth4.IsCustom));
+            double curColWidth4 = columnWidth4.Value + 10;
+            if (curColWidth4 > 2000) { curColWidth4 = 2000; }
+            columnSelection4.SetWidth(new ColumnWidth(curColWidth4, columnWidth4.IsCustom));
             return workbook;
         }
 

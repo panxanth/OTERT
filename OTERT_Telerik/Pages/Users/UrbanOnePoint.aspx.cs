@@ -2,19 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Telerik.Web.UI;
 using Telerik.Web.UI.Calendar;
-using Telerik.Windows.Documents.Flow.Model;
-using Telerik.Windows.Documents.Flow.Model.Editing;
-using Telerik.Windows.Documents.Flow.Model.Styles;
-using Telerik.Windows.Documents.Spreadsheet.Model;
-using Telerik.Windows.Documents.Common.FormatProviders;
-using Telerik.Windows.Documents.Flow.FormatProviders.Docx;
 using ExpressionParser;
 using OTERT.Model;
 using OTERT.Controller;
@@ -27,7 +20,6 @@ namespace OTERT.Pages.UserPages {
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
-        protected Button btnPrint;
         protected int pageID = 1;
         protected string pageTitle, uploadedFilePath;
         protected int JobsID, CustomersID, DistancesID;
@@ -86,8 +78,10 @@ namespace OTERT.Pages.UserPages {
             if (e.Item.OwnerTableView.Name == "Master") {
                 if (e.Item is GridDataItem) {
                     GridDataItem item = (GridDataItem)e.Item;
-                    ElasticButton img = (ElasticButton)item["btnDelete"].Controls[0];
-                    img.ToolTip = "Διαγραφή";
+                    ElasticButton btnDelete = (ElasticButton)item["btnDelete"].Controls[0];
+                    btnDelete.ToolTip = "Διαγραφή";
+                    ImageButton btnUnlock = (ImageButton)item["btnUnlock"].Controls[0];
+                    btnUnlock.ToolTip = "Ξεκλείδωμα";
                 }
                 if (e.Item is GridFilteringItem) {
                     GridFilteringItem filterItem = (GridFilteringItem)e.Item;
@@ -316,7 +310,7 @@ namespace OTERT.Pages.UserPages {
                     GridDataItem item = (GridDataItem)e.Item;
                     if (item.OwnerTableView.DataSource != null) {
                         TaskB curTask = (item.OwnerTableView.DataSource as List<TaskB>)[item.DataSetIndex];
-                        System.Web.UI.WebControls.TableCell curCell = item["RegNo"];
+                        TableCell curCell = item["RegNo"];
                         string curComments = curTask.Comments;
                         string curTooltip = "<span><span class=\"tooltip tooltip-effect-4\"><span class=\"tooltip-item\">";
                         curTooltip += curCell.Text;
@@ -341,6 +335,22 @@ namespace OTERT.Pages.UserPages {
                 }
             }
             */
+            if (e.Item.OwnerTableView.Name == "Master") {
+                if (e.Item is GridDataItem) {
+                    GridDataItem item = e.Item as GridDataItem;
+                    TaskB curItemData = item.DataItem as TaskB;
+                    if (curItemData.IsLocked == true) { 
+                        //item.BackColor = System.Drawing.Color.LightCyan;
+                        ElasticButton btnEdit = (ElasticButton)item.FindControl("EditButton");
+                        if (btnEdit != null) { btnEdit.Visible = false; }
+                        ElasticButton btnDelete = (ElasticButton)item["btnDelete"].Controls[0];
+                        if (btnDelete != null) { btnDelete.Visible = false; }
+                    } else {
+                        ImageButton btnUnlock = (ImageButton)item["btnUnlock"].Controls[0];
+                        if (btnUnlock != null) { btnUnlock.Visible = false; }
+                    }
+                }
+            }
             if (e.Item is GridFilteringItem) {
                 GridFilteringItem filterItem = (GridFilteringItem)e.Item;
                 RadDropDownList clist = (RadDropDownList)filterItem.FindControl("ddlCustomersFilter");
@@ -422,6 +432,9 @@ namespace OTERT.Pages.UserPages {
                 case 2:
                     RadWindowManager1.RadAlert("Η συγκεκριμένη Παραγγελία είναι κλειδωμένη και δεν μπορεί να διαγραφεί!", 400, 200, "Σφάλμα", "");
                     break;
+                case 3:
+                    RadWindowManager1.RadAlert("Μόνο χρήστης με ρόλο Administrator μπορεί να ξεκλειδώσει ένα έργο!", 400, 200, "Σφάλμα", "");
+                    break;
                 default:
                     RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
                     break;
@@ -457,6 +470,10 @@ namespace OTERT.Pages.UserPages {
                         CheckBox chkIsCanceled = (CheckBox)editableItem.FindControl("chkIsCanceled");
                         curTask.IsCanceled = chkIsCanceled.Checked;
                         if (curTask.IsCanceled == true) { curTask.IsForHelpers = false; }
+
+
+                        CheckBox chkIsLocked = (CheckBox)editableItem.FindControl("chkIsLocked");
+
                         dbContext.SaveChanges();
                     }
                     catch (Exception) { ShowErrorMessage(-1); }
@@ -583,6 +600,25 @@ namespace OTERT.Pages.UserPages {
                         catch (Exception) { ShowErrorMessage(-1); }
                     }
                 }
+            }
+        }
+
+        protected void gridMain_ItemCommand(object source, Telerik.Web.UI.GridCommandEventArgs e) {
+            if (e.CommandName == "Unlock") {
+                if (loggedUser.UserGroupID == 1) {
+                    var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
+                    using (var dbContext = new OTERTConnStr()) {
+                        Tasks curTask = dbContext.Tasks.Where(n => n.ID == ID).FirstOrDefault();
+                        if (curTask != null) {
+                            curTask.IsLocked = false;
+                            try {
+                                dbContext.SaveChanges();
+                                gridMain.Rebind();
+                            }
+                            catch (Exception) { ShowErrorMessage(-1); }
+                        } else { ShowErrorMessage(-1); }
+                    }
+                } else { ShowErrorMessage(3); }
             }
         }
 

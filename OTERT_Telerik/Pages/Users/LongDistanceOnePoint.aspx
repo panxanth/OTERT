@@ -35,6 +35,7 @@
             OnDeleteCommand="gridMain_DeleteCommand"
             OnInsertCommand="gridMain_InsertCommand" 
             OnItemDataBound="gridMain_ItemDataBound" 
+            OnItemCommand="gridMain_ItemCommand"
             OnDetailTableDataBind="gridMain_DetailTableDataBind" 
             OnPreRender="gridMain_PreRender">
             <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" AllowFilteringByColumn="True" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές" Name="Master">
@@ -66,6 +67,7 @@
                 <Columns>
                     <telerik:GridExpandColumn UniqueName="ExapandColumn" />
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
+                    <telerik:GridButtonColumn UniqueName="btnUnlock" ConfirmText="Να ξεκλειδωθεί αυτό το Έργο;" ConfirmDialogType="RadWindow" ConfirmTitle="Ξεκλείδωμα" ButtonType="ImageButton" ImageUrl="~/Images/lock.png" HeaderTooltip="Ξεκλείδωμα" CommandName="Unlock" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                     <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Font-Bold="true" AllowFiltering="false" AllowSorting="false" />
                     <telerik:GridBoundColumn DataField="OrderID" HeaderText="Παραγγελία" ReadOnly="true" Visible="false" AllowFiltering="false" />
                     <telerik:GridBoundColumn UniqueName="RegNo" DataField="RegNo" HeaderText="Αριθμός Πρωτοκόλλου" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true" HeaderStyle-Font-Bold="true" FilterControlWidth="150px" >

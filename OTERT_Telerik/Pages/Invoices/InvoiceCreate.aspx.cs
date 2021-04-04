@@ -20,6 +20,7 @@ using OTERT.Model;
 using OTERT.Controller;
 using OTERT_Entity;
 
+
 namespace OTERT.Pages.Invoices {
 
     public partial class InvoiceCreate : Page {
@@ -118,6 +119,18 @@ namespace OTERT.Pages.Invoices {
                 gridTasks.DataSource = tcont.GetTasksForInvoice(wData.CustomerID, wData.DateFrom, wData.DateTo, wData.SelectedJobs).OrderBy(o => o.DateTimeStartOrder);
             }
             catch (Exception) { }
+        }
+
+        protected void gridTasks_ItemDataBound(object sender, GridItemEventArgs e) {
+            if (e.Item is GridDataItem) {
+                GridDataItem item = e.Item as GridDataItem;
+                TaskB curItemData = item.DataItem as TaskB;
+                if (curItemData.CostActual == null) {
+                    CheckBox chk = (CheckBox)item.FindControl("chk");
+                    chk.Enabled = false;
+                    item.BackColor = System.Drawing.Color.LightCoral;
+                }
+            }
         }
 
         protected void gridSales_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
@@ -256,6 +269,8 @@ namespace OTERT.Pages.Invoices {
                         newTaskLine.InvoiceID = curInvoice.ID;
                         newTaskLine.TaskID = curTask.ID;
                         newTaskLine.JobID = curTask.JobID.GetValueOrDefault();
+                        Tasks curTaskEntity = dbContext.Tasks.Where(s => s.ID == curTask.ID).First();
+                        curTaskEntity.IsLocked = true;
                         dbContext.TasksLine.Add(newTaskLine);
                     }
                     dbContext.SaveChanges();
@@ -345,7 +360,7 @@ namespace OTERT.Pages.Invoices {
         protected void btnSelectAllTasks_Click(object sender, EventArgs e) {
             foreach (GridDataItem item in gridTasks.MasterTableView.Items) {
                 CheckBox chk = (CheckBox)item.FindControl("chk");
-                chk.Checked = true;
+                if (chk.Enabled == true) { chk.Checked = true; }
             }
         }
 

@@ -100,7 +100,8 @@
         </asp:PlaceHolder>
         <asp:PlaceHolder ID="phStep3" runat="server">
             <telerik:RadGrid ID="gridTasks" runat="server" AutoGenerateColumns="false" Skin="Metro"
-                OnNeedDataSource="gridTasks_NeedDataSource">
+                OnNeedDataSource="gridTasks_NeedDataSource"
+                OnItemDataBound="gridTasks_ItemDataBound" >
                 <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" CommandItemStyle-HorizontalAlign="Right" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν Έργα που να πληρούν αυτές τις συνθήκες">
                     <CommandItemTemplate>
                         <asp:Button ID="btnSelectAllTasks" Text="Επιλογή Όλων" runat="server" OnClick="btnSelectAllTasks_Click" />
@@ -128,7 +129,7 @@
             <telerik:RadButton RenderMode="Lightweight" ID="btnShowPrev3" runat="server" SingleClick="true" SingleClickText="Please wait..." OnClick="btnShowPrev3_Click" Text="Προηγούμενο">
                 <Icon PrimaryIconCssClass="rbPrevious" />
             </telerik:RadButton>&nbsp;&nbsp;&nbsp;&nbsp;
-            <telerik:RadButton RenderMode="Lightweight" ID="btnShow3" runat="server" SingleClick="true" SingleClickText="Please wait..." OnClick="btnShow3_Click" Text="Επόμενο">
+            <telerik:RadButton RenderMode="Lightweight" ID="btnShow3" runat="server" SingleClick="true" SingleClickText="Please wait..." OnClick="btnShow3_Click" Text="Ολοκλήρωση Τιμολογίου">
                 <Icon PrimaryIconCssClass="rbNext" />
             </telerik:RadButton>
         </asp:PlaceHolder>
