@@ -126,12 +126,14 @@ namespace OTERT.Pages.Helpers {
                 worksheet.Cells[currentRow, 3].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 3].SetBorders(borders);
                 worksheet.Cells[currentRow, 4].SetValue(curTask.Comments);
+                worksheet.Cells[currentRow, 4].SetIsWrapped(true);
                 worksheet.Cells[currentRow, 4].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 4].SetBorders(borders);
                 currentRow++;
             }
             for (int i = 0; i < worksheet.Columns.Count; i++) { worksheet.Columns[i].AutoFitWidth(); }
             for (int i = 0; i < worksheet.Columns.Count; i++) {
+                if (i == 4) { worksheet.Columns[i].SetWidth(new ColumnWidth(500, true)); }
                 ColumnSelection columnSelection = worksheet.Columns[i];
                 ColumnWidth columnWidth = columnSelection.GetWidth().Value;
                 double curColWidth = columnWidth.Value + 10;

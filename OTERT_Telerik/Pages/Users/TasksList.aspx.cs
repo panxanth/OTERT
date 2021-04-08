@@ -436,43 +436,50 @@ namespace OTERT.Pages.UserPages {
                 worksheet.Cells[currentRow,16].SetFormat(new CellValueFormat(dateFormat));
                 worksheet.Cells[currentRow,16].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,16].SetBorders(borders);
-                if (curTask.PaymentDateActual.GetValueOrDefault().Year > 2000) {
-                    worksheet.Cells[currentRow, 17].SetValue(curTask.PaymentDateActual.GetValueOrDefault());
-                } else {
-                    worksheet.Cells[currentRow, 17].SetValue("");
-                }
-                worksheet.Cells[currentRow,17].SetFormat(new CellValueFormat(dateFormat));
-                worksheet.Cells[currentRow,17].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,17].SetBorders(borders);
+                //if (curTask.PaymentDateActual.GetValueOrDefault().Year > 2000) {
+                //    worksheet.Cells[currentRow, 17].SetValue(curTask.PaymentDateActual.GetValueOrDefault());
+                //} else {
+                //    worksheet.Cells[currentRow, 17].SetValue("");
+                //}
+                //worksheet.Cells[currentRow,17].SetFormat(new CellValueFormat(dateFormat));
+                //worksheet.Cells[currentRow,17].SetFontSize(fontSize);
+                //worksheet.Cells[currentRow,17].SetBorders(borders);
                 string isCanc = "ΟΧΙ";
                 if (curTask.IsCanceled == true) { isCanc = "ΝΑΙ"; }
-                worksheet.Cells[currentRow,18].SetValue(isCanc);
+                worksheet.Cells[currentRow,17].SetValue(isCanc);
+                worksheet.Cells[currentRow,17].SetFontSize(fontSize);
+                worksheet.Cells[currentRow,17].SetBorders(borders);
+                worksheet.Cells[currentRow,18].SetValue(curTask.Comments);
+                worksheet.Cells[currentRow,18].SetIsWrapped(true);
                 worksheet.Cells[currentRow,18].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,18].SetBorders(borders);
-                worksheet.Cells[currentRow,19].SetValue(curTask.Comments);
+                worksheet.Cells[currentRow,19].SetValue(curTask.InvoceComments);
+                worksheet.Cells[currentRow,19].SetIsWrapped(true);
                 worksheet.Cells[currentRow,19].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,19].SetBorders(borders);
-                worksheet.Cells[currentRow,20].SetValue(curTask.InvoceComments);
-                worksheet.Cells[currentRow,20].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,20].SetBorders(borders);
-                worksheet.Cells[currentRow, 21].SetValue(curTask.EnteredByUser);
+                worksheet.Cells[currentRow, 20].SetValue(curTask.EnteredByUser);
+                worksheet.Cells[currentRow, 20].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 20].SetBorders(borders);
+                worksheet.Cells[currentRow, 21].SetValue(curTask.DateStamp);
+                worksheet.Cells[currentRow, 21].SetFormat(new CellValueFormat(dateFormat));
                 worksheet.Cells[currentRow, 21].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 21].SetBorders(borders);
-                worksheet.Cells[currentRow, 22].SetValue(curTask.DateStamp);
-                worksheet.Cells[currentRow, 22].SetFormat(new CellValueFormat(dateFormat));
-                worksheet.Cells[currentRow, 22].SetFontSize(fontSize);
-                worksheet.Cells[currentRow, 22].SetBorders(borders);
                 currentRow++;
             }
             for (int i = 0; i < worksheet.Columns.Count; i++) { worksheet.Columns[i].AutoFitWidth(); }
             for (int i = 0; i < worksheet.Columns.Count; i++) {
+                if (i==18 || i==19) { worksheet.Columns[i].SetWidth(new ColumnWidth(300, true)); }
                 ColumnSelection columnSelection = worksheet.Columns[i];
                 ColumnWidth columnWidth = columnSelection.GetWidth().Value;
-                columnSelection.SetWidth(new ColumnWidth(columnWidth.Value + 10, columnWidth.IsCustom));
+                double curColWidth = columnWidth.Value + 10;
+                if (curColWidth > 2000) { curColWidth = 2000; }
+                columnSelection.SetWidth(new ColumnWidth(curColWidth, columnWidth.IsCustom));
             }
             ColumnSelection columnSelection4 = worksheet.Columns[4];
             ColumnWidth columnWidth4 = columnSelection4.GetWidth().Value;
-            columnSelection4.SetWidth(new ColumnWidth(columnWidth4.Value + 10, columnWidth4.IsCustom));
+            double curColWidth4 = columnWidth4.Value + 10;
+            if (curColWidth4 > 2000) { curColWidth4 = 2000; }
+            columnSelection4.SetWidth(new ColumnWidth(curColWidth4, columnWidth4.IsCustom));
             return workbook;
         }
 
@@ -602,45 +609,38 @@ namespace OTERT.Pages.UserPages {
             //worksheet.Cells[0, 16].SetIsWrapped(true);
             worksheet.Cells[0, 16].SetFill(pfOrange);
             worksheet.Cells[0, 16].SetBorders(borders);
-            worksheet.Cells[0, 17].SetValue("Πραγματική Ημερομηνία Είσπραξης");
+            worksheet.Cells[0, 17].SetValue("Ακυρώθηκε;");
             worksheet.Cells[0, 17].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 17].SetFontSize(fontSize);
             worksheet.Cells[0, 17].SetIsBold(true);
-            //worksheet.Cells[0, 17].SetIsWrapped(true);
-            worksheet.Cells[0, 17].SetFill(pfOrange);
+            worksheet.Cells[0, 17].SetFill(pfGreen);
             worksheet.Cells[0, 17].SetBorders(borders);
-            worksheet.Cells[0, 18].SetValue("Ακυρώθηκε;");
+            worksheet.Cells[0, 18].SetValue("Παρατηρήσεις");
             worksheet.Cells[0, 18].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 18].SetFontSize(fontSize);
             worksheet.Cells[0, 18].SetIsBold(true);
             worksheet.Cells[0, 18].SetFill(pfGreen);
             worksheet.Cells[0, 18].SetBorders(borders);
-            worksheet.Cells[0, 19].SetValue("Παρατηρήσεις");
+            worksheet.Cells[0, 19].SetValue("Παρατηρήσεις Τιμολογίου");
             worksheet.Cells[0, 19].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 19].SetFontSize(fontSize);
             worksheet.Cells[0, 19].SetIsBold(true);
             worksheet.Cells[0, 19].SetFill(pfGreen);
             worksheet.Cells[0, 19].SetBorders(borders);
-            worksheet.Cells[0, 20].SetValue("Παρατηρήσεις Τιμολογίου");
+            worksheet.Cells[0, 20].SetValue("Χρήστης");
             worksheet.Cells[0, 20].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 20].SetFontSize(fontSize);
             worksheet.Cells[0, 20].SetIsBold(true);
-            worksheet.Cells[0, 20].SetFill(pfGreen);
+            worksheet.Cells[0, 20].SetForeColor(tcWhite);
+            worksheet.Cells[0, 20].SetFill(pfBlue);
             worksheet.Cells[0, 20].SetBorders(borders);
-            worksheet.Cells[0, 21].SetValue("Χρήστης");
+            worksheet.Cells[0, 21].SetValue("Ημερομηνία Καταχώρησης");
             worksheet.Cells[0, 21].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 21].SetFontSize(fontSize);
             worksheet.Cells[0, 21].SetIsBold(true);
             worksheet.Cells[0, 21].SetForeColor(tcWhite);
             worksheet.Cells[0, 21].SetFill(pfBlue);
             worksheet.Cells[0, 21].SetBorders(borders);
-            worksheet.Cells[0, 22].SetValue("Ημερομηνία Καταχώρησης");
-            worksheet.Cells[0, 22].SetHorizontalAlignment(RadHorizontalAlignment.Center);
-            worksheet.Cells[0, 22].SetFontSize(fontSize);
-            worksheet.Cells[0, 22].SetIsBold(true);
-            worksheet.Cells[0, 22].SetForeColor(tcWhite);
-            worksheet.Cells[0, 22].SetFill(pfBlue);
-            worksheet.Cells[0, 22].SetBorders(borders);
         }
 
     }

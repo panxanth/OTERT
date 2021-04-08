@@ -47,7 +47,7 @@ namespace OTERT.Pages.Invoices {
                 dpDateFrom.SelectedDate = DateTime.Now.Date;
                 dpDateTo.SelectedDate = DateTime.Now.Date;
                 dpDateCreated.SelectedDate = DateTime.Now.Date;
-                dpDatePay.SelectedDate = DateTime.Now.Date;
+                dpDatePay.SelectedDate = DateTime.Now.Date.AddDays(30);
                 wData = new wizardData();
                 wData.Step = 1;
                 Session["wizardStep"] = wData;
@@ -271,6 +271,10 @@ namespace OTERT.Pages.Invoices {
                         newTaskLine.JobID = curTask.JobID.GetValueOrDefault();
                         Tasks curTaskEntity = dbContext.Tasks.Where(s => s.ID == curTask.ID).First();
                         curTaskEntity.IsLocked = true;
+                        DateTime dnow = DateTime.Now;
+                        //curTaskEntity.PaymentDateActual = dnow;
+                        curTaskEntity.PaymentDateCalculated = wData.DatePayed;
+                        curTaskEntity.PaymentDateOrder = wData.DateCreated;
                         dbContext.TasksLine.Add(newTaskLine);
                     }
                     dbContext.SaveChanges();
