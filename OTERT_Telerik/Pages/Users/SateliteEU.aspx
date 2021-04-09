@@ -101,15 +101,18 @@
 		                    <telerik:RadDropDownList runat="server" ID="ddlJobsFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="280px" DropDownHeight="400px" OnSelectedIndexChanged="ddlJobsFilter_SelectedIndexChanged" OnPreRender="ddlJobsFilter_PreRender" />
 	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridTemplateColumn DataField="DistanceID" HeaderText="Απόσταση"  Visible="false">
+                    <telerik:GridTemplateColumn HeaderText="Απόσταση" UniqueName="DistanceID" DataField="DistanceID" SortExpression="DistanceID" HeaderStyle-Font-Bold="true" AllowSorting="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Distance.Description") %>' runat="server" /> 
                         </ItemTemplate>
                         <EditItemTemplate>
                             <telerik:RadDropDownList runat="server" ID="ddlDistances" RenderMode="Lightweight" DropDownHeight="200" Width="500px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlDistances_SelectedIndexChanged" />
                         </EditItemTemplate>
+                        <FilterTemplate>
+		                    <telerik:RadDropDownList runat="server" ID="ddlPositionsFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="300px" DropDownHeight="400px" OnSelectedIndexChanged="ddlPositionsFilter_SelectedIndexChanged" OnPreRender="ddlPositionsFilter_PreRender" />
+	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridTemplateColumn DataField="SateliteID" UniqueName="SateliteID" HeaderText="Δορυφόρος" AllowFiltering="false" >
+                    <telerik:GridTemplateColumn DataField="SateliteID" UniqueName="SateliteID" HeaderText="Δορυφόρος" Visible="false" >
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Satelite.Name") %>' runat="server" /> 
                         </ItemTemplate>
@@ -117,7 +120,7 @@
                             <telerik:RadDropDownList runat="server" ID="ddlSatelites" RenderMode="Lightweight" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlSatelites_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridDateTimeColumn UniqueName="DateTimeStartOrder" DataField="DateTimeStartOrder" HeaderText="Προγραμματισμένη Ημ/νία Έναρξης" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" >
+                    <telerik:GridDateTimeColumn UniqueName="DateTimeStartOrder" DataField="DateTimeStartOrder" HeaderText="Προγραμματισμένη Ημ/νία Έναρξης" DataType="System.DateTime" DataFormatString="{0:dd/MM/yyyy HH:mm}" PickerType="DateTimePicker" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="170px" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridDateTimeColumn>
                     <telerik:GridDateTimeColumn UniqueName="DateTimeEndOrder" DataField="DateTimeEndOrder" HeaderText="Προγραμματισμένη Ημ/νία Λήξης" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" HeaderStyle-Font-Bold="true" >

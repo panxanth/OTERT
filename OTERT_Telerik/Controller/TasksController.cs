@@ -41,7 +41,8 @@ namespace OTERT.Controller {
                         }
                         List<string> OrderDateExpressions = columnExpressions.Where(item => item.Contains("OrderDate")).ToList();
                         List<string> StartActualExpressions = columnExpressions.Where(item => item.Contains("DateTimeStartActual")).ToList();
-                        columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual"));
+                        List<string> StartOrderExpression = columnExpressions.Where(item => item.Contains("DateTimeStartOrder")).ToList();
+                        columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual") || item.Contains("DateTimeStartOrder"));
                         recFilter = string.Join("AND", columnExpressions.ToArray());
                         if (!string.IsNullOrEmpty(recFilter)) {
                             recFilter = recFilter.Replace("DistanceID", "DistancesID");
@@ -93,6 +94,30 @@ namespace OTERT.Controller {
                                 test = test.Where(recFilter, new DateTime(startActualDates[0].Year, startActualDates[0].Month, startActualDates[0].Day, startActualDates[0].Hour, startActualDates[0].Minute, 0), new DateTime(startActualDates[1].Year, startActualDates[1].Month, startActualDates[1].Day, startActualDates[1].Hour, startActualDates[1].Minute, 0));
                             } else {
                                 test = test.Where(StartActualExpressions[0]);
+                            }
+                        }
+                        if (StartOrderExpression.Count > 0) {
+                            List<DateTime> startOrderDates = new List<DateTime>();
+                            foreach (string dtExpression in StartOrderExpression) {
+                                string[] dateExp = dtExpression.Split(new char[] { '"' });
+                                string format = "d/M/yyyy,h:mm:ss,tt";
+                                DateTime newDate;
+                                if (dateExp.Length > 1) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                        startOrderDates.Add(newDate);
+                                    }
+                                }
+                            }
+                            if (startOrderDates.Count == 2) {
+                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
+                                if (StartOrderExpression[0].Contains(">=")) {
+                                    recFilter = "DateTimeStartOrder >= @0 AND DateTimeStartOrder <= @1";
+                                } else {
+                                    recFilter = "DateTimeStartOrder < @0 OR DateTimeStartOrder > @1";
+                                }
+                                test = test.Where(recFilter, new DateTime(startOrderDates[0].Year, startOrderDates[0].Month, startOrderDates[0].Day, startOrderDates[0].Hour, startOrderDates[0].Minute, 0), new DateTime(startOrderDates[1].Year, startOrderDates[1].Month, startOrderDates[1].Day, startOrderDates[1].Hour, startOrderDates[1].Minute, 0));
+                            } else {
+                                test = test.Where(StartOrderExpression[0]);
                             }
                         }
                         count = test.Count();
@@ -1185,8 +1210,9 @@ namespace OTERT.Controller {
                             }
                         }
                         List<string> OrderDateExpressions = columnExpressions.Where(item => item.Contains("OrderDate")).ToList();
+                        List<string> StartOrderExpressions = columnExpressions.Where(item => item.Contains("DateTimeStartOrder")).ToList();
                         List<string> StartActualExpressions = columnExpressions.Where(item => item.Contains("DateTimeStartActual")).ToList();
-                        columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual"));
+                        columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual") || item.Contains("DateTimeStartOrder"));
                         recFilter = string.Join("AND", columnExpressions.ToArray());
                         if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
                         System.Globalization.DateTimeFormatInfo greek = new System.Globalization.CultureInfo("el-GR").DateTimeFormat;
@@ -1236,6 +1262,30 @@ namespace OTERT.Controller {
                                 datatmp = datatmp.Where(recFilter, new DateTime(startActualDates[0].Year, startActualDates[0].Month, startActualDates[0].Day, startActualDates[0].Hour, startActualDates[0].Minute, 0), new DateTime(startActualDates[1].Year, startActualDates[1].Month, startActualDates[1].Day, startActualDates[1].Hour, startActualDates[1].Minute, 0));
                             } else {
                                 datatmp = datatmp.Where(StartActualExpressions[0]);
+                            }
+                        }
+                        if (StartOrderExpressions.Count > 0) {
+                            List<DateTime> startOrderDates = new List<DateTime>();
+                            foreach (string dtExpression in StartOrderExpressions) {
+                                string[] dateExp = dtExpression.Split(new char[] { '"' });
+                                string format = "d/M/yyyy,h:mm:ss,tt";
+                                DateTime newDate;
+                                if (dateExp.Length > 1) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                        startOrderDates.Add(newDate);
+                                    }
+                                }
+                            }
+                            if (startOrderDates.Count == 2) {
+                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
+                                if (StartOrderExpressions[0].Contains(">=")) {
+                                    recFilter = "DateTimeStartOrder >= @0 AND DateTimeStartOrder <= @1";
+                                } else {
+                                    recFilter = "DateTimeStartOrder < @0 OR DateTimeStartOrder > @1";
+                                }
+                                datatmp = datatmp.Where(recFilter, new DateTime(startOrderDates[0].Year, startOrderDates[0].Month, startOrderDates[0].Day, startOrderDates[0].Hour, startOrderDates[0].Minute, 0), new DateTime(startOrderDates[1].Year, startOrderDates[1].Month, startOrderDates[1].Day, startOrderDates[1].Hour, startOrderDates[1].Minute, 0));
+                            } else {
+                                datatmp = datatmp.Where(StartOrderExpressions[0]);
                             }
                         }
                     }

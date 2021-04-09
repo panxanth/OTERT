@@ -101,16 +101,19 @@
 		                    <telerik:RadDropDownList runat="server" ID="ddlJobsFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="280px" DropDownHeight="400px" OnSelectedIndexChanged="ddlJobsFilter_SelectedIndexChanged" OnPreRender="ddlJobsFilter_PreRender" />
 	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridTemplateColumn DataField="DistanceID" HeaderText="Απόσταση"  Visible="false">
+                    <telerik:GridTemplateColumn HeaderText="Απόσταση" UniqueName="DistanceID" DataField="DistanceID" SortExpression="DistanceID" HeaderStyle-Font-Bold="true" AllowSorting="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Distance.Description") %>' runat="server" /> 
                         </ItemTemplate>
                         <EditItemTemplate>
                             <telerik:RadDropDownList runat="server" ID="ddlDistances" RenderMode="Lightweight" DropDownHeight="200" Width="500px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlDistances_SelectedIndexChanged" />
                         </EditItemTemplate>
+                        <FilterTemplate>
+		                    <telerik:RadDropDownList runat="server" ID="ddlPositionsFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="300px" DropDownHeight="400px" OnSelectedIndexChanged="ddlPositionsFilter_SelectedIndexChanged" OnPreRender="ddlPositionsFilter_PreRender" />
+	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
                     <telerik:GridTemplateColumn DataField="SateliteID" UniqueName="SateliteID" Visible="false" ReadOnly="true" />
-                    <telerik:GridDateTimeColumn UniqueName="DateTimeStartOrder" DataField="DateTimeStartOrder" HeaderText="Προγραμματισμένη Ημ/νία Έναρξης" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" >
+                    <telerik:GridDateTimeColumn UniqueName="DateTimeStartOrder" DataField="DateTimeStartOrder" HeaderText="Προγραμματισμένη Ημ/νία Έναρξης" DataType="System.DateTime" DataFormatString="{0:dd/MM/yyyy HH:mm}" PickerType="DateTimePicker" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="170px" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridDateTimeColumn>
                     <telerik:GridDateTimeColumn UniqueName="DateTimeEndOrder" DataField="DateTimeEndOrder" HeaderText="Προγραμματισμένη Ημ/νία Λήξης" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" HeaderStyle-Font-Bold="true" >
@@ -143,9 +146,9 @@
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
                     <telerik:GridBoundColumn DataField="CostActual" HeaderText="Ποσό Είσπραξης (€)" Visible="false" />
-                    <telerik:GridDateTimeColumn DataField="PaymentDateOrder" HeaderText="Ημ/νία Εντολής Τιμολόγησης" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
-                    <telerik:GridDateTimeColumn DataField="PaymentDateCalculated" HeaderText="Προγραμματισμένη Ημ/νία Είσπραξης" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
-                    <telerik:GridDateTimeColumn DataField="PaymentDateActual" HeaderText="Πραγματική Ημ/νία Είσπραξης" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
+                    <telerik:GridDateTimeColumn DataField="PaymentDateOrder" HeaderText="Ημ/νία Εντολής Τιμολόγησης" Visible="false" DataType="System.DateTime" DataFormatString="{0:dd/MM/yyyy}" PickerType="DatePicker" />
+                    <telerik:GridDateTimeColumn DataField="PaymentDateCalculated" HeaderText="Προγραμματισμένη Ημ/νία Είσπραξης" Visible="false" DataType="System.DateTime" DataFormatString="{0:dd/MM/yyyy}" PickerType="DatePicker" />
+                    <telerik:GridDateTimeColumn DataField="PaymentDateActual" HeaderText="Πραγματική Ημ/νία Είσπραξης" DataType="System.DateTime" PickerType="DatePicker" ReadOnly="true" Visible="false" AllowFiltering="false" />
                     <telerik:GridCheckBoxColumn DataField="IsForHelpers" UniqueName="chkIsForHelpers" HeaderText="Ενημέρωση ΚΕΤ" Visible="false" DataType="System.Boolean" />
                     <telerik:GridCheckBoxColumn DataField="IsLocked" HeaderText="Κλειδωμένο Έργο" Visible="false" DataType="System.Boolean" />
                     <telerik:GridTemplateColumn DataField="IsCanceled" UniqueName="chkIsCanceled" HeaderText="Ακυρωμένο Έργο" Visible="false" DataType="System.Boolean" >
