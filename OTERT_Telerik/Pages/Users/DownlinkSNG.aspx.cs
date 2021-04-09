@@ -373,7 +373,7 @@ namespace OTERT.Pages.UserPages {
                     jlist.DataBind();
                     jlist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
                     DistancesController dcont = new DistancesController();
-                    plist.DataSource = dcont.GetDistancesForPageID(pageID);
+                    plist.DataSource = dcont.GetDistancesForPageID(pageDistanceID);
                     plist.DataTextField = "Description";
                     plist.DataValueField = "ID";
                     plist.DataBind();
