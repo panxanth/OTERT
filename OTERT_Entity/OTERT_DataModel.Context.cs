@@ -46,7 +46,6 @@ namespace OTERT_Entity
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Sales> Sales { get; set; }
         public virtual DbSet<SalesFormulas> SalesFormulas { get; set; }
-        public virtual DbSet<JobCancelPrices> JobCancelPrices { get; set; }
         public virtual DbSet<JobFormulas> JobFormulas { get; set; }
         public virtual DbSet<JobsMain> JobsMain { get; set; }
         public virtual DbSet<Files> Files { get; set; }
@@ -55,5 +54,8 @@ namespace OTERT_Entity
         public virtual DbSet<DiscountLine> DiscountLine { get; set; }
         public virtual DbSet<Invoices> Invoices { get; set; }
         public virtual DbSet<TasksLine> TasksLine { get; set; }
+        public virtual DbSet<OrdersPTSGR> OrdersPTSGR { get; set; }
+        public virtual DbSet<TasksPTSGR> TasksPTSGR { get; set; }
+        public virtual DbSet<JobCancelPrices> JobCancelPrices { get; set; }
     }
 }

@@ -161,6 +161,17 @@ namespace OTERT.Model {
         public bool IsLocked { get; set; }
     }
 
+    public class OrdersPTSGRDTO {
+        public int ID { get; set; }
+        public int OrderID { get; set; }
+        public OrderDTO Order { get; set; }
+        public string RegNo { get; set; }
+        public int CountryID { get; set; }
+        public CountryDTO Country { get; set; }
+        public int? CustomerID { get; set; }
+        public CustomerDTO Customer { get; set; }
+    }
+
     public class SateliteDTO {
         public int ID { get; set; }
         public string Name { get; set; }

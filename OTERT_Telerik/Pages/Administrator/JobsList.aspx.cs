@@ -9,6 +9,7 @@ using Telerik.Web.UI;
 using OTERT.Model;
 using OTERT.Controller;
 using OTERT_Entity;
+using System.Collections.Generic;
 
 namespace OTERT.Pages.Administrator {
 
@@ -38,10 +39,11 @@ namespace OTERT.Pages.Administrator {
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
             int recSkip = gridMain.MasterTableView.CurrentPageIndex * gridMain.MasterTableView.PageSize;
             int recTake = gridMain.MasterTableView.PageSize;
+            string recFilter = gridMain.MasterTableView.FilterExpression;
             try {
                 JobsController cont = new JobsController();
-                gridMain.VirtualItemCount = cont.CountJobs();
-                gridMain.DataSource = cont.GetJobs(recSkip, recTake);
+                gridMain.VirtualItemCount = cont.CountJobs(recFilter);
+                gridMain.DataSource = cont.GetJobs(recSkip, recTake, recFilter);
             }
             catch (Exception) { }
         }
@@ -70,6 +72,19 @@ namespace OTERT.Pages.Administrator {
 
         protected void gridMain_ItemDataBound(object sender, GridItemEventArgs e) {
             if (e.Item.OwnerTableView.Name == "Master") {
+                if (e.Item is GridFilteringItem) {
+                    GridFilteringItem filterItem = (GridFilteringItem)e.Item;
+                    RadDropDownList clist = (RadDropDownList)filterItem.FindControl("ddlJobsMainFilter");
+                    try {
+                        JobsMainController jcont = new JobsMainController();
+                        clist.DataSource = jcont.GetJobsMain();
+                        clist.DataTextField = "Name";
+                        clist.DataValueField = "ID";
+                        clist.DataBind();
+                        clist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
+                    }
+                    catch (Exception) { }
+                }
                 if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                     SalesID = -1;
                     Session.Remove("SalesID");
@@ -273,7 +288,8 @@ namespace OTERT.Pages.Administrator {
                     Hashtable values = new Hashtable();
                     editableItem.ExtractValues(values);
                     curCancel.JobsID = jobsID;
-                    curCancel.Price = decimal.Parse((string)values["Price"]);
+                    curCancel.Name = (string)values["Name"];
+                    curCancel.Price = (string)values["Price"];
                     dbContext.JobCancelPrices.Add(curCancel);
                     try { dbContext.SaveChanges(); }
                     catch (Exception) { ShowErrorMessage(-1); }
@@ -342,6 +358,36 @@ namespace OTERT.Pages.Administrator {
                 Session["JobTypesID"] = JobTypesID;
             }
             catch (Exception) { }
+        }
+
+        protected void ddlJobsMainFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
+            List<string> columnExpressions = new List<string>(expressions);
+            foreach (string expression in columnExpressions) {
+                if (expression.Contains("JobsMainID")) {
+                    columnExpressions.Remove(expression);
+                    break;
+                }
+            }
+            string finalExpression = string.Join("AND", columnExpressions.ToArray());
+            if (e.Value != "0") {
+                if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
+                finalExpression += "(JobsMainID = " + e.Value + ")";
+                gridMain.MasterTableView.GetColumn("JobsMainID").CurrentFilterFunction = GridKnownFunction.EqualTo;
+                gridMain.MasterTableView.GetColumn("JobsMainID").CurrentFilterValue = e.Value;
+            } else {
+                gridMain.MasterTableView.GetColumn("JobsMainID").CurrentFilterFunction = GridKnownFunction.NoFilter;
+                gridMain.MasterTableView.GetColumn("JobsMainID").CurrentFilterValue = null;
+            }
+            gridMain.MasterTableView.FilterExpression = finalExpression;
+            ViewState[list.ClientID] = e.Value;
+            gridMain.MasterTableView.Rebind();
+        }
+
+        protected void ddlJobsMainFilter_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
         }
 
     }

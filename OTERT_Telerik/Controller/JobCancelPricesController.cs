@@ -26,8 +26,9 @@ namespace OTERT.Controller {
                                                   select new JobCancelPriceB {
                                                         ID = us.ID,
                                                         JobsID = us.JobsID,
+                                                        Name = us.Name,
                                                         Price = us.Price
-                                                  }).Where(k => k.JobsID == jobsID).OrderBy(o => o.Price).ToList();
+                                                  }).Where(k => k.JobsID == jobsID).OrderBy(o => o.ID).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -42,6 +43,7 @@ namespace OTERT.Controller {
                                                   select new JobCancelPriceB {
                                                       ID = us.ID,
                                                       JobsID = us.JobsID,
+                                                      Name = us.Name,
                                                       Price = us.Price
                                                   }).Where(k => k.JobsID == jobsID).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
                     return data;

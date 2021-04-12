@@ -12,13 +12,16 @@ namespace OTERT_Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class JobCancelPrices
+    public partial class OrdersPTSGR
     {
         public int ID { get; set; }
-        public int JobsID { get; set; }
-        public string Name { get; set; }
-        public string Price { get; set; }
+        public int OrderID { get; set; }
+        public int CountryID { get; set; }
+        public int CustomerID { get; set; }
+        public string RegNo { get; set; }
     
-        public virtual Jobs Jobs { get; set; }
+        public virtual Countries Countries { get; set; }
+        public virtual Customers Customers { get; set; }
+        public virtual Orders Orders { get; set; }
     }
 }

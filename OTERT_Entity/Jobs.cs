@@ -18,10 +18,11 @@ namespace OTERT_Entity
         public Jobs()
         {
             this.Tasks = new HashSet<Tasks>();
-            this.JobCancelPrices = new HashSet<JobCancelPrices>();
             this.JobFormulas = new HashSet<JobFormulas>();
             this.DiscountLine = new HashSet<DiscountLine>();
             this.TasksLine = new HashSet<TasksLine>();
+            this.TasksPTSGR = new HashSet<TasksPTSGR>();
+            this.JobCancelPrices = new HashSet<JobCancelPrices>();
         }
     
         public int ID { get; set; }
@@ -36,8 +37,6 @@ namespace OTERT_Entity
         public virtual ICollection<Tasks> Tasks { get; set; }
         public virtual Sales Sales { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<JobCancelPrices> JobCancelPrices { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobFormulas> JobFormulas { get; set; }
         public virtual JobsMain JobsMain { get; set; }
         public virtual JobTypes JobTypes { get; set; }
@@ -45,5 +44,9 @@ namespace OTERT_Entity
         public virtual ICollection<DiscountLine> DiscountLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TasksLine> TasksLine { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TasksPTSGR> TasksPTSGR { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JobCancelPrices> JobCancelPrices { get; set; }
     }
 }

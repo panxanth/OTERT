@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Web;
 using OTERT.Model;
 using OTERT_Entity;
@@ -9,10 +10,10 @@ namespace OTERT.Controller {
 
     public class JobsController {
 
-        public int CountJobs() {
+        public int CountJobs(string recFilter) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
-                    return dbContext.Jobs.Count();
+                    if (!string.IsNullOrEmpty(recFilter)) { return dbContext.Jobs.Where(recFilter).Count(); } else { return dbContext.Jobs.Count(); }       
                 }
                 catch (Exception) { return -1; }
             }
@@ -64,23 +65,26 @@ namespace OTERT.Controller {
             }
         }
 
-        public List<JobB> GetJobs(int recSkip, int recTake) {
+        public List<JobB> GetJobs(int recSkip, int recTake, string recFilter) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
-                    List<JobB> data = (from us in dbContext.Jobs
-                                        select new JobB {
-                                            ID = us.ID,
-                                            JobsMainID = us.JobsMainID,
-                                            JobsMain = new JobMainDTO { ID = us.JobsMain.ID, PageID = us.JobsMain.PageID, Name = us.JobsMain.Name },
-                                            JobTypesID = us.JobTypesID,
-                                            JobType = new JobTypeDTO { ID = us.JobTypes.ID, Name = us.JobTypes.Name },
-                                            Name = us.Name,
-                                            MinimumTime = us.MinimumTime,
-                                            InvoiceCode = us.InvoiceCode,
-                                            SalesID = us.SalesID,
-                                            Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
-                                        }).OrderBy(o => o.Name).Skip(recSkip).Take(recTake).ToList();
+                    IQueryable<JobB> test = (from us in dbContext.Jobs
+                                       select new JobB {
+                                           ID = us.ID,
+                                           JobsMainID = us.JobsMainID,
+                                           JobsMain = new JobMainDTO { ID = us.JobsMain.ID, PageID = us.JobsMain.PageID, Name = us.JobsMain.Name },
+                                           JobTypesID = us.JobTypesID,
+                                           JobType = new JobTypeDTO { ID = us.JobTypes.ID, Name = us.JobTypes.Name },
+                                           Name = us.Name,
+                                           MinimumTime = us.MinimumTime,
+                                           InvoiceCode = us.InvoiceCode,
+                                           SalesID = us.SalesID,
+                                           Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
+                                       });
+                    if (!string.IsNullOrEmpty(recFilter)) { test = test.Where(recFilter); }
+                    test = test.OrderBy(o => o.Name);
+                    List<JobB> data = test.Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

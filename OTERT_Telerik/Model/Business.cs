@@ -136,7 +136,8 @@ namespace OTERT.Model {
     public class JobCancelPriceB {
         public int ID { get; set; }
         public int JobsID { get; set; }
-        public decimal Price { get; set; }
+        public string Name { get; set; }
+        public string Price { get; set; }
     }
 
     public class JobFormulaB {

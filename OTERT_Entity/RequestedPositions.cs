@@ -18,6 +18,7 @@ namespace OTERT_Entity
         public RequestedPositions()
         {
             this.Tasks = new HashSet<Tasks>();
+            this.TasksPTSGR = new HashSet<TasksPTSGR>();
         }
     
         public int ID { get; set; }
@@ -26,5 +27,7 @@ namespace OTERT_Entity
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tasks> Tasks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TasksPTSGR> TasksPTSGR { get; set; }
     }
 }

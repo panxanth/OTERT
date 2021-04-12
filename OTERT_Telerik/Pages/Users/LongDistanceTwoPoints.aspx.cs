@@ -448,6 +448,9 @@ namespace OTERT.Pages.UserPages {
                 case 3:
                     RadWindowManager1.RadAlert("Μόνο χρήστης με ρόλο Administrator μπορεί να ξεκλειδώσει ένα έργο!", 400, 200, "Σφάλμα", "");
                     break;
+                case 4:
+                    RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ελέγξτε τον τύπο ακύρωσης.", 400, 200, "Σφάλμα", "");
+                    break;
                 default:
                     RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
                     break;
@@ -728,7 +731,7 @@ namespace OTERT.Pages.UserPages {
                     List<JobCancelPriceB> curJobCancelPrices = cont.GetJobCancelPrices(jobID);
                     if (curJobCancelPrices.Count>0) {
                         ddlCancelationPrices.DataSource = curJobCancelPrices;
-                        ddlCancelationPrices.DataTextField = "Price";
+                        ddlCancelationPrices.DataTextField = "Name";
                         ddlCancelationPrices.DataValueField = "Price";
                         ddlCancelationPrices.DataBind();
                         ddlCancelationPrices.Items.Insert(0, new DropDownListItem("Επιλέξτε Ποσό Ακύρωσης", "-1"));
@@ -754,14 +757,58 @@ namespace OTERT.Pages.UserPages {
         }
 
         protected void ddlCancelationPrices_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
-            RadDropDownList ddlCancelationPrices = (RadDropDownList)sender;
-            if (ddlCancelationPrices.SelectedIndex != 0) {
-                GridEditableItem eitem = (GridEditableItem)ddlCancelationPrices.NamingContainer;
-                TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
-                txtCostActual.Text = ddlCancelationPrices.SelectedItem.Text;
-                CheckBox chkIsForHelpers = (CheckBox)eitem["chkIsForHelpers"].Controls[0];
-                chkIsForHelpers.Checked = false;
+            try {
+                RadDropDownList ddlCancelationPrices = (RadDropDownList)sender;
+                if (ddlCancelationPrices.SelectedIndex != 0) {
+                    GridEditableItem eitem = (GridEditableItem)ddlCancelationPrices.NamingContainer;
+                    TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
+                    double cancelationCost = 0;
+                    bool successParce = double.TryParse(ddlCancelationPrices.SelectedItem.Value.Replace(".", ","), out cancelationCost);
+                    if (successParce == false) {
+                        string cancelationFormula = ddlCancelationPrices.SelectedItem.Value.Replace(".", ",");
+                        if (cancelationFormula.StartsWith("#EUTELSAT#")) {
+                            cancelationFormula = cancelationFormula.Replace("#EUTELSAT#", "");
+                            string[] subs = cancelationFormula.Split('#');
+                            int timePercentDivide = int.Parse(subs[0]);
+                            double percent1 = double.Parse(subs[1]);
+                            double percent2 = double.Parse(subs[2]);
+                            double timeFormulaDivide = double.Parse(subs[3]);
+                            double pricePerMin1 = double.Parse(subs[4]);
+                            double pricePerMin2 = double.Parse(subs[5]);
+                            TextBox txtOrderDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
+                            int orderDuration = int.Parse(txtOrderDurationOrder.Text);
+                            double calc1 = 0, calc2 = 0, calc3 = 0;
+                            if (orderDuration > timePercentDivide) {
+                                calc1 = timePercentDivide * pricePerMin1 * percent1 / 100;
+                            } else {
+                                calc1 = orderDuration * pricePerMin1 * percent1 / 100;
+                            }
+                            if (orderDuration > timeFormulaDivide) {
+                                calc2 = (timeFormulaDivide - timePercentDivide) * pricePerMin1 * percent2 / 100;
+                            } else {
+                                calc2 = (orderDuration - timePercentDivide) * pricePerMin1 * percent2 / 100;
+                            }
+                            calc3 = (orderDuration - timeFormulaDivide) * pricePerMin2 * percent2 / 100;
+                            cancelationCost += calc1;
+                            if (calc2 > 0) { cancelationCost += calc2; }
+                            if (calc3 > 0) { cancelationCost += calc3; }
+                        } else {
+                            TextBox txtCostCalculated = (TextBox)eitem["CostCalculated"].Controls[0];
+                            double costCalculated = 0;
+                            bool successParceCC = double.TryParse(txtCostCalculated.Text.Replace(".", ","), out costCalculated);
+                            if (successParceCC == true) {
+                                cancelationFormula = cancelationFormula.Replace("#CALCPRICE#", costCalculated.ToString()).Replace(",", ".");
+                                cancelationCost = Evaluator.EvalToDouble(cancelationFormula);
+                            }
+                        }
+                    }
+                    cancelationCost = Math.Round(cancelationCost, 2, MidpointRounding.AwayFromZero);
+                    txtCostActual.Text = cancelationCost.ToString();
+                    CheckBox chkIsForHelpers = (CheckBox)eitem["chkIsForHelpers"].Controls[0];
+                    chkIsForHelpers.Checked = false;
+                }
             }
+            catch (Exception) { ShowErrorMessage(4); }
         }
 
         protected void ddlCancelationPrices_PreRender(object sender, EventArgs e) {

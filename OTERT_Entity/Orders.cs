@@ -19,6 +19,8 @@ namespace OTERT_Entity
         {
             this.Tasks = new HashSet<Tasks>();
             this.Files = new HashSet<Files>();
+            this.TasksPTSGR = new HashSet<TasksPTSGR>();
+            this.OrdersPTSGR = new HashSet<OrdersPTSGR>();
         }
     
         public int ID { get; set; }
@@ -37,5 +39,9 @@ namespace OTERT_Entity
         public virtual Events Events { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Files> Files { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TasksPTSGR> TasksPTSGR { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrdersPTSGR> OrdersPTSGR { get; set; }
     }
 }
