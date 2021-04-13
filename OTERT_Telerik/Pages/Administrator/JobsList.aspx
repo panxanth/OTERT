@@ -33,7 +33,7 @@
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Height="75px" Width="75px" Transparency="25" InitialDelayTime="500" />
     <div>
-        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" AllowPaging="true" AllowCustomPaging="true" PageSize="10" Skin="Metro" AllowFilteringByColumn="True"  EnableViewState="true"
+        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" AllowPaging="true" AllowCustomPaging="true" PageSize="10" Skin="Metro" EnableViewState="true"
             OnNeedDataSource="gridMain_NeedDataSource" 
             OnUpdateCommand="gridMain_UpdateCommand"
             OnItemCreated="gridMain_ItemCreated" 
@@ -50,9 +50,9 @@
                         <Columns>
                             <telerik:GridEditCommandColumn EditText="Επεξεργασία" UniqueName="EditCommandColumn1" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                             <telerik:GridBoundColumn SortExpression="JobsID" HeaderText="JobsID" DataField="JobsID" UniqueName="JobsID" ReadOnly="true" Visible="false" />
-                            <telerik:GridBoundColumn HeaderText="Α/Α" DataField="ID" UniqueName="ID" ReadOnly="true" />
-                            <telerik:GridBoundColumn HeaderText="Προϋπόθεση" DataField="Condition" UniqueName="Condition" />
-                            <telerik:GridBoundColumn HeaderText="Τύπος" DataField="Formula" UniqueName="Formula">
+                            <telerik:GridBoundColumn HeaderText="Α/Α" DataField="ID" UniqueName="ID" ReadOnly="true" AllowFiltering="false" />
+                            <telerik:GridBoundColumn HeaderText="Προϋπόθεση" DataField="Condition" UniqueName="Condition" AllowFiltering="false" />
+                            <telerik:GridBoundColumn HeaderText="Τύπος" DataField="Formula" UniqueName="Formula" AllowFiltering="false">
                                 <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                     <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                                 </ColumnValidationSettings>
@@ -124,13 +124,13 @@
                         <Columns>
                             <telerik:GridEditCommandColumn EditText="Επεξεργασία" UniqueName="EditCommandColumn1" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                             <telerik:GridBoundColumn SortExpression="JobsID" HeaderText="JobsID" DataField="JobsID" UniqueName="JobsID" ReadOnly="true" Visible="false" />
-                            <telerik:GridBoundColumn HeaderText="Α/Α" DataField="ID" UniqueName="ID" ReadOnly="true" />
-                            <telerik:GridBoundColumn HeaderText="Ονομασία" DataField="Name" UniqueName="Name">
+                            <telerik:GridBoundColumn HeaderText="Α/Α" DataField="ID" UniqueName="ID" ReadOnly="true" AllowFiltering="false" />
+                            <telerik:GridBoundColumn HeaderText="Ονομασία" DataField="Name" UniqueName="Name" AllowFiltering="false">
                                 <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                     <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                                 </ColumnValidationSettings>
                             </telerik:GridBoundColumn>
-                            <telerik:GridBoundColumn HeaderText="Τύπος" DataField="Price" UniqueName="Price">
+                            <telerik:GridBoundColumn HeaderText="Τύπος" DataField="Price" UniqueName="Price" AllowFiltering="false">
                                 <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                     <RequiredFieldValidator ForeColor="Red" ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                                 </ColumnValidationSettings>
@@ -166,7 +166,7 @@
 						                        </tr>
 						                        <tr>
 							                        <td>
-                                                        <button type="button" title="Click Me!2" onclick="addValue('txtPrice', '#CALCPRICE#');">ΠΡΟΥΠ. ΚΟΣΤΟΣ (€)</button>&nbsp;&nbsp;
+                                                        <button type="button" title="Click Me!2" onclick="addValue('txtPrice', '#CALCPRICE#');">ΠΡΟΥΠ. ΚΟΣΤΟΣ</button>&nbsp;&nbsp;
                                                         <button type="button" title="Click Me!2" onclick="addValue('txtPrice', '#EUTELSAT#');">EUTELSAT</button>
 							                        </td>
 						                        </tr>

@@ -66,7 +66,8 @@ namespace OTERT.Pages.Invoices {
             try {
                 InvoicesController icont = new InvoicesController();
                 gridInvoices.VirtualItemCount = icont.CountInvoices(recFilter);
-                gridInvoices.DataSource = icont.GetInvoices(recSkip, recTake, recFilter, gridSortExxpressions).OrderBy(o => o.Customer.NameGR).OrderByDescending(o => o.DateFrom);
+                gridInvoices.DataSource = icont.GetInvoices(recSkip, recTake, recFilter, gridSortExxpressions);
+                //gridInvoices.DataSource = icont.GetInvoices(recSkip, recTake, recFilter, gridSortExxpressions).OrderBy(o => o.Customer.NameGR).OrderByDescending(o => o.DateFrom);
                 //gridInvoices.DataSource = icont.GetInvoices(wData.CustomerID, wData.DateFrom, wData.DateTo, wData.Code).OrderBy(o => o.Customer.NameGR);
             }
             catch (Exception) { }
