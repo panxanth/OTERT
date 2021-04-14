@@ -821,6 +821,14 @@ namespace OTERT.Pages.UserPages {
                             double pricePerMin2 = double.Parse(subs[5]);
                             TextBox txtOrderDurationOrder = (TextBox)eitem["DateTimeDurationOrder"].Controls[0];
                             int orderDuration = int.Parse(txtOrderDurationOrder.Text);
+                            double pricePerMin = pricePerMin1;
+                            if (orderDuration > timeFormulaDivide) { pricePerMin = pricePerMin2; }
+                            if (orderDuration < timePercentDivide) {
+                                cancelationCost = orderDuration * pricePerMin * percent1 / 100;
+                            } else {
+                                cancelationCost = timePercentDivide * pricePerMin * percent1 / 100 + (orderDuration - timePercentDivide) * pricePerMin * percent2 / 100;
+                            }
+                            /*
                             double calc1 = 0, calc2 = 0, calc3 = 0;
                             if (orderDuration > timePercentDivide) {
                                 calc1 = timePercentDivide * pricePerMin1 * percent1 / 100;
@@ -836,6 +844,7 @@ namespace OTERT.Pages.UserPages {
                             cancelationCost += calc1;
                             if (calc2 > 0) { cancelationCost += calc2; }
                             if (calc3 > 0) { cancelationCost += calc3; }
+                            */
                         } else {
                             TextBox txtCostCalculated = (TextBox)eitem["CostCalculated"].Controls[0];
                             double costCalculated = 0;

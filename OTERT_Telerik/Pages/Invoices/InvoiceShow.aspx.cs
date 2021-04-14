@@ -855,14 +855,14 @@ namespace OTERT.Pages.Invoices {
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 1 && visibleColumns[j] == true) {
                                     Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row2.Cells.AddTableCell();
-                                    currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.DateTimeStartActual.GetValueOrDefault().ToString("d/M/yyyy H:mm"));
+                                    currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.DateTimeStartActual.GetValueOrDefault().ToString("dd/MM/yyyy  HH:mm"));
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 10.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 2 && visibleColumns[j] == true) {
                                     Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row2.Cells.AddTableCell();
-                                    currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.DateTimeEndActual.GetValueOrDefault().ToString("d/M/yyyy H:mm"));
+                                    currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.DateTimeEndActual.GetValueOrDefault().ToString("dd/MM/yyyy  HH:mm"));
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 10.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
