@@ -75,6 +75,7 @@ namespace OTERT.Pages.UserPages {
                 OrderDateTo.TimePopupButton.Visible = false;
                 OrderDateTo.DateInput.DisplayDateFormat = "d/M/yyyy";
                 OrderDateTo.DateInput.DateFormat = "d/M/yyyy";
+                OrderDateFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + OrderDateFrom.ClientID + "', '" + OrderDateTo.ClientID + "');");
             }
         }
 

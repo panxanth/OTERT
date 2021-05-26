@@ -129,6 +129,9 @@
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PTSGRPricelist.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="RequestedPositions.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>

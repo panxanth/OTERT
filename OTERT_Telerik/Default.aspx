@@ -20,7 +20,7 @@
             $("#submit").click(function (e) {
                 var name = $("#login").val();
                 var password = $("#password").val();
-                console.log("username: " + name + ", password: " + password);
+                //console.log("username: " + name + ", password: " + password);
                 if (name == '' || password == '') {
                     if (name == '' && password != '') {
                         hideErrors();
