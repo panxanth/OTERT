@@ -81,6 +81,7 @@
         <AssociationConnector Association="OTERT_Model.FK_OrdersPTSGR_Orders" />
         <EntityTypeShape EntityType="OTERT_Model.JobCancelPrices" Width="1.5" PointX="9.75" PointY="22.625" />
         <AssociationConnector Association="OTERT_Model.FK_JobCancelPrices_Jobs" />
+        <EntityTypeShape EntityType="OTERT_Model.PTSGRPricelist" Width="1.5" PointX="15.375" PointY="16.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

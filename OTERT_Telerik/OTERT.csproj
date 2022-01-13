@@ -145,6 +145,7 @@
     <Compile Include="Controller\EventsController.cs" />
     <Compile Include="Controller\PlacesController.cs" />
     <Compile Include="Controller\JobsMainController.cs" />
+    <Compile Include="Controller\PTSGRPricelistController.cs" />
     <Compile Include="Controller\UsersController.cs" />
     <Compile Include="Controller\UserGroupsController.cs" />
     <Compile Include="Default.aspx.cs">
@@ -159,6 +160,10 @@
     <Compile Include="Model\DTO.cs" />
     <Compile Include="Model\JSON.cs" />
     <Compile Include="Model\Utils.cs" />
+    <Compile Include="Pages\Administrator\PTSGRPricelistsList.aspx.cs">
+      <DependentUpon>PTSGRPricelistsList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Administrator\CountryPricelistsList.aspx.cs">
       <DependentUpon>CountryPricelistsList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -404,6 +409,7 @@
     <Content Include="Images\mag.png" />
     <Content Include="Images\ote_header.png" />
     <Content Include="Images\unlock.png" />
+    <Content Include="Pages\Administrator\PTSGRPricelistsList.aspx" />
     <Content Include="Pages\Administrator\CountryPricelistsList.aspx" />
     <Content Include="Pages\Administrator\JobsList.aspx" />
     <Content Include="Pages\Administrator\JobTypesList.aspx" />

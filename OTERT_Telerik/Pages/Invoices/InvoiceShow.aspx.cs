@@ -48,7 +48,7 @@ namespace OTERT.Pages.Invoices {
         const string docTemplateMail = "InvoiceMail";
         const int PTSFromGreeceID = 14;
         const int PTSToGreeceID = 13;
-        const decimal fpa = 0.23M;
+        protected decimal fpa = 0.24M;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
@@ -56,6 +56,7 @@ namespace OTERT.Pages.Invoices {
                 gridInvoices.MasterTableView.Caption = "Τιμολόγια > Αναζήτηση Τιμολογίου";
             }
             if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
+            fpa = decimal.Parse(ConfigurationManager.AppSettings["FPA"].ToString());
         }
 
         protected void gridInvoices_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {

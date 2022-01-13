@@ -161,7 +161,8 @@
                         <!-- <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/JobTypesList.aspx">Τύποι Έργων</a></li> -->
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/JobsList.aspx">Κατηγορίες Έργων</a></li>
                         <!-- <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/SalesList.aspx">Εκπτώσεις</a></li> -->
-                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/CountryPricelistsList.aspx">Τιμοκατάλογοι Παρόχων Εξωτερικού</a></li>
+                        <!-- <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/CountryPricelistsList.aspx">Τιμοκατάλογοι Παρόχων Εξωτερικού</a></li> -->
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/PTSGRPricelistsList.aspx">Τιμοκατάλογος ΠΤΣ προς Ελλάδα</a></li>
                     </ul>
                 </li>
                 <!-- 

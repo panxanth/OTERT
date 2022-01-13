@@ -333,4 +333,16 @@ namespace OTERT.Model {
         public JobDTO Job { get; set; }
     }
 
+    public class PTSGRPricelistB {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public decimal InstallationCost { get; set; }
+        public decimal ChargesPerMonth { get; set; }
+        public decimal ChargesPerDay { get; set; }
+        public decimal? MSNPerMonth { get; set; }
+        public decimal? MSNPerDay { get; set; }
+        public bool SupportsMSN { get; set; }
+        public bool IsChargePerMonth { get; set; }
+    }
+
 }

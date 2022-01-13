@@ -243,6 +243,20 @@
           <Property Name="NameGR" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="NameEN" Type="nvarchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="PTSGRPricelist">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="InstallationCost" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="ChargesPerMonth" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="ChargesPerDay" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="MSNPerMonth" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="MSNPerDay" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="SupportsMSN" Type="bit" Nullable="false" />
+          <Property Name="IsChargePerMonth" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="RequestedPositions">
           <Key>
             <PropertyRef Name="ID" />
@@ -957,6 +971,7 @@
           <EntitySet Name="OrdersPTSGR" EntityType="Self.OrdersPTSGR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderTypes" EntityType="Self.OrderTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Places" EntityType="Self.Places" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PTSGRPricelist" EntityType="Self.PTSGRPricelist" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RequestedPositions" EntityType="Self.RequestedPositions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesFormulas" EntityType="Self.SalesFormulas" Schema="dbo" store:Type="Tables" />
@@ -1837,6 +1852,7 @@
             <End Role="Jobs" EntitySet="Jobs" />
             <End Role="JobCancelPrices" EntitySet="JobCancelPrices" />
           </AssociationSet>
+          <EntitySet Name="PTSGRPricelist" EntityType="OTERT_Model.PTSGRPricelist" />
         </EntityContainer>
         <Association Name="fk_Orders_Customers_1">
           <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
@@ -2385,6 +2401,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PTSGRPricelist">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="InstallationCost" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="ChargesPerMonth" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="ChargesPerDay" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="SupportsMSN" Type="Boolean" Nullable="false" />
+          <Property Name="IsChargePerMonth" Type="Boolean" Nullable="false" />
+          <Property Name="MSNPerMonth" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="MSNPerDay" Type="Decimal" Precision="18" Scale="5" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2808,6 +2838,21 @@
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="JobsID" ColumnName="JobsID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PTSGRPricelist">
+            <EntityTypeMapping TypeName="OTERT_Model.PTSGRPricelist">
+              <MappingFragment StoreEntitySet="PTSGRPricelist">
+                <ScalarProperty Name="MSNPerDay" ColumnName="MSNPerDay" />
+                <ScalarProperty Name="MSNPerMonth" ColumnName="MSNPerMonth" />
+                <ScalarProperty Name="IsChargePerMonth" ColumnName="IsChargePerMonth" />
+                <ScalarProperty Name="SupportsMSN" ColumnName="SupportsMSN" />
+                <ScalarProperty Name="ChargesPerDay" ColumnName="ChargesPerDay" />
+                <ScalarProperty Name="ChargesPerMonth" ColumnName="ChargesPerMonth" />
+                <ScalarProperty Name="InstallationCost" ColumnName="InstallationCost" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

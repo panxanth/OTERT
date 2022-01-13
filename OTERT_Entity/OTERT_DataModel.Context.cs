@@ -57,5 +57,6 @@ namespace OTERT_Entity
         public virtual DbSet<OrdersPTSGR> OrdersPTSGR { get; set; }
         public virtual DbSet<TasksPTSGR> TasksPTSGR { get; set; }
         public virtual DbSet<JobCancelPrices> JobCancelPrices { get; set; }
+        public virtual DbSet<PTSGRPricelist> PTSGRPricelist { get; set; }
     }
 }
