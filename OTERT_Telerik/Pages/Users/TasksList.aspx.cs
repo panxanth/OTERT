@@ -35,7 +35,7 @@ namespace OTERT.Pages.UserPages {
         protected readonly ThemableColor tcBlack = ThemableColor.FromArgb(255, 0, 0, 0);
         protected readonly ThemableColor tcWhite = ThemableColor.FromArgb(255, 255, 255, 255);
         protected readonly string dateFormat = "dd/MM/yyyy HH:mm";
-        protected readonly string currencyFormat = "#,##0.00 €";
+        protected readonly string currencyFormat = "#.##0,00 €";
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
@@ -80,6 +80,7 @@ namespace OTERT.Pages.UserPages {
                     OrderDateTo.TimePopupButton.Visible = false;
                     OrderDateTo.DateInput.DisplayDateFormat = "d/M/yyyy";
                     OrderDateTo.DateInput.DateFormat = "d/M/yyyy";
+                    OrderDateFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + OrderDateFrom.ClientID + "', '" + OrderDateTo.ClientID + "');");
                     RadDateTimePicker startOrderFrom = filterItem["DateTimeStartOrder"].Controls[1] as RadDateTimePicker;
                     startOrderFrom.TimePopupButton.Visible = false;
                     startOrderFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
@@ -88,6 +89,7 @@ namespace OTERT.Pages.UserPages {
                     startOrderTo.TimePopupButton.Visible = false;
                     startOrderTo.DateInput.DisplayDateFormat = "d/M/yyyy";
                     startOrderTo.DateInput.DateFormat = "d/M/yyyy";
+                    startOrderFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + startOrderFrom.ClientID + "', '" + startOrderTo.ClientID + "');");
                     RadDateTimePicker startActualFrom = filterItem["DateTimeStartActual"].Controls[1] as RadDateTimePicker;
                     startActualFrom.TimePopupButton.Visible = false;
                     startActualFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
@@ -96,6 +98,7 @@ namespace OTERT.Pages.UserPages {
                     startActualTo.TimePopupButton.Visible = false;
                     startActualTo.DateInput.DisplayDateFormat = "d/M/yyyy";
                     startActualTo.DateInput.DateFormat = "d/M/yyyy";
+                    startActualFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + startActualFrom.ClientID + "', '" + startActualTo.ClientID + "');");
                 }
             }
         }
@@ -413,7 +416,11 @@ namespace OTERT.Pages.UserPages {
                 worksheet.Cells[currentRow,12].SetFormat(new CellValueFormat(dateFormat));
                 worksheet.Cells[currentRow,12].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,12].SetBorders(borders);
-                worksheet.Cells[currentRow,13].SetValue(curTask.DateTimeDurationActual.GetValueOrDefault());
+                if (curTask.IsCanceled == true) {
+                    worksheet.Cells[currentRow, 13].SetValue(0);
+                } else {
+                    worksheet.Cells[currentRow, 13].SetValue(curTask.DateTimeDurationActual.GetValueOrDefault());
+                }
                 worksheet.Cells[currentRow,13].SetFontSize(fontSize);
                 worksheet.Cells[currentRow,13].SetBorders(borders);
                 if (curTask.PaymentDateOrder.GetValueOrDefault().Year > 2000) {

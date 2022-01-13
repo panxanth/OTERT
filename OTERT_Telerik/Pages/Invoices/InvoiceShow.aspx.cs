@@ -49,6 +49,7 @@ namespace OTERT.Pages.Invoices {
         const int PTSFromGreeceID = 14;
         const int PTSToGreeceID = 13;
         protected decimal fpa = 0.24M;
+        const double fontSize9 = 12.0;
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
@@ -96,6 +97,7 @@ namespace OTERT.Pages.Invoices {
                 DateFromTo.TimePopupButton.Visible = false;
                 DateFromTo.DateInput.DisplayDateFormat = "d/M/yyyy";
                 DateFromTo.DateInput.DateFormat = "d/M/yyyy";
+                DateFromFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + DateFromFrom.ClientID + "', '" + DateFromTo.ClientID + "');");
                 RadDateTimePicker DateToFrom = filterItem["DateTo"].Controls[1] as RadDateTimePicker;
                 DateToFrom.DatePopupButton.ToolTip = "Ημερολόγιο";
                 DateToFrom.TimePopupButton.Visible = false;
@@ -106,6 +108,7 @@ namespace OTERT.Pages.Invoices {
                 DateToTo.TimePopupButton.Visible = false;
                 DateToTo.DateInput.DisplayDateFormat = "d/M/yyyy";
                 DateToTo.DateInput.DateFormat = "d/M/yyyy";
+                DateToFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + DateToFrom.ClientID + "', '" + DateToTo.ClientID + "');");
             }
         }
 
@@ -749,7 +752,7 @@ namespace OTERT.Pages.Invoices {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun("ΑΡΙΘΜΟΣ ΚΡΑΤΗΣΗΣ");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 cell1.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 10);
@@ -757,7 +760,7 @@ namespace OTERT.Pages.Invoices {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun("ΑΠΟ");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 cell1.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 10);
@@ -765,7 +768,7 @@ namespace OTERT.Pages.Invoices {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun("ΕΩΣ");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 cell1.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 10);
@@ -773,7 +776,7 @@ namespace OTERT.Pages.Invoices {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun("ΔΙΑΡΚΕΙΑ");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 cell1.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 7);
@@ -781,7 +784,7 @@ namespace OTERT.Pages.Invoices {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun("ΔΙΑΔΡΟΜΗ");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 cell1.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 17);
@@ -789,7 +792,7 @@ namespace OTERT.Pages.Invoices {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun("ΑΠΟΣΤΑΣΗ");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 cell1.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 7);
@@ -797,7 +800,7 @@ namespace OTERT.Pages.Invoices {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun("ΤΕΛΟΣ ΜΕΤΑΔΟΣΗΣ");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 cell1.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 8);
@@ -805,7 +808,7 @@ namespace OTERT.Pages.Invoices {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun("ΔΙΑΦΟΡΕΣ ΧΡΕΩΣΕΙΣ");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 cell1.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 7);
@@ -813,7 +816,7 @@ namespace OTERT.Pages.Invoices {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun("ΣΥΝΟΛΟ");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 cell1.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 8);
@@ -821,7 +824,7 @@ namespace OTERT.Pages.Invoices {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(" ");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 cell1.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 6);
@@ -829,7 +832,7 @@ namespace OTERT.Pages.Invoices {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun("ΠΑΡΑΤΗΡΗΣΕΙΣ");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 cell1.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 10);
@@ -851,42 +854,46 @@ namespace OTERT.Pages.Invoices {
                                     Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row2.Cells.AddTableCell();
                                     currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.RegNo);
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                    currRun.Properties.FontSize.LocalValue = 10.0;
+                                    currRun.Properties.FontSize.LocalValue = fontSize9;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 1 && visibleColumns[j] == true) {
                                     Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row2.Cells.AddTableCell();
                                     currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.DateTimeStartActual.GetValueOrDefault().ToString("dd/MM/yyyy  HH:mm"));
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                    currRun.Properties.FontSize.LocalValue = 10.0;
+                                    currRun.Properties.FontSize.LocalValue = fontSize9;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 2 && visibleColumns[j] == true) {
                                     Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row2.Cells.AddTableCell();
                                     currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.DateTimeEndActual.GetValueOrDefault().ToString("dd/MM/yyyy  HH:mm"));
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                    currRun.Properties.FontSize.LocalValue = 10.0;
+                                    currRun.Properties.FontSize.LocalValue = fontSize9;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 3 && visibleColumns[j] == true) {
                                     Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row2.Cells.AddTableCell();
-                                    currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.DateTimeDurationActual.GetValueOrDefault().ToString());
+                                    if (curTaskLine.Task.IsCanceled == true) {
+                                        currRun = cell1.Blocks.AddParagraph().Inlines.AddRun("0");
+                                    } else {
+                                        currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.DateTimeDurationActual.GetValueOrDefault().ToString());
+                                    }
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                    currRun.Properties.FontSize.LocalValue = 10.0;
+                                    currRun.Properties.FontSize.LocalValue = fontSize9;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 4 && visibleColumns[j] == true) {
                                     Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row2.Cells.AddTableCell();
                                     currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.Distance.Position1 + " - " + curTaskLine.Task.Distance.Position2);
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                    currRun.Properties.FontSize.LocalValue = 10.0;
+                                    currRun.Properties.FontSize.LocalValue = fontSize9;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 5 && visibleColumns[j] == true) {
                                     Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row2.Cells.AddTableCell();
                                     currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.Distance.KM.ToString());
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                    currRun.Properties.FontSize.LocalValue = 10.0;
+                                    currRun.Properties.FontSize.LocalValue = fontSize9;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 6 && visibleColumns[j] == true) {
@@ -897,21 +904,21 @@ namespace OTERT.Pages.Invoices {
                                         currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.CostCalculated.GetValueOrDefault().ToString("#,##0.00"));
                                     }
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                    currRun.Properties.FontSize.LocalValue = 10.0;
+                                    currRun.Properties.FontSize.LocalValue = fontSize9;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 7 && visibleColumns[j] == true) {
                                     Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row2.Cells.AddTableCell();
                                     currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.AddedCharges.GetValueOrDefault().ToString("#,##0.00"));
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                    currRun.Properties.FontSize.LocalValue = 10.0;
+                                    currRun.Properties.FontSize.LocalValue = fontSize9;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 8 && visibleColumns[j] == true) {
                                     Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row2.Cells.AddTableCell();
                                     currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(curTaskLine.Task.CostActual.GetValueOrDefault().ToString("#,##0.00"));
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                    currRun.Properties.FontSize.LocalValue = 10.0;
+                                    currRun.Properties.FontSize.LocalValue = fontSize9;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 9 && visibleColumns[j] == true) {
@@ -922,7 +929,7 @@ namespace OTERT.Pages.Invoices {
                                         currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(" ");
                                     }
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                    currRun.Properties.FontSize.LocalValue = 10.0;
+                                    currRun.Properties.FontSize.LocalValue = fontSize9;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 10 && visibleColumns[j] == true) {
@@ -933,7 +940,7 @@ namespace OTERT.Pages.Invoices {
                                         currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(" ");
                                     }
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                    currRun.Properties.FontSize.LocalValue = 10.0;
+                                    currRun.Properties.FontSize.LocalValue = fontSize9;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 }
@@ -948,42 +955,42 @@ namespace OTERT.Pages.Invoices {
                                 if (taskLinesForCurrentJob.Count < 2) { kykloma = "κύκλωμα"; }
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun("Σύνολο για " + curJob.Name + " (" + taskLinesForCurrentJob.Count.ToString() + " " + kykloma + ")");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                             } else if (j == 1 && visibleColumns[j + 4] == true) {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row3.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(totalDistance.ToString());
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                             } else if (j == 2 && visibleColumns[j + 4] == true) {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row3.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(totalCalcCostForJob.ToString("#,##0.00"));
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                             } else if (j == 3 && visibleColumns[j + 4] == true) {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row3.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(totalAddedValues.ToString("#,##0.00"));
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                             } else if (j == 4 && visibleColumns[j + 4] == true) {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row3.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(totalCostForJob.ToString("#,##0.00"));
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                             } else if (j == 5 && visibleColumns[j + 4] == true) {
                                 Telerik.Windows.Documents.Flow.Model.TableCell cell1 = row3.Cells.AddTableCell();
                                 currRun = cell1.Blocks.AddParagraph().Inlines.AddRun(" ");
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                                currRun.Properties.FontSize.LocalValue = 10.0;
+                                currRun.Properties.FontSize.LocalValue = fontSize9;
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                             }
@@ -996,13 +1003,13 @@ namespace OTERT.Pages.Invoices {
                         currPar.TextAlignment = Alignment.Right;
                         currRun = editor.InsertLine(curRep.Text);
                         currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                        currRun.Properties.FontSize.LocalValue = 12.0;
+                        currRun.Properties.FontSize.LocalValue = fontSize9;
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                         currPar = insertParagraph(editor);
                         currPar.TextAlignment = Alignment.Right;
                         currRun = editor.InsertLine(curRep2.Text);
                         currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                        currRun.Properties.FontSize.LocalValue = 12.0;
+                        currRun.Properties.FontSize.LocalValue = fontSize9;
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                         if (!curJob.Equals(lastJob)) { Break br = editor.InsertBreak(BreakType.PageBreak); }
                     }
@@ -1248,7 +1255,7 @@ namespace OTERT.Pages.Invoices {
                                             currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                             currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                         } else if (j == 3) {
-                                            currRun = cell11.Blocks.AddParagraph().Inlines.AddRun("00.00");
+                                            currRun = cell11.Blocks.AddParagraph().Inlines.AddRun("00,00");
                                             currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                             currRun.Properties.FontSize.LocalValue = 12.0;
                                             currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
@@ -1315,7 +1322,7 @@ namespace OTERT.Pages.Invoices {
                                             currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                             currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                         } else if (j == 3) {
-                                            currRun = cell11.Blocks.AddParagraph().Inlines.AddRun("00.00");
+                                            currRun = cell11.Blocks.AddParagraph().Inlines.AddRun("00,00");
                                             currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                             currRun.Properties.FontSize.LocalValue = 12.0;
                                             currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
@@ -1381,7 +1388,7 @@ namespace OTERT.Pages.Invoices {
                                             currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                             currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                         } else if (j == 3) {
-                                            currRun = cell11.Blocks.AddParagraph().Inlines.AddRun("00.00");
+                                            currRun = cell11.Blocks.AddParagraph().Inlines.AddRun("00,00");
                                             currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                             currRun.Properties.FontSize.LocalValue = 12.0;
                                             currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
@@ -1448,7 +1455,7 @@ namespace OTERT.Pages.Invoices {
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                                 } else if (j == 3) {
-                                    currRun = cell11.Blocks.AddParagraph().Inlines.AddRun("00.00");
+                                    currRun = cell11.Blocks.AddParagraph().Inlines.AddRun("00,00");
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 12.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
@@ -1482,7 +1489,7 @@ namespace OTERT.Pages.Invoices {
                             currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                         } else if (j == 2) {
                             Telerik.Windows.Documents.Flow.Model.TableCell cell12 = row3.Cells.AddTableCell();
-                            currRun = cell12.Blocks.AddParagraph().Inlines.AddRun("00.00");
+                            currRun = cell12.Blocks.AddParagraph().Inlines.AddRun("00,00");
                             currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                             currRun.Properties.FontSize.LocalValue = 12.0;
                             currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
@@ -1588,7 +1595,7 @@ namespace OTERT.Pages.Invoices {
                             currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                         } else if (j == 2) {
                             Telerik.Windows.Documents.Flow.Model.TableCell cell22 = row22.Cells.AddTableCell();
-                            currRun = cell22.Blocks.AddParagraph().Inlines.AddRun("00.00");
+                            currRun = cell22.Blocks.AddParagraph().Inlines.AddRun("00,00");
                             currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                             currRun.Properties.FontSize.LocalValue = 12.0;
                             currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
@@ -1717,19 +1724,19 @@ namespace OTERT.Pages.Invoices {
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                         currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                     } else if (j == 2) {
-                        currRun = cell11.Blocks.AddParagraph().Inlines.AddRun(totalCostForJob.ToString("0.00"));
+                        currRun = cell11.Blocks.AddParagraph().Inlines.AddRun(totalCostForJob.ToString("#,##0.00"));
                         currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                         currRun.Properties.FontSize.LocalValue = 12.0;
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                         currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                     } else if (j == 3) {
-                        currRun = cell11.Blocks.AddParagraph().Inlines.AddRun("00.00");
+                        currRun = cell11.Blocks.AddParagraph().Inlines.AddRun("00,00");
                         currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                         currRun.Properties.FontSize.LocalValue = 12.0;
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                         currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                     } else if (j == 4) {
-                        currRun = cell11.Blocks.AddParagraph().Inlines.AddRun(totalCostForJob.ToString("0.00"));
+                        currRun = cell11.Blocks.AddParagraph().Inlines.AddRun(totalCostForJob.ToString("#,##0.00"));
                         currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                         currRun.Properties.FontSize.LocalValue = 12.0;
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
@@ -1754,7 +1761,7 @@ namespace OTERT.Pages.Invoices {
             currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
             currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
             Telerik.Windows.Documents.Flow.Model.TableCell cell3333 = row3331.Cells.AddTableCell();
-            currRun = cell3333.Blocks.AddParagraph().Inlines.AddRun(totalCostForTaskType.ToString("0.00"));
+            currRun = cell3333.Blocks.AddParagraph().Inlines.AddRun(totalCostForTaskType.ToString("#,##0.00"));
             currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
             currRun.Properties.FontSize.LocalValue = 11.0;
             currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;

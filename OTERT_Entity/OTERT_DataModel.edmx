@@ -2414,6 +2414,7 @@
           <Property Name="IsChargePerMonth" Type="Boolean" Nullable="false" />
           <Property Name="MSNPerMonth" Type="Decimal" Precision="18" Scale="5" />
           <Property Name="MSNPerDay" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="HasRouter" Type="Boolean" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2845,6 +2846,7 @@
           <EntitySetMapping Name="PTSGRPricelist">
             <EntityTypeMapping TypeName="OTERT_Model.PTSGRPricelist">
               <MappingFragment StoreEntitySet="PTSGRPricelist">
+                <ScalarProperty Name="HasRouter" ColumnName="HasRouter" />
                 <ScalarProperty Name="MSNPerDay" ColumnName="MSNPerDay" />
                 <ScalarProperty Name="MSNPerMonth" ColumnName="MSNPerMonth" />
                 <ScalarProperty Name="IsChargePerMonth" ColumnName="IsChargePerMonth" />

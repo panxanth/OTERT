@@ -95,14 +95,17 @@ namespace OTERT.Pages.UserPages {
                     OrderDateFrom.TimePopupButton.Visible = false;
                     RadDateTimePicker OrderDateTo = filterItem["OrderDate"].Controls[4] as RadDateTimePicker;
                     OrderDateTo.TimePopupButton.Visible = false;
+                    OrderDateFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + OrderDateFrom.ClientID + "', '" + OrderDateTo.ClientID + "');");
                     RadDateTimePicker startActualFrom = filterItem["DateTimeStartActual"].Controls[1] as RadDateTimePicker;
                     startActualFrom.TimePopupButton.Visible = false;
                     RadDateTimePicker startActualTo = filterItem["DateTimeStartActual"].Controls[4] as RadDateTimePicker;
                     startActualTo.TimePopupButton.Visible = false;
+                    startActualFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + startActualFrom.ClientID + "', '" + startActualTo.ClientID + "');");
                     RadDateTimePicker StartOrderFrom = filterItem["DateTimeStartOrder"].Controls[1] as RadDateTimePicker;
                     StartOrderFrom.TimePopupButton.Visible = false;
                     RadDateTimePicker StartOrderΤο = filterItem["DateTimeStartOrder"].Controls[4] as RadDateTimePicker;
                     StartOrderΤο.TimePopupButton.Visible = false;
+                    StartOrderFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + StartOrderFrom.ClientID + "', '" + StartOrderΤο.ClientID + "');");
                 }
                 if (e.Item is GridEditableItem && e.Item.IsInEditMode) {
                     GridEditableItem item = e.Item as GridEditableItem;

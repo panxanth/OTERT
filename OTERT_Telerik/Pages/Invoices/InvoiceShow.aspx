@@ -17,6 +17,12 @@
             var re = new RegExp("\.btnPrint$|\.lnkDownload$|\.btnDownArrow$|\.btnUpArrow$", "ig");
             if (args.get_eventTarget().match(re)) {args.set_enableAjax(false); }
         }
+        function UpdateTo(ctlFromID, ctlToID) {
+            var ctlFrom = $find(ctlFromID);
+            var ctlTo = $find(ctlToID);
+            var dateFrom = ctlFrom.get_selectedDate();
+            ctlTo.set_selectedDate(dateFrom);
+        } 
     </script>
     <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>

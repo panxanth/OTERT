@@ -39,6 +39,7 @@ namespace OTERT.Controller {
                                                       ChargesPerDay = us.ChargesPerDay,
                                                       MSNPerMonth = us.MSNPerMonth == null ? 0 : us.MSNPerMonth,
                                                       MSNPerDay = us.MSNPerDay == null ? 0 : us.MSNPerDay,
+                                                      HasRouter = us.HasRouter,
                                                       SupportsMSN = us.SupportsMSN,
                                                       IsChargePerMonth = us.IsChargePerMonth
                                                   }).OrderBy(o => o.Name).ToList();

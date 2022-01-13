@@ -13,7 +13,12 @@
         </Scripts>
     </telerik:RadScriptManager>
     <script type="text/javascript">
-        //Put your JavaScript code here.
+        function UpdateTo(ctlFromID, ctlToID) {
+            var ctlFrom = $find(ctlFromID);
+            var ctlTo = $find(ctlToID);
+            var dateFrom = ctlFrom.get_selectedDate();
+            ctlTo.set_selectedDate(dateFrom);
+        }
     </script>
     <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
