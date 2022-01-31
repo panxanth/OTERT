@@ -71,6 +71,9 @@
     <Compile Include="DocumentReplacemets.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EventLogs.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Events.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>

@@ -120,6 +120,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RadGrid.Main.resx</DependentUpon>
     </Compile>
+    <Compile Include="Controller\EventLogsController.cs" />
     <Compile Include="Controller\TaskLinesController.cs" />
     <Compile Include="Controller\InvoicesController.cs" />
     <Compile Include="Controller\JobCancelPricesController.cs" />
@@ -569,7 +570,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

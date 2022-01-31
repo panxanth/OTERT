@@ -345,4 +345,11 @@ namespace OTERT.Model {
         public bool IsChargePerMonth { get; set; }
     }
 
+    public class EventLogB {
+        public int ID { get; set; }
+        public DateTime EventDate { get; set; }
+        public string EventID { get; set; }
+        public string EventDescription { get; set; }
+    }
+
 }

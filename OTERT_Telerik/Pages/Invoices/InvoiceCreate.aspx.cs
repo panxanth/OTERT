@@ -37,6 +37,8 @@ namespace OTERT.Pages.Invoices {
         protected string pageTitle, uploadedFilePath;
         protected UserB loggedUser;
         const string templatesFolder = "~/Templates/";
+        const string errorLogFolder = "~/Logs/";
+        const string errorLogFile = "Logs.txt";
         const int PTSFromGreeceID = 14;
         const int PTSToGreeceID = 13;
 
@@ -197,32 +199,38 @@ namespace OTERT.Pages.Invoices {
         }
 
         protected void btnShow1_Click(object sender, EventArgs e) {
-            wizardData wData = readWizardSteps();
-            wData.Step = 2;
-            wData.CustomerID = int.Parse(ddlCustomers.SelectedItem.Value);
-            wData.DateFrom = (dpDateFrom.SelectedDate != null ? (DateTime)dpDateFrom.SelectedDate : DateTime.Now);
-            wData.DateTo = (dpDateTo.SelectedDate != null ? (DateTime)dpDateTo.SelectedDate : DateTime.Now);
-            wData.DateCreated = (dpDateCreated.SelectedDate != null ? (DateTime)dpDateCreated.SelectedDate : DateTime.Now);
-            wData.Code = txtAccountNo.Text.Trim();
-            wData.DatePayed = (dpDatePay.SelectedDate != null ? (DateTime)dpDatePay.SelectedDate : DateTime.Now);
-            wData.locked = (chkIsLocked.Checked != null ? (bool)chkIsLocked.Checked : false);
-            Session["wizardStep"] = wData;
-            showWizardSteps(wData);
-            gridJobs.Rebind();
+            try {
+                wizardData wData = readWizardSteps();
+                wData.Step = 2;
+                wData.CustomerID = int.Parse(ddlCustomers.SelectedItem.Value);
+                wData.DateFrom = (dpDateFrom.SelectedDate != null ? (DateTime)dpDateFrom.SelectedDate : DateTime.Now);
+                wData.DateTo = (dpDateTo.SelectedDate != null ? (DateTime)dpDateTo.SelectedDate : DateTime.Now);
+                wData.DateCreated = (dpDateCreated.SelectedDate != null ? (DateTime)dpDateCreated.SelectedDate : DateTime.Now);
+                wData.Code = txtAccountNo.Text.Trim();
+                wData.DatePayed = (dpDatePay.SelectedDate != null ? (DateTime)dpDatePay.SelectedDate : DateTime.Now);
+                wData.locked = (chkIsLocked.Checked != null ? (bool)chkIsLocked.Checked : false);
+                Session["wizardStep"] = wData;
+                showWizardSteps(wData);
+                gridJobs.Rebind();
+            }
+            catch(Exception ex) { appendError(ex, "btnShow1_Click Error"); }
         }
 
         protected void btnShow2_Click(object sender, EventArgs e) {
-            wizardData wData = readWizardSteps();
-            wData.Step = 3;
-            wData.SelectedJobs = new List<string>();
-            foreach (GridDataItem item in gridJobs.MasterTableView.Items) {
-                CheckBox chk = (CheckBox)item.FindControl("chk");
-                string value = item.GetDataKeyValue("ID").ToString();
-                if (chk.Checked) { wData.SelectedJobs.Add(value); }
+            try {
+                wizardData wData = readWizardSteps();
+                wData.Step = 3;
+                wData.SelectedJobs = new List<string>();
+                foreach (GridDataItem item in gridJobs.MasterTableView.Items) {
+                    CheckBox chk = (CheckBox)item.FindControl("chk");
+                    string value = item.GetDataKeyValue("ID").ToString();
+                    if (chk.Checked) { wData.SelectedJobs.Add(value); }
+                }
+                Session["wizardStep"] = wData;
+                showWizardSteps(wData);
+                gridTasks.Rebind();
             }
-            Session["wizardStep"] = wData;
-            showWizardSteps(wData);
-            gridTasks.Rebind();
+            catch(Exception ex) { appendError(ex, "btnShow2_Click Error"); }
         }
 
         protected void btnShowPrev2_Click(object sender, EventArgs e) {
@@ -233,20 +241,20 @@ namespace OTERT.Pages.Invoices {
         }
 
         protected void btnShow3_Click(object sender, EventArgs e) {
-            wizardData wData = readWizardSteps();
-            wData.Step = 4;
-            wData.SelectedTasks = new List<string>();
-            foreach (GridDataItem item in gridTasks.MasterTableView.Items) {
-                CheckBox chk = (CheckBox)item.FindControl("chk");
-                string value = item.GetDataKeyValue("ID").ToString();
-                if (chk.Checked) { wData.SelectedTasks.Add(value); }
-            }
-            //Session["wizardStep"] = wData;
-            //showWizardSteps(wData);
-            //gridSales.Rebind();
-            //wizardData wData = readWizardSteps();
-            using (var dbContext = new OTERTConnStr()) {
-                try {
+            try {
+                wizardData wData = readWizardSteps();
+                wData.Step = 4;
+                wData.SelectedTasks = new List<string>();
+                foreach (GridDataItem item in gridTasks.MasterTableView.Items) {
+                    CheckBox chk = (CheckBox)item.FindControl("chk");
+                    string value = item.GetDataKeyValue("ID").ToString();
+                    if (chk.Checked) { wData.SelectedTasks.Add(value); }
+                }
+                //Session["wizardStep"] = wData;
+                //showWizardSteps(wData);
+                //gridSales.Rebind();
+                //wizardData wData = readWizardSteps();
+                using (var dbContext = new OTERTConnStr()) {
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     OTERT_Entity.Invoices curInvoice;
                     curInvoice = new OTERT_Entity.Invoices();
@@ -259,8 +267,9 @@ namespace OTERT.Pages.Invoices {
                     curInvoice.DateCreated = wData.DateCreated;
                     TasksController tcont = new TasksController();
                     List<TaskB> invTasks = tcont.GetTasksForInvoice(curInvoice.CustomerID, wData.DateFrom, wData.DateTo, wData.SelectedJobs, wData.SelectedTasks);
+                    //throw new NullReferenceException("Student object is null.");
                     decimal totalTasksCost = 0;
-                    foreach (TaskB curTask in invTasks) { totalTasksCost += curTask.CostActual.GetValueOrDefault(); }
+                    foreach (TaskB curTask in invTasks) { totalTasksCost += curTask.CostActual.GetValueOrDefault(); } 
                     curInvoice.TasksLineAmount = totalTasksCost;
                     dbContext.Invoices.Add(curInvoice);
                     dbContext.SaveChanges();
@@ -272,6 +281,7 @@ namespace OTERT.Pages.Invoices {
                         Tasks curTaskEntity = dbContext.Tasks.Where(s => s.ID == curTask.ID).First();
                         curTaskEntity.IsLocked = true;
                         DateTime dnow = DateTime.Now;
+                        throw new NullReferenceException("Student object is null.");
                         //curTaskEntity.PaymentDateActual = dnow;
                         curTaskEntity.PaymentDateCalculated = wData.DatePayed;
                         curTaskEntity.PaymentDateOrder = wData.DateCreated;
@@ -279,9 +289,9 @@ namespace OTERT.Pages.Invoices {
                     }
                     dbContext.SaveChanges();
                 }
-                catch (Exception) { }
                 Response.Redirect("~/Pages/Invoices/InvoiceShow.aspx", false);
             }
+            catch (Exception ex) { appendError(ex, "btnShow3_Click Error"); }
         }
 
         protected void btnShowPrev3_Click(object sender, EventArgs e) {
@@ -386,6 +396,34 @@ namespace OTERT.Pages.Invoices {
             foreach (GridDataItem item in gridSales.MasterTableView.Items) {
                 CheckBox chk = (CheckBox)item.FindControl("chk");
                 chk.Checked = false;
+            }
+        }
+
+        protected void appendError(Exception ex, string EventID) {
+            EventLogs newEvent = new EventLogs();
+            newEvent.EventDate = DateTime.Now;
+            newEvent.EventID = EventID;
+            newEvent.EnevtDescription = "Message: " + ex.Message + " ------------ Inner Exeption: " + ex.InnerException + " ------------ Stack Trace: " + ex.StackTrace;
+            string errorLogP = Server.MapPath(errorLogFolder);
+            string errorLogF = Path.Combine(errorLogP, errorLogFile);
+            if (!Directory.Exists(errorLogP)) Directory.CreateDirectory(errorLogP);
+            if (!File.Exists(errorLogF)) {
+                using (StreamWriter sw = File.CreateText(errorLogF)) {
+                    sw.WriteLine("OTERT Error Log");
+                    sw.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------");
+                }
+            }
+            using (StreamWriter sw = File.AppendText(errorLogF)) {
+                sw.WriteLine("Time: " + newEvent.EventDate.ToString());
+                sw.WriteLine("EventID: " + newEvent.EventID);
+                sw.WriteLine("Message: " + ex.Message);
+                sw.WriteLine("Inner Exeption: " + ex.InnerException);
+                sw.WriteLine("Stack Trace: " + ex.StackTrace);
+                sw.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------");
+            }
+            using (var dbContext = new OTERTConnStr()) {
+                dbContext.EventLogs.Add(newEvent);
+                dbContext.SaveChanges();
             }
         }
 

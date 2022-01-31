@@ -106,6 +106,15 @@
           <Property Name="BookmarkTitle" Type="varchar" MaxLength="50" />
           <Property Name="DocumentPart" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="EventLogs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventDate" Type="datetime" Nullable="false" />
+          <Property Name="EventID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EnevtDescription" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="Events">
           <Key>
             <PropertyRef Name="ID" />
@@ -957,6 +966,7 @@
           <EntitySet Name="DiscountLine" EntityType="Self.DiscountLine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Distances" EntityType="Self.Distances" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentReplacemets" EntityType="Self.DocumentReplacemets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventLogs" EntityType="Self.EventLogs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoices" EntityType="Self.Invoices" Schema="dbo" store:Type="Tables" />
@@ -1853,6 +1863,7 @@
             <End Role="JobCancelPrices" EntitySet="JobCancelPrices" />
           </AssociationSet>
           <EntitySet Name="PTSGRPricelist" EntityType="OTERT_Model.PTSGRPricelist" />
+          <EntitySet Name="EventLogs" EntityType="OTERT_Model.EventLogs" />
         </EntityContainer>
         <Association Name="fk_Orders_Customers_1">
           <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
@@ -2414,7 +2425,15 @@
           <Property Name="IsChargePerMonth" Type="Boolean" Nullable="false" />
           <Property Name="MSNPerMonth" Type="Decimal" Precision="18" Scale="5" />
           <Property Name="MSNPerDay" Type="Decimal" Precision="18" Scale="5" />
-          <Property Name="HasRouter" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventLogs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EventID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EnevtDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2846,7 +2865,6 @@
           <EntitySetMapping Name="PTSGRPricelist">
             <EntityTypeMapping TypeName="OTERT_Model.PTSGRPricelist">
               <MappingFragment StoreEntitySet="PTSGRPricelist">
-                <ScalarProperty Name="HasRouter" ColumnName="HasRouter" />
                 <ScalarProperty Name="MSNPerDay" ColumnName="MSNPerDay" />
                 <ScalarProperty Name="MSNPerMonth" ColumnName="MSNPerMonth" />
                 <ScalarProperty Name="IsChargePerMonth" ColumnName="IsChargePerMonth" />
@@ -2855,6 +2873,16 @@
                 <ScalarProperty Name="ChargesPerMonth" ColumnName="ChargesPerMonth" />
                 <ScalarProperty Name="InstallationCost" ColumnName="InstallationCost" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventLogs">
+            <EntityTypeMapping TypeName="OTERT_Model.EventLogs">
+              <MappingFragment StoreEntitySet="EventLogs">
+                <ScalarProperty Name="EnevtDescription" ColumnName="EnevtDescription" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

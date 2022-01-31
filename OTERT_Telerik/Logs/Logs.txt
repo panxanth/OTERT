@@ -1,0 +1,20 @@
+OTERT Error Log
+-------------------------------------------------------------------------------------------------------------------------------------------
+Time: 31/1/2022 1:15:02 μμ
+EventID: btnShow3_Click Error
+Message: Student object is null.
+Inner Exeption: 
+Stack Trace:    at OTERT.Pages.Invoices.InvoiceCreate.btnShow3_Click(Object sender, EventArgs e) in D:\Works\OTERT\OTERT_Telerik\Pages\Invoices\InvoiceCreate.aspx.cs:line 264
+-------------------------------------------------------------------------------------------------------------------------------------------
+Time: 31/1/2022 1:19:45 μμ
+EventID: btnShow3_Click Error
+Message: Student object is null.
+Inner Exeption: 
+Stack Trace:    at OTERT.Pages.Invoices.InvoiceCreate.btnShow3_Click(Object sender, EventArgs e) in D:\Works\OTERT\OTERT_Telerik\Pages\Invoices\InvoiceCreate.aspx.cs:line 270
+-------------------------------------------------------------------------------------------------------------------------------------------
+Time: 31/1/2022 3:12:35 μμ
+EventID: btnShow2_Click Error
+Message: Student object is null.
+Inner Exeption: 
+Stack Trace:    at OTERT.Pages.Invoices.InvoiceCreate.btnShow2_Click(Object sender, EventArgs e) in D:\Works\OTERT\OTERT_Telerik\Pages\Invoices\InvoiceCreate.aspx.cs:line 224
+-------------------------------------------------------------------------------------------------------------------------------------------
