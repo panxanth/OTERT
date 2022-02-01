@@ -18,6 +18,7 @@ namespace OTERT_Entity
         public OTERTConnStr()
             : base("name=OTERTConnStr")
         {
+            ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 300;
             this.Configuration.LazyLoadingEnabled = false;
         }
     

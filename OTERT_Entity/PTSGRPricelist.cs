@@ -23,5 +23,6 @@ namespace OTERT_Entity
         public bool IsChargePerMonth { get; set; }
         public Nullable<decimal> MSNPerMonth { get; set; }
         public Nullable<decimal> MSNPerDay { get; set; }
+        public bool HasRouter { get; set; }
     }
 }

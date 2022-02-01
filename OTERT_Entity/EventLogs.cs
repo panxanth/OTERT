@@ -17,6 +17,6 @@ namespace OTERT_Entity
         public int ID { get; set; }
         public System.DateTime EventDate { get; set; }
         public string EventID { get; set; }
-        public string EnevtDescription { get; set; }
+        public string EventDescription { get; set; }
     }
 }

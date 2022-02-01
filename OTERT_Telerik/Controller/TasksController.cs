@@ -717,7 +717,7 @@ namespace OTERT.Controller {
                                         }).Where(o => (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && selectedJobs.Contains(o.JobID.ToString()) && !invoicedTasks.Contains(o.ID)).OrderBy(o => o.OrderDate).ToList();
                     return data;
                 }
-                catch (Exception) { return null; }
+                catch (Exception ex) { appendError(ex, "GetTasksForInvoice Error"); return null; }
             }
         }
 
@@ -1538,6 +1538,17 @@ namespace OTERT.Controller {
                     return data;
                 }
                 catch (Exception ex) { return null; }
+            }
+        }
+
+        protected void appendError(Exception ex, string EventID) {
+            EventLogs newEvent = new EventLogs();
+            newEvent.EventDate = DateTime.Now;
+            newEvent.EventID = EventID;
+            newEvent.EventDescription = "Message: " + ex.Message + " ------------ Inner Exeption: " + ex.InnerException + " ------------ Stack Trace: " + ex.StackTrace;
+            using (var dbContext = new OTERTConnStr()) {
+                dbContext.EventLogs.Add(newEvent);
+                dbContext.SaveChanges();
             }
         }
 

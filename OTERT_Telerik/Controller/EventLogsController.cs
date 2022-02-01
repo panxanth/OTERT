@@ -28,7 +28,7 @@ namespace OTERT.Controller {
                                                 ID = us.ID,
                                                 EventDate = us.EventDate,
                                                 EventID = us.EventID,
-                                                EventDescription = us.EnevtDescription
+                                                EventDescription = us.EventDescription
                                              }).OrderBy(o => o.EventDate).ToList();
                     return data;
                 }
@@ -45,7 +45,7 @@ namespace OTERT.Controller {
                                                 ID = us.ID,
                                                 EventDate = us.EventDate,
                                                 EventID = us.EventID,
-                                                EventDescription = us.EnevtDescription
+                                                EventDescription = us.EventDescription
                                             }).OrderBy(o => o.EventDate).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }

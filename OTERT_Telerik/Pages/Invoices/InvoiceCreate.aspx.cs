@@ -103,6 +103,7 @@ namespace OTERT.Pages.Invoices {
 
         protected wizardData readWizardSteps() {
             wizardData wData = (Session["wizardStep"] != null ? (wizardData)Session["wizardStep"] : new wizardData());
+            if (Session["wizardStep"] == null) { appendErrorSession("readWizardSteps Error"); }
             return (wData);
         }
 
@@ -111,7 +112,7 @@ namespace OTERT.Pages.Invoices {
                 JobsController jcont = new JobsController();
                 gridJobs.DataSource = jcont.GetJobs().Where(o => o.JobsMainID != PTSFromGreeceID && o.JobsMainID != PTSToGreeceID).OrderBy(o => o.Name);
             }
-            catch (Exception) { }
+            catch (Exception ex) { appendError(ex, "gridJobs_NeedDataSource Error"); }
         }
 
         protected void gridTasks_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
@@ -120,7 +121,7 @@ namespace OTERT.Pages.Invoices {
                 TasksController tcont = new TasksController();
                 gridTasks.DataSource = tcont.GetTasksForInvoice(wData.CustomerID, wData.DateFrom, wData.DateTo, wData.SelectedJobs).OrderBy(o => o.DateTimeStartOrder);
             }
-            catch (Exception) { }
+            catch (Exception ex) { appendError(ex, "gridTasks_NeedDataSource Error"); }
         }
 
         protected void gridTasks_ItemDataBound(object sender, GridItemEventArgs e) {
@@ -281,8 +282,8 @@ namespace OTERT.Pages.Invoices {
                         Tasks curTaskEntity = dbContext.Tasks.Where(s => s.ID == curTask.ID).First();
                         curTaskEntity.IsLocked = true;
                         DateTime dnow = DateTime.Now;
-                        throw new NullReferenceException("Student object is null.");
-                        //curTaskEntity.PaymentDateActual = dnow;
+                        //throw new NullReferenceException("Student object is null.");
+                        curTaskEntity.PaymentDateActual = dnow;
                         curTaskEntity.PaymentDateCalculated = wData.DatePayed;
                         curTaskEntity.PaymentDateOrder = wData.DateCreated;
                         dbContext.TasksLine.Add(newTaskLine);
@@ -403,7 +404,7 @@ namespace OTERT.Pages.Invoices {
             EventLogs newEvent = new EventLogs();
             newEvent.EventDate = DateTime.Now;
             newEvent.EventID = EventID;
-            newEvent.EnevtDescription = "Message: " + ex.Message + " ------------ Inner Exeption: " + ex.InnerException + " ------------ Stack Trace: " + ex.StackTrace;
+            newEvent.EventDescription = "Message: " + ex.Message + " ------------ Inner Exeption: " + ex.InnerException + " ------------ Stack Trace: " + ex.StackTrace;
             string errorLogP = Server.MapPath(errorLogFolder);
             string errorLogF = Path.Combine(errorLogP, errorLogFile);
             if (!Directory.Exists(errorLogP)) Directory.CreateDirectory(errorLogP);
@@ -419,6 +420,32 @@ namespace OTERT.Pages.Invoices {
                 sw.WriteLine("Message: " + ex.Message);
                 sw.WriteLine("Inner Exeption: " + ex.InnerException);
                 sw.WriteLine("Stack Trace: " + ex.StackTrace);
+                sw.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------");
+            }
+            using (var dbContext = new OTERTConnStr()) {
+                dbContext.EventLogs.Add(newEvent);
+                dbContext.SaveChanges();
+            }
+        }
+
+        protected void appendErrorSession(string EventID) {
+            EventLogs newEvent = new EventLogs();
+            newEvent.EventDate = DateTime.Now;
+            newEvent.EventID = EventID;
+            newEvent.EventDescription = "Session wizardStep is null";
+            string errorLogP = Server.MapPath(errorLogFolder);
+            string errorLogF = Path.Combine(errorLogP, errorLogFile);
+            if (!Directory.Exists(errorLogP)) Directory.CreateDirectory(errorLogP);
+            if (!File.Exists(errorLogF)) {
+                using (StreamWriter sw = File.CreateText(errorLogF)) {
+                    sw.WriteLine("OTERT Error Log");
+                    sw.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------");
+                }
+            }
+            using (StreamWriter sw = File.AppendText(errorLogF)) {
+                sw.WriteLine("Time: " + newEvent.EventDate.ToString());
+                sw.WriteLine("EventID: " + newEvent.EventID);
+                sw.WriteLine("Message: " + newEvent.EventDescription);
                 sw.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------");
             }
             using (var dbContext = new OTERTConnStr()) {

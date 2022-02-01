@@ -113,7 +113,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EventDate" Type="datetime" Nullable="false" />
           <Property Name="EventID" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="EnevtDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EventDescription" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Events">
           <Key>
@@ -263,6 +263,7 @@
           <Property Name="ChargesPerDay" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="MSNPerMonth" Type="decimal" Precision="18" Scale="5" />
           <Property Name="MSNPerDay" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="HasRouter" Type="bit" Nullable="false" />
           <Property Name="SupportsMSN" Type="bit" Nullable="false" />
           <Property Name="IsChargePerMonth" Type="bit" Nullable="false" />
         </EntityType>
@@ -2425,6 +2426,7 @@
           <Property Name="IsChargePerMonth" Type="Boolean" Nullable="false" />
           <Property Name="MSNPerMonth" Type="Decimal" Precision="18" Scale="5" />
           <Property Name="MSNPerDay" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="HasRouter" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="EventLogs">
           <Key>
@@ -2433,7 +2435,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EventID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EnevtDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EventDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2865,6 +2867,7 @@
           <EntitySetMapping Name="PTSGRPricelist">
             <EntityTypeMapping TypeName="OTERT_Model.PTSGRPricelist">
               <MappingFragment StoreEntitySet="PTSGRPricelist">
+                <ScalarProperty Name="HasRouter" ColumnName="HasRouter" />
                 <ScalarProperty Name="MSNPerDay" ColumnName="MSNPerDay" />
                 <ScalarProperty Name="MSNPerMonth" ColumnName="MSNPerMonth" />
                 <ScalarProperty Name="IsChargePerMonth" ColumnName="IsChargePerMonth" />
@@ -2880,7 +2883,7 @@
           <EntitySetMapping Name="EventLogs">
             <EntityTypeMapping TypeName="OTERT_Model.EventLogs">
               <MappingFragment StoreEntitySet="EventLogs">
-                <ScalarProperty Name="EnevtDescription" ColumnName="EnevtDescription" />
+                <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
                 <ScalarProperty Name="EventDate" ColumnName="EventDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
