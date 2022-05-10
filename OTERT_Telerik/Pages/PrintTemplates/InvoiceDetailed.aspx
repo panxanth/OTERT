@@ -48,7 +48,8 @@
                                 <asp:Image runat="server" ImageUrl='<% #string.Concat("~/UploadedFiles/",Eval("Text")) %>' AlternateText='<% #Eval("Text") %>' />
                             </asp:Panel>
                             <asp:Panel ID="pnlDate" runat="server">
-                                <asp:Literal Text='<% #DateTime.Now.ToString(Eval("Text").ToString()) %>' runat="server" /> 
+                                <%-- <asp:Literal Text='<% #DateTime.Now.ToString(Eval("Text").ToString()) %>' runat="server" /> --%>
+                                <asp:Literal Text='<% #Eval("Text").ToString() == "dd/MM/yyyy" ? DateTime.Now.ToString("dd/MM/yyyy") : DateTime.Now.ToString("dddd, dd MMMM yyyy") %>' runat="server" /> 
                             </asp:Panel>
                         </ItemTemplate>
                         <EditItemTemplate>

@@ -31,7 +31,7 @@ namespace OTERT.Pages.PrintTemplates {
         protected UserB loggedUser;
         const string templatesFolder = "~/Templates/";
         const string fileUploadFolder = "~/UploadedFiles/";
-        const string pageUniqueName = "Invoice";
+        const string pageUniqueName = "Invoice_";
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {

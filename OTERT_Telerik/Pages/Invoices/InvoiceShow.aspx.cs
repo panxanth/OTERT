@@ -40,9 +40,9 @@ namespace OTERT.Pages.Invoices {
         protected CheckBox chkOrderNo, chkRoute, chkDateFrom, chkDateTo, chkTotalTime, chkTotalDistance, chkTransferCost, chkAddedCharges, chkTotalCost, chkIsCanceled, chkComments;
         const string templatesFolder = "~/Templates/";
         const string fileUploadFolder = "~/UploadedFiles/";
-        const string sqlUniqueName = "Invoice";
-        const string sqlUniqueNameDetails = "InvoiceDet";
-        const string sqlUniqueNameMail = "InvoiceMail";
+        const string sqlUniqueName = "Invoice_";
+        const string sqlUniqueNameDetails = "InvoiceDet_";
+        const string sqlUniqueNameMail = "InvoiceMail_";
         const string docTemplate = "Invoice";
         const string docTemplateDetails = "InvoiceDetails";
         const string docTemplateMail = "InvoiceMail";
