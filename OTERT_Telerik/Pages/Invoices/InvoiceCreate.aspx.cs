@@ -404,7 +404,7 @@ namespace OTERT.Pages.Invoices {
             EventLogs newEvent = new EventLogs();
             newEvent.EventDate = DateTime.Now;
             newEvent.EventID = EventID;
-            newEvent.EventDescription = "Message: " + ex.Message + " ------------ Inner Exeption: " + ex.InnerException + " ------------ Stack Trace: " + ex.StackTrace;
+            newEvent.EventDescription = "Message: " + ex.Message + " ------------ Inner Exception: " + ex.InnerException + " ------------ Stack Trace: " + ex.StackTrace;
             string errorLogP = Server.MapPath(errorLogFolder);
             string errorLogF = Path.Combine(errorLogP, errorLogFile);
             if (!Directory.Exists(errorLogP)) Directory.CreateDirectory(errorLogP);
@@ -418,7 +418,7 @@ namespace OTERT.Pages.Invoices {
                 sw.WriteLine("Time: " + newEvent.EventDate.ToString());
                 sw.WriteLine("EventID: " + newEvent.EventID);
                 sw.WriteLine("Message: " + ex.Message);
-                sw.WriteLine("Inner Exeption: " + ex.InnerException);
+                sw.WriteLine("Inner Exception: " + ex.InnerException);
                 sw.WriteLine("Stack Trace: " + ex.StackTrace);
                 sw.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------");
             }

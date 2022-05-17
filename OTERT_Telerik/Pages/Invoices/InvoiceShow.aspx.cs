@@ -1030,6 +1030,7 @@ namespace OTERT.Pages.Invoices {
                 TaskLinesController tlCont = new TaskLinesController();
                 List<TasksLineB> tasksForInvoice = tlCont.GetTaskLinesForInvoice(curInvoice.ID);
                 List<JobB> distinctJobsForInvoice = tlCont.GetDistinctJobsForInvoice(curInvoice.ID);
+                var curCust = curInvoice.Customer;
                 try {
                     DocumentReplacemetsController cont = new DocumentReplacemetsController();
                     List<DocumentReplacemetB> reps = new List<DocumentReplacemetB>();
@@ -1044,34 +1045,77 @@ namespace OTERT.Pages.Invoices {
                     Telerik.Windows.Documents.Flow.Model.TableCell currCell;
                     Run currRun;
                     Paragraph currPar;
-                    curRep = reps.Find(o => o.UniqueName == "Invoice_Header_Department_Title");
+                    curRep = reps.Find(o => o.UniqueName == "InvoiceMail_First_Page_Department_Title");
                     currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)docBookmarks.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
                     string[] arrText = curRep.Text.Replace("\r\n", "#").Replace("\n", "#").Split(new char[] { '#' });
                     currPar = (Paragraph)currCell.Blocks.First();
                     currPar.Properties.TextAlignment.LocalValue = Alignment.Left;
+                    currPar.Spacing.LineSpacing = 1;
                     editor.MoveToInlineStart(((Paragraph)currCell.Blocks.First()).Inlines.First());
                     for (int i = 0; i < arrText.Length; i++) {
                         if (!string.IsNullOrEmpty(arrText[i])) {
                             currRun = editor.InsertLine(arrText[i]);
+                            if (i == arrText.Length - 1) { currRun.Underline.Pattern = UnderlinePattern.Single; }
+                            currRun.Paragraph.ContextualSpacing = true;
+                            currRun.Paragraph.Spacing.LineSpacing = 1;
                             currRun.Paragraph.Properties.TextAlignment.LocalValue = Alignment.Left;
-                            currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                            currRun.Properties.FontSize.LocalValue = 12.0;
-                            currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                            currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Times New Roman");
+                            currRun.Properties.FontSize.LocalValue = 13.0;
+                            currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                             currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+
                         }
                     }
                     currCell.Blocks.Remove(currCell.Blocks.Last());
-                    curRep = reps.Find(o => o.UniqueName == "Invoice_Header_Date");
+                    curRep = reps.Find(o => o.UniqueName == "InvoiceMail_First_Page_Date");
                     currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)docBookmarks.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
                     currPar = (Paragraph)currCell.Blocks.First();
                     currPar.Properties.TextAlignment.LocalValue = Alignment.Right;
                     editor.MoveToInlineEnd(((Paragraph)currCell.Blocks.First()).Inlines.First());
-                    currRun = editor.InsertText("Αθήνα, " + DateTime.Now.ToString(curRep.Text, new System.Globalization.CultureInfo("el-GR")));
+                    currRun = editor.InsertLine("Αθήνα, " + DateTime.Now.ToString(curRep.Text, new System.Globalization.CultureInfo("el-GR")));
                     currRun.Paragraph.Properties.TextAlignment.LocalValue = Alignment.Right;
-                    currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
-                    currRun.Properties.FontSize.LocalValue = 12.0;
-                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Times New Roman");
+                    currRun.Properties.FontSize.LocalValue = 13.0;
+                    currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                    string spaces = "                 .";
+                    currRun = editor.InsertLine("ΑΡΙΘ:     " + spaces);
+                    currRun.Underline.Pattern = UnderlinePattern.Single;
+                    currRun.Paragraph.ContextualSpacing = true;
+                    currRun.Paragraph.Spacing.LineSpacing = 1;
+                    currRun.Paragraph.Properties.TextAlignment.LocalValue = Alignment.Right;
+                    currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Times New Roman");
+                    currRun.Properties.FontSize.LocalValue = 13.0;
+                    currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
+                    currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+
+
+
+                    curRep = reps.Find(o => o.UniqueName == "InvoiceMail_First_Page_Info");
+                    currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)docBookmarks.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
+                    arrText = curRep.Text.Replace("\r\n", "#").Replace("\n", "#").Split(new char[] { '#' });
+                    currPar = (Paragraph)currCell.Blocks.First();
+                    currPar.Properties.TextAlignment.LocalValue = Alignment.Left;
+                    currPar.Spacing.LineSpacing = 1;
+                    editor.MoveToInlineStart(((Paragraph)currCell.Blocks.First()).Inlines.First());
+                    for (int i = 0; i < arrText.Length; i++) {
+                        if (!string.IsNullOrEmpty(arrText[i])) {
+                            currRun = editor.InsertLine(arrText[i]);
+                            //if (i == arrText.Length - 1) { currRun.Underline.Pattern = UnderlinePattern.Single; }
+                            currRun.Paragraph.ContextualSpacing = true;
+                            currRun.Paragraph.Spacing.LineSpacing = 1;
+                            currRun.Paragraph.Properties.TextAlignment.LocalValue = Alignment.Left;
+                            currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Times New Roman");
+                            currRun.Properties.FontSize.LocalValue = 16.0;
+                            currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
+                            if (i == 0) { currRun.Properties.FontWeight.LocalValue = FontWeights.Bold; }
+                            currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+
+                        }
+                    }
+                    currCell.Blocks.Remove(currCell.Blocks.Last());
+
+                    /*
                     curRep = reps.Find(o => o.UniqueName == "Invoice_Footer_Date");
                     currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)docBookmarks.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
                     currPar = (Paragraph)currCell.Blocks.First();
@@ -1689,11 +1733,12 @@ namespace OTERT.Pages.Invoices {
                             currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                         }
                     }
+                    */
                     curDoc.UpdateFields();
-                    string filename = "Invoice_" + curInvoice.Customer.NamedInvoiceGR.Replace(" ", "_") + "_from_" + curInvoice.DateFrom.GetValueOrDefault().ToString("dd-MM-yyyy") + "_to_" + curInvoice.DateTo.GetValueOrDefault().ToString("dd-MM-yyyy");
+                    string filename = "Email_" + curInvoice.Customer.NamedInvoiceGR.Replace(" ", "_") + "_from_" + curInvoice.DateFrom.GetValueOrDefault().ToString("dd-MM-yyyy") + "_to_" + curInvoice.DateTo.GetValueOrDefault().ToString("dd-MM-yyyy");
                     exportDOCX(curDoc, filename);
                 }
-                catch (Exception) { }
+                catch (Exception ex) { }
             }
         }
 
