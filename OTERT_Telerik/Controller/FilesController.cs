@@ -84,7 +84,7 @@ namespace OTERT.Controller {
                     }
                     return count;
                 }
-                catch (Exception ex) { return -1; }
+                catch (Exception) { return -1; }
             }
         }
 

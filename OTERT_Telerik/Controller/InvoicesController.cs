@@ -100,7 +100,7 @@ namespace OTERT.Controller {
                     }
                     return count;
                 }
-                catch (Exception ex) { return -1; }
+                catch (Exception) { return -1; }
             }
         }
 
@@ -250,6 +250,7 @@ namespace OTERT.Controller {
                                                    Address2EN = us.Customers.Address2EN,
                                                    ContactPersonGR = us.Customers.ContactPersonGR,
                                                    ContactPersonEN = us.Customers.ContactPersonEN,
+                                                   ContactPersonInvoice = us.Customers.ContactPersonInvoice,
                                                    CustomerTypeID = us.Customers.CustomerTypeID,
                                                    LanguageID = us.Customers.LanguageID,
                                                    Email = us.Customers.Email,
@@ -410,7 +411,7 @@ namespace OTERT.Controller {
                     List<InvoiceB> data = datatmp.Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
-                catch (Exception ex) { return null; }
+                catch (Exception) { return null; }
             }
         }
 

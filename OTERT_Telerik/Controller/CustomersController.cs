@@ -57,6 +57,7 @@ namespace OTERT.Controller {
                                                 Address2EN = us.Address2EN,
                                                 ContactPersonGR = us.ContactPersonGR,
                                                 ContactPersonEN = us.ContactPersonEN,
+                                                ContactPersonInvoice = us.ContactPersonInvoice,
                                                 CustomerTypeID = us.CustomerTypeID,
                                                 CustomerType = new CustomerTypeDTO {
                                                     ID = us.CustomerTypes.ID,
@@ -133,6 +134,7 @@ namespace OTERT.Controller {
                                                 Address2EN = us.Address2EN,
                                                 ContactPersonGR = us.ContactPersonGR,
                                                 ContactPersonEN = us.ContactPersonEN,
+                                                ContactPersonInvoice = us.ContactPersonInvoice,
                                                 CustomerTypeID = us.CustomerTypeID,
                                                 CustomerType = new CustomerTypeDTO {
                                                     ID = us.CustomerTypes.ID,
@@ -209,6 +211,7 @@ namespace OTERT.Controller {
                                                 Address2EN = us.Address2EN,
                                                 ContactPersonGR = us.ContactPersonGR,
                                                 ContactPersonEN = us.ContactPersonEN,
+                                                ContactPersonInvoice = us.ContactPersonInvoice,
                                                 CustomerTypeID = us.CustomerTypeID,
                                                 CustomerType = new CustomerTypeDTO {
                                                     ID = us.CustomerTypes.ID,
@@ -285,6 +288,7 @@ namespace OTERT.Controller {
                                                         Address2EN = us.Address2EN,
                                                         ContactPersonGR = us.ContactPersonGR,
                                                         ContactPersonEN = us.ContactPersonEN,
+                                                        ContactPersonInvoice = us.ContactPersonInvoice,
                                                         CustomerTypeID = us.CustomerTypeID,
                                                         CustomerType = new CustomerTypeDTO {
                                                             ID = us.CustomerTypes.ID,
@@ -363,6 +367,7 @@ namespace OTERT.Controller {
                                                 Address2EN = us.Address2EN,
                                                 ContactPersonGR = us.ContactPersonGR,
                                                 ContactPersonEN = us.ContactPersonEN,
+                                                ContactPersonInvoice = us.ContactPersonInvoice,
                                                 CustomerTypeID = us.CustomerTypeID,
                                                 CustomerType = new CustomerTypeDTO {
                                                     ID = us.CustomerTypes.ID,
@@ -439,6 +444,7 @@ namespace OTERT.Controller {
                                                 Address2EN = us.Address2EN,
                                                 ContactPersonGR = us.ContactPersonGR,
                                                 ContactPersonEN = us.ContactPersonEN,
+                                                ContactPersonInvoice = us.ContactPersonInvoice,
                                                 CustomerTypeID = us.CustomerTypeID,
                                                 CustomerType = new CustomerTypeDTO {
                                                     ID = us.CustomerTypes.ID,
@@ -515,6 +521,7 @@ namespace OTERT.Controller {
                                                 Address2EN = us.Address2EN,
                                                 ContactPersonGR = us.ContactPersonGR,
                                                 ContactPersonEN = us.ContactPersonEN,
+                                                ContactPersonInvoice = us.ContactPersonInvoice,
                                                 CustomerTypeID = us.CustomerTypeID,
                                                 CustomerType = new CustomerTypeDTO {
                                                     ID = us.CustomerTypes.ID,
@@ -591,6 +598,7 @@ namespace OTERT.Controller {
                                                 Address2EN = us.Address2EN,
                                                 ContactPersonGR = us.ContactPersonGR,
                                                 ContactPersonEN = us.ContactPersonEN,
+                                                ContactPersonInvoice = us.ContactPersonInvoice,
                                                 CustomerTypeID = us.CustomerTypeID,
                                                 CustomerType = new CustomerTypeDTO {
                                                     ID = us.CustomerTypes.ID,
@@ -667,6 +675,7 @@ namespace OTERT.Controller {
                                                 Address2EN = us.Address2EN,
                                                 ContactPersonGR = us.ContactPersonGR,
                                                 ContactPersonEN = us.ContactPersonEN,
+                                                ContactPersonInvoice = us.ContactPersonInvoice,
                                                 CustomerTypeID = us.CustomerTypeID,
                                                 CustomerType = new CustomerTypeDTO {
                                                     ID = us.CustomerTypes.ID,
@@ -743,6 +752,7 @@ namespace OTERT.Controller {
                                             Address2EN = us.Address2EN,
                                             ContactPersonGR = us.ContactPersonGR,
                                             ContactPersonEN = us.ContactPersonEN,
+                                            ContactPersonInvoice = us.ContactPersonInvoice,
                                             CustomerTypeID = us.CustomerTypeID,
                                             CustomerType = new CustomerTypeDTO {
                                                 ID = us.CustomerTypes.ID,

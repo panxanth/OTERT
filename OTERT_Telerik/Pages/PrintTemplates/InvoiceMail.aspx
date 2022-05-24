@@ -48,7 +48,8 @@
                                 <asp:Image runat="server" ImageUrl='<% #string.Concat("~/UploadedFiles/",Eval("Text")) %>' AlternateText='<% #Eval("Text") %>' />
                             </asp:Panel>
                             <asp:Panel ID="pnlDate" runat="server">
-                                <asp:Literal Text='<% #DateTime.Now.ToString(Eval("Text").ToString()) %>' runat="server" /> 
+                                <%-- <asp:Literal Text='<% #DateTime.Now.ToString(Eval("Text").ToString()) %>' runat="server" /> --%>
+                                <asp:Literal Text='<% #Eval("Text").ToString() == "dd/MM/yyyy" ? DateTime.Now.ToString("dd/MM/yyyy") : DateTime.Now.ToString("dd MMMM yyyy") %>' runat="server" /> 
                             </asp:Panel>
                         </ItemTemplate>
                         <EditItemTemplate>
@@ -69,7 +70,7 @@
                             <asp:Panel ID="pnlDate" runat="server">
                                  <telerik:RadDropDownList runat="server" ID="ddlDate" RenderMode="Lightweight" Width="250px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlText_SelectedIndexChanged">
                                      <Items>
-                                         <telerik:DropDownListItem runat="server" Text='<% #DateTime.Now.ToString("dddd, dd MMMM yyyy") %>' Value="dddd, dd MMMM yyyy" />
+                                         <telerik:DropDownListItem runat="server" Text='<% #DateTime.Now.ToString("dd MMMM yyyy") %>' Value="dd MMMM yyyy" />
                                          <telerik:DropDownListItem runat="server" Text='<% #DateTime.Now.ToString("dd/MM/yyyy") %>' Value="dd/MM/yyyy" />
                                      </Items>
                                  </telerik:RadDropDownList>

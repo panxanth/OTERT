@@ -110,6 +110,7 @@
                     <telerik:GridBoundColumn DataField="Address2EN" HeaderText="Διεύθυνση 2 (EN)" Visible="false" HeaderStyle-Font-Bold="true" />
                     <telerik:GridBoundColumn DataField="ContactPersonGR" HeaderText="Πρόσωπο Επαφής (GR)" Visible="false" HeaderStyle-Font-Bold="true" />
                     <telerik:GridBoundColumn DataField="ContactPersonEN" HeaderText="Πρόσωπο Επαφής (EN)" Visible="false" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="ContactPersonInvoice" HeaderText="Πρόσωπο Επαφής (Τιμολόγιο)" Visible="false" HeaderStyle-Font-Bold="true" />
                     <telerik:GridTemplateColumn HeaderText="Τύπος Πελάτη" HeaderStyle-Width="100px" UniqueName="CustomerTypeID" DataField="CustomerTypeID" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true" HeaderStyle-Font-Bold="true">
                         <FilterTemplate>
 		                    <telerik:RadDropDownList runat="server" ID="ddlCustomerTypeFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlCustomerTypeFilter_SelectedIndexChanged" OnPreRender="ddlCustomerTypeFilter_PreRender" />

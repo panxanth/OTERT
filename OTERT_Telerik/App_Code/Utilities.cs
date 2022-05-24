@@ -5,6 +5,7 @@ using System.Linq;
 using System.Data;
 using System.Web;
 using Telerik.Windows.Documents.Flow.Model;
+using System.Globalization;
 
 public class Utilities {
 
@@ -160,7 +161,7 @@ public class Utilities {
         try {
             bool beginsZero = false; //tests for 0XX    
             bool isDone = false; //test if already translated    
-            double dblAmt = (Convert.ToDouble(Number)); //if ((dblAmt > 0) && number.StartsWith("0"))    
+            double dblAmt = (Convert.ToDouble(Number, CultureInfo.InvariantCulture)); //if ((dblAmt > 0) && number.StartsWith("0"))    
             if (dblAmt > 0) { //test for zero or digit zero in a nuemric    
                 beginsZero = Number.StartsWith("0");
                 int numDigits = Number.Length;
@@ -230,20 +231,25 @@ public class Utilities {
     }
 
     private static string ConvertToWords(string numb) {
-        string val = "", wholeNo = numb, points = "", andStr = "", pointStr = "";
-        string endStr = "";
+        string val = "", wholeNo = numb, points = "", andStr = "", pointStr = "", endStr = "";
         try {
+            numb = numb.Replace(",", ".");
             int decimalPlace = numb.IndexOf(".");
             if (decimalPlace > 0) {
                 wholeNo = numb.Substring(0, decimalPlace);
-                points = numb.Substring(decimalPlace + 1);
+                points = numb.Substring(decimalPlace + 1, 2);
                 if (Convert.ToInt32(points) > 0) {
                     andStr = "Ευρώ και"; // just to separate whole numbers from points/cents    
-                    endStr = "Λεπτών" + endStr; //Cents    
+                    endStr = "Λεπτών"; //Cents    
                     pointStr = ConvertWholeNumber(points);
                 }
+                else {
+                    andStr = "Ευρώ";
+                }
+            } else {
+                andStr = "Ευρώ";
             }
-            val = String.Format("{0} {1} {2} {3}", ConvertWholeNumber(wholeNo).Trim(), andStr, pointStr, endStr);
+            val = string.Format("{0} {1} {2} {3}", ConvertWholeNumber(wholeNo).Trim(), andStr, pointStr, endStr);
         }
         catch { }
         return val;
@@ -267,7 +273,8 @@ public class Utilities {
         string isNegative = "";
         string string2return = "";
         try {
-            num2convert = Convert.ToDouble(num2convert).ToString();
+            num2convert = num2convert.Replace(",", ".");
+            num2convert = Convert.ToDouble(num2convert, CultureInfo.InvariantCulture).ToString();
             if (num2convert.Contains("-")) {
                 isNegative = "Minus ";
                 num2convert = num2convert.Substring(1, num2convert.Length - 1);
@@ -278,7 +285,7 @@ public class Utilities {
                 string2return = isNegative + ConvertToWords(num2convert);
             }
         }
-        catch (Exception ex) { }
+        catch (Exception) { }
         return string2return;
     }
 

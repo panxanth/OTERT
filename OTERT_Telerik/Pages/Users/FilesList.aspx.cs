@@ -43,7 +43,7 @@ namespace OTERT.Pages.UserPages {
                 gridMain.VirtualItemCount = cont.CountFiles(recFilter);
                 gridMain.DataSource = cont.GetFilesForList(recSkip, recTake, recFilter, gridSortExxpressions);
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
 
         protected void gridMain_ItemDataBound(object sender, GridItemEventArgs e) {   

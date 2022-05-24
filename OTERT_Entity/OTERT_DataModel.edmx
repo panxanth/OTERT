@@ -50,6 +50,7 @@
           <Property Name="Address2EN" Type="nvarchar" MaxLength="255" />
           <Property Name="ContactPersonGR" Type="nvarchar" MaxLength="255" />
           <Property Name="ContactPersonEN" Type="nvarchar" MaxLength="255" />
+          <Property Name="ContactPersonInvoice" Type="nvarchar" MaxLength="255" />
           <Property Name="CustomerTypeID" Type="int" Nullable="false" />
           <Property Name="LanguageID" Type="int" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="255" />
@@ -210,9 +211,6 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="InstallationCost" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="MonthlyCharges" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="MSNCost" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -1252,6 +1250,7 @@
           <Property Name="IsPTS" Type="Boolean" />
           <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.fk_TasksPTSGR_Customers" FromRole="Customers" ToRole="TasksPTSGR" />
           <NavigationProperty Name="OrdersPTSGR" Relationship="OTERT_Model.FK_OrdersPTSGR_Customers" FromRole="Customers" ToRole="OrdersPTSGR" />
+          <Property Name="ContactPersonInvoice" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CustomerTypes">
           <Key>
@@ -1323,9 +1322,6 @@
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="CountryPricelist" Relationship="Self.fk_CountryPricelist_LineTypes" FromRole="LineTypes" ToRole="CountryPricelist" />
           <NavigationProperty Name="Tasks" Relationship="OTERT_Model.FK_Tasks_LineTypes" FromRole="LineTypes" ToRole="Tasks" />
-          <Property Name="InstallationCost" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MonthlyCharges" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MSNCost" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.FK_TasksPTSGR_LineTypes" FromRole="LineTypes" ToRole="TasksPTSGR" />
         </EntityType>
         <EntityType Name="Orders">
@@ -2469,6 +2465,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="OTERT_Model.Customers">
               <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="ContactPersonInvoice" ColumnName="ContactPersonInvoice" />
                 <ScalarProperty Name="IsPTS" ColumnName="IsPTS" />
                 <ScalarProperty Name="IsOTE" ColumnName="IsOTE" />
                 <ScalarProperty Name="SAPCode" ColumnName="SAPCode" />
@@ -2559,9 +2556,6 @@
           <EntitySetMapping Name="LineTypes">
             <EntityTypeMapping TypeName="OTERT_Model.LineTypes">
               <MappingFragment StoreEntitySet="LineTypes">
-                <ScalarProperty Name="MSNCost" ColumnName="MSNCost" />
-                <ScalarProperty Name="MonthlyCharges" ColumnName="MonthlyCharges" />
-                <ScalarProperty Name="InstallationCost" ColumnName="InstallationCost" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>

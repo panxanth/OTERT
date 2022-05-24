@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace OTERT.Model {
 
@@ -46,6 +44,7 @@ namespace OTERT.Model {
         public string Address2EN { get; set; }
         public string ContactPersonGR { get; set; }
         public string ContactPersonEN { get; set; }
+        public string ContactPersonInvoice { get; set; }
         public CustomerTypeDTO CustomerType { get; set; }
         public int CustomerTypeID { get; set; }
         public LanguageDTO Language { get; set; }

@@ -537,7 +537,7 @@ namespace OTERT.Pages.Administrator {
                     curDoc.UpdateFields();
                     exportDOCX(curDoc);
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
             }
         }
 

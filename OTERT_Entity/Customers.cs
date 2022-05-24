@@ -59,6 +59,7 @@ namespace OTERT_Entity
         public string SAPCode { get; set; }
         public Nullable<bool> IsOTE { get; set; }
         public Nullable<bool> IsPTS { get; set; }
+        public string ContactPersonInvoice { get; set; }
     
         public virtual Countries Countries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

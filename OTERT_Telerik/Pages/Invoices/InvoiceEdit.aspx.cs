@@ -79,7 +79,7 @@ namespace OTERT.Pages.Invoices {
                     curInvoice.DatePaid = (dpDatePay.SelectedDate != null ? (DateTime)dpDatePay.SelectedDate : DateTime.Now);
                     dbContext.SaveChanges();
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
                 Response.Redirect("/Pages/Invoices/InvoiceShow.aspx", false);
             }
         }

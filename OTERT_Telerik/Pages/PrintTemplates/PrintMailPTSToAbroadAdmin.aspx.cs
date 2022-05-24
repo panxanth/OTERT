@@ -398,7 +398,7 @@ namespace OTERT.Pages.PrintTemplates {
                 curDoc.UpdateFields();
                 exportDOCX(curDoc);
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
 
         protected void exportDOCX(RadFlowDocument doc) {

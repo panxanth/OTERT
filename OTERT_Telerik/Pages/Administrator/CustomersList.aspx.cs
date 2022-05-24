@@ -247,6 +247,7 @@ namespace OTERT.Pages.Administrator {
                             selCustomer.Address2EN = (string)values["Address2EN"];
                             selCustomer.ContactPersonGR = (string)values["ContactPersonGR"];
                             selCustomer.ContactPersonEN = (string)values["ContactPersonEN"];
+                            selCustomer.ContactPersonInvoice = (string)values["ContactPersonInvoice"];
                             selCustomer.CustomerTypeID = customerTypeID;
                             selCustomer.LanguageID = languageID;
                             selCustomer.Email = (string)values["Email"];

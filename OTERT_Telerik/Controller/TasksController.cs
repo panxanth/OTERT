@@ -126,7 +126,7 @@ namespace OTERT.Controller {
                     }
                     return count;
                 }
-                catch (Exception ex) { return -1; }
+                catch (Exception) { return -1; }
             }
         }
 
@@ -235,7 +235,7 @@ namespace OTERT.Controller {
                     }
                     return count;
                 }
-                catch (Exception ex) { return -1; }
+                catch (Exception) { return -1; }
             }
         }
 
@@ -355,7 +355,7 @@ namespace OTERT.Controller {
                                         }).Where (k => k.ID == taskID).FirstOrDefault();
                     return data;
                 }
-                catch (Exception ex) { return null; }
+                catch (Exception) { return null; }
             }
         }
 
@@ -1313,7 +1313,7 @@ namespace OTERT.Controller {
                     }
                     return data;
                 }
-                catch (Exception ex) { return null; }
+                catch (Exception) { return null; }
             }
         }
 
@@ -1537,7 +1537,7 @@ namespace OTERT.Controller {
                     List<TaskB> data = datatmp.Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
-                catch (Exception ex) { return null; }
+                catch (Exception) { return null; }
             }
         }
 
