@@ -33,7 +33,7 @@ namespace OTERT.Pages.Administrator {
         protected UserB loggedUser;
         const string fileUploadFolder = "~/UploadedFiles/";
         const string templatesFolder = "~/Templates/";
-        const string pageUniqueName = "PTS";
+        const string pageUniqueName = "PTSAbroad";
         const int OrderTypeID = 2;
 
         protected void Page_Load(object sender, EventArgs e) {

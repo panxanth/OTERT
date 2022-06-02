@@ -513,7 +513,7 @@
     <Content Include="Fonts\FontAwesome.otf" />
     <Content Include="Templates\KET.docx" />
     <Content Include="Templates\Invoice.docx" />
-    <Content Include="Templates\PTS.docx" />
+    <Content Include="Templates\PTSAbroad.docx" />
     <Content Include="Templates\mailCosmote.docx" />
     <Content Include="Templates\InvoiceDetails.docx" />
     <Content Include="Templates\InvoiceMail.docx" />
@@ -570,7 +570,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
