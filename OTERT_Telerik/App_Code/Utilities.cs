@@ -19,7 +19,7 @@ public class Utilities {
         string name = "";
         switch (_Number) {
             case 1:
-                name = "Μιας";
+                name = "Ενός";
                 break;
             case 2:
                 name = "Δύο";
@@ -121,7 +121,7 @@ public class Utilities {
         string name = null;
         switch (_Number) {
             case 100:
-                name = "Εκατών";
+                name = "Εκατόν";
                 break;
             case 200:
                 name = "Διακοσίων";
@@ -177,12 +177,16 @@ public class Utilities {
                         isDone = true;
                         break;
                     case 3: //hundreds' range    
-                        word = Hundreds(Number);
+                        if (Number == "100") { word = "Εκατό"; } else { word = Hundreds(Number); }
                         isDone = true;
                         break;
                     case 4: //thousands' range
                         if (Number.StartsWith("1")) {
-                            word = "Χιλίων " + Hundreds(Number.Substring(1, Number.Length - 1));
+                            if (Number.Substring(1, Number.Length - 1) == "100") {
+                                word = "Χιλίων Εκατό";
+                            } else {
+                                word = "Χιλίων " + Hundreds(Number.Substring(1, Number.Length - 1));
+                            }
                             isDone = true;
                         } else {
                             pos = (numDigits % 4) + 1;
