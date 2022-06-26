@@ -1105,7 +1105,13 @@ namespace OTERT.Pages.Invoices {
                     }
                     currCell.Blocks.Remove(currCell.Blocks.Last());
                     // InvoiceMail_First_Page_Το
-                    string curText = curCust.NamedInvoiceGR + "\r\n" + "ΥΠΟΨΗ: " + curCust.ContactPersonInvoice + "\r\n" + curCust.Address1GR + "\r\n" + curCust.Address2GR;
+                    string curContactPerson = "";
+                    if (string.IsNullOrEmpty(curCust.ContactPersonInvoice)) {
+                        curContactPerson = curCust.ContactPersonGR;
+                    } else {
+                        curContactPerson = curCust.ContactPersonInvoice;
+                    }
+                    string curText = curCust.NamedInvoiceGR + "\r\n" + "ΥΠΟΨΗ: " + curContactPerson + "\r\n" + curCust.Address1GR + "\r\n" + curCust.ZIPCode + "\r\n" + curCust.CityGR;
                     currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)docBookmarks.Where(o => o.Bookmark.Name == "First_Page_Το").FirstOrDefault().Paragraph.BlockContainer;
                     arrText = curText.Replace("\r\n", "#").Replace("\n", "#").Split(new char[] { '#' });
                     currPar = (Paragraph)currCell.Blocks.First();
@@ -1178,7 +1184,7 @@ namespace OTERT.Pages.Invoices {
                     }
                     decimal fpaTotalCost = totalCost * fpa;
                     decimal totalCostwithFPA = totalCost + fpaTotalCost;
-                    string txtAmount = Utilities.ConvertToText(totalCostwithFPA.ToString()).ToLower();
+                    string txtAmount = Utilities.ConvertToText(Decimal.Round(totalCostwithFPA, 2).ToString()).ToLower();
                     txtAmount += " (" + totalCostwithFPA.ToString("#,##0.00") + "€)";
                     curRep.Text = curRep.Text.Replace("#amount#", txtAmount);
                     arrText = curRep.Text.Replace("\r\n", "#").Replace("\n", "#").Split(new char[] { '#' });
