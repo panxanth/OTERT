@@ -137,9 +137,9 @@
                     <ul class="gradient_menu gradient67">
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/CountriesList.aspx">Χώρες</a></li>
                         <!-- <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/languagesList.aspx">Γλώσσες</a></li> -->
-                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/PlacesList.aspx">Τοποθεσίες</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/PlacesList.aspx">Χώροι Διοργανώσεων</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/DistancesList.aspx">Αποστάσεις</a></li>
-                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/EventsList.aspx">Γεγονότα</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/Administrator/EventsList.aspx">Διοργανώσεις</a></li>
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Administrator/RequestedPositionsList.aspx">Αιτούμενες Θέσεις</a></li>
                     </ul>
                 </li>

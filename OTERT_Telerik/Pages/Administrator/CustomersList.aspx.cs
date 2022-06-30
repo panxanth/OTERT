@@ -111,7 +111,9 @@ namespace OTERT.Pages.Administrator {
                     ddlUsers.DataValueField = "ID";
                     ddlUsers.DataBind();
                     if (currCustomer != null) {
-                        ddlUsers.SelectedIndex = ddlUsers.FindItemByValue(currCustomer.UserID.ToString()).Index;
+                        if (currCustomer.UserID != null) {
+                            ddlUsers.SelectedIndex = ddlUsers.FindItemByValue(currCustomer.UserID.ToString()).Index;
+                        }
                         Session["UserID"] = currCustomer.UserID;
                     } else {
                         ddlUsers.SelectedIndex = 0;
@@ -259,6 +261,7 @@ namespace OTERT.Pages.Administrator {
                             selCustomer.Comments = (string)values["Comments"];
                             selCustomer.IsProvider = (bool)values["IsProvider"];
                             selCustomer.IsPTS = (bool)values["IsPTS"];
+                            selCustomer.IsTemporary = (bool)values["IsTemporary"];
                             dbContext.Customers.Add(selCustomer);
                             dbContext.SaveChanges();
                         }

@@ -24,8 +24,8 @@ namespace OTERT.Pages.Administrator {
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
-                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Τοποθεσιών";
-                gridMain.MasterTableView.Caption = "Τοποθεσίες";
+                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Χώρων Διοργανώσεων";
+                gridMain.MasterTableView.Caption = "Χώροι Διοργανώσεων";
                 newID = -1;
                 Session.Remove("CountryID");
             }

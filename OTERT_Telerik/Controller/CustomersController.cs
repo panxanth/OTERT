@@ -95,7 +95,8 @@ namespace OTERT.Controller {
                                                 Comments = us.Comments,
                                                 IsProvider = us.IsProvider,
                                                 IsOTE = us.IsOTE,
-                                                IsPTS = us.IsPTS
+                                                IsPTS = us.IsPTS,
+                                                IsTemporary = us.IsTemporary
                                             }).Where(o => o.ID == ID).FirstOrDefault();
                     return data;
                 }
@@ -103,6 +104,7 @@ namespace OTERT.Controller {
             }
         }
 
+        // Fetches Customers for Temporary and Emergency Tasks only
         public List<CustomerB> GetCustomers() {
             using (var dbContext = new OTERTConnStr()) {
                 try {
@@ -172,14 +174,16 @@ namespace OTERT.Controller {
                                                 Comments = us.Comments,
                                                 IsProvider = us.IsProvider,
                                                 IsOTE = us.IsOTE,
-                                                IsPTS = us.IsPTS
-                                            }).Where(k => k.IsPTS == false).OrderBy(o => o.NameGR).ToList();
+                                                IsPTS = us.IsPTS,
+                                                IsTemporary = us.IsTemporary
+                                            }).Where(k => k.IsTemporary == true).OrderBy(o => o.NameGR).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
             }
         }
 
+        // Used only in FileList
         public List<CustomerB> GetAllCustomers() {
             using (var dbContext = new OTERTConnStr()) {
                 try {
@@ -249,7 +253,8 @@ namespace OTERT.Controller {
                                                 Comments = us.Comments,
                                                 IsProvider = us.IsProvider,
                                                 IsOTE = us.IsOTE,
-                                                IsPTS = us.IsPTS
+                                                IsPTS = us.IsPTS,
+                                                IsTemporary = us.IsTemporary
                                             }).OrderBy(o => o.NameGR).ToList();
                     return data;
                 }
@@ -257,6 +262,7 @@ namespace OTERT.Controller {
             }
         }
 
+        // Used in CustomerList and in the administration page of Customers
         public List<CustomerB> GetCustomers(int recSkip, int recTake, string recFilter) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
@@ -326,7 +332,8 @@ namespace OTERT.Controller {
                                                         Comments = us.Comments,
                                                         IsProvider = us.IsProvider,
                                                         IsOTE = us.IsOTE,
-                                                        IsPTS = us.IsPTS
+                                                        IsPTS = us.IsPTS,
+                                                        IsTemporary = us.IsTemporary
                                                     });
                     if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
                     List<CustomerB> data = datatmp.OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
@@ -336,6 +343,7 @@ namespace OTERT.Controller {
             }
         }
 
+        // Used only for Invoices
         public List<CustomerB> GetCustomersForCountry(int CountryID) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
@@ -405,14 +413,16 @@ namespace OTERT.Controller {
                                                 Comments = us.Comments,
                                                 IsProvider = us.IsProvider,
                                                 IsOTE = us.IsOTE,
-                                                IsPTS = us.IsPTS
-                                            }).Where(k => k.CountryID == CountryID && k.IsPTS == false).OrderBy(o => o.NameGR).ToList();
+                                                IsPTS = us.IsPTS,
+                                                IsTemporary = us.IsTemporary
+                                            }).Where(k => k.CountryID == CountryID && k.IsTemporary == true).OrderBy(o => o.NameGR).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
             }
         }
 
+        // Used only in CountryPricelistsList
         public List<CustomerB> GetProviders() {
             using (var dbContext = new OTERTConnStr()) {
                 try {
@@ -482,7 +492,8 @@ namespace OTERT.Controller {
                                                 Comments = us.Comments,
                                                 IsProvider = us.IsProvider,
                                                 IsOTE = us.IsOTE,
-                                                IsPTS = us.IsPTS
+                                                IsPTS = us.IsPTS,
+                                                IsTemporary = us.IsTemporary
                                             }).Where(k => k.IsPTS == true).OrderBy(o => o.NameGR).ToList();
                     return data;
                 }
@@ -559,7 +570,8 @@ namespace OTERT.Controller {
                                                 Comments = us.Comments,
                                                 IsProvider = us.IsProvider,
                                                 IsOTE = us.IsOTE,
-                                                IsPTS = us.IsPTS
+                                                IsPTS = us.IsPTS,
+                                                IsTemporary = us.IsTemporary
                                             }).Where(k => k.IsPTS == true && k.CountryID == CountryID).OrderBy(o => o.NameGR).ToList();
                     return data;
                 }
@@ -636,7 +648,8 @@ namespace OTERT.Controller {
                                                 Comments = us.Comments,
                                                 IsProvider = us.IsProvider,
                                                 IsOTE = us.IsOTE,
-                                                IsPTS = us.IsPTS
+                                                IsPTS = us.IsPTS,
+                                                IsTemporary = us.IsTemporary
                                             }).Where(k => k.IsPTS == true && k.CountryID == 1).OrderBy(o => o.NameGR).ToList();
                     return data;
                 }
@@ -713,7 +726,8 @@ namespace OTERT.Controller {
                                                 Comments = us.Comments,
                                                 IsProvider = us.IsProvider,
                                                 IsOTE = us.IsOTE,
-                                                IsPTS = us.IsPTS
+                                                IsPTS = us.IsPTS,
+                                                IsTemporary = us.IsTemporary
                                             }).Where(k => k.IsPTS == true && k.CountryID != 1).OrderBy(o => o.NameGR).ToList();
                     return data;
                 }
@@ -790,7 +804,8 @@ namespace OTERT.Controller {
                                             Comments = us.Comments,
                                             IsProvider = us.IsProvider,
                                             IsOTE = us.IsOTE,
-                                            IsPTS = us.IsPTS
+                                            IsPTS = us.IsPTS,
+                                            IsTemporary = us.IsTemporary
                                         }).Where(k => k.IsPTS == true && k.IsOTE == true).ToList();
                     return data;
                 }

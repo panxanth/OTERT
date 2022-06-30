@@ -175,9 +175,9 @@ namespace OTERT.Pages.Administrator {
                             ddlCountry.SelectedIndex = 0;
                             Session["CountryID"] = ddlCountry.SelectedItem.Value;
                             ddlCustomer1.SelectedIndex = 0;
-                            Session["Customer1ID"] = ddlCustomer1.SelectedItem.Value;
+                            if (ddlCustomer1.SelectedItem != null) { Session["Customer1ID"] = ddlCustomer1.SelectedItem.Value; }
                             ddlEvent.SelectedIndex = 0;
-                            Session["EventID"] = ddlEvent.SelectedItem.Value;
+                            if (ddlEvent.SelectedItem != null) { Session["EventID"] = ddlEvent.SelectedItem.Value; }
                         }
                     }
                     catch (Exception) { }

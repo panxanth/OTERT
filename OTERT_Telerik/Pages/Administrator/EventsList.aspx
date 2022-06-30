@@ -56,7 +56,7 @@
                             <telerik:RadDropDownList runat="server" ID="ddlCountries" RenderMode="Lightweight" Width="300" DropDownWidth="300" DropDownHeight="200" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlCountries_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridTemplateColumn HeaderText="Τοποθεσία" UniqueName="PlaceID" DataField="PlaceID" AllowFiltering="false" HeaderStyle-Font-Bold="true">
+                    <telerik:GridTemplateColumn HeaderText="Χώρος Διοργάνωσης" UniqueName="PlaceID" DataField="PlaceID" AllowFiltering="false" HeaderStyle-Font-Bold="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Place.NameGR") %>' runat="server" /> 
                         </ItemTemplate>

@@ -63,6 +63,7 @@
           <Property Name="IsProvider" Type="bit" />
           <Property Name="IsOTE" Type="bit" />
           <Property Name="IsPTS" Type="bit" />
+          <Property Name="IsTemporary" Type="bit" />
         </EntityType>
         <EntityType Name="CustomerTypes">
           <Key>
@@ -223,6 +224,7 @@
           <Property Name="RegNo" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="EventID" Type="int" Nullable="false" />
           <Property Name="IsLocked" Type="bit" />
+          <Property Name="InoiceProtocol" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="OrdersPTSGR">
           <Key>
@@ -1251,6 +1253,7 @@
           <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.fk_TasksPTSGR_Customers" FromRole="Customers" ToRole="TasksPTSGR" />
           <NavigationProperty Name="OrdersPTSGR" Relationship="OTERT_Model.FK_OrdersPTSGR_Customers" FromRole="Customers" ToRole="OrdersPTSGR" />
           <Property Name="ContactPersonInvoice" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsTemporary" Type="Boolean" />
         </EntityType>
         <EntityType Name="CustomerTypes">
           <Key>
@@ -1343,6 +1346,7 @@
           <Property Name="IsLocked" Type="Boolean" />
           <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.fk_TasksPTSGR_OrderPTSGRID" FromRole="Orders" ToRole="TasksPTSGR" />
           <NavigationProperty Name="OrdersPTSGR" Relationship="OTERT_Model.FK_OrdersPTSGR_Orders" FromRole="Orders" ToRole="OrdersPTSGR" />
+          <Property Name="InoiceProtocol" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OrderTypes">
           <Key>
@@ -2465,6 +2469,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="OTERT_Model.Customers">
               <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="IsTemporary" ColumnName="IsTemporary" />
                 <ScalarProperty Name="ContactPersonInvoice" ColumnName="ContactPersonInvoice" />
                 <ScalarProperty Name="IsPTS" ColumnName="IsPTS" />
                 <ScalarProperty Name="IsOTE" ColumnName="IsOTE" />
@@ -2564,6 +2569,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="OTERT_Model.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="InoiceProtocol" ColumnName="InoiceProtocol" />
                 <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
                 <ScalarProperty Name="Customer2ID" ColumnName="Customer2ID" />

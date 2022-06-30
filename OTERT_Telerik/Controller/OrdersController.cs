@@ -28,6 +28,7 @@ namespace OTERT.Controller {
                                              OrderTypeID = us.OrderTypeID,
                                              OrderType = new OrderTypeDTO { ID = us.OrderTypes.ID, Name = us.OrderTypes.Name },
                                              RegNo = us.RegNo,
+                                             InoiceProtocol = us.InoiceProtocol,
                                              Customer1ID = us.Customer1ID,
                                              Customer1 = new CustomerDTO {
                                                  ID = us.Customers1.ID,
@@ -132,6 +133,7 @@ namespace OTERT.Controller {
                                              OrderTypeID = us.OrderTypeID,
                                              OrderType = new OrderTypeDTO { ID = us.OrderTypes.ID, Name = us.OrderTypes.Name },
                                              RegNo = us.RegNo,
+                                             InoiceProtocol = us.InoiceProtocol,
                                              Customer1ID = us.Customer1ID,
                                              Customer1 = new CustomerDTO { ID = us.Customers1.ID,
                                                                         CountryID = us.Customers1.CountryID,
@@ -235,6 +237,7 @@ namespace OTERT.Controller {
                                              OrderTypeID = us.OrderTypeID,
                                              OrderType = new OrderTypeDTO { ID = us.OrderTypes.ID, Name = us.OrderTypes.Name },
                                              RegNo = us.RegNo,
+                                             InoiceProtocol = us.InoiceProtocol,
                                              Customer1ID = us.Customer1ID,
                                              Customer1 = new CustomerDTO {
                                                                         ID = us.Customers1.ID,

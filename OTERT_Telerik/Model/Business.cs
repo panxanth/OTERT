@@ -60,6 +60,7 @@ namespace OTERT.Model {
         public bool? IsProvider { get; set; }
         public bool? IsOTE { get; set; }
         public bool? IsPTS { get; set; }
+        public bool? IsTemporary { get; set; }
     }
 
     public class CustomerTypeB {
@@ -180,6 +181,7 @@ namespace OTERT.Model {
         public int EventID { get; set; }
         public EventDTO Event { get; set; }
         public bool IsLocked { get; set; }
+        public string InoiceProtocol { get; set; }
     }
 
     public class OrderTypeB {
