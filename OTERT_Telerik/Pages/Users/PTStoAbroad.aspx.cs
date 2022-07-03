@@ -28,7 +28,7 @@ namespace OTERT.Pages.Administrator {
         protected RadAjaxManager RadAjaxManager1;
         protected RadWindowManager RadWindowManager1;
         protected string pageTitle, uploadedFilePath;
-        protected int Customer1ID, EventID, CountryID;
+        protected int Customer1ID, EventID, CountryID, PlaceID;
         protected int CustomerID, PositionID, LineTypeID;
         protected UserB loggedUser;
         const string fileUploadFolder = "~/UploadedFiles/";
@@ -52,6 +52,8 @@ namespace OTERT.Pages.Administrator {
                 Session.Remove("PositionID");
                 LineTypeID = -1;
                 Session.Remove("LineTypeID");
+                PlaceID = -1;
+                Session.Remove("PlaceID");
             }
             if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
@@ -86,8 +88,6 @@ namespace OTERT.Pages.Administrator {
                     dpOrderDate.DateInput.Width = Unit.Pixel(250);
                     RadDatePicker dpPaymentDateOrder = (RadDatePicker)item["PaymentDateOrder"].Controls[0];
                     dpPaymentDateOrder.DateInput.Width = Unit.Pixel(250);
-                    RadDatePicker dpPaymentDateCalculated = (RadDatePicker)item["PaymentDateCalculated"].Controls[0];
-                    dpPaymentDateCalculated.DateInput.Width = Unit.Pixel(250);
                     RadDatePicker dpPaymentDateActual = (RadDatePicker)item["PaymentDateActual"].Controls[0];
                     dpPaymentDateActual.DateInput.Width = Unit.Pixel(250);
                     RadDateTimePicker dpDateTimeStartActual = (RadDateTimePicker)item["DateTimeStartActual"].Controls[0];
@@ -112,12 +112,6 @@ namespace OTERT.Pages.Administrator {
                     //dpDateTimeEndActual.SharedTimeView.Interval = new TimeSpan(0, 30, 0);
                     dpDateTimeEndActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
                     dpDateTimeEndActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
-                    CheckBox cbInternet = (CheckBox)item["Internet"].Controls[0];
-                    cbInternet.AutoPostBack = true;
-                    cbInternet.CheckedChanged += new EventHandler(cbInternet_CheckedChanged);
-                    CheckBox cbMSN = (CheckBox)item["MSN"].Controls[0];
-                    cbMSN.AutoPostBack = true;
-                    cbMSN.CheckedChanged += new EventHandler(cbMSN_CheckedChanged);
                 }
             } else if (e.Item.OwnerTableView.Name == "AttachedFiles") {
                 if (e.Item is GridDataItem) {
@@ -137,10 +131,13 @@ namespace OTERT.Pages.Administrator {
                     Session.Remove("Customer1ID");
                     EventID = -1;
                     Session.Remove("EventID");
+                    PlaceID = -1;
+                    Session.Remove("PlaceID");
                     GridEditableItem item = e.Item as GridEditableItem;
                     RadDropDownList ddlCountry = item.FindControl("ddlCountry") as RadDropDownList;
                     RadDropDownList ddlCustomer1 = item.FindControl("ddlCustomer1") as RadDropDownList;
                     RadDropDownList ddlEvent = item.FindControl("ddlEvent") as RadDropDownList;
+                    RadDropDownList ddlPlace = item.FindControl("ddlPlace") as RadDropDownList;
                     try {
                         OrderB currOrder = e.Item.DataItem as OrderB;
                         CountriesController ccont = new CountriesController();
@@ -150,12 +147,20 @@ namespace OTERT.Pages.Administrator {
                         ddlCountry.DataBind();
                         ddlCountry.Items.Insert(0, new DropDownListItem("Όλες οι Χώρες ...", "0"));
                         CustomersController custcont = new CustomersController();
-                        ddlCustomer1.DataSource = custcont.GetProvidersForCountry(Int32.Parse(ddlCountry.SelectedItem.Value));
+                        //ddlCustomer1.DataSource = custcont.GetProvidersForCountry(Int32.Parse(ddlCountry.SelectedItem.Value));
+                        ddlCustomer1.DataSource = custcont.GetProvidersForCountry(currOrder.Event.Place.CountryID);
                         ddlCustomer1.DataTextField = "NameGR";
                         ddlCustomer1.DataValueField = "ID";
                         ddlCustomer1.DataBind();
+                        PlacesController plcont = new PlacesController();
+                        //ddlPlace.DataSource = plcont.GetPlacesForCountry(Int32.Parse(ddlCountry.SelectedItem.Value));
+                        ddlPlace.DataSource = plcont.GetPlacesForCountry(currOrder.Event.Place.CountryID);
+                        ddlPlace.DataTextField = "NameGR";
+                        ddlPlace.DataValueField = "ID";
+                        ddlPlace.DataBind();
                         EventsController econt = new EventsController();
-                        ddlEvent.DataSource = econt.GetEventsForCountry(Int32.Parse(ddlCountry.SelectedItem.Value));
+                        //ddlEvent.DataSource = econt.GetEventsForPlace(Int32.Parse(ddlPlace.SelectedItem.Value));
+                        ddlEvent.DataSource = econt.GetEventsForPlace(currOrder.Event.PlaceID);
                         ddlEvent.DataTextField = "NameGR";
                         ddlEvent.DataValueField = "ID";
                         ddlEvent.DataBind();
@@ -167,6 +172,10 @@ namespace OTERT.Pages.Administrator {
                                 ddlCountry.SelectedIndex = 0;
                                 Session["CountryID"] = ddlCountry.SelectedItem.Value;
                             }
+
+                            ddlPlace.SelectedIndex = ddlPlace.FindItemByValue(currOrder.Event.PlaceID.ToString()).Index;
+                            Session["PlaceID"] = currOrder.Event.PlaceID;
+
                             ddlCustomer1.SelectedIndex = ddlCustomer1.FindItemByValue(currOrder.Customer1ID.ToString()).Index;
                             Session["Customer1ID"] = currOrder.Customer1ID;
                             ddlEvent.SelectedIndex = ddlEvent.FindItemByValue(currOrder.EventID.ToString()).Index;
@@ -176,6 +185,8 @@ namespace OTERT.Pages.Administrator {
                             Session["CountryID"] = ddlCountry.SelectedItem.Value;
                             ddlCustomer1.SelectedIndex = 0;
                             if (ddlCustomer1.SelectedItem != null) { Session["Customer1ID"] = ddlCustomer1.SelectedItem.Value; }
+                            ddlPlace.SelectedIndex = 0;
+                            if (ddlPlace.SelectedItem != null) { Session["PlaceID"] = ddlPlace.SelectedItem.Value; }
                             ddlEvent.SelectedIndex = 0;
                             if (ddlEvent.SelectedItem != null) { Session["EventID"] = ddlEvent.SelectedItem.Value; }
                         }
@@ -199,8 +210,10 @@ namespace OTERT.Pages.Administrator {
                     RadDropDownList ddlRequestedPosition = item.FindControl("ddlRequestedPosition") as RadDropDownList;
                     RadDropDownList ddlLineType = item.FindControl("ddlLineType") as RadDropDownList;
                     TextBox txtRegNo = item["RegNo"].Controls[0] as TextBox;
+                    TextBox txtTelephoneNumber = item["TelephoneNumber"].Controls[0] as TextBox;
                     try {
                         txtRegNo.Text = curOrder.RegNo;
+                        
                         TaskB currTask = e.Item.DataItem as TaskB;
                         CustomersController ccont = new CustomersController();
                         ddlCustomers.DataSource = ccont.GetGreekProviders();
@@ -234,6 +247,7 @@ namespace OTERT.Pages.Administrator {
                                 ddlRequestedPosition.SelectedIndex = 0;
                                 Session["LineTypeID"] = ddlRequestedPosition.SelectedItem.Value;
                             }
+                            if (string.IsNullOrEmpty(currTask.TelephoneNumber)) { txtTelephoneNumber.Text = "ΤΙΜΟΛΟΓΙΟ"; }
                         } else {
                             ddlCustomers.SelectedIndex = 0;
                             Session["CustomerID"] = ddlCustomers.SelectedItem.Value;
@@ -241,6 +255,7 @@ namespace OTERT.Pages.Administrator {
                             Session["PositionID"] = ddlRequestedPosition.SelectedItem.Value;
                             ddlLineType.SelectedIndex = 0;
                             Session["LineTypeID"] = ddlLineType.SelectedItem.Value;
+                            txtTelephoneNumber.Text = "ΤΙΜΟΛΟΓΙΟ";
                         }
                     }
                     catch (Exception) { }
@@ -561,6 +576,8 @@ namespace OTERT.Pages.Administrator {
                             EventID = -1;
                             Session.Remove("EventID");
                         }
+                        PlaceID = -1;
+                        Session.Remove("PlaceID");
                         CountryID = -1;
                         Session.Remove("CountryID");
                         try { dbContext.SaveChanges(); }
@@ -624,6 +641,8 @@ namespace OTERT.Pages.Administrator {
                             Session.Remove("Customer1ID");
                             EventID = -1;
                             Session.Remove("EventID");
+                            PlaceID = -1;
+                            Session.Remove("PlaceID");
                         }
                     } else { ShowErrorMessage(-1); }
                 }
@@ -667,7 +686,6 @@ namespace OTERT.Pages.Administrator {
                             if (values["AddedCharges"] != null) { curTask.AddedCharges = decimal.Parse((string)values["AddedCharges"]); } else { curTask.AddedCharges = null; }
                             if (values["CostActual"] != null) { curTask.CostActual = decimal.Parse((string)values["CostActual"]); } else { curTask.CostActual = null; }
                             if (values["PaymentDateOrder"] != null) { curTask.PaymentDateOrder = DateTime.Parse((string)values["PaymentDateOrder"]); } else { curTask.PaymentDateOrder = null; }
-                            if (values["PaymentDateCalculated"] != null) { curTask.PaymentDateCalculated = DateTime.Parse((string)values["PaymentDateCalculated"]); } else { curTask.PaymentDateCalculated = null; }
                             if (values["PaymentDateActual"] != null) { curTask.PaymentDateActual = DateTime.Parse((string)values["PaymentDateActual"]); } else { curTask.PaymentDateActual = null; }
                             curTask.IsForHelpers = null;
                             curTask.IsLocked = (bool)values["IsLocked"];
@@ -795,6 +813,25 @@ namespace OTERT.Pages.Administrator {
             catch (Exception) { }
         }
 
+        protected void ddlPlace_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                PlaceID = int.Parse(e.Value);
+                Session["PlaceID"] = PlaceID;
+                RadDropDownList ddlPlaces = (RadDropDownList)sender;
+                GridEditableItem item = (GridEditableItem)ddlPlaces.NamingContainer;
+                RadDropDownList ddlEvent = (RadDropDownList)item.FindControl("ddlEvent");
+                ddlEvent.ClearSelection();
+                EventsController econt = new EventsController();
+                ddlEvent.DataSource = econt.GetEventsForPlace(PlaceID);
+                ddlEvent.DataTextField = "NameGR";
+                ddlEvent.DataValueField = "ID";
+                ddlEvent.DataBind();
+                ddlEvent.SelectedIndex = 0;
+                if (ddlEvent.Items.Count > 0) { Session["EventID"] = ddlEvent.SelectedItem.Value; } else { Session.Remove("EventID"); }
+            }
+            catch (Exception) { }
+        }
+
         protected void ddlCountry_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
             try {
                 CountryID = int.Parse(e.Value);
@@ -811,15 +848,15 @@ namespace OTERT.Pages.Administrator {
                     ddlCustomer1.DataBind();
                     ddlCustomer1.SelectedIndex = 0;
                     if (ddlCustomer1.Items.Count > 0) { Session["Customer1ID"] = ddlCustomer1.SelectedItem.Value; } else { Session.Remove("Customer1ID"); }
-                    RadDropDownList ddlEvent = (RadDropDownList)item.FindControl("ddlEvent");
-                    ddlEvent.ClearSelection();
-                    EventsController econt = new EventsController();
-                    ddlEvent.DataSource = econt.GetEventsForCountry(CountryID);
-                    ddlEvent.DataTextField = "NameGR";
-                    ddlEvent.DataValueField = "ID";
-                    ddlEvent.DataBind();
-                    ddlEvent.SelectedIndex = 0;
-                    if (ddlEvent.Items.Count > 0) { Session["EventID"] = ddlEvent.SelectedItem.Value; } else { Session.Remove("EventID"); }
+                    RadDropDownList ddlPlace = (RadDropDownList)item.FindControl("ddlPlace");
+                    ddlPlace.ClearSelection();
+                    PlacesController pcont = new PlacesController();
+                    ddlPlace.DataSource = pcont.GetPlacesForCountry(CountryID);
+                    ddlPlace.DataTextField = "NameGR";
+                    ddlPlace.DataValueField = "ID";
+                    ddlPlace.DataBind();
+                    ddlPlace.SelectedIndex = 0;
+                    if (ddlPlace.Items.Count > 0) { Session["PlaceID"] = ddlPlace.SelectedItem.Value; } else { Session.Remove("PlaceID"); }
                 } else {
                     RadDropDownList ddlCountries = (RadDropDownList)sender;
                     GridEditableItem item = (GridEditableItem)ddlCountries.NamingContainer;
@@ -832,15 +869,15 @@ namespace OTERT.Pages.Administrator {
                     ddlCustomer1.DataBind();
                     ddlCustomer1.SelectedIndex = 0;
                     Session["Customer1ID"] = ddlCustomer1.SelectedItem.Value;
-                    RadDropDownList ddlEvent = (RadDropDownList)item.FindControl("ddlEvent");
-                    ddlEvent.ClearSelection();
-                    EventsController econt = new EventsController();
-                    ddlEvent.DataSource = econt.GetEventsForCountry(0);
-                    ddlEvent.DataTextField = "NameGR";
-                    ddlEvent.DataValueField = "ID";
-                    ddlEvent.DataBind();
-                    ddlEvent.SelectedIndex = 0;
-                    Session["EventID"] = ddlEvent.SelectedItem.Value;
+                    RadDropDownList ddlPlace = (RadDropDownList)item.FindControl("ddlPlace");
+                    ddlPlace.ClearSelection();
+                    PlacesController pcont = new PlacesController();
+                    ddlPlace.DataSource = pcont.GetPlacesForCountry(0);
+                    ddlPlace.DataTextField = "NameGR";
+                    ddlPlace.DataValueField = "ID";
+                    ddlPlace.DataBind();
+                    ddlPlace.SelectedIndex = 0;
+                    Session["PlaceID"] = ddlPlace.SelectedItem.Value;
                 }
             }
             catch (Exception) { }
@@ -874,27 +911,21 @@ namespace OTERT.Pages.Administrator {
         }
 
         protected void txtAddedCharges_TextChanged(object sender, EventArgs e) {
-            TextBox txtAddedCharges = ((TextBox)(sender));
+            TextBox txtAddedCharges = (TextBox)sender;
             GridEditableItem eitem = (GridEditableItem)txtAddedCharges.NamingContainer;
-            //calculateCosts(eitem);
+            calculateCosts(eitem);
+        }
+
+        protected void txtInvoiceCost_TextChanged(object sender, EventArgs e) {
+            TextBox txtInvoiceCost = (TextBox)sender;
+            GridEditableItem eitem = (GridEditableItem)txtInvoiceCost.NamingContainer;
+            calculateCosts(eitem);
         }
 
         protected void dpDate_SelectedIndexChanged(object sender, SelectedDateChangedEventArgs e) {
             RadDatePicker dpStartDate = (RadDatePicker)sender;
             GridEditableItem eitem = (GridEditableItem)dpStartDate.NamingContainer;
             calculateCosts(eitem);
-        }
-
-        protected void cbInternet_CheckedChanged(object sender, EventArgs e) {
-            CheckBox cbInternet = (CheckBox)sender;
-            GridEditableItem eitem = (GridEditableItem)cbInternet.NamingContainer;
-            //calculateCosts(eitem);
-        }
-
-        protected void cbMSN_CheckedChanged(object sender, EventArgs e) {
-            CheckBox cbMSN = (CheckBox)sender;
-            GridEditableItem eitem = (GridEditableItem)cbMSN.NamingContainer;
-            //calculateCosts(eitem);
         }
 
         protected void calculateCosts(GridEditableItem eitem) {
@@ -907,31 +938,19 @@ namespace OTERT.Pages.Administrator {
             DateTime actualStartDate = dpActualStartDate.SelectedDate ?? nullDate;
             RadDatePicker dpActualEndDate = (RadDatePicker)eitem["DateTimeEndActual"].Controls[0];
             DateTime actualEndDate = dpActualEndDate.SelectedDate ?? nullDate;
-            RadDropDownList ddlLineType = (RadDropDownList)eitem.FindControl("ddlLineType");
-            CheckBox cbInternet = (CheckBox)eitem["Internet"].Controls[0];
-            CheckBox cbMSN = (CheckBox)eitem["MSN"].Controls[0];
-            int LineTypeID = int.Parse(ddlLineType.SelectedItem.Value);
-            CountryPricelistsController cont = new CountryPricelistsController();
-            CountryPricelistB plist = cont.GetCountryPricelist(curOrder.Customer1ID, LineTypeID);
             TextBox txtActualDuration = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
             TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
+            TextBox txtInvoiceCost = (TextBox)eitem.FindControl("txtInvoiceCost");
             TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
-            //if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate && plist != null) {
             if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
                 TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
                 int duration = 0;
-                //if (plist.PaymentIsForWholeMonth == true) {
-                    //duration = Math.Abs((actualEndDate.Month - actualStartDate.Month) + 12 * (actualEndDate.Year - actualStartDate.Year));
-                //} else {
-                    duration = (int)Math.Ceiling(actualSpan.TotalDays);
-                //}
+                duration = (int)Math.Ceiling(actualSpan.TotalDays);
                 txtActualDuration.Text = duration.ToString();
-                //double costPerDay = (double)plist.MonthlyCharges.Value / 30;
-                //double calculatedCost = (double)plist.InstallationCost.Value + (costPerDay * duration);
-                //if (cbInternet.Checked) { calculatedCost += (double)plist.Internet.Value; }
-                //if (cbMSN.Checked) { calculatedCost += (double)plist.MSN.Value; }
-                //if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text.Replace(".", ",")); }
-                //txtCostActual.Text = calculatedCost.ToString();
+                double calculatedCost = 0;
+                if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text.Replace(".", ",")); }
+                if (!string.IsNullOrEmpty(txtInvoiceCost.Text)) { calculatedCost += double.Parse(txtInvoiceCost.Text.Replace(".", ",")); }
+                txtCostActual.Text = calculatedCost.ToString();
             }
         }
 

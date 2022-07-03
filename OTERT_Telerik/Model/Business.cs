@@ -269,6 +269,11 @@ namespace OTERT.Model {
         public LineTypeDTO LineType { get; set; }
         public DateTime DateStamp { get; set; }
         public string EnteredByUser { get; set; }
+        public decimal? InvoiceCost { get; set; }
+        public string GivenPhoneNumber { get; set; }
+        public string CorrespondentPhone { get; set; }
+
+
     }
 
     public class UserB {

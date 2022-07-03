@@ -75,6 +75,35 @@ namespace OTERT.Controller {
             }
         }
 
+        public List<EventB> GetEventsForPlace(int PlaceID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<EventB> data = (from us in dbContext.Events
+                                         select new EventB
+                                         {
+                                             ID = us.ID,
+                                             PlaceID = us.PlaceID,
+                                             NameGR = us.NameGR,
+                                             NameEN = us.NameEN,
+                                             Place = new PlaceDTO {
+                                                 ID = us.Places.ID,
+                                                 NameGR = us.Places.NameGR,
+                                                 NameEN = us.Places.NameEN,
+                                                 Country = new CountryDTO {
+                                                     ID = us.Places.Countries.ID,
+                                                     NameGR = us.Places.Countries.NameGR,
+                                                     NameEN = us.Places.Countries.NameEN
+                                                 },
+                                                 CountryID = us.Places.CountryID
+                                             }
+                                         }).Where(k => k.PlaceID == PlaceID).OrderBy(o => o.NameGR).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
         public List<EventB> GetGreekEvents() {
             using (var dbContext = new OTERTConnStr()) {
                 try {

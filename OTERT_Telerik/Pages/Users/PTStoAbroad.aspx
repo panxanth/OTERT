@@ -79,8 +79,9 @@
                                 </EditItemTemplate>
                             </telerik:GridTemplateColumn>
                             <telerik:GridBoundColumn UniqueName="TechnicalSupport" DataField="TechnicalSupport" HeaderText="Τεχνική Υποστήριξη" Visible="false" ReadOnly="true" />
-                            <telerik:GridBoundColumn UniqueName="TelephoneNumber" DataField="TelephoneNumber" HeaderText="Αριθμός Τηλεφώνου" Visible="false" />
-                            <telerik:GridBoundColumn UniqueName="InvoceComments" DataField="InvoceComments" HeaderText="Πρόσωπο Επικοινωνίας" Visible="false" />
+                            <telerik:GridBoundColumn UniqueName="TelephoneNumber" DataField="TelephoneNumber" HeaderText="Τηλέφωνο Χρέωσης" />
+                            <telerik:GridBoundColumn UniqueName="InvoceComments" DataField="InvoceComments" HeaderText="Ονομ/νυμο Ανταποκριτή" />
+                            <telerik:GridBoundColumn UniqueName="CorrespondentPhone" DataField="CorrespondentPhone" HeaderText="Τηλέφωνο Ανταποκριτή" />
                             <telerik:GridTemplateColumn HeaderText="Είδος Γραμμής" UniqueName="LineTypeID" DataField="LineTypeID" AllowFiltering="false" HeaderStyle-Font-Bold="true" >
                                 <ItemTemplate>
                                     <asp:Label Text='<% #Eval("LineType.Name") %>' runat="server" /> 
@@ -89,8 +90,9 @@
                                     <telerik:RadDropDownList runat="server" ID="ddlLineType" RenderMode="Lightweight" DropDownHeight="200" Width="500px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlLineType_SelectedIndexChanged" />
                                 </EditItemTemplate>
                             </telerik:GridTemplateColumn>
-                            <telerik:GridCheckBoxColumn UniqueName="Internet" DataField="Internet" HeaderText="Internet" Visible="false" DataType="System.Boolean" />
-                            <telerik:GridCheckBoxColumn UniqueName="MSN" DataField="MSN" HeaderText="MSN" Visible="false" DataType="System.Boolean" />
+                            <telerik:GridBoundColumn UniqueName="GivenPhoneNumber" DataField="GivenPhoneNumber" HeaderText="Αριθμοδότηση" />
+                            <telerik:GridCheckBoxColumn UniqueName="Internet" DataField="Internet" HeaderText="Internet" Visible="false" ReadOnly="true" DataType="System.Boolean" />
+                            <telerik:GridCheckBoxColumn UniqueName="MSN" DataField="MSN" HeaderText="MSN" Visible="false" ReadOnly="true" DataType="System.Boolean" />
                             <telerik:GridBoundColumn HeaderText="Τύπος Έργου" DataField="JobsID" Visible="false" ReadOnly="true" />
                             <telerik:GridBoundColumn HeaderText="Απόσταση" DataField="DistanceID" Visible="false" ReadOnly="true" />
                             <telerik:GridBoundColumn HeaderText="Δορυφόρος" DataField="SateliteID" Visible="false" ReadOnly="true" />
@@ -112,7 +114,7 @@
                             <telerik:GridBoundColumn DataField="CallCharges" HeaderText="Κόστος Κλήσεων" Visible="false" ReadOnly="true" >
                                 <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                             </telerik:GridBoundColumn>
-                            <telerik:GridTemplateColumn DataField="AddedCharges" UniqueName="AddedCharges" HeaderText="Επιπρόσθετα Τέλη" Visible="false" >
+                            <telerik:GridTemplateColumn DataField="AddedCharges" UniqueName="AddedCharges" HeaderText="Επιπρόσθετα Τέλη (ΚΤ6951) (€)" Visible="false" >
                                 <ItemTemplate>
                                     <asp:Label Text='<% #Eval("AddedCharges") %>' runat="server" /> 
                                 </ItemTemplate>
@@ -120,9 +122,17 @@
                                     <asp:TextBox ID="txtAddedCharges" Text='<% #Bind("AddedCharges") %>' runat="server" OnTextChanged="txtAddedCharges_TextChanged" AutoPostBack="true" />
                                 </EditItemTemplate>
                             </telerik:GridTemplateColumn>
+                            <telerik:GridTemplateColumn DataField="InvoiceCost" UniqueName="InvoiceCost" HeaderText="Ποσό Τιμολογίου (ΚΤ6630) (€)" Visible="false" >
+                                <ItemTemplate>
+                                    <asp:Label Text='<% #Eval("InvoiceCost") %>' runat="server" /> 
+                                </ItemTemplate>
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="txtInvoiceCost" Text='<% #Bind("InvoiceCost") %>' runat="server" OnTextChanged="txtInvoiceCost_TextChanged" AutoPostBack="true" />
+                                </EditItemTemplate>
+                            </telerik:GridTemplateColumn>
                             <telerik:GridBoundColumn DataField="CostActual" HeaderText="Ποσό Είσπραξης (€)" Visible="false" />
                             <telerik:GridDateTimeColumn DataField="PaymentDateOrder" HeaderText="Ημ/νία Εντολής Τιμολόγησης" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
-                            <telerik:GridDateTimeColumn DataField="PaymentDateCalculated" HeaderText="Προγραμματισμένη Ημ/νία Είσπραξης" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
+                            <telerik:GridDateTimeColumn DataField="PaymentDateCalculated" HeaderText="Προγραμματισμένη Ημ/νία Είσπραξης" Visible="false" ReadOnly="true" DataType="System.DateTime" PickerType="DatePicker" />
                             <telerik:GridDateTimeColumn DataField="PaymentDateActual" HeaderText="Πραγματική Ημ/νία Πληρωμής" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
                             <telerik:GridCheckBoxColumn DataField="IsForHelpers" HeaderText="Ενημέρωση ΚΕΤ" DataType="System.Boolean" Visible="false" ReadOnly="true" />
                             <telerik:GridCheckBoxColumn DataField="IsLocked" HeaderText="Κλειδωμένο Έργο" Visible="false" DataType="System.Boolean" />
@@ -163,7 +173,7 @@
                 <Columns>
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                     <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Wrap="false" HeaderStyle-Font-Bold="true" />
-                    <telerik:GridBoundColumn UniqueName="RegNo" DataField="RegNo" HeaderText="Αριθμός Πρωτοκόλλου" HeaderStyle-Font-Bold="true" >
+                    <telerik:GridBoundColumn UniqueName="RegNo" DataField="RegNo" HeaderText="Αρ. Πρωτοκόλλου" HeaderStyle-Font-Bold="true" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="&nbsp;&nbsp;&nbsp;Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridBoundColumn>
                     <telerik:GridBoundColumn UniqueName="InoiceProtocol" DataField="InoiceProtocol" HeaderText="Πρωτόκολλο Τιμολόγησης" HeaderStyle-Font-Bold="true" />
@@ -183,6 +193,14 @@
                             <telerik:RadDropDownList runat="server" ID="ddlCustomer1" RenderMode="Lightweight" DropDownHeight="200" Width="550" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlCustomer1_SelectedIndexChanged" />
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
+                    <telerik:GridTemplateColumn UniqueName="PlaceID" DataField="PlaceID" HeaderText="Χώρος Διεξαγωγής" HeaderStyle-Font-Bold="true" >
+                        <ItemTemplate>
+                            <asp:Label Text='<% #Eval("Event.Place.NameGR") %>' runat="server" /> 
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <telerik:RadDropDownList runat="server" ID="ddlPlace" RenderMode="Lightweight" DropDownHeight="200" Width="550" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlPlace_SelectedIndexChanged" />
+                        </EditItemTemplate>
+                    </telerik:GridTemplateColumn>
                     <telerik:GridTemplateColumn UniqueName="EventID" DataField="EventID" HeaderText="Διοργάνωση" HeaderStyle-Font-Bold="true" >
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Event.NameGR") %>' runat="server" /> 
@@ -195,7 +213,7 @@
                     <telerik:GridTemplateColumn UniqueName="btnPrintColumn" HeaderText="" AllowFiltering="false">
                         <ItemStyle HorizontalAlign="Center"></ItemStyle>
                         <ItemTemplate>
-                            <asp:Button ID="btnPrint" runat="server" Text="Εκτύπωση Χρεωπιστωτικού" CommandName="invPrint"></asp:Button>
+                            <asp:Button ID="btnPrint" runat="server" Text="Εκτ. Χρεωπιστωτικού" CommandName="invPrint"></asp:Button>
                         </ItemTemplate>
                     </telerik:GridTemplateColumn>
                     <telerik:GridButtonColumn UniqueName="btnDelete" ConfirmText="Να διαγραφεί αυτή η Παραγγελία;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />

@@ -58,6 +58,9 @@ namespace OTERT_Entity
         public Nullable<int> LineTypeID { get; set; }
         public System.DateTime DateStamp { get; set; }
         public string EnteredByUser { get; set; }
+        public string CorrespondentPhone { get; set; }
+        public string GivenPhoneNumber { get; set; }
+        public Nullable<decimal> InvoiceCost { get; set; }
     
         public virtual Customers Customers { get; set; }
         public virtual Jobs Jobs { get; set; }

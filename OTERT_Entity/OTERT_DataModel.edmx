@@ -323,7 +323,7 @@
           <Property Name="InstallationCharges" Type="bit" />
           <Property Name="MonthlyCharges" Type="bit" />
           <Property Name="CallCharges" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="TelephoneNumber" Type="varchar" MaxLength="100" />
+          <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="100" />
           <Property Name="TechnicalSupport" Type="decimal" Precision="18" Scale="2" />
           <Property Name="AddedCharges" Type="decimal" Precision="18" Scale="2" />
           <Property Name="CostActual" Type="decimal" Precision="18" Scale="2" />
@@ -341,6 +341,9 @@
           <Property Name="LineTypeID" Type="int" />
           <Property Name="DateStamp" Type="datetime" Nullable="false" />
           <Property Name="EnteredByUser" Type="nvarchar" MaxLength="255" />
+          <Property Name="CorrespondentPhone" Type="nvarchar" MaxLength="100" />
+          <Property Name="GivenPhoneNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="InvoiceCost" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="TasksLine">
           <Key>
@@ -1408,7 +1411,7 @@
           <Property Name="InstallationCharges" Type="Boolean" />
           <Property Name="MonthlyCharges" Type="Boolean" />
           <Property Name="CallCharges" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TelephoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TelephoneNumber" MaxLength="100" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="TechnicalSupport" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="AddedCharges" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="CostActual" Type="Decimal" Precision="18" Scale="2" />
@@ -1437,6 +1440,9 @@
           <NavigationProperty Name="TasksLine" Relationship="OTERT_Model.FK_TasksLine_Tasks" FromRole="Tasks" ToRole="TasksLine" />
           <Property Name="DateStamp" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EnteredByUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CorrespondentPhone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GivenPhoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceCost" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="UIControlsVisibility">
           <Key>
@@ -2619,6 +2625,9 @@
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="OTERT_Model.Tasks">
               <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="InvoiceCost" ColumnName="InvoiceCost" />
+                <ScalarProperty Name="GivenPhoneNumber" ColumnName="GivenPhoneNumber" />
+                <ScalarProperty Name="CorrespondentPhone" ColumnName="CorrespondentPhone" />
                 <ScalarProperty Name="EnteredByUser" ColumnName="EnteredByUser" />
                 <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
                 <ScalarProperty Name="LineTypeID" ColumnName="LineTypeID" />

@@ -1075,7 +1075,10 @@ namespace OTERT.Controller {
                                             LineTypeID = us.LineTypeID,
                                             LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name },
                                             DateStamp = us.DateStamp,
-                                            EnteredByUser = us.EnteredByUser
+                                            EnteredByUser = us.EnteredByUser,
+                                            InvoiceCost = us.InvoiceCost,
+                                            GivenPhoneNumber = us.GivenPhoneNumber,
+                                            CorrespondentPhone = us.CorrespondentPhone
                                         }).Where(k => k.OrderID == OrderID).OrderBy(o => o.OrderDate).ToList();
                     return data;
                 }

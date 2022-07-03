@@ -45,6 +45,24 @@ namespace OTERT.Controller {
             }
         }
 
+        public List<PlaceB> GetPlacesForCountry(int CountryID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<PlaceB> data = (from us in dbContext.Places
+                                         select new PlaceB {
+                                             ID = us.ID,
+                                             CountryID = us.CountryID,
+                                             NameGR = us.NameGR,
+                                             NameEN = us.NameEN,
+                                             Country = new CountryDTO { ID = us.Countries.ID, NameGR = us.Countries.NameGR, NameEN = us.Countries.NameEN }
+                                         }).Where(k => k.CountryID == CountryID).OrderBy(o => o.NameGR).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
         public List<PlaceB> GetPlaces(int recSkip, int recTake, string recFilter, GridSortExpressionCollection gridSortExxpressions) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
