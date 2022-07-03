@@ -626,6 +626,7 @@ namespace OTERT.Pages.Administrator {
                     if (Customer1ID > 0 && EventID > 0) {
                         try {
                             curOrder.RegNo = (string)values["RegNo"];
+                            curOrder.InoiceProtocol = (string)values["InoiceProtocol"];
                             curOrder.OrderTypeID = OrderTypeID;
                             curOrder.Customer1ID = Customer1ID;
                             curOrder.EventID = EventID;
@@ -857,6 +858,16 @@ namespace OTERT.Pages.Administrator {
                     ddlPlace.DataBind();
                     ddlPlace.SelectedIndex = 0;
                     if (ddlPlace.Items.Count > 0) { Session["PlaceID"] = ddlPlace.SelectedItem.Value; } else { Session.Remove("PlaceID"); }
+                    RadDropDownList ddlEvent = (RadDropDownList)item.FindControl("ddlEvent");
+                    ddlEvent.ClearSelection();
+                    EventsController econt = new EventsController();
+                    ddlEvent.DataSource = econt.GetEventsForPlace(Int32.Parse(ddlPlace.SelectedItem.Value));
+                    ddlEvent.DataTextField = "NameGR";
+                    ddlEvent.DataValueField = "ID";
+                    ddlEvent.DataBind();
+                    ddlEvent.SelectedIndex = 0;
+                    if (ddlEvent.Items.Count > 0) { Session["EventID"] = ddlEvent.SelectedItem.Value; } else { Session.Remove("EventID"); }
+
                 } else {
                     RadDropDownList ddlCountries = (RadDropDownList)sender;
                     GridEditableItem item = (GridEditableItem)ddlCountries.NamingContainer;
@@ -878,6 +889,15 @@ namespace OTERT.Pages.Administrator {
                     ddlPlace.DataBind();
                     ddlPlace.SelectedIndex = 0;
                     Session["PlaceID"] = ddlPlace.SelectedItem.Value;
+                    RadDropDownList ddlEvent = (RadDropDownList)item.FindControl("ddlEvent");
+                    ddlEvent.ClearSelection();
+                    EventsController econt = new EventsController();
+                    ddlEvent.DataSource = econt.GetEventsForPlace(Int32.Parse(ddlPlace.SelectedItem.Value));
+                    ddlEvent.DataTextField = "NameGR";
+                    ddlEvent.DataValueField = "ID";
+                    ddlEvent.DataBind();
+                    ddlEvent.SelectedIndex = 0;
+                    Session["EventID"] = ddlEvent.SelectedItem.Value;
                 }
             }
             catch (Exception) { }
