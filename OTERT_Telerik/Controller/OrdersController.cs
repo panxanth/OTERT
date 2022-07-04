@@ -325,7 +325,7 @@ namespace OTERT.Controller {
                                                                    NameEN = us.Events.NameEN
                                              },
                                              IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
-                                         }).Where(o => o.OrderTypeID == orderType).OrderBy(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                                         }).Where(o => o.OrderTypeID == orderType).OrderByDescending(o => o.ID).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

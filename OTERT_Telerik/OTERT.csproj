@@ -405,10 +405,12 @@
     <Content Include="App_Data\RadCaptcha\Y.wav" />
     <Content Include="App_Data\RadCaptcha\Z.wav" />
     <Content Include="Default.aspx" />
+    <Content Include="Images\copy.png" />
     <Content Include="Images\empty.png" />
     <Content Include="Images\lock.png" />
     <Content Include="Images\mag.png" />
     <Content Include="Images\ote_header.png" />
+    <Content Include="Images\print.png" />
     <Content Include="Images\unlock.png" />
     <Content Include="Pages\Administrator\PTSGRPricelistsList.aspx" />
     <Content Include="Pages\Administrator\CountryPricelistsList.aspx" />
@@ -570,7 +572,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -79,9 +79,9 @@
                                 </EditItemTemplate>
                             </telerik:GridTemplateColumn>
                             <telerik:GridBoundColumn UniqueName="TechnicalSupport" DataField="TechnicalSupport" HeaderText="Τεχνική Υποστήριξη" Visible="false" ReadOnly="true" />
-                            <telerik:GridBoundColumn UniqueName="TelephoneNumber" DataField="TelephoneNumber" HeaderText="Τηλέφωνο Χρέωσης" />
-                            <telerik:GridBoundColumn UniqueName="InvoceComments" DataField="InvoceComments" HeaderText="Ονομ/νυμο Ανταποκριτή" />
-                            <telerik:GridBoundColumn UniqueName="CorrespondentPhone" DataField="CorrespondentPhone" HeaderText="Τηλέφωνο Ανταποκριτή" />
+                            <telerik:GridBoundColumn UniqueName="TelephoneNumber" DataField="TelephoneNumber" HeaderText="Τηλέφωνο Χρέωσης" HeaderStyle-Font-Bold="true" />
+                            <telerik:GridBoundColumn UniqueName="InvoceComments" DataField="InvoceComments" HeaderText="Ονομ/νυμο Ανταποκριτή" HeaderStyle-Font-Bold="true" />
+                            <telerik:GridBoundColumn UniqueName="CorrespondentPhone" DataField="CorrespondentPhone" HeaderText="Τηλέφωνο Ανταποκριτή" HeaderStyle-Font-Bold="true" />
                             <telerik:GridTemplateColumn HeaderText="Είδος Γραμμής" UniqueName="LineTypeID" DataField="LineTypeID" AllowFiltering="false" HeaderStyle-Font-Bold="true" >
                                 <ItemTemplate>
                                     <asp:Label Text='<% #Eval("LineType.Name") %>' runat="server" /> 
@@ -90,7 +90,7 @@
                                     <telerik:RadDropDownList runat="server" ID="ddlLineType" RenderMode="Lightweight" DropDownHeight="200" Width="500px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlLineType_SelectedIndexChanged" />
                                 </EditItemTemplate>
                             </telerik:GridTemplateColumn>
-                            <telerik:GridBoundColumn UniqueName="GivenPhoneNumber" DataField="GivenPhoneNumber" HeaderText="Αριθμοδότηση" />
+                            <telerik:GridBoundColumn UniqueName="GivenPhoneNumber" DataField="GivenPhoneNumber" HeaderText="Αριθμοδότηση" HeaderStyle-Font-Bold="true" />
                             <telerik:GridCheckBoxColumn UniqueName="Internet" DataField="Internet" HeaderText="Internet" Visible="false" ReadOnly="true" DataType="System.Boolean" />
                             <telerik:GridCheckBoxColumn UniqueName="MSN" DataField="MSN" HeaderText="MSN" Visible="false" ReadOnly="true" DataType="System.Boolean" />
                             <telerik:GridBoundColumn HeaderText="Τύπος Έργου" DataField="JobsID" Visible="false" ReadOnly="true" />
@@ -141,7 +141,12 @@
                                 <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                             </telerik:GridBoundColumn>
                             <telerik:GridBoundColumn DataField="Comments" HeaderText="Παρατηρήσεις" Visible="false" />
-                            
+                            <telerik:GridTemplateColumn UniqueName="btnPrintOrderColumn" HeaderText="" AllowFiltering="false">
+                                <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                                <ItemTemplate>
+                                    <asp:ImageButton ID="btnPrintOrder" runat="server" ImageUrl="~/Images/print.png" CommandName="invPrintOrder" ToolTip="Εκτύπωση Παραγγελίας" />
+                                </ItemTemplate>
+                            </telerik:GridTemplateColumn>
                             <telerik:GridButtonColumn UniqueName="btnDelete2" ConfirmText="Να διαγραφεί αυτή η Παραγγελία;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                         </Columns>
                     </telerik:GridTableView>
@@ -172,6 +177,12 @@
                 </DetailTables>
                 <Columns>
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
+                    <telerik:GridTemplateColumn UniqueName="btnCopyColumn" HeaderText="" AllowFiltering="false">
+                        <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                        <ItemTemplate>
+                            <asp:ImageButton ID="btnCopy" runat="server" ImageUrl="~/Images/copy.png" CommandName="orderCopy" ToolTip="Αντιγραφή" />
+                        </ItemTemplate>
+                    </telerik:GridTemplateColumn>
                     <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Wrap="false" HeaderStyle-Font-Bold="true" />
                     <telerik:GridBoundColumn UniqueName="RegNo" DataField="RegNo" HeaderText="Αρ. Πρωτοκόλλου" HeaderStyle-Font-Bold="true" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="&nbsp;&nbsp;&nbsp;Το πεδίο είναι υποχρεωτικό!" />
@@ -213,7 +224,7 @@
                     <telerik:GridTemplateColumn UniqueName="btnPrintColumn" HeaderText="" AllowFiltering="false">
                         <ItemStyle HorizontalAlign="Center"></ItemStyle>
                         <ItemTemplate>
-                            <asp:Button ID="btnPrint" runat="server" Text="Εκτ. Χρεωπιστωτικού" CommandName="invPrint"></asp:Button>
+                            <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="~/Images/print.png" CommandName="invPrint" ToolTip="Εκτύπωση Χρεωπιστωτικού" />
                         </ItemTemplate>
                     </telerik:GridTemplateColumn>
                     <telerik:GridButtonColumn UniqueName="btnDelete" ConfirmText="Να διαγραφεί αυτή η Παραγγελία;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />

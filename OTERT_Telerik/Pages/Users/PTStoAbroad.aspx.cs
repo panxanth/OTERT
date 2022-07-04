@@ -553,6 +553,30 @@ namespace OTERT.Pages.Administrator {
                     exportDOCX(curDoc);
                 }
                 catch (Exception) { }
+            } 
+            else if (e.CommandName == "invPrintOrder") {
+                int k = 15;
+            }
+            else if (e.CommandName == "orderCopy") {
+                GridDataItem item = (GridDataItem)e.Item;
+                int orderID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
+                OrdersController oCont = new OrdersController();
+                OrderB curOrder = oCont.GetOrder(orderID);
+                using (var dbContext = new OTERTConnStr()) {
+                    var newOrder = new Orders();
+                    try {
+                        newOrder.RegNo = curOrder.RegNo;
+                        newOrder.InoiceProtocol = curOrder.InoiceProtocol;
+                        newOrder.OrderTypeID = curOrder.OrderTypeID;
+                        newOrder.Customer1ID = curOrder.Customer1ID;
+                        newOrder.EventID = curOrder.EventID;
+                        newOrder.IsLocked = false;
+                        dbContext.Orders.Add(newOrder);
+                        dbContext.SaveChanges();
+                        gridMain.Rebind();
+                    }
+                    catch (Exception) { ShowErrorMessage(-1); }
+                }
             }
         }
 
