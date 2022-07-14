@@ -1079,7 +1079,7 @@ namespace OTERT.Controller {
                                             InvoiceCost = us.InvoiceCost,
                                             GivenPhoneNumber = us.GivenPhoneNumber,
                                             CorrespondentPhone = us.CorrespondentPhone
-                                        }).Where(k => k.OrderID == OrderID).OrderBy(o => o.OrderDate).ToList();
+                                        }).Where(k => k.OrderID == OrderID).OrderByDescending(o => o.OrderDate).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

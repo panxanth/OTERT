@@ -37,7 +37,8 @@
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Height="75px" Width="75px" Transparency="25" InitialDelayTime="500" />
     <div>
-        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" AllowPaging="true" AllowCustomPaging="true" PageSize="10" Skin="Metro"
+        <telerik:RadGrid ID="gridMain" runat="server" AutoGenerateColumns="false" MasterTableView-AllowPaging="true" MasterTableView-AllowCustomPaging="true" MasterTableView-PageSize="10" Skin="Metro"
+            AllowFilteringByColumn="True" PagerStyle-AlwaysVisible="true" MasterTableView-AllowSorting="true" MasterTableView-AllowCustomSorting="true"
             OnNeedDataSource="gridMain_NeedDataSource" 
             OnUpdateCommand="gridMain_UpdateCommand"
             OnItemCreated="gridMain_ItemCreated" 
@@ -46,11 +47,11 @@
             OnItemDataBound="gridMain_ItemDataBound"
             OnDetailTableDataBind="gridMain_DetailTableDataBind"
             OnItemCommand="gridMain_ItemCommand" >
-            <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές" Name="Master">
+            <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" AllowFilteringByColumn="True" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές" Name="Master">
                 <CommandItemSettings AddNewRecordText="Προσθήκη νέας εγγραφής" RefreshText="Ανανέωση" />
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />
                 <DetailTables>
-                    <telerik:GridTableView DataKeyNames="ID" Width="100%" runat="server" CommandItemDisplay="Top" Name="TasksDetails" Caption="Παραγγελίες" NoDetailRecordsText="Δεν υπάρχουν Παραγγελίες">
+                    <telerik:GridTableView DataKeyNames="ID" Width="100%" runat="server" CommandItemDisplay="Top" AllowFilteringByColumn="False" Name="TasksDetails" Caption="Παραγγελίες" NoDetailRecordsText="Δεν υπάρχουν Παραγγελίες">
                         <CommandItemSettings AddNewRecordText="Προσθήκη νέας εγγραφής" RefreshText="Ανανέωση" />
                         <Columns>
                             <telerik:GridEditCommandColumn EditText="Επεξεργασία" UniqueName="EditCommandColumn1" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
@@ -152,7 +153,7 @@
                     </telerik:GridTableView>
                 </DetailTables>
                 <DetailTables>
-                    <telerik:GridTableView DataKeyNames="ID" Width="100%" runat="server" CommandItemDisplay="Top" Name="AttachedFiles" Caption="Συνοδευτικά Αρχεία" NoDetailRecordsText="Δεν υπάρχουν Συνοδευτικά Αρχεία">
+                    <telerik:GridTableView DataKeyNames="ID" Width="100%" runat="server" CommandItemDisplay="Top" AllowFilteringByColumn="False" Name="AttachedFiles" Caption="Συνοδευτικά Αρχεία" NoDetailRecordsText="Δεν υπάρχουν Συνοδευτικά Αρχεία">
                         <CommandItemSettings AddNewRecordText="Προσθήκη νέου αρχείου" RefreshText="Ανανέωση" />
                         <Columns>
                             <telerik:GridBoundColumn SortExpression="TaskID" HeaderText="TaskID" DataField="TaskID" UniqueName="TaskID" ReadOnly="true" Visible="false">
@@ -180,45 +181,60 @@
                     <telerik:GridTemplateColumn UniqueName="btnCopyColumn" HeaderText="" AllowFiltering="false">
                         <ItemStyle HorizontalAlign="Center"></ItemStyle>
                         <ItemTemplate>
-                            <asp:ImageButton ID="btnCopy" runat="server" ImageUrl="~/Images/copy.png" CommandName="orderCopy" ToolTip="Αντιγραφή" />
+                            <telerik:RadImageButton ID="RadImageButton1" runat="server" ToolTip="Αντιγραφή" CommandName="orderCopy" Width="16px" Height="16px">
+                                <ConfirmSettings ConfirmText="Να αντιγραφεί αυτή η Παραγγελία;" Title="Αντιγραφή" Width="400" Height="150" />
+                                <Image Url="~/Images/copy.png" />
+                            </telerik:RadImageButton>
                         </ItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Wrap="false" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Wrap="false" HeaderStyle-Font-Bold="true" AllowFiltering="false" />
                     <telerik:GridBoundColumn UniqueName="RegNo" DataField="RegNo" HeaderText="Αρ. Πρωτοκόλλου" HeaderStyle-Font-Bold="true" >
                         <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="&nbsp;&nbsp;&nbsp;Το πεδίο είναι υποχρεωτικό!" />
                     </telerik:GridBoundColumn>
                     <telerik:GridBoundColumn UniqueName="InoiceProtocol" DataField="InoiceProtocol" HeaderText="Πρωτόκολλο Τιμολόγησης" HeaderStyle-Font-Bold="true" />
-                    <telerik:GridTemplateColumn HeaderText="Χώρα" UniqueName="CountryID" DataField="CountryID" AllowFiltering="false" HeaderStyle-Font-Bold="true">
+                    <telerik:GridTemplateColumn HeaderText="Χώρα" UniqueName="CountryID" DataField="CountryID" AllowFiltering="true" HeaderStyle-Font-Bold="true" SortExpression="CountryID" AllowSorting="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Event.Place.Country.NameGR") %>' runat="server" /> 
                         </ItemTemplate>
                         <EditItemTemplate>
                             <telerik:RadDropDownList runat="server" ID="ddlCountry" RenderMode="Lightweight" DropDownHeight="200" Width="550" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlCountry_SelectedIndexChanged" />
                         </EditItemTemplate>
+                        <FilterTemplate>
+		                    <telerik:RadDropDownList runat="server" ID="ddlCountryFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="200px" DropDownHeight="400px" OnSelectedIndexChanged="ddlCountryFilter_SelectedIndexChanged" OnPreRender="ddlCountryFilter_PreRender" />
+	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridTemplateColumn HeaderText="Πάροχος" UniqueName="Customer1ID" DataField="Customer1ID" AllowFiltering="false" HeaderStyle-Font-Bold="true">
+                    <telerik:GridTemplateColumn HeaderText="Πάροχος" UniqueName="Customer1ID" DataField="Customer1ID" AllowFiltering="true" HeaderStyle-Font-Bold="true" SortExpression="Customer1ID" AllowSorting="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Customer1.NameGR") %>' runat="server" /> 
                         </ItemTemplate>
                         <EditItemTemplate>
                             <telerik:RadDropDownList runat="server" ID="ddlCustomer1" RenderMode="Lightweight" DropDownHeight="200" Width="550" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlCustomer1_SelectedIndexChanged" />
                         </EditItemTemplate>
+                        <FilterTemplate>
+		                    <telerik:RadDropDownList runat="server" ID="ddlCustomer1Filter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="280px" DropDownHeight="400px" OnSelectedIndexChanged="ddlCustomer1Filter_SelectedIndexChanged" OnPreRender="ddlCustomer1Filter_PreRender" />
+	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridTemplateColumn UniqueName="PlaceID" DataField="PlaceID" HeaderText="Χώρος Διεξαγωγής" HeaderStyle-Font-Bold="true" >
+                    <telerik:GridTemplateColumn UniqueName="PlaceID" DataField="PlaceID" HeaderText="Χώρος Διοργάνωσης" HeaderStyle-Font-Bold="true" AllowFiltering="true" SortExpression="PlaceID" AllowSorting="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Event.Place.NameGR") %>' runat="server" /> 
                         </ItemTemplate>
                         <EditItemTemplate>
                             <telerik:RadDropDownList runat="server" ID="ddlPlace" RenderMode="Lightweight" DropDownHeight="200" Width="550" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlPlace_SelectedIndexChanged" />
                         </EditItemTemplate>
+                        <FilterTemplate>
+		                    <telerik:RadDropDownList runat="server" ID="ddlPlaceFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="280px" DropDownHeight="400px" OnSelectedIndexChanged="ddlPlaceFilter_SelectedIndexChanged" OnPreRender="ddlPlaceFilter_PreRender" />
+	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridTemplateColumn UniqueName="EventID" DataField="EventID" HeaderText="Διοργάνωση" HeaderStyle-Font-Bold="true" >
+                    <telerik:GridTemplateColumn UniqueName="EventID" DataField="EventID" HeaderText="Διοργάνωση" HeaderStyle-Font-Bold="true" AllowFiltering="true" SortExpression="EventID" AllowSorting="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Event.NameGR") %>' runat="server" /> 
                         </ItemTemplate>
                         <EditItemTemplate>
                             <telerik:RadDropDownList runat="server" ID="ddlEvent" RenderMode="Lightweight" DropDownHeight="200" Width="550" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlEvent_SelectedIndexChanged" />
                         </EditItemTemplate>
+                        <FilterTemplate>
+		                    <telerik:RadDropDownList runat="server" ID="ddlEventFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="280px" DropDownHeight="400px" OnSelectedIndexChanged="ddlEventFilter_SelectedIndexChanged" OnPreRender="ddlEventFilter_PreRender" />
+	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
                     <telerik:GridCheckBoxColumn DataField="IsLocked" HeaderText="Κλειδωμένο Έργο" Visible="false" DataType="System.Boolean" HeaderStyle-Font-Bold="true" />
                     <telerik:GridTemplateColumn UniqueName="btnPrintColumn" HeaderText="" AllowFiltering="false">
@@ -227,7 +243,7 @@
                             <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="~/Images/print.png" CommandName="invPrint" ToolTip="Εκτύπωση Χρεωπιστωτικού" />
                         </ItemTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridButtonColumn UniqueName="btnDelete" ConfirmText="Να διαγραφεί αυτή η Παραγγελία;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
+                    <telerik:GridButtonColumn UniqueName="btnDelete" ConfirmText="Να διαγραφεί αυτή η Παραγγελία;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ConfirmDialogHeight="150" ConfirmDialogWidth="400" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                 </Columns>
                 <EditFormSettings>
                     <EditColumn UpdateText="Ενημέρωση" InsertText="Εισαγωγή" CancelText="Ακύρωση" />                          

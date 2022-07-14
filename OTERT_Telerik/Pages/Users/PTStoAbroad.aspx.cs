@@ -61,10 +61,12 @@ namespace OTERT.Pages.Administrator {
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
             int recSkip = gridMain.MasterTableView.CurrentPageIndex * gridMain.MasterTableView.PageSize;
             int recTake = gridMain.MasterTableView.PageSize;
+            string recFilter = gridMain.MasterTableView.FilterExpression;
+            GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
             try {
                 OrdersController cont = new OrdersController();
                 gridMain.VirtualItemCount = cont.CountOrders(OrderTypeID);
-                gridMain.DataSource = cont.GetOrders(OrderTypeID, recSkip, recTake);
+                gridMain.DataSource = cont.GetOrders(OrderTypeID, recSkip, recTake, recFilter, gridSortExxpressions);
             }
             catch (Exception) { }
         }
@@ -260,6 +262,40 @@ namespace OTERT.Pages.Administrator {
                     }
                     catch (Exception) { }
                 }
+            }
+            if (e.Item is GridFilteringItem) {
+                GridFilteringItem filterItem = (GridFilteringItem)e.Item;
+                RadDropDownList custlist = (RadDropDownList)filterItem.FindControl("ddlCustomer1Filter");
+                RadDropDownList cunlist = (RadDropDownList)filterItem.FindControl("ddlCountryFilter");
+                RadDropDownList plist = (RadDropDownList)filterItem.FindControl("ddlPlaceFilter");
+                RadDropDownList elist = (RadDropDownList)filterItem.FindControl("ddlEventFilter");
+                try {
+                    CustomersController custcont = new CustomersController();
+                    custlist.DataSource = custcont.GetForeignProviders();
+                    custlist.DataTextField = "NameGR";
+                    custlist.DataValueField = "ID";
+                    custlist.DataBind();
+                    custlist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
+                    CountriesController cuncont = new CountriesController();
+                    cunlist.DataSource = cuncont.GetForeignCountries();
+                    cunlist.DataTextField = "NameGR";
+                    cunlist.DataValueField = "ID";
+                    cunlist.DataBind();
+                    cunlist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
+                    PlacesController pcont = new PlacesController();
+                    plist.DataSource = pcont.GetForeignPlaces();
+                    plist.DataTextField = "NameGR";
+                    plist.DataValueField = "ID";
+                    plist.DataBind();
+                    plist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
+                    EventsController econt = new EventsController();
+                    elist.DataSource = econt.GetForeignEvents();
+                    elist.DataTextField = "NameGR";
+                    elist.DataValueField = "ID";
+                    elist.DataBind();
+                    elist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
+                }
+                catch (Exception) { }
             }
         }
 
@@ -555,7 +591,7 @@ namespace OTERT.Pages.Administrator {
                 catch (Exception) { }
             } 
             else if (e.CommandName == "invPrintOrder") {
-                int k = 15;
+                //int k = 15;
             }
             else if (e.CommandName == "orderCopy") {
                 GridDataItem item = (GridDataItem)e.Item;
@@ -706,7 +742,10 @@ namespace OTERT.Pages.Administrator {
                             curTask.InstallationCharges = false;
                             curTask.MonthlyCharges = false;
                             curTask.CallCharges = 0;
+                            curTask.InvoceComments = (string)values["InvoceComments"]; //Ονομ/νυμο Ανταποκριτή
+                            curTask.CorrespondentPhone = (string)values["CorrespondentPhone"];
                             curTask.TelephoneNumber = (string)values["TelephoneNumber"];
+                            curTask.GivenPhoneNumber = (string)values["GivenPhoneNumber"];
                             curTask.TechnicalSupport = 0;
                             if (values["AddedCharges"] != null) { curTask.AddedCharges = decimal.Parse((string)values["AddedCharges"]); } else { curTask.AddedCharges = null; }
                             if (values["CostActual"] != null) { curTask.CostActual = decimal.Parse((string)values["CostActual"]); } else { curTask.CostActual = null; }
@@ -717,10 +756,9 @@ namespace OTERT.Pages.Administrator {
                             curTask.IsCanceled = (bool)values["IsCanceled"];
                             curTask.CancelPrice = 0;
                             curTask.Comments = (string)values["Comments"];
-                            curTask.InvoceComments = (string)values["InvoceComments"];
                             curTask.SateliteID = null;
-                            curTask.Internet = (bool)values["Internet"];
-                            curTask.MSN = (bool)values["MSN"];
+                            curTask.Internet = false;
+                            curTask.MSN = false;
                             curTask.LineTypeID = LineTypeID;
                             curTask.DateStamp = DateTime.Now;
                             dbContext.Tasks.Add(curTask);
@@ -1030,6 +1068,126 @@ namespace OTERT.Pages.Administrator {
                 document2 = fileFormatProvider.Import(input);
             }
             return document2;
+        }
+
+        protected void ddlCustomer1Filter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
+            List<string> columnExpressions = new List<string>(expressions);
+            foreach (string expression in columnExpressions) {
+                if (expression.Contains("Customer1ID")) {
+                    columnExpressions.Remove(expression);
+                    break;
+                }
+            }
+            string finalExpression = string.Join("AND", columnExpressions.ToArray());
+            if (e.Value != "0") {
+                if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
+                finalExpression += "(Customer1ID = " + e.Value + ")";
+                gridMain.MasterTableView.GetColumn("Customer1ID").CurrentFilterFunction = GridKnownFunction.EqualTo;
+                gridMain.MasterTableView.GetColumn("Customer1ID").CurrentFilterValue = e.Value;
+            } else {
+                gridMain.MasterTableView.GetColumn("Customer1ID").CurrentFilterFunction = GridKnownFunction.NoFilter;
+                gridMain.MasterTableView.GetColumn("Customer1ID").CurrentFilterValue = null;
+            }
+            gridMain.MasterTableView.FilterExpression = finalExpression;
+            ViewState[list.ClientID] = e.Value;
+            gridMain.MasterTableView.Rebind();
+        }
+
+        protected void ddlCustomer1Filter_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
+        }
+
+        protected void ddlCountryFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
+            List<string> columnExpressions = new List<string>(expressions);
+            foreach (string expression in columnExpressions) {
+                if (expression.Contains("Event.Place.CountryID")) {
+                    columnExpressions.Remove(expression);
+                    break;
+                }
+            }
+            string finalExpression = string.Join("AND", columnExpressions.ToArray());
+            if (e.Value != "0") {
+                if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
+                finalExpression += "(Event.Place.CountryID = " + e.Value + ")";
+                gridMain.MasterTableView.GetColumn("CountryID").CurrentFilterFunction = GridKnownFunction.EqualTo;
+                gridMain.MasterTableView.GetColumn("CountryID").CurrentFilterValue = e.Value;
+            } else {
+                gridMain.MasterTableView.GetColumn("CountryID").CurrentFilterFunction = GridKnownFunction.NoFilter;
+                gridMain.MasterTableView.GetColumn("CountryID").CurrentFilterValue = null;
+            }
+            gridMain.MasterTableView.FilterExpression = finalExpression;
+            ViewState[list.ClientID] = e.Value;
+            gridMain.MasterTableView.Rebind();
+        }
+
+        protected void ddlCountryFilter_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
+        }
+
+        protected void ddlPlaceFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
+            List<string> columnExpressions = new List<string>(expressions);
+            foreach (string expression in columnExpressions) {
+                if (expression.Contains("Event.PlaceID")) {
+                    columnExpressions.Remove(expression);
+                    break;
+                }
+            }
+            string finalExpression = string.Join("AND", columnExpressions.ToArray());
+            if (e.Value != "0") {
+                if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
+                finalExpression += "(Event.PlaceID = " + e.Value + ")";
+                gridMain.MasterTableView.GetColumn("PlaceID").CurrentFilterFunction = GridKnownFunction.EqualTo;
+                gridMain.MasterTableView.GetColumn("PlaceID").CurrentFilterValue = e.Value;
+            } else {
+                gridMain.MasterTableView.GetColumn("PlaceID").CurrentFilterFunction = GridKnownFunction.NoFilter;
+                gridMain.MasterTableView.GetColumn("PlaceID").CurrentFilterValue = null;
+            }
+            gridMain.MasterTableView.FilterExpression = finalExpression;
+            ViewState[list.ClientID] = e.Value;
+            gridMain.MasterTableView.Rebind();
+        }
+
+        protected void ddlPlaceFilter_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
+        }
+
+        protected void ddlEventFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
+            List<string> columnExpressions = new List<string>(expressions);
+            foreach (string expression in columnExpressions) {
+                if (expression.Contains("EventID")) {
+                    columnExpressions.Remove(expression);
+                    break;
+                }
+            }
+            string finalExpression = string.Join("AND", columnExpressions.ToArray());
+            if (e.Value != "0") {
+                if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
+                finalExpression += "(EventID = " + e.Value + ")";
+                gridMain.MasterTableView.GetColumn("EventID").CurrentFilterFunction = GridKnownFunction.EqualTo;
+                gridMain.MasterTableView.GetColumn("EventID").CurrentFilterValue = e.Value;
+            } else {
+                gridMain.MasterTableView.GetColumn("EventID").CurrentFilterFunction = GridKnownFunction.NoFilter;
+                gridMain.MasterTableView.GetColumn("EventID").CurrentFilterValue = null;
+            }
+            gridMain.MasterTableView.FilterExpression = finalExpression;
+            ViewState[list.ClientID] = e.Value;
+            gridMain.MasterTableView.Rebind();
+        }
+
+        protected void ddlEventFilter_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
         }
 
     }
