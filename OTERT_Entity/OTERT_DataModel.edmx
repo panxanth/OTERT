@@ -225,6 +225,8 @@
           <Property Name="EventID" Type="int" Nullable="false" />
           <Property Name="IsLocked" Type="bit" />
           <Property Name="InoiceProtocol" Type="nvarchar" MaxLength="100" />
+          <Property Name="DateTimeStart" Type="datetime" />
+          <Property Name="DateTimeEnd" Type="datetime" />
         </EntityType>
         <EntityType Name="OrdersPTSGR">
           <Key>
@@ -1350,6 +1352,8 @@
           <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.fk_TasksPTSGR_OrderPTSGRID" FromRole="Orders" ToRole="TasksPTSGR" />
           <NavigationProperty Name="OrdersPTSGR" Relationship="OTERT_Model.FK_OrdersPTSGR_Orders" FromRole="Orders" ToRole="OrdersPTSGR" />
           <Property Name="InoiceProtocol" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DateTimeStart" Type="DateTime" Precision="3" />
+          <Property Name="DateTimeEnd" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="OrderTypes">
           <Key>
@@ -2575,6 +2579,8 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="OTERT_Model.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="DateTimeEnd" ColumnName="DateTimeEnd" />
+                <ScalarProperty Name="DateTimeStart" ColumnName="DateTimeStart" />
                 <ScalarProperty Name="InoiceProtocol" ColumnName="InoiceProtocol" />
                 <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />

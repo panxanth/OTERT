@@ -160,6 +160,8 @@ namespace OTERT.Model {
         public EventDTO Event { get; set; }
         public bool IsLocked { get; set; }
         public string InoiceProtocol { get; set; }
+        public DateTime? DateTimeStart { get; set; }
+        public DateTime? DateTimeEnd { get; set; }
     }
 
     public class OrdersPTSGRDTO {

@@ -23,6 +23,12 @@
             var re = new RegExp("\.btnPrint$|\.lnkDownload$|\.btnDownArrow$|\.btnUpArrow$", "ig");
             if (args.get_eventTarget().match(re)) { args.set_enableAjax(false); }
         }
+        function UpdateTo(ctlFromID, ctlToID) {
+            var ctlFrom = $find(ctlFromID);
+            var ctlTo = $find(ctlToID);
+            var dateFrom = ctlFrom.get_selectedDate();
+            ctlTo.set_selectedDate(dateFrom);
+        }
     </script>
     <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
@@ -236,6 +242,7 @@
 		                    <telerik:RadDropDownList runat="server" ID="ddlEventFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="280px" DropDownHeight="400px" OnSelectedIndexChanged="ddlEventFilter_SelectedIndexChanged" OnPreRender="ddlEventFilter_PreRender" />
 	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
+                    <telerik:GridDateTimeColumn UniqueName="DateTimeStart" DataField="DateTimeStart" HeaderText="Ημερομηνία" DataType="System.DateTime" DataFormatString="{0:dd/MM/yyyy HH:mm}" PickerType="DateTimePicker" ReadOnly="true" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="170px"  AllowSorting="false" />
                     <telerik:GridCheckBoxColumn DataField="IsLocked" HeaderText="Κλειδωμένο Έργο" Visible="false" DataType="System.Boolean" HeaderStyle-Font-Bold="true" />
                     <telerik:GridTemplateColumn UniqueName="btnPrintColumn" HeaderText="" AllowFiltering="false">
                         <ItemStyle HorizontalAlign="Center"></ItemStyle>

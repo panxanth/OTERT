@@ -117,7 +117,9 @@ namespace OTERT.Controller {
                                                  NameGR = us.Events.NameGR,
                                                  NameEN = us.Events.NameEN
                                              },
-                                             IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
+                                             DateTimeStart = us.DateTimeStart,
+                                             DateTimeEnd = us.DateTimeEnd,
+                                             IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked
                                          }).Where(o => o.ID == orderID).FirstOrDefault();
                     return data;
                 }
@@ -221,7 +223,9 @@ namespace OTERT.Controller {
                                                                  NameGR = us.Events.NameGR,
                                                                  NameEN = us.Events.NameEN
                                              },
-                                             IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
+                                             DateTimeStart = us.DateTimeStart,
+                                             DateTimeEnd = us.DateTimeEnd,
+                                             IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked
                                          }).Where(o => o.OrderTypeID == orderType).OrderBy(o => o.ID).ToList();
                     return data;
                 }
@@ -326,7 +330,9 @@ namespace OTERT.Controller {
                                                                    NameGR = us.Events.NameGR,
                                                                    NameEN = us.Events.NameEN
                                              },
-                                             IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
+                                             DateTimeStart = us.DateTimeStart,
+                                             DateTimeEnd = us.DateTimeEnd,
+                                             IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked
                                          }).Where(o => o.OrderTypeID == orderType).OrderByDescending(o => o.ID).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
@@ -431,9 +437,53 @@ namespace OTERT.Controller {
                                                           NameGR = us.Events.NameGR,
                                                           NameEN = us.Events.NameEN
                                                       },
-                                                      IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
+                                                      DateTimeStart = us.DateTimeStart,
+                                                      DateTimeEnd = us.DateTimeEnd,
+                                                      IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked
                                                   });
-                    if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
+                    if (!string.IsNullOrEmpty(recFilter)) {
+                        string[] expressionsAND = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
+                        List<string> columnExpressions = new List<string>();
+                        for (int k = 0; k < expressionsAND.Length; k++) {
+                            if (!expressionsAND[k].Contains("OR")) {
+                                columnExpressions.Add(expressionsAND[k]);
+                            } else {
+                                string[] expressionsOR = expressionsAND[k].Split(new string[] { "OR" }, StringSplitOptions.None);
+                                for (int i = 0; i < expressionsOR.Length; i++) { columnExpressions.Add(expressionsOR[i]); }
+                            }
+                        }
+                        List<string> DateTimeStartExpressions = columnExpressions.Where(item => item.Contains("DateTimeStart")).ToList();
+                        columnExpressions.RemoveAll(item => item.Contains("DateTimeStart"));
+                        recFilter = string.Join("AND", columnExpressions.ToArray());
+                        //if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
+                        System.Globalization.DateTimeFormatInfo greek = new System.Globalization.CultureInfo("el-GR").DateTimeFormat;
+                        if (DateTimeStartExpressions.Count > 0) {
+                            List<DateTime> orderDates = new List<DateTime>();
+                            foreach (string dtExpression in DateTimeStartExpressions) {
+                                string[] dateExp = dtExpression.Split(new char[] { '"' });
+                                string format = "d/M/yyyy,h:mm:ss,tt";
+                                DateTime newDate;
+                                if (dateExp.Length > 1) {
+                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
+                                        orderDates.Add(newDate);
+                                    }
+                                }
+                            }
+                            if (orderDates.Count == 2) {
+                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
+                                if (DateTimeStartExpressions[0].Contains(">=")) {
+                                    recFilter = "DateTimeStart >= @0 AND DateTimeEnd <= @1";
+                                } else {
+                                    recFilter = "DateTimeStart < @0 OR DateTimeEnd > @1";
+                                }
+                                datatmp = datatmp.Where(recFilter, new DateTime(orderDates[0].Year, orderDates[0].Month, orderDates[0].Day, orderDates[0].Hour, orderDates[0].Minute, 0), new DateTime(orderDates[1].Year, orderDates[1].Month, orderDates[1].Day, orderDates[1].Hour, orderDates[1].Minute, 0));
+                            } else {
+                                datatmp = datatmp.Where(DateTimeStartExpressions[0]);
+                            }
+                        }
+                        
+                        
+                    }
                     if (gridSortExxpressions.Count > 0) {
                         string sortFieldName = "";
                         if (gridSortExxpressions[0].FieldName == "Customer1ID") { sortFieldName = "Customer1.NameGR"; }

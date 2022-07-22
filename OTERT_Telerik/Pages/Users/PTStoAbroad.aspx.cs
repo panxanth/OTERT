@@ -78,6 +78,16 @@ namespace OTERT.Pages.Administrator {
                     ElasticButton img = (ElasticButton)item["btnDelete"].Controls[0];
                     img.ToolTip = "Διαγραφή";
                 }
+                if (e.Item is GridFilteringItem) {
+                    GridFilteringItem filterItem = (GridFilteringItem)e.Item;
+                    (filterItem["DateTimeStart"].Controls[0] as LiteralControl).Text = "Από: ";
+                    (filterItem["DateTimeStart"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
+                    RadDateTimePicker DateTimeStartFrom = filterItem["DateTimeStart"].Controls[1] as RadDateTimePicker;
+                    DateTimeStartFrom.TimePopupButton.Visible = false;
+                    RadDateTimePicker DateTimeStartΤο = filterItem["DateTimeStart"].Controls[4] as RadDateTimePicker;
+                    DateTimeStartΤο.TimePopupButton.Visible = false;
+                    DateTimeStartFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + DateTimeStartFrom.ClientID + "', '" + DateTimeStartΤο.ClientID + "');");
+                }
             } else if (e.Item.OwnerTableView.Name == "TasksDetails") {
                 if (e.Item is GridDataItem) {
                     GridDataItem item = (GridDataItem)e.Item;
@@ -647,6 +657,8 @@ namespace OTERT.Pages.Administrator {
             } else if (e.Item.OwnerTableView.Name == "TasksDetails") {
                 var editableItem = ((GridEditableItem)e.Item);
                 var ID = (int)editableItem.GetDataKeyValue("ID");
+                GridDataItem parentItem = e.Item.OwnerTableView.ParentItem;
+                int orderID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
                 using (var dbContext = new OTERTConnStr()) {
                     var curTask = dbContext.Tasks.Where(n => n.ID == ID).FirstOrDefault();
                     if (curTask != null) {
@@ -658,7 +670,12 @@ namespace OTERT.Pages.Administrator {
                             if (PositionID > 0) { curTask.RequestedPositionID = PositionID; }
                             if (Session["LineTypeID"] != null) { LineTypeID = int.Parse(Session["LineTypeID"].ToString()); }
                             if (LineTypeID > 0) { curTask.LineTypeID = LineTypeID; }
-                            dbContext.SaveChanges();
+                            int test = dbContext.SaveChanges();
+                            var curOrder = dbContext.Orders.Where(n => n.ID == orderID).FirstOrDefault();
+                            DateTime?[] datesForOrder = getDatesForOrder(orderID);
+                            curOrder.DateTimeStart = datesForOrder[0];
+                            curOrder.DateTimeEnd = datesForOrder[1];
+                            dbContext.SaveChanges();   
                         }
                         catch (Exception) { ShowErrorMessage(-1); }
                         finally {
@@ -668,6 +685,11 @@ namespace OTERT.Pages.Administrator {
                             Session.Remove("PositionID");
                             LineTypeID = -1;
                             Session.Remove("LineTypeID");
+                            gridMain.EditIndexes.Clear();
+                            e.Item.OwnerTableView.Rebind();
+                            string oldID = parentItem.GetDataKeyValue("ID").ToString();
+                            gridMain.Rebind();
+                            expandRowByID(oldID);
                         }
                     }
                 }
@@ -712,8 +734,7 @@ namespace OTERT.Pages.Administrator {
                 JobB tmpJob = jc.GetJobsForPageID(1)[0];
                 DistancesController dc = new DistancesController();
                 DistanceB tmpDistance = dc.GetDistancesForPageID(1)[0];
-                GridTableView detailtabl = e.Item.OwnerTableView;
-                GridDataItem parentItem = detailtabl.ParentItem;
+                GridDataItem parentItem = e.Item.OwnerTableView.ParentItem;
                 int orderID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
                 var editableItem = ((GridEditableItem)e.Item);
                 using (var dbContext = new OTERTConnStr()) {
@@ -732,9 +753,6 @@ namespace OTERT.Pages.Administrator {
                             curTask.RequestedPositionID = PositionID;
                             curTask.JobID = tmpJob.ID;
                             curTask.DistancesID = tmpDistance.ID;
-                            if (values["DateTimeStartActual"] != null) { curTask.DateTimeStartOrder = DateTime.Parse((string)values["DateTimeStartActual"]); } else { curTask.DateTimeStartOrder = null; }
-                            if (values["DateTimeEndActual"] != null) { curTask.DateTimeEndOrder = DateTime.Parse((string)values["DateTimeEndActual"]); } else { curTask.DateTimeEndOrder = null; }
-                            if (values["DateTimeDurationActual"] != null) { curTask.DateTimeDurationOrder = int.Parse((string)values["DateTimeDurationActual"]); } else { curTask.DateTimeDurationOrder = 0; }
                             if (values["DateTimeStartActual"] != null) { curTask.DateTimeStartActual = DateTime.Parse((string)values["DateTimeStartActual"]); } else { curTask.DateTimeStartActual = null; }
                             if (values["DateTimeEndActual"] != null) { curTask.DateTimeEndActual = DateTime.Parse((string)values["DateTimeEndActual"]); } else { curTask.DateTimeEndActual = null; }
                             if (values["DateTimeDurationActual"] != null) { curTask.DateTimeDurationActual = int.Parse((string)values["DateTimeDurationActual"]); } else { curTask.DateTimeDurationActual = null; }
@@ -763,6 +781,11 @@ namespace OTERT.Pages.Administrator {
                             curTask.DateStamp = DateTime.Now;
                             dbContext.Tasks.Add(curTask);
                             dbContext.SaveChanges();
+                            var curOrder = dbContext.Orders.Where(n => n.ID == orderID).FirstOrDefault();
+                            DateTime?[] datesForOrder = getDatesForOrder(orderID);
+                            curOrder.DateTimeStart = datesForOrder[0];
+                            curOrder.DateTimeEnd = datesForOrder[1];
+                            dbContext.SaveChanges();
                         }
                         catch (Exception) { ShowErrorMessage(-1); }
                         finally {
@@ -772,6 +795,10 @@ namespace OTERT.Pages.Administrator {
                             Session.Remove("PositionID");
                             LineTypeID = -1;
                             Session.Remove("LineTypeID");
+                            e.Item.OwnerTableView.Rebind();
+                            string oldID = parentItem.GetDataKeyValue("ID").ToString();
+                            gridMain.Rebind();
+                            expandRowByID(oldID);
                         }
                     } else { ShowErrorMessage(-1); }
                 }
@@ -830,17 +857,32 @@ namespace OTERT.Pages.Administrator {
                 }
             } else if (e.Item.OwnerTableView.Name == "TasksDetails") {
                 var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
+                GridDataItem parentItem = e.Item.OwnerTableView.ParentItem;
                 using (var dbContext = new OTERTConnStr()) {
                     var curTask = dbContext.Tasks.Where(n => n.ID == ID).FirstOrDefault();
                     if (curTask != null) {
                         if (curTask.IsLocked != true) {
-                            dbContext.Tasks.Remove(curTask);
-                            try { dbContext.SaveChanges(); }
+                            try {
+                                int curOrderID = curTask.OrderID == null ? -1 : (int)curTask.OrderID;
+                                dbContext.Tasks.Remove(curTask);
+                                dbContext.SaveChanges();
+                                var curOrder = dbContext.Orders.Where(n => n.ID == curOrderID).FirstOrDefault();
+                                DateTime?[] datesForOrder = getDatesForOrder(curOrderID);
+                                curOrder.DateTimeStart = datesForOrder[0];
+                                curOrder.DateTimeEnd = datesForOrder[1];
+                                dbContext.SaveChanges(); 
+                            }
                             catch (Exception ex) {
                                 string err = ex.InnerException.InnerException.Message;
                                 int errCode = -1;
                                 if (err.StartsWith("The DELETE statement conflicted with the REFERENCE constraint")) { errCode = 1; }
                                 ShowErrorMessage(errCode);
+                            }
+                            finally {
+                                e.Item.OwnerTableView.Rebind();
+                                string oldID = parentItem.GetDataKeyValue("ID").ToString();
+                                gridMain.Rebind();
+                                expandRowByID(oldID);
                             }
                         } else { ShowErrorMessage(2); }
                     }
@@ -1188,6 +1230,27 @@ namespace OTERT.Pages.Administrator {
         protected void ddlEventFilter_PreRender(object sender, EventArgs e) {
             RadDropDownList list = sender as RadDropDownList;
             if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
+        }
+
+        protected DateTime?[] getDatesForOrder(int orderID) {
+            DateTime?[] dates2Return = new DateTime?[] { null, null };
+            TasksController tc = new TasksController();
+            List<TaskB> tasksForOrder = tc.GetTasksForOrder(orderID);
+            if (tasksForOrder.Count > 0) {
+                TaskB smallerDateTask = tasksForOrder.OrderBy(x => x.DateTimeStartActual).FirstOrDefault();
+                TaskB biggerDateTask = tasksForOrder.OrderBy(x => x.DateTimeStartActual).LastOrDefault();
+                dates2Return[0] = smallerDateTask.DateTimeStartActual;
+                dates2Return[1] = biggerDateTask.DateTimeEndActual;
+            }
+            return dates2Return;
+        }
+
+        protected void expandRowByID(string ID) {
+            foreach (GridDataItem item in gridMain.MasterTableView.Items) {
+                if (item.GetDataKeyValue("ID").ToString() == ID) {
+                    item.Expanded = true;
+                }
+            }
         }
 
     }
