@@ -237,6 +237,10 @@
       <DependentUpon>InvoiceShow.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\PrintTemplates\PTStoAbroadCharges.aspx.cs">
+      <DependentUpon>PTStoAbroadCharges.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\PrintTemplates\InvoiceMail.aspx.cs">
       <DependentUpon>InvoiceMail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -247,22 +251,6 @@
     </Compile>
     <Compile Include="Pages\PrintTemplates\Invoice.aspx.cs">
       <DependentUpon>Invoice.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Pages\PrintTemplates\PrintMailPTSToAbroad.aspx.cs">
-      <DependentUpon>PrintMailPTSToAbroad.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Pages\PrintTemplates\PrintMailPTSToAbroadAdmin.aspx.cs">
-      <DependentUpon>PrintMailPTSToAbroadAdmin.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Pages\PrintTemplates\PrintMailPTSToGRAdmin.aspx.cs">
-      <DependentUpon>PrintMailPTSToGRAdmin.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Pages\PrintTemplates\PrintMailPTSToGR.aspx.cs">
-      <DependentUpon>PrintMailPTSToGR.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\PrintTemplates\KETDailyList.aspx.cs">
@@ -431,13 +419,10 @@
     <Content Include="Pages\Administrator\DistancesList.aspx" />
     <Content Include="Pages\Invoices\InvoiceEdit.aspx" />
     <Content Include="Pages\Invoices\InvoiceShow.aspx" />
+    <Content Include="Pages\PrintTemplates\PTStoAbroadCharges.aspx" />
     <Content Include="Pages\PrintTemplates\InvoiceMail.aspx" />
     <Content Include="Pages\PrintTemplates\InvoiceDetailed.aspx" />
     <Content Include="Pages\PrintTemplates\Invoice.aspx" />
-    <Content Include="Pages\PrintTemplates\PrintMailPTSToAbroad.aspx" />
-    <Content Include="Pages\PrintTemplates\PrintMailPTSToAbroadAdmin.aspx" />
-    <Content Include="Pages\PrintTemplates\PrintMailPTSToGRAdmin.aspx" />
-    <Content Include="Pages\PrintTemplates\PrintMailPTSToGR.aspx" />
     <Content Include="Pages\PrintTemplates\KETDailyList.aspx" />
     <Content Include="Pages\Administrator\UsersList.aspx" />
     <Content Include="Pages\Helpers\DailyList.aspx" />
@@ -572,7 +557,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

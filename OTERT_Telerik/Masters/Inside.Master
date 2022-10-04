@@ -175,7 +175,7 @@
                 <li class="gradient_menuitem gradient27 last_item"><a class="with_arrow" title="">Εκτυπωτικά</a>
                     <ul class="gradient_menu gradient67">
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PrintMailPTSToGRAdmin.aspx">Επιστολή ΠΤΣ προς Ελλάδα</a></li>
-                        <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PrintMailPTSToAbroadAdmin.aspx">Επιστολή ΠΤΣ προς Εξωτερικό</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoAbroadCharges.aspx">Χρεωπιστωτικό (ΠΤΣ προς Εξωτερικό)</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/KETDailyList.aspx">ΚΕΤ - Λίστα Ημερησίων Μεταδόσεων</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/Invoice.aspx">Τιμολόγιο (Συνοπτικό)</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/InvoiceDetailed.aspx">Τιμολόγιο (Αναλυτικό)</a></li>

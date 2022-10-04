@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="PrintMailPTSToAbroadAdmin.aspx.cs" Inherits="OTERT.Pages.PrintTemplates.PrintMailPTSToAbroadAdmin" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="PTStoAbroadCharges.aspx.cs" Inherits="OTERT.Pages.PrintTemplates.PTStoAbroadCharges" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 
@@ -35,8 +35,8 @@
             <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές">
                 <CommandItemSettings RefreshText="Ανανέωση" ShowAddNewRecordButton="false" />
                 <Columns>
-                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" HeaderStyle-Width="50" />
-                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Width="80" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridEditCommandColumn EditText="Επεξεργασία" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" />
+                    <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Width="50" HeaderStyle-Font-Bold="true" />
                     <telerik:GridBoundColumn DataField="UniqueName" HeaderText="UniqueName" Visible="false" ReadOnly="true" HeaderStyle-Font-Bold="true" />
                     <telerik:GridBoundColumn DataField="Title" HeaderText="Χώρος" ReadOnly="true" HeaderStyle-Font-Bold="true" />
                     <telerik:GridTemplateColumn DataField="Text" HeaderText="Περιεχόμενο" UniqueName="Text" HeaderStyle-Font-Bold="true">
@@ -48,7 +48,8 @@
                                 <asp:Image runat="server" ImageUrl='<% #string.Concat("~/UploadedFiles/",Eval("Text")) %>' AlternateText='<% #Eval("Text") %>' />
                             </asp:Panel>
                             <asp:Panel ID="pnlDate" runat="server">
-                                <asp:Literal Text='<% #DateTime.Now.ToString(Eval("Text").ToString()) %>' runat="server" /> 
+                                <%-- <asp:Literal Text='<% #DateTime.Now.ToString(Eval("Text").ToString()) %>' runat="server" /> --%>
+                                <asp:Literal Text='<% #Eval("Text").ToString() == "dd/MM/yyyy" ? DateTime.Now.ToString("dd/MM/yyyy") : DateTime.Now.ToString("dd MMMM yyyy") %>' runat="server" /> 
                             </asp:Panel>
                         </ItemTemplate>
                         <EditItemTemplate>
@@ -69,7 +70,7 @@
                             <asp:Panel ID="pnlDate" runat="server">
                                  <telerik:RadDropDownList runat="server" ID="ddlDate" RenderMode="Lightweight" Width="250px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlText_SelectedIndexChanged">
                                      <Items>
-                                         <telerik:DropDownListItem runat="server" Text='<% #DateTime.Now.ToString("dddd, dd MMMM yyyy") %>' Value="dddd, dd MMMM yyyy" />
+                                         <telerik:DropDownListItem runat="server" Text='<% #DateTime.Now.ToString("dd MMMM yyyy") %>' Value="dd MMMM yyyy" />
                                          <telerik:DropDownListItem runat="server" Text='<% #DateTime.Now.ToString("dd/MM/yyyy") %>' Value="dd/MM/yyyy" />
                                      </Items>
                                  </telerik:RadDropDownList>
@@ -114,8 +115,6 @@
                 </EditFormSettings>
             </MasterTableView>
         </telerik:RadGrid>
-        <br /><br />
-        <asp:Button ID="btnPrint" runat="server" Text="Εκτύπωση Δοκιμαστικής Σελίδας" OnClick="btnPrint_Click" />
         <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" />
     </div>
 </asp:Content>

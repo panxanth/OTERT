@@ -247,7 +247,7 @@
                     <telerik:GridTemplateColumn UniqueName="btnPrintColumn" HeaderText="" AllowFiltering="false">
                         <ItemStyle HorizontalAlign="Center"></ItemStyle>
                         <ItemTemplate>
-                            <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="~/Images/print.png" CommandName="invPrint" ToolTip="Εκτύπωση Χρεωπιστωτικού" />
+                            <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="~/Images/print.png" CommandName="printCharges" ToolTip="Εκτύπωση Χρεωπιστωτικού" />
                         </ItemTemplate>
                     </telerik:GridTemplateColumn>
                     <telerik:GridButtonColumn UniqueName="btnDelete" ConfirmText="Να διαγραφεί αυτή η Παραγγελία;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ConfirmDialogHeight="150" ConfirmDialogWidth="400" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
