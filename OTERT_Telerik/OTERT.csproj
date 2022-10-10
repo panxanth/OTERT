@@ -237,6 +237,10 @@
       <DependentUpon>InvoiceShow.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\PrintTemplates\PTStoAbroadOrders.aspx.cs">
+      <DependentUpon>PTStoAbroadOrders.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\PrintTemplates\PTStoAbroadCharges.aspx.cs">
       <DependentUpon>PTStoAbroadCharges.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -419,6 +423,7 @@
     <Content Include="Pages\Administrator\DistancesList.aspx" />
     <Content Include="Pages\Invoices\InvoiceEdit.aspx" />
     <Content Include="Pages\Invoices\InvoiceShow.aspx" />
+    <Content Include="Pages\PrintTemplates\PTStoAbroadOrders.aspx" />
     <Content Include="Pages\PrintTemplates\PTStoAbroadCharges.aspx" />
     <Content Include="Pages\PrintTemplates\InvoiceMail.aspx" />
     <Content Include="Pages\PrintTemplates\InvoiceDetailed.aspx" />
@@ -500,11 +505,12 @@
     <Content Include="Fonts\FontAwesome.otf" />
     <Content Include="Templates\KET.docx" />
     <Content Include="Templates\Invoice.docx" />
-    <Content Include="Templates\PTSAbroad.docx" />
     <Content Include="Templates\mailCosmote.docx" />
     <Content Include="Templates\InvoiceDetails.docx" />
     <Content Include="Templates\InvoiceMail.docx" />
     <Content Include="Images\Manual.docx" />
+    <Content Include="Templates\PTStoAbroadCharges.docx" />
+    <Content Include="Templates\PTStoAbroadOrders.docx" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

@@ -61,6 +61,12 @@
                         <CommandItemSettings AddNewRecordText="Προσθήκη νέας εγγραφής" RefreshText="Ανανέωση" />
                         <Columns>
                             <telerik:GridEditCommandColumn EditText="Επεξεργασία" UniqueName="EditCommandColumn1" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
+                            <telerik:GridTemplateColumn UniqueName="btnPrintOrderColumn" HeaderText="" AllowFiltering="false">
+                                <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                                <ItemTemplate>
+                                    <asp:ImageButton ID="btnPrintOrder" runat="server" ImageUrl="~/Images/print.png" CommandName="printOrder" ToolTip="Εκτύπωση Παραγγελίας" />
+                                </ItemTemplate>
+                            </telerik:GridTemplateColumn>
                             <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Wrap="false" HeaderStyle-Font-Bold="true" />
                             <telerik:GridBoundColumn DataField="OrderID" HeaderText="Παραγγελία" ReadOnly="true" Visible="false" HeaderStyle-Font-Bold="true" />
                             <telerik:GridBoundColumn UniqueName="RegNo" DataField="RegNo" HeaderText="Αριθμός Πρωτοκόλλου" HeaderStyle-Font-Bold="true" >
@@ -148,12 +154,6 @@
                                 <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                             </telerik:GridBoundColumn>
                             <telerik:GridBoundColumn DataField="Comments" HeaderText="Παρατηρήσεις" Visible="false" />
-                            <telerik:GridTemplateColumn UniqueName="btnPrintOrderColumn" HeaderText="" AllowFiltering="false">
-                                <ItemStyle HorizontalAlign="Center"></ItemStyle>
-                                <ItemTemplate>
-                                    <asp:ImageButton ID="btnPrintOrder" runat="server" ImageUrl="~/Images/print.png" CommandName="invPrintOrder" ToolTip="Εκτύπωση Παραγγελίας" />
-                                </ItemTemplate>
-                            </telerik:GridTemplateColumn>
                             <telerik:GridButtonColumn UniqueName="btnDelete2" ConfirmText="Να διαγραφεί αυτή η Παραγγελία;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                         </Columns>
                     </telerik:GridTableView>
@@ -184,6 +184,12 @@
                 </DetailTables>
                 <Columns>
                     <telerik:GridEditCommandColumn EditText="Επεξεργασία" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
+                    <telerik:GridTemplateColumn UniqueName="btnPrintColumn" HeaderText="" AllowFiltering="false">
+                        <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                        <ItemTemplate>
+                            <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="~/Images/print.png" CommandName="printCharges" ToolTip="Εκτύπωση Χρεωπιστωτικού" />
+                        </ItemTemplate>
+                    </telerik:GridTemplateColumn>
                     <telerik:GridTemplateColumn UniqueName="btnCopyColumn" HeaderText="" AllowFiltering="false">
                         <ItemStyle HorizontalAlign="Center"></ItemStyle>
                         <ItemTemplate>
@@ -244,12 +250,6 @@
                     </telerik:GridTemplateColumn>
                     <telerik:GridDateTimeColumn UniqueName="DateTimeStart" DataField="DateTimeStart" HeaderText="Ημερομηνία" DataType="System.DateTime" DataFormatString="{0:dd/MM/yyyy HH:mm}" PickerType="DateTimePicker" ReadOnly="true" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="170px"  AllowSorting="false" />
                     <telerik:GridCheckBoxColumn DataField="IsLocked" HeaderText="Κλειδωμένο Έργο" Visible="false" DataType="System.Boolean" HeaderStyle-Font-Bold="true" />
-                    <telerik:GridTemplateColumn UniqueName="btnPrintColumn" HeaderText="" AllowFiltering="false">
-                        <ItemStyle HorizontalAlign="Center"></ItemStyle>
-                        <ItemTemplate>
-                            <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="~/Images/print.png" CommandName="printCharges" ToolTip="Εκτύπωση Χρεωπιστωτικού" />
-                        </ItemTemplate>
-                    </telerik:GridTemplateColumn>
                     <telerik:GridButtonColumn UniqueName="btnDelete" ConfirmText="Να διαγραφεί αυτή η Παραγγελία;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ConfirmDialogHeight="150" ConfirmDialogWidth="400" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                 </Columns>
                 <EditFormSettings>
@@ -258,5 +258,8 @@
             </MasterTableView>
         </telerik:RadGrid>
         <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" />
+        <br /><br />&nbsp;Δώστε τον Α/Α της παραγγελίας για εκτύπωση:
+        <asp:TextBox ID="txtOrderID" runat="server" Text="" />&nbsp;&nbsp;
+        <asp:ImageButton ID="btnPrintOrder" runat="server" ImageUrl="~/Images/print.png" ToolTip="Εκτύπωση Παραγγελίας" onclick="btnPrintOrder_Click" />
     </div>
 </asp:Content>
