@@ -61,12 +61,14 @@
                         <CommandItemSettings AddNewRecordText="Προσθήκη νέας εγγραφής" RefreshText="Ανανέωση" />
                         <Columns>
                             <telerik:GridEditCommandColumn EditText="Επεξεργασία" UniqueName="EditCommandColumn1" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
+                            <%--
                             <telerik:GridTemplateColumn UniqueName="btnPrintOrderColumn" HeaderText="" AllowFiltering="false">
                                 <ItemStyle HorizontalAlign="Center"></ItemStyle>
                                 <ItemTemplate>
                                     <asp:ImageButton ID="btnPrintOrder" runat="server" ImageUrl="~/Images/print.png" CommandName="printOrder" ToolTip="Εκτύπωση Παραγγελίας" />
                                 </ItemTemplate>
                             </telerik:GridTemplateColumn>
+                            --%>
                             <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Wrap="false" HeaderStyle-Font-Bold="true" />
                             <telerik:GridBoundColumn DataField="OrderID" HeaderText="Παραγγελία" ReadOnly="true" Visible="false" HeaderStyle-Font-Bold="true" />
                             <telerik:GridBoundColumn UniqueName="RegNo" DataField="RegNo" HeaderText="Αριθμός Πρωτοκόλλου" HeaderStyle-Font-Bold="true" >

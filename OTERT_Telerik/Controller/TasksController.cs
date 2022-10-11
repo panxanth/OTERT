@@ -604,7 +604,7 @@ namespace OTERT.Controller {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     List<int> invoicedTasks = (from us in dbContext.TasksLine select us.TaskID).ToList();
-                    List<TaskB> data = (from us in dbContext.Tasks
+                    List<TaskB> data1 = (from us in dbContext.Tasks
                                         select new TaskB {
                                             ID = us.ID,
                                             OrderID = us.OrderID,
@@ -714,7 +714,9 @@ namespace OTERT.Controller {
                                             DateStamp = us.DateStamp,
                                             EnteredByUser = us.EnteredByUser
                                             // }).Where(o => (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && selectedJobs.Contains(o.JobID.ToString()) && (o.CostActual != null && o.CostActual >= 0) && !invoicedTasks.Contains(o.ID)).OrderBy(o => o.OrderDate).ToList();
-                                        }).Where(o => (o.DateTimeStartActual.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartActual.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartActual.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartActual.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && selectedJobs.Contains(o.JobID.ToString()) && !invoicedTasks.Contains(o.ID)).OrderBy(o => o.OrderDate).ToList();
+                                            //}).Where(o => (o.DateTimeStartActual.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartActual.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartActual.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartActual.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && selectedJobs.Contains(o.JobID.ToString()) && !invoicedTasks.Contains(o.ID) && o.OrderID == null).OrderBy(o => o.OrderDate).ToList();
+                                        }).Where(o => (o.DateTimeStartActual.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartActual.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartActual.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartActual.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && o.OrderID == null).OrderBy(o => o.OrderDate).ToList();
+                    List<TaskB> data = data1.Where(o => selectedJobs.Contains(o.JobID.ToString()) && !invoicedTasks.Contains(o.ID)).ToList();
                     return data;
                 }
                 catch (Exception ex) { appendError(ex, "GetTasksForInvoice Error"); return null; }
@@ -726,7 +728,7 @@ namespace OTERT.Controller {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     List<int> invoicedTasks = (from us in dbContext.TasksLine select us.TaskID).ToList();
-                    List<TaskB> data = (from us in dbContext.Tasks
+                    List<TaskB> data1 = (from us in dbContext.Tasks
                                         select new TaskB {
                                             ID = us.ID,
                                             OrderID = us.OrderID,
@@ -835,9 +837,11 @@ namespace OTERT.Controller {
                                             LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name },
                                             DateStamp = us.DateStamp,
                                             EnteredByUser = us.EnteredByUser
-                                        // }).Where(o => (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && selectedJobs.Contains(o.JobID.ToString()) && selectedTasks.Contains(o.ID.ToString()) && (o.CostActual != null && o.CostActual >= 0) && !invoicedTasks.Contains(o.ID)).OrderBy(o => o.OrderDate).ToList();
-                                        }).Where(o => (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && selectedJobs.Contains(o.JobID.ToString()) && selectedTasks.Contains(o.ID.ToString()) && !invoicedTasks.Contains(o.ID)).OrderBy(o => o.OrderDate).ToList();
-                return data;
+                                            // }).Where(o => (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && selectedJobs.Contains(o.JobID.ToString()) && selectedTasks.Contains(o.ID.ToString()) && (o.CostActual != null && o.CostActual >= 0) && !invoicedTasks.Contains(o.ID)).OrderBy(o => o.OrderDate).ToList();
+                                            // }).Where(o => (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && selectedJobs.Contains(o.JobID.ToString()) && selectedTasks.Contains(o.ID.ToString()) && !invoicedTasks.Contains(o.ID) && o.OrderID == null).OrderBy(o => o.OrderDate).ToList();
+                                        }).Where(o => (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) >= DbFunctions.TruncateTime(fromDate) : false) && (o.DateTimeStartOrder.HasValue ? DbFunctions.TruncateTime(o.DateTimeStartOrder.Value) <= DbFunctions.TruncateTime(toDate) : false) && o.CustomerID == customerID && o.OrderID == null).OrderBy(o => o.OrderDate).ToList();
+                    List<TaskB> data = data1.Where(o => selectedJobs.Contains(o.JobID.ToString()) && selectedTasks.Contains(o.ID.ToString()) && !invoicedTasks.Contains(o.ID)).ToList();
+                    return data;
                 }
                 catch (Exception) { return null; }
             }
