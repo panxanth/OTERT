@@ -146,9 +146,9 @@
                                 </EditItemTemplate>
                             </telerik:GridTemplateColumn>
                             <telerik:GridBoundColumn DataField="CostActual" HeaderText="Ποσό Είσπραξης (€)" Visible="false" />
-                            <telerik:GridDateTimeColumn DataField="PaymentDateOrder" HeaderText="Ημ/νία Εντολής Τιμολόγησης" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
+                            <telerik:GridDateTimeColumn DataField="PaymentDateOrder" HeaderText="Ημ/νία Λήψης Ξένου Τιμολογίου" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
                             <telerik:GridDateTimeColumn DataField="PaymentDateCalculated" HeaderText="Προγραμματισμένη Ημ/νία Είσπραξης" Visible="false" ReadOnly="true" DataType="System.DateTime" PickerType="DatePicker" />
-                            <telerik:GridDateTimeColumn DataField="PaymentDateActual" HeaderText="Πραγματική Ημ/νία Πληρωμής" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
+                            <telerik:GridDateTimeColumn DataField="PaymentDateActual" HeaderText="Ημ/νία Ελέγχου Τιμολογίου" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
                             <telerik:GridCheckBoxColumn DataField="IsForHelpers" HeaderText="Ενημέρωση ΚΕΤ" DataType="System.Boolean" Visible="false" ReadOnly="true" />
                             <telerik:GridCheckBoxColumn DataField="IsLocked" HeaderText="Κλειδωμένο Έργο" Visible="false" DataType="System.Boolean" />
                             <telerik:GridCheckBoxColumn DataField="IsCanceled" HeaderText="Ακυρωμένο Έργο" Visible="false" DataType="System.Boolean" />

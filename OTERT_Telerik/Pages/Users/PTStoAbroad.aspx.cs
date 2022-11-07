@@ -549,7 +549,7 @@ namespace OTERT.Pages.Administrator {
                                 if (j == 0) {
                                     currRun = cell.Blocks.AddParagraph().Inlines.AddRun("ΔΙΟΡΓΑΝΩΣΗ: ");
                                     currRun.Paragraph.ContextualSpacing = true;
-                                    currRun.Paragraph.Spacing.LineSpacing = 0.8;
+                                    currRun.Paragraph.Spacing.LineSpacing = 1.0;
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 15.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
@@ -558,7 +558,7 @@ namespace OTERT.Pages.Administrator {
                                 } else if (j == 1) {
                                     currRun = cell.Blocks.AddParagraph().Inlines.AddRun(curOrder.Event.NameGR);
                                     currRun.Paragraph.ContextualSpacing = true;
-                                    currRun.Paragraph.Spacing.LineSpacing = 0.8;
+                                    currRun.Paragraph.Spacing.LineSpacing = 1.0;
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 15.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
@@ -570,7 +570,7 @@ namespace OTERT.Pages.Administrator {
                                 if (j == 0) {
                                     currRun = cell.Blocks.AddParagraph().Inlines.AddRun("ΧΩΡΑ: ");
                                     currRun.Paragraph.ContextualSpacing = true;
-                                    currRun.Paragraph.Spacing.LineSpacing = 0.8;
+                                    currRun.Paragraph.Spacing.LineSpacing = 1.0;
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 15.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
@@ -578,7 +578,7 @@ namespace OTERT.Pages.Administrator {
                                 } else if (j == 1) {
                                     currRun = cell.Blocks.AddParagraph().Inlines.AddRun(toUpperGR(curOrder.Event.Place.Country.NameGR));
                                     currRun.Paragraph.ContextualSpacing = true;
-                                    currRun.Paragraph.Spacing.LineSpacing = 0.8;
+                                    currRun.Paragraph.Spacing.LineSpacing = 1.0;
                                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                     currRun.Properties.FontSize.LocalValue = 15.0;
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
@@ -1856,7 +1856,7 @@ namespace OTERT.Pages.Administrator {
                     // Contact Person
                     currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)docBookmarks.Where(o => o.Bookmark.Name == "Contact_Person").FirstOrDefault().Paragraph.BlockContainer;
                     currRun = ((Paragraph)currCell.Blocks.First()).Inlines.AddRun();
-                    currRun.Text = (string.IsNullOrEmpty(task2print.InvoceComments) ? "" : task2print.InvoceComments) + (string.IsNullOrEmpty(task2print.CorrespondentPhone) ? "" : " " + task2print.CorrespondentPhone);
+                    currRun.Text = (string.IsNullOrEmpty(task2print.InvoceComments) ? "" : task2print.InvoceComments) + " " + (string.IsNullOrEmpty(task2print.CorrespondentPhone) ? "" : task2print.CorrespondentPhone);
                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                     currRun.Properties.FontSize.LocalValue = 12.0;
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
