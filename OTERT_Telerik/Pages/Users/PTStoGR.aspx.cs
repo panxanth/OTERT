@@ -296,7 +296,7 @@ namespace OTERT.Pages.Administrator {
                     List<DocumentReplacemetB> reps = new List<DocumentReplacemetB>();
                     reps = cont.GetDocumentReplacemets(pageUniqueName);
                     string imgFolderPath = Server.MapPath(fileUploadFolder);
-                    DocumentReplacemetB curRep;
+                    // DocumentReplacemetB curRep;
                     BookmarkRangeStart bookmarkRangeStart;
                     RadFlowDocument curDoc = LoadSampleDocument(pageUniqueName);
 
@@ -304,7 +304,7 @@ namespace OTERT.Pages.Administrator {
                     //System.Text.RegularExpressions.Regex textRegex = new System.Text.RegularExpressions.Regex("ΣΑΟΥΣΟΠΟΥΛΟΥ ΑΝΝΑ");
                     //editor.ReplaceText("ΣΑΟΥΣΟΠΟΥΛΟΥ ΑΝΝΑ", txtNew.Text, true, true);
                     List<BookmarkRangeStart> test = editor.Document.EnumerateChildrenOfType<BookmarkRangeStart>().ToList();
-                    Telerik.Windows.Documents.Flow.Model.TableCell currCell;
+                    // Telerik.Windows.Documents.Flow.Model.TableCell currCell;
                     Run currRun;
 
                     Header defaultHeader = editor.Document.Sections.First().Headers.Default;

@@ -237,6 +237,14 @@
       <DependentUpon>InvoiceShow.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Printouts\PTSToAbroadSummaryDebtTable.aspx.cs">
+      <DependentUpon>PTSToAbroadSummaryDebtTable.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\PrintTemplates\PTSToAbroadSummaryDebtTable.aspx.cs">
+      <DependentUpon>PTSToAbroadSummaryDebtTable.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\PrintTemplates\PTStoAbroadOrders.aspx.cs">
       <DependentUpon>PTStoAbroadOrders.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -423,6 +431,8 @@
     <Content Include="Pages\Administrator\DistancesList.aspx" />
     <Content Include="Pages\Invoices\InvoiceEdit.aspx" />
     <Content Include="Pages\Invoices\InvoiceShow.aspx" />
+    <Content Include="Pages\Printouts\PTSToAbroadSummaryDebtTable.aspx" />
+    <Content Include="Pages\PrintTemplates\PTSToAbroadSummaryDebtTable.aspx" />
     <Content Include="Pages\PrintTemplates\PTStoAbroadOrders.aspx" />
     <Content Include="Pages\PrintTemplates\PTStoAbroadCharges.aspx" />
     <Content Include="Pages\PrintTemplates\InvoiceMail.aspx" />
@@ -511,6 +521,7 @@
     <Content Include="Images\Manual.docx" />
     <Content Include="Templates\PTStoAbroadCharges.docx" />
     <Content Include="Templates\PTStoAbroadOrders.docx" />
+    <Content Include="Templates\PTStoAbroadSumDebts.docx" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -563,7 +574,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
