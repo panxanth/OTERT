@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" Culture="el-GR" AutoEventWireup="true" CodeBehind="PTSToAbroadSummaryDebtTable.aspx.cs" Inherits="OTERT.Pages.Printouts.PTSToAbroadSummaryDebtTable" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" Culture="el-GR" AutoEventWireup="true" CodeBehind="PTSToAbroadExpectedInvoices.aspx.cs" Inherits="OTERT.Pages.Printouts.PTSToAbroadExpectedInvoices" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 
@@ -29,7 +29,7 @@
     <div>
         <table>
             <tr>
-                <td valign="middle">&nbsp;&nbsp;Ημ/νία Έκδοσης Τιμολογίου:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td valign="middle">&nbsp;&nbsp;Χρονική Περίοδος:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td><telerik:RadDatePicker RenderMode="Lightweight" ID="dpDateFrom" runat="server" DateInput-Label="Από: " Culture="el-GR" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td><telerik:RadDatePicker RenderMode="Lightweight" ID="dpDateTo" runat="server" DateInput-Label="Έως: " Culture="el-GR" /></td>
             </tr>

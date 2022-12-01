@@ -22,7 +22,7 @@ using System.Windows;
 
 namespace OTERT.Pages.Printouts {
 
-    public partial class PTSToAbroadSummaryDebtTable : Page {
+    public partial class PTSToAbroadExpectedInvoices : Page {
 
         protected RadDatePicker dpDateFrom, dpDateTo;
         protected RadAjaxManager RadAjaxManager1;
@@ -33,11 +33,11 @@ namespace OTERT.Pages.Printouts {
         protected UserB loggedUser;
         const string fileUploadFolder = "~/UploadedFiles/";
         const string templatesFolder = "~/Templates/";
-        const string pageUniqueName = "PTStoAbroadSumDebts";
+        const string pageUniqueName = "PTStoAbroadExpInvoices";
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
-                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Εκτυπωτικά > Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες";
+                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Εκτυπωτικά > Κατάσταση Αναμενώμενων Τιμολογίων από Ξένους Τηλεπ/κούς Οργανισμούς";
                 dpDateFrom.SelectedDate = DateTime.Today.AddMonths(-1).Date;
                 dpDateTo.SelectedDate = DateTime.Today.Date;
             }
@@ -222,7 +222,6 @@ namespace OTERT.Pages.Printouts {
                     Telerik.Windows.Documents.Flow.Model.Table tblContent = editor.InsertTable();
                     tblContent.StyleId = "TableStyle";
                     tblContent.LayoutType = TableLayoutType.AutoFit;
-                    tblContent.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 100);
                     ThemableColor cellBackground = new ThemableColor(System.Windows.Media.Colors.Beige);
                     List<int> orderIDsForCountryID = ordersForCountryID.Select(o => o.ID).ToList();
                     Telerik.Windows.Documents.Flow.Model.TableRow curRow = tblContent.Rows.AddTableRow();
@@ -232,28 +231,42 @@ namespace OTERT.Pages.Printouts {
                     currRun.Properties.FontSize.LocalValue = 12.0;
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
-                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 20);
+                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 14);
                     curCell = curRow.Cells.AddTableCell();
                     currRun = curCell.Blocks.AddParagraph().Inlines.AddRun("ΗΜΕΡ/ΝΙΑ ΕΚΔΟΣΗΣ");
                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                     currRun.Properties.FontSize.LocalValue = 12.0;
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
-                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 28);
+                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 14);
+                    curCell = curRow.Cells.AddTableCell();
+                    currRun = curCell.Blocks.AddParagraph().Inlines.AddRun("SDR");
+                    currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                    currRun.Properties.FontSize.LocalValue = 12.0;
+                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 14);
+                    curCell = curRow.Cells.AddTableCell();
+                    currRun = curCell.Blocks.AddParagraph().Inlines.AddRun("ΕΥΡΩ/SDR");
+                    currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                    currRun.Properties.FontSize.LocalValue = 12.0;
+                    currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                    currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 14);
                     curCell = curRow.Cells.AddTableCell();
                     currRun = curCell.Blocks.AddParagraph().Inlines.AddRun("ΕΥΡΩ");
                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                     currRun.Properties.FontSize.LocalValue = 12.0;
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
-                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 15);
+                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 14);
                     curCell = curRow.Cells.AddTableCell();
                     currRun = curCell.Blocks.AddParagraph().Inlines.AddRun("ΤΕΛΗ ΔΙΑΧ/ΣΗΣ");
                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                     currRun.Properties.FontSize.LocalValue = 12.0;
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
-                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 22);
+                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 15);
                     curCell = curRow.Cells.AddTableCell();
                     currRun = curCell.Blocks.AddParagraph().Inlines.AddRun("ΣΥΝΟΛΟ");
                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
@@ -288,34 +301,53 @@ namespace OTERT.Pages.Printouts {
                         currRun.Properties.FontSize.LocalValue = 12.0;
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                         currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                        curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 17);
                         curCell = curRow.Cells.AddTableCell();
                         currRun = curCell.Blocks.AddParagraph().Inlines.AddRun(PaymentDateOrder);
                         currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                         currRun.Properties.FontSize.LocalValue = 12.0;
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                         currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                        curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 17);
+                        curCell = curRow.Cells.AddTableCell();
+                        currRun = curCell.Blocks.AddParagraph().Inlines.AddRun(" - ");
+                        currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                        currRun.Properties.FontSize.LocalValue = 12.0;
+                        currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
+                        currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                        curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 17);
+                        curCell = curRow.Cells.AddTableCell();
+                        currRun = curCell.Blocks.AddParagraph().Inlines.AddRun(" - ");
+                        currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                        currRun.Properties.FontSize.LocalValue = 12.0;
+                        currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
+                        currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                        curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 17);
                         curCell = curRow.Cells.AddTableCell();
                         currRun = curCell.Blocks.AddParagraph().Inlines.AddRun(totalEuroCostPerOrder.ToString());
                         currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                         currRun.Properties.FontSize.LocalValue = 12.0;
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                         currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                        curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 17);
                         curCell = curRow.Cells.AddTableCell();
                         currRun = curCell.Blocks.AddParagraph().Inlines.AddRun(totalAdministrativeCostPerOrder.ToString());
                         currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                         currRun.Properties.FontSize.LocalValue = 12.0;
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                         currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                        curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 17);
                         curCell = curRow.Cells.AddTableCell();
                         currRun = curCell.Blocks.AddParagraph().Inlines.AddRun(totalCostPerOrder.ToString());
                         currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                         currRun.Properties.FontSize.LocalValue = 12.0;
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                         currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                        curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 17);
                     }
                     curRow = tblContent.Rows.AddTableRow();
                     curCell = curRow.Cells.AddTableCell();
-                    curCell.ColumnSpan = 2;
+                    curCell.ColumnSpan = 4;
                     string tim = "τιμολόγια";
                     if (orderIDsForCountryID.Count == 1) { tim= "τιμολόγιο"; }
                     currRun = curCell.Blocks.AddParagraph().Inlines.AddRun("Σύνολο για "+ toUpperGR(countryName) + " ("+ orderIDsForCountryID.Count.ToString() + " " + tim + ")");
@@ -323,24 +355,28 @@ namespace OTERT.Pages.Printouts {
                     currRun.Properties.FontSize.LocalValue = 12.0;
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 17);
                     curCell = curRow.Cells.AddTableCell();
                     currRun = curCell.Blocks.AddParagraph().Inlines.AddRun(totalEuroCostPerCountry.ToString());
                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                     currRun.Properties.FontSize.LocalValue = 12.0;
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 17);
                     curCell = curRow.Cells.AddTableCell();
                     currRun = curCell.Blocks.AddParagraph().Inlines.AddRun(totalAdministrativeCostPerCountry.ToString());
                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                     currRun.Properties.FontSize.LocalValue = 12.0;
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 17);
                     curCell = curRow.Cells.AddTableCell();
                     currRun = curCell.Blocks.AddParagraph().Inlines.AddRun(totalCostPerCountry.ToString());
                     currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                     currRun.Properties.FontSize.LocalValue = 12.0;
                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
                     currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                    curCell.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 17);
                     Telerik.Windows.Documents.Flow.Model.Table tblLine = editor.InsertTable();
                     tblLine.Borders = new TableBorders(null, new Border(Telerik.Windows.Documents.Flow.Model.Styles.BorderStyle.Thick), null, null);
                     tblLine.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 100);
@@ -353,6 +389,28 @@ namespace OTERT.Pages.Printouts {
                 tblContent2.LayoutType = TableLayoutType.AutoFit;
                 Telerik.Windows.Documents.Flow.Model.TableRow curRow2 = tblContent2.Rows.AddTableRow();
                 Telerik.Windows.Documents.Flow.Model.TableCell curCell2 = curRow2.Cells.AddTableCell();
+                currRun = curCell2.Blocks.AddParagraph().Inlines.AddRun("ΣΥΝΟΛΟ ΟΦΕΙΛΗΣ ΣΕ SDR");
+                currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                currRun.Properties.FontSize.LocalValue = 15.0;
+                currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                curCell2.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 45);
+                curCell2 = curRow2.Cells.AddTableCell();
+                currRun = curCell2.Blocks.AddParagraph().Inlines.AddRun(" - ");
+                currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                currRun.Properties.FontSize.LocalValue = 18.0;
+                currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                curCell2.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 25);
+                curCell2 = curRow2.Cells.AddTableCell();
+                currRun = curCell2.Blocks.AddParagraph().Inlines.AddRun(" ");
+                currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
+                currRun.Properties.FontSize.LocalValue = 14.0;
+                currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
+                currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
+                curCell2.PreferredWidth = new TableWidthUnit(TableWidthUnitType.Percent, 30);
+                curRow2 = tblContent2.Rows.AddTableRow();
+                curCell2 = curRow2.Cells.AddTableCell();
                 currRun = curCell2.Blocks.AddParagraph().Inlines.AddRun("ΣΥΝΟΛΟ ΟΦΕΙΛΗΣ ΣΕ ΕΥΡΩ");
                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                 currRun.Properties.FontSize.LocalValue = 15.0;
@@ -420,7 +478,7 @@ namespace OTERT.Pages.Printouts {
                 curDoc.UpdateFields();
                 exportDOCX(curDoc, dateSpan);
             }
-            catch (Exception) { }
+            catch (Exception ex) { }
         }
 
         protected RadFlowDocument LoadWordTemplate(string uniqueName) {

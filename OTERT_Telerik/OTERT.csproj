@@ -237,6 +237,14 @@
       <DependentUpon>InvoiceShow.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Printouts\PTSToAbroadExpectedInvoices.aspx.cs">
+      <DependentUpon>PTSToAbroadExpectedInvoices.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Printouts\PTSToAbroadChargesReport.aspx.cs">
+      <DependentUpon>PTSToAbroadChargesReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Printouts\PTSToAbroadSummaryDebtTable.aspx.cs">
       <DependentUpon>PTSToAbroadSummaryDebtTable.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -431,6 +439,8 @@
     <Content Include="Pages\Administrator\DistancesList.aspx" />
     <Content Include="Pages\Invoices\InvoiceEdit.aspx" />
     <Content Include="Pages\Invoices\InvoiceShow.aspx" />
+    <Content Include="Pages\Printouts\PTSToAbroadExpectedInvoices.aspx" />
+    <Content Include="Pages\Printouts\PTSToAbroadChargesReport.aspx" />
     <Content Include="Pages\Printouts\PTSToAbroadSummaryDebtTable.aspx" />
     <Content Include="Pages\PrintTemplates\PTSToAbroadSummaryDebtTable.aspx" />
     <Content Include="Pages\PrintTemplates\PTStoAbroadOrders.aspx" />
@@ -522,6 +532,8 @@
     <Content Include="Templates\PTStoAbroadCharges.docx" />
     <Content Include="Templates\PTStoAbroadOrders.docx" />
     <Content Include="Templates\PTStoAbroadSumDebts.docx" />
+    <Content Include="Templates\PTStoAbroadChargesReport.docx" />
+    <Content Include="Templates\PTStoAbroadExpInvoices.docx" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -574,7 +586,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
