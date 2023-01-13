@@ -165,8 +165,8 @@ namespace OTERT.Pages.Administrator {
                 if (placeID > 0) {
                     try {
                         selEvent.PlaceID = placeID;
-                        selEvent.NameGR = (string)values["NameGR"];
-                        selEvent.NameEN = (string)values["NameEN"];
+                        selEvent.NameGR = ((string)values["NameGR"]).Trim();
+                        selEvent.NameEN = ((string)values["NameEN"]).Trim();
                         dbContext.Events.Add(selEvent);
                         dbContext.SaveChanges();   
                     }

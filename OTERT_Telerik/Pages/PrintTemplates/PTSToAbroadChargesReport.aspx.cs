@@ -11,7 +11,7 @@ using OTERT_Entity;
 
 namespace OTERT.Pages.PrintTemplates {
 
-    public partial class PTSToAbroadSummaryDebtTable : Page {
+    public partial class PTSToAbroadChargesReport : Page {
 
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
@@ -20,12 +20,12 @@ namespace OTERT.Pages.PrintTemplates {
         protected string pageTitle, uploadedFilePath, textFromSession;
         protected UserB loggedUser;
         const string fileUploadFolder = "~/UploadedFiles/";
-        const string pageUniqueName = "PTStoAbroadSumDebts";
+        const string pageUniqueName = "PTStoAbroadChargesReport";
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
-                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Εκτυπώσεων > Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες";
-                gridMain.MasterTableView.Caption = "Διαχείριση Εκτυπώσεων > Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες";
+                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Εκτυπώσεων > Αναφορά Χρεώσεων";
+                gridMain.MasterTableView.Caption = "Διαχείριση Εκτυπώσεων > Αναφορά Χρεώσεων";
                 textFromSession = "";
                 Session.Remove("textFromSession");
             }

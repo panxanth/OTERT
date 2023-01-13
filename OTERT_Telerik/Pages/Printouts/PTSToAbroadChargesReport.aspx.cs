@@ -49,6 +49,7 @@ namespace OTERT.Pages.Printouts {
                 DateTime DateFrom = (dpDateFrom.SelectedDate != null ? (DateTime)dpDateFrom.SelectedDate : DateTime.Now);
                 DateTime DateTo = (dpDateTo.SelectedDate != null ? (DateTime)dpDateTo.SelectedDate : DateTime.Now);
                 string dateSpan = getDatesSpan(DateFrom, DateTo);
+
                 // Prepare Document
                 DocumentReplacemetsController cont = new DocumentReplacemetsController();
                 List<DocumentReplacemetB> reps = new List<DocumentReplacemetB>();
@@ -72,8 +73,8 @@ namespace OTERT.Pages.Printouts {
                 tableStyle.TableCellProperties.PreferredWidth.LocalValue = new TableWidthUnit(TableWidthUnitType.Percent, 100);
                 tableStyle.TableCellProperties.Padding.LocalValue = new Telerik.Windows.Documents.Primitives.Padding(8);
                 editor.Document.StyleRepository.Add(tableStyle);
+                
                 // Document Replacements
-      
                 curRep = reps.Find(o => o.UniqueName == "PTStoAbroadChargesReport_Header_Date");
                 currCell = (Telerik.Windows.Documents.Flow.Model.TableCell)docBookmarks.Where(o => o.Bookmark.Name == curRep.BookmarkTitle).FirstOrDefault().Paragraph.BlockContainer;
                 currPar = (Paragraph)currCell.Blocks.First();

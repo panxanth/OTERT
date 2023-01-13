@@ -79,13 +79,14 @@
                 <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/PTStoAbroad.aspx" title="">ΠΤΣ προς Εξωτερικό</a></li>
             </ul>
         </li>
-        <!-- ********** Μενού "Πελάτες" ********** -->
+        <!-- ********** Μενού "Λίστες" ********** -->
         <li>
             <div class="buttonbg gradient_button gradient33" style="width: 80px;">
                 <div class="arrow"><a class="button_2">Λίστες</a></div>
             </div>
             <ul class="gradient_menu gradient99">
                 <li class="gradient_menuitem gradient27"><a href="/Pages/Users/TasksList.aspx" title="">Έργα</a></li>
+                <li class="gradient_menuitem gradient27"><a href="/Pages/Users/PTStoAbroadList.aspx" title="">ΠΤΣ προς Εξωτερικό</a></li>
                 <li class="gradient_menuitem gradient27"><a href="/Pages/Users/FilesList.aspx" title="">Αρχεία</a></li>
                 <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Users/CustomersList.aspx" title="">Πελάτες</a></li>
             </ul>
@@ -182,7 +183,9 @@
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/InvoiceMail.aspx">Τιμολόγιο (Email)</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoAbroadCharges.aspx">ΠΤΣ προς Εξωτερικό - Χρεωπιστωτικό</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoAbroadOrders.aspx">ΠΤΣ προς Εξωτερικό - Παραγγελίες</a></li>
-                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/PrintTemplates/PTSToAbroadSummaryDebtTable.aspx">ΠΤΣ προς Εξωτερικό - Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTSToAbroadSummaryDebtTable.aspx">ΠΤΣ προς Εξωτερικό - Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTSToAbroadChargesReport.aspx">ΠΤΣ προς Εξωτερικό - Αναφορά Χρεώσεων</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/PrintTemplates/PTSToAbroadExpectedInvoices.aspx">ΠΤΣ προς Εξωτερικό - Κατάσταση Αναμενώμενων Τιμολογίων από Ξένους Τηλεπ/κούς Οργανισμούς</a></li>
                     </ul>
                 </li>
             </ul>

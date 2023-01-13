@@ -249,6 +249,14 @@
       <DependentUpon>PTSToAbroadSummaryDebtTable.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\PrintTemplates\PTSToAbroadExpectedInvoices.aspx.cs">
+      <DependentUpon>PTSToAbroadExpectedInvoices.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\PrintTemplates\PTSToAbroadChargesReport.aspx.cs">
+      <DependentUpon>PTSToAbroadChargesReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\PrintTemplates\PTSToAbroadSummaryDebtTable.aspx.cs">
       <DependentUpon>PTSToAbroadSummaryDebtTable.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -323,6 +331,10 @@
     </Compile>
     <Compile Include="Pages\Users\LongDistanceTwoPoints.aspx.cs">
       <DependentUpon>LongDistanceTwoPoints.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Users\PTStoAbroadList.aspx.cs">
+      <DependentUpon>PTStoAbroadList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Users\UrbanOnePoint.aspx.cs">
@@ -442,6 +454,8 @@
     <Content Include="Pages\Printouts\PTSToAbroadExpectedInvoices.aspx" />
     <Content Include="Pages\Printouts\PTSToAbroadChargesReport.aspx" />
     <Content Include="Pages\Printouts\PTSToAbroadSummaryDebtTable.aspx" />
+    <Content Include="Pages\PrintTemplates\PTSToAbroadExpectedInvoices.aspx" />
+    <Content Include="Pages\PrintTemplates\PTSToAbroadChargesReport.aspx" />
     <Content Include="Pages\PrintTemplates\PTSToAbroadSummaryDebtTable.aspx" />
     <Content Include="Pages\PrintTemplates\PTStoAbroadOrders.aspx" />
     <Content Include="Pages\PrintTemplates\PTStoAbroadCharges.aspx" />
@@ -460,6 +474,7 @@
     <Content Include="Pages\Users\PTStoAbroad.aspx" />
     <Content Include="Pages\Users\PTStoGR.aspx" />
     <Content Include="Pages\Users\LongDistanceTwoPoints.aspx" />
+    <Content Include="Pages\Users\PTStoAbroadList.aspx" />
     <Content Include="Pages\Users\UrbanOnePoint.aspx" />
     <Content Include="Pages\Users\TasksList.aspx" />
     <Content Include="Pages\Users\UrbanTwoPoints.aspx" />

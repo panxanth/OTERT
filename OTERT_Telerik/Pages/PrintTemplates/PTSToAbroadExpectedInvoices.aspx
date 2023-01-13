@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="PTSToAbroadSummaryDebtTable.aspx.cs" Inherits="OTERT.Pages.PrintTemplates.PTSToAbroadSummaryDebtTable" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="PTSToAbroadExpectedInvoices.aspx.cs" Inherits="OTERT.Pages.PrintTemplates.PTSToAbroadExpectedInvoices" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 
