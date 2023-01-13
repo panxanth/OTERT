@@ -56,7 +56,7 @@ namespace OTERT.Pages.Printouts {
                 reps = cont.GetDocumentReplacemets(pageUniqueName);
                 string imgFolderPath = Server.MapPath(fileUploadFolder);
                 DocumentReplacemetB curRep;
-                BookmarkRangeStart bookmarkRangeStart;
+                //BookmarkRangeStart bookmarkRangeStart;
                 RadFlowDocument curDoc = LoadWordTemplate(pageUniqueName);
                 RadFlowDocumentEditor editor = new RadFlowDocumentEditor(curDoc);
                 List<BookmarkRangeStart> docBookmarks = editor.Document.EnumerateChildrenOfType<BookmarkRangeStart>().ToList();
@@ -392,7 +392,7 @@ namespace OTERT.Pages.Printouts {
                 curDoc.UpdateFields();
                 exportDOCX(curDoc, dateSpan);
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
 
         protected RadFlowDocument LoadWordTemplate(string uniqueName) {

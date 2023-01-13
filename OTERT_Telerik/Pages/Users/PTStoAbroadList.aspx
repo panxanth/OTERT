@@ -54,7 +54,7 @@
             OnItemDataBound="gridMain_ItemDataBound" 
             OnDetailTableDataBind="gridMain_DetailTableDataBind" 
             OnPreRender="gridMain_PreRender">
-            <MasterTableView DataKeyNames="ID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" AllowFilteringByColumn="True" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές" Name="Master">
+            <MasterTableView DataKeyNames="ID,OrderID" CommandItemDisplay="Top" InsertItemPageIndexAction="ShowItemOnCurrentPage" AllowFilteringByColumn="True" NoMasterRecordsText="Δεν υπάρχουν ακόμη εγγραφές" Name="Master">
                 <CommandItemSettings ExportToExcelText="Εξαγωγή Αρχείου Excel" ShowAddNewRecordButton="false" RefreshText="Ανανέωση" />
                 <PagerStyle PageSizeLabelText=" Εγγραφές ανά σελίδα:" PagerTextFormat=" {4} <strong>{5}</strong> εγγραφές σε <strong>{1}</strong> σελίδες " AlwaysVisible="true" />
                 <DetailTables>

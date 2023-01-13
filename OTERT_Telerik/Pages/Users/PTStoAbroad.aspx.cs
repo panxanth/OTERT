@@ -69,16 +69,46 @@ namespace OTERT.Pages.Administrator {
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
+
+            //int recSkip = gridMain.MasterTableView.CurrentPageIndex * gridMain.MasterTableView.PageSize;
+            //int recTake = gridMain.MasterTableView.PageSize;
+            //string recFilter = gridMain.MasterTableView.FilterExpression;
+            //GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
+            //try {
+            //    OrdersController cont = new OrdersController();
+            //    gridMain.VirtualItemCount = cont.CountOrders(OrderTypeID);
+            //    gridMain.DataSource = cont.GetOrders(OrderTypeID, recSkip, recTake, recFilter, gridSortExxpressions);
+            //}
+            //catch (Exception) { }
+
+            int oredrID = -1;
+            if (Request.QueryString["ID"] != null && Request.QueryString["ID"] != string.Empty) {
+                int.TryParse(Request.QueryString["ID"], out oredrID);
+            }
             int recSkip = gridMain.MasterTableView.CurrentPageIndex * gridMain.MasterTableView.PageSize;
             int recTake = gridMain.MasterTableView.PageSize;
             string recFilter = gridMain.MasterTableView.FilterExpression;
             GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
-            try {
-                OrdersController cont = new OrdersController();
-                gridMain.VirtualItemCount = cont.CountOrders(OrderTypeID);
-                gridMain.DataSource = cont.GetOrders(OrderTypeID, recSkip, recTake, recFilter, gridSortExxpressions);
+            if (oredrID < 0) {
+                try {
+                    OrdersController cont = new OrdersController();
+                    gridMain.VirtualItemCount = cont.CountOrders(OrderTypeID);
+                    gridMain.DataSource = cont.GetOrders(OrderTypeID, recSkip, recTake, recFilter, gridSortExxpressions);
+                }
+                catch (Exception) { }
+            } else {
+                try {
+                    OrdersController cont = new OrdersController();
+                    gridMain.VirtualItemCount = 1;
+                    List<OrderB> ds = new List<OrderB>();
+                    OrderB singleOrder = cont.GetOrder(oredrID);
+                    if (singleOrder != null) { ds.Add(singleOrder); }
+                    gridMain.DataSource = ds;
+                }
+                catch (Exception) { }
             }
-            catch (Exception) { }
+
+
         }
 
         protected void gridMain_ItemCreated(object sender, GridItemEventArgs e) {
