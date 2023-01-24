@@ -83,6 +83,10 @@
         <AssociationConnector Association="OTERT_Model.FK_JobCancelPrices_Jobs" />
         <EntityTypeShape EntityType="OTERT_Model.PTSGRPricelist" Width="1.5" PointX="15.375" PointY="16.75" />
         <EntityTypeShape EntityType="OTERT_Model.EventLogs" Width="1.5" PointX="7.375" PointY="15.75" />
+        <EntityTypeShape EntityType="OTERT_Model.UserPasswords" Width="1.5" PointX="3" PointY="23.125" />
+        <AssociationConnector Association="OTERT_Model.fk_UserPasswords_Users" />
+        <EntityTypeShape EntityType="OTERT_Model.UserPasswordReset" Width="1.5" PointX="3" PointY="26.375" />
+        <AssociationConnector Association="OTERT_Model.FK_UserPasswordReset_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

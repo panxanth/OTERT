@@ -162,6 +162,12 @@
     <Compile Include="UserGroups.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserPasswordReset.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserPasswords.cs">
+      <DependentUpon>OTERT_DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Users.cs">
       <DependentUpon>OTERT_DataModel.tt</DependentUpon>
     </Compile>

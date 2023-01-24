@@ -288,7 +288,26 @@ namespace OTERT.Model {
         public string Email { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string PasswordSalt { get; set; }
+        public bool PasswordReset { get; set; }
+        public bool PasswordIsHashed { get; set; }
+        public int PasswordWrongTimes { get; set; }
+        public DateTime PasswordLockedDatetime { get; set; }
         public UserGroupDTO UserGroup { get; set; }
+    }
+
+    public class UserPasswordsB {
+        public int ID { get; set; }
+        public int UserID { get; set; }
+        public string Password { get; set; }
+        public DateTime PasswordDate { get; set; }
+    }
+
+    public class UserPasswordResetB {
+        public int ID { get; set; }
+        public int UserID { get; set; }
+        public string GUID { get; set; }
+        public DateTime RequestDate { get; set; }
     }
 
     public class UserGroupB {

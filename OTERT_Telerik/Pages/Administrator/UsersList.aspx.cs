@@ -122,6 +122,10 @@ namespace OTERT.Pages.Administrator {
                 if (Session["UserGroupID"] != null) { newID = int.Parse(Session["UserGroupID"].ToString()); }
                 if (newID > 0) {
                     try {
+                        string plainPassword = "EnterOTE-RT123!";
+                        string salt = Utilities.GetRandomSalt(10);
+                        //string hashedSalt = Utilities.ComputeHash(salt);
+                        string hashedPassword = Utilities.ComputeHash(plainPassword, salt);
                         user.UserGroupID = newID;
                         user.NameGR = (string)values["NameGR"];
                         user.NameEN = (string)values["NameEN"];
@@ -129,7 +133,12 @@ namespace OTERT.Pages.Administrator {
                         user.FAX = (string)values["FAX"];
                         user.Email = (string)values["Email"];
                         user.UserName = (string)values["UserName"];
-                        user.Password = (string)values["Password"];
+                        user.Password = hashedPassword;
+                        user.PasswordSalt = salt;
+                        user.PasswordReset = true;
+                        user.PasswordWrongTimes = 0;
+                        user.PasswordLockedDatetime = new DateTime(1900, 1, 1);
+                        user.PasswordIsHashed = true;
                         dbContext.Users.Add(user);
                         dbContext.SaveChanges();
                     }

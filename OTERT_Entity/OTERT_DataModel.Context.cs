@@ -60,5 +60,7 @@ namespace OTERT_Entity
         public virtual DbSet<JobCancelPrices> JobCancelPrices { get; set; }
         public virtual DbSet<PTSGRPricelist> PTSGRPricelist { get; set; }
         public virtual DbSet<EventLogs> EventLogs { get; set; }
+        public virtual DbSet<UserPasswords> UserPasswords { get; set; }
+        public virtual DbSet<UserPasswordReset> UserPasswordReset { get; set; }
     }
 }

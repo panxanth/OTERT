@@ -10,6 +10,7 @@ using Telerik.Windows.Documents.Spreadsheet.FormatProviders;
 using Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.Xlsx;
 using Telerik.Windows.Documents.Spreadsheet.Model;
 using System.IO;
+using Telerik.Windows.Documents.Spreadsheet.Utilities;
 
 namespace OTERT.Pages.UserPages {
 
@@ -260,10 +261,13 @@ namespace OTERT.Pages.UserPages {
 
 
 
+            
+            //worksheet.Cells[currentRow, 0].SetValue("=SUM(K2:K4)");
+            //worksheet.Cells[currentRow, 0].SetFontSize(fontSize);
+            //worksheet.Cells[currentRow, 0].SetBorders(borders);
+
+
             //worksheet.Cells[currentRow, 0].SetValue("=SUBTOTAL(109,K2:K4)");
-            worksheet.Cells[currentRow, 0].SetValue("=SUM(K2:K4)");
-            worksheet.Cells[currentRow, 0].SetFontSize(fontSize);
-            worksheet.Cells[currentRow, 0].SetBorders(borders);
             //worksheet.GroupingProperties.SummaryRowIsBelow = true;
             //bool test = worksheet.Rows[1, 5].Group();
 
@@ -271,7 +275,8 @@ namespace OTERT.Pages.UserPages {
 
             for (int i = 0; i < worksheet.Columns.Count; i++) { worksheet.Columns[i].AutoFitWidth(); }
             for (int i = 0; i < worksheet.Columns.Count; i++) {
-                if (i==18 || i==19) { worksheet.Columns[i].SetWidth(new ColumnWidth(300, true)); }
+                if (i==1) { worksheet.Columns[i].SetWidth(new ColumnWidth(70, true)); }
+                if (i == 6 || i == 9 || i == 11 || i == 12) { worksheet.Columns[i].SetWidth(new ColumnWidth(100, true)); }
                 ColumnSelection columnSelection = worksheet.Columns[i];
                 ColumnWidth columnWidth = columnSelection.GetWidth().Value;
                 double curColWidth = columnWidth.Value + 10;
@@ -350,10 +355,11 @@ namespace OTERT.Pages.UserPages {
             worksheet.Cells[0, 8].SetIsBold(true);
             worksheet.Cells[0, 8].SetFill(pfOrange);
             worksheet.Cells[0, 8].SetBorders(borders);
-            worksheet.Cells[0, 9].SetValue("Ημ/νία Υλοποίησης (Έναρξη)");
+            worksheet.Cells[0, 9].SetValue("Ημ/νία Υλοποίησης\n(Έναρξη)");
             worksheet.Cells[0, 9].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 9].SetFontSize(fontSize);
             worksheet.Cells[0, 9].SetIsBold(true);
+            worksheet.Cells[0, 9].SetIsWrapped(true);
             worksheet.Cells[0, 9].SetFill(pfOrange);
             worksheet.Cells[0, 9].SetBorders(borders);
             worksheet.Cells[0, 10].SetValue("Ποσό Είσπραξης (€)");

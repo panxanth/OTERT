@@ -42,8 +42,41 @@ namespace OTERT.Controller {
                                             Email = us.Email,
                                             UserName = us.UserName,
                                             Password = us.Password,
-                                            UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name }
+                                            PasswordSalt = us.PasswordSalt,
+                                            PasswordReset = us.PasswordReset == null ? false : us.PasswordReset.Value,
+                                            PasswordWrongTimes = us.PasswordWrongTimes == null ? -1 : us.PasswordWrongTimes.Value,
+                                            PasswordLockedDatetime = us.PasswordLockedDatetime == null ? new DateTime(1900,1,1) : us.PasswordLockedDatetime.Value,
+                                            UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name },
+                                            PasswordIsHashed = us.PasswordIsHashed == null ? false : us.PasswordIsHashed.Value,
                                         }).OrderBy(o => o.NameGR).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
+        public List<UserB> GetUsers(string username) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<UserB> data = (from us in dbContext.Users
+                                        select new UserB {
+                                            ID = us.ID,
+                                            UserGroupID = us.UserGroupID,
+                                            NameGR = us.NameGR,
+                                            NameEN = us.NameEN,
+                                            Telephone = us.Telephone,
+                                            FAX = us.FAX,
+                                            Email = us.Email,
+                                            UserName = us.UserName,
+                                            Password = us.Password,
+                                            PasswordSalt = us.PasswordSalt,
+                                            PasswordReset = us.PasswordReset == null ? false : us.PasswordReset.Value,
+                                            PasswordWrongTimes = us.PasswordWrongTimes == null ? -1 : us.PasswordWrongTimes.Value,
+                                            PasswordLockedDatetime = us.PasswordLockedDatetime == null ? new DateTime(1900, 1, 1) : us.PasswordLockedDatetime.Value,
+                                            UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name },
+                                            PasswordIsHashed = us.PasswordIsHashed == null ? false : us.PasswordIsHashed.Value,
+                                        }).Where(k => k.UserName == username).OrderBy(o => o.NameGR).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -65,7 +98,12 @@ namespace OTERT.Controller {
                                                     Email = us.Email,
                                                     UserName = us.UserName,
                                                     Password = us.Password,
-                                                    UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name }
+                                                    PasswordSalt = us.PasswordSalt,
+                                                    PasswordReset = us.PasswordReset == null ? false : us.PasswordReset.Value,
+                                                    PasswordWrongTimes = us.PasswordWrongTimes == null ? 0 : us.PasswordWrongTimes.Value,
+                                                    PasswordLockedDatetime = us.PasswordLockedDatetime == null ? new DateTime(1900, 1, 1) : us.PasswordLockedDatetime.Value,
+                                                    UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name },
+                                                    PasswordIsHashed = us.PasswordIsHashed == null ? false : us.PasswordIsHashed.Value,
                                                 });
                     if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
                     if (gridSortExxpressions.Count > 0) {
@@ -74,6 +112,35 @@ namespace OTERT.Controller {
                         datatmp = datatmp.OrderByDescending(o => o.ID);
                     }
                     List<UserB> data = datatmp.Skip(recSkip).Take(recTake).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
+        public UserB GetUser(int ID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    UserB data = (from us in dbContext.Users
+                                    select new UserB
+                                    {
+                                        ID = us.ID,
+                                        UserGroupID = us.UserGroupID,
+                                        NameGR = us.NameGR,
+                                        NameEN = us.NameEN,
+                                        Telephone = us.Telephone,
+                                        FAX = us.FAX,
+                                        Email = us.Email,
+                                        UserName = us.UserName,
+                                        Password = us.Password,
+                                        PasswordSalt = us.PasswordSalt,
+                                        PasswordReset = us.PasswordReset == null ? false : us.PasswordReset.Value,
+                                        PasswordWrongTimes = us.PasswordWrongTimes == null ? -1 : us.PasswordWrongTimes.Value,
+                                        PasswordLockedDatetime = us.PasswordLockedDatetime == null ? new DateTime(1900, 1, 1) : us.PasswordLockedDatetime.Value,
+                                        UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name },
+                                        PasswordIsHashed = us.PasswordIsHashed == null ? false : us.PasswordIsHashed.Value,
+                                    }).Where(k => k.ID == ID).FirstOrDefault();
                     return data;
                 }
                 catch (Exception) { return null; }

@@ -1,0 +1,33 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="InsideNoUser.Master.cs" Inherits="OTERT.Masters.InsideNoUser" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head runat="server">
+    <title><asp:ContentPlaceHolder ID="PHTitle" runat="server" /></title>
+    <telerik:RadStyleSheetManager id="RadStyleSheetManager1" runat="server" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="../Scripts/tooltip-classic.css" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/Site.css" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/mbcsmbmcp.css" />
+    <style type="text/css">
+        #MTVCaption {font-weight: bold;}
+        .rgCaption { font-weight:bold ! important; } 
+    </style>
+    <asp:ContentPlaceHolder ID="PHHead" runat="server" />
+</head>
+<body>
+    <header>
+        <img alt="" src="/images/ote_header.png" width="700" height="104" />
+    </header>
+    <article>
+    <form id="form1" runat="server">
+        <asp:ContentPlaceHolder ID="PHContent" runat="server" />
+    </form>
+    </article>
+    <footer>
+        &nbsp;&nbsp;Copyright &copy; 2020 OTE A.E.
+    </footer>
+</body>
+</html>

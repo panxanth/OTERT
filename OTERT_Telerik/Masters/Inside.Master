@@ -97,10 +97,12 @@
                 <div class="arrow"><a class="button_2">Εκτυπωτικά</a></div>
             </div>
             <ul class="gradient_menu gradient99">
-                <li class="gradient_menuitem gradient27"><a href="/Pages/Printouts/PTSToAbroadSummaryDebtTable.aspx" title="">ΠΤΣ προς Εξωτερικό - Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες</a></li>
+                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Printouts/PTSToAbroadSummaryDebtTable.aspx" title="">ΠΤΣ προς Εξωτερικό - Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες</a></li>
+                <!-- 
                 <li class="gradient_menuitem gradient27"><a href="/Pages/Printouts/PTSToAbroadChargesReport.aspx" title="">ΠΤΣ προς Εξωτερικό - Αναφορά Χρεώσεων</a></li>
                 <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Printouts/PTSToAbroadExpectedInvoices.aspx" title="">ΠΤΣ προς Εξωτερικό - Κατάσταση Αναμενώμενων Τιμολογίων από Ξένους Τηλεπ/κούς Οργανισμούς</a></li>
-                <!-- <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/PrintTemplates/PrintMailPTSToAbroad.aspx" title="">Επιστολή ΠΤΣ προς Εξωτερικό</a></li> -->
+                <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/PrintTemplates/PrintMailPTSToAbroad.aspx" title="">Επιστολή ΠΤΣ προς Εξωτερικό</a></li>
+                -->
             </ul>
         </li>
         <!-- ********** Μενού "Τιμολόγια" ********** -->

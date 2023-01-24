@@ -68,27 +68,22 @@ namespace OTERT.WebServices {
             Login login = (Login)Newtonsoft.Json.JsonConvert.DeserializeObject(strLogin, typeof(Login));
             using (var dbContext = new OTERTConnStr()) {
                 try {
-                    var query = dbContext.Users
-                                .Where("UserName == @0 and Password == @1", login.Username, login.Password);
-                    UserB loggedUser = query.Select(us => new UserB {
-                        ID = us.ID,
-                        NameGR = us.NameGR,
-                        NameEN = us.NameEN,
-                        Telephone = us.Telephone,
-                        FAX = us.FAX,
-                        Email = us.Email,
-                        UserName = us.UserName,
-                        Password = us.Password,
-                        UserGroup = new UserGroupDTO { ID = us.UserGroups.ID, Name = us.UserGroups.Name },
-                        UserGroupID = us.UserGroupID
-                    }).FirstOrDefault();
+                    UserB loggedUser = Utilities.CheckCredentials(login.Username, login.Password);
                     object responseObj;
                     if (loggedUser != null) {
-                        Session["LoggedUser"] = loggedUser;
-                        if (loggedUser.UserGroup.Name == "Helper") {
-                            responseObj = new { result = "OK_Helper" };
+                        if (loggedUser.PasswordLockedDatetime.AddMinutes(15) < DateTime.Now) {
+                            Session["LoggedUser"] = loggedUser;
+                            if (loggedUser.PasswordReset == true || loggedUser.PasswordIsHashed == false) {
+                                responseObj = new { result = "OK_ChangePasswd" };
+                            } else {
+                                if (loggedUser.UserGroup.Name == "Helper") {
+                                    responseObj = new { result = "OK_Helper" };
+                                } else {
+                                    responseObj = new { result = "OK" };
+                                }
+                            }
                         } else {
-                            responseObj = new { result = "OK" };
+                            responseObj = new { result = "Locked" };
                         }
                     } else {
                         responseObj = new { result = "Unknown" };

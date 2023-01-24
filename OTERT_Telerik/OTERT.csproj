@@ -147,10 +147,20 @@
     <Compile Include="Controller\PlacesController.cs" />
     <Compile Include="Controller\JobsMainController.cs" />
     <Compile Include="Controller\PTSGRPricelistController.cs" />
+    <Compile Include="Controller\UserPasswordResetController.cs" />
+    <Compile Include="Controller\UserPasswordsController.cs" />
     <Compile Include="Controller\UsersController.cs" />
     <Compile Include="Controller\UserGroupsController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Masters\InsideNoUser.Master.cs">
+      <DependentUpon>InsideNoUser.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Masters\InsideNoMenu.Master.cs">
+      <DependentUpon>InsideNoMenu.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Masters\Inside.Master.cs">
@@ -235,6 +245,30 @@
     </Compile>
     <Compile Include="Pages\Invoices\InvoiceShow.aspx.cs">
       <DependentUpon>InvoiceShow.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Password\EmailChangePassword.aspx.cs">
+      <DependentUpon>EmailChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Password\ChangePasswordOK.aspx.cs">
+      <DependentUpon>ChangePasswordOK.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Password\EmailChangePasswordOK.aspx.cs">
+      <DependentUpon>EmailChangePasswordOK.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Password\ForgotPasswordOK.aspx.cs">
+      <DependentUpon>ForgotPasswordOK.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Password\ForgotPassword.aspx.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Password\ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Printouts\PTSToAbroadExpectedInvoices.aspx.cs">
@@ -382,10 +416,6 @@
       <DependentUpon>OTERTWS.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WebServices\test.asmx.cs">
-      <DependentUpon>test.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\RadCaptcha\0.wav" />
@@ -451,6 +481,12 @@
     <Content Include="Pages\Administrator\DistancesList.aspx" />
     <Content Include="Pages\Invoices\InvoiceEdit.aspx" />
     <Content Include="Pages\Invoices\InvoiceShow.aspx" />
+    <Content Include="Pages\Password\EmailChangePassword.aspx" />
+    <Content Include="Pages\Password\ChangePasswordOK.aspx" />
+    <Content Include="Pages\Password\EmailChangePasswordOK.aspx" />
+    <Content Include="Pages\Password\ForgotPasswordOK.aspx" />
+    <Content Include="Pages\Password\ForgotPassword.aspx" />
+    <Content Include="Pages\Password\ChangePassword.aspx" />
     <Content Include="Pages\Printouts\PTSToAbroadExpectedInvoices.aspx" />
     <Content Include="Pages\Printouts\PTSToAbroadChargesReport.aspx" />
     <Content Include="Pages\Printouts\PTSToAbroadSummaryDebtTable.aspx" />
@@ -493,7 +529,6 @@
     <Content Include="UploadedFiles\2019-31-3--21-29-55_OTE_2.png" />
     <Content Include="UploadedFiles\2019-31-3--21-30-22_ELOT.png" />
     <Content Include="WebServices\OTERTWS.asmx" />
-    <Content Include="WebServices\test.asmx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\RadSpell\de-DE.tdf" />
@@ -549,6 +584,8 @@
     <Content Include="Templates\PTStoAbroadSumDebts.docx" />
     <Content Include="Templates\PTStoAbroadChargesReport.docx" />
     <Content Include="Templates\PTStoAbroadExpInvoices.docx" />
+    <Content Include="Masters\InsideNoMenu.Master" />
+    <Content Include="Masters\InsideNoUser.Master" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" Culture="el-GR" AutoEventWireup="true" CodeBehind="InvoiceEdit.aspx.cs" Inherits="OTERT.Pages.Invoices.InvoiceEdit" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/InsideNoMenu.Master" Culture="el-GR" AutoEventWireup="true" CodeBehind="InvoiceEdit.aspx.cs" Inherits="OTERT.Pages.Invoices.InvoiceEdit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 

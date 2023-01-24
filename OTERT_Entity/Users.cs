@@ -18,6 +18,8 @@ namespace OTERT_Entity
         public Users()
         {
             this.Customers = new HashSet<Customers>();
+            this.UserPasswords = new HashSet<UserPasswords>();
+            this.UserPasswordReset = new HashSet<UserPasswordReset>();
         }
     
         public int ID { get; set; }
@@ -29,9 +31,18 @@ namespace OTERT_Entity
         public string Email { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string PasswordSalt { get; set; }
+        public Nullable<bool> PasswordReset { get; set; }
+        public Nullable<int> PasswordWrongTimes { get; set; }
+        public Nullable<System.DateTime> PasswordLockedDatetime { get; set; }
+        public Nullable<bool> PasswordIsHashed { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customers> Customers { get; set; }
         public virtual UserGroups UserGroups { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserPasswords> UserPasswords { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserPasswordReset> UserPasswordReset { get; set; }
     }
 }

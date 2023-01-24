@@ -1,11 +1,17 @@
-﻿using System;
-using System.ComponentModel;
+﻿using OTERT.Controller;
+using OTERT.Model;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Data;
-using System.Web;
-using Telerik.Windows.Documents.Flow.Model;
 using System.Globalization;
+using System.Linq;
+using System.Net.Mail;
+using System.Net;
+using System.Security.Cryptography;
+using System.Text;
+using System.Configuration;
+using Telerik.Web.UI.Chat;
+using OTERT_Entity;
+using System.Data.Entity;
 
 public class Utilities {
 
@@ -291,6 +297,152 @@ public class Utilities {
         }
         catch (Exception) { }
         return string2return;
+    }
+
+    public static string ComputeHash(string input) {
+        HashAlgorithm sha = SHA256.Create();
+        byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+        byte[] hashedBytes = sha.ComputeHash(inputBytes);
+        return BitConverter.ToString(hashedBytes);
+    }
+
+    public static string ComputeHash(string input, string salt) {
+        if (string.IsNullOrEmpty(salt)) { salt = string.Empty; }
+        HashAlgorithm sha = SHA256.Create();
+        byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+        byte[] saltBytes = Encoding.UTF8.GetBytes(salt);
+        // Combine salt and input bytes
+        byte[] saltedInput = new byte[salt.Length + inputBytes.Length];
+        saltBytes.CopyTo(saltedInput, 0);
+        inputBytes.CopyTo(saltedInput, saltBytes.Length);
+        byte[] hashedBytes = sha.ComputeHash(saltedInput);
+        return BitConverter.ToString(hashedBytes);
+    }
+
+    public static string GetRandomSalt(int length) {
+        const string alphanumericCharacters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+            "abcdefghijklmnopqrstuvwxyz" +
+            "0123456789" +
+            "#?!@$%^&*-";
+        return GetRandomString(length, alphanumericCharacters);
+    }
+
+    private static string GetRandomString(int length, IEnumerable<char> characterSet) {
+        var characterArray = characterSet.Distinct().ToArray();
+        var bytes = new byte[length * 8];
+        new RNGCryptoServiceProvider().GetBytes(bytes);
+        var result = new char[length];
+        for (int i = 0; i < length; i++) {
+            ulong value = BitConverter.ToUInt64(bytes, i * 8);
+            result[i] = characterArray[value % (uint)characterArray.Length];
+        }
+        return new string(result);
+    }
+
+    public static UserB CheckCredentials(string username, string password) {
+        try {
+            UsersController uc = new UsersController();
+            List<UserB> users = uc.GetUsers(username);
+            if (users.Count > 0) {
+                foreach (UserB curUser in users) {
+                    if (password == "EnterOTE-RT123!") { curUser.PasswordReset = true; }
+                    if (curUser.PasswordIsHashed == true) {
+                        string hashedPassword = ComputeHash(password, curUser.PasswordSalt);
+                        if (hashedPassword == curUser.Password) {
+                            using (var dbContext = new OTERTConnStr()) {
+                                Users user = dbContext.Users.Where(n => n.ID == curUser.ID).FirstOrDefault();
+                                if (user != null) {
+                                    if (user.PasswordLockedDatetime.Value.AddMinutes(15) < DateTime.Now) {
+                                        user.PasswordWrongTimes = 0;
+                                        user.PasswordLockedDatetime = new DateTime(1900, 1, 1);
+                                        dbContext.SaveChanges();
+                                    }
+                                }
+                            }
+                            return curUser; 
+                        } else {
+                            using (var dbContext = new OTERTConnStr()) {
+                                Users user = dbContext.Users.Where(n => n.ID == curUser.ID).FirstOrDefault();
+                                if (user != null) {
+                                    if (user.PasswordWrongTimes == null) { user.PasswordWrongTimes = 0; }
+                                    user.PasswordWrongTimes += 1;
+                                    if (user.PasswordWrongTimes > 5) {
+                                        user.PasswordWrongTimes = 0;
+                                        user.PasswordLockedDatetime = DateTime.Now;
+                                    }
+                                    dbContext.SaveChanges();
+                                }
+                            }
+                        }
+                    } else {
+                        if (password == curUser.Password) {
+                            using (var dbContext = new OTERTConnStr()) {
+                                Users user = dbContext.Users.Where(n => n.ID == curUser.ID).FirstOrDefault();
+                                if (user != null) {
+                                    if (user.PasswordLockedDatetime.Value.AddMinutes(15) < DateTime.Now) {
+                                        user.PasswordWrongTimes = 0;
+                                        user.PasswordLockedDatetime = new DateTime(1900, 1, 1);
+                                        dbContext.SaveChanges();
+                                    }
+                                }
+                            }
+                            return curUser;
+                        } else {
+                            using (var dbContext = new OTERTConnStr()) {
+                                Users user = dbContext.Users.Where(n => n.ID == curUser.ID).FirstOrDefault();
+                                if (user != null) {
+                                    if (user.PasswordWrongTimes == null) { user.PasswordWrongTimes = 0; }
+                                    user.PasswordWrongTimes += 1;
+                                    if (user.PasswordWrongTimes > 4) {
+                                        user.PasswordWrongTimes = 0;
+                                        user.PasswordLockedDatetime = DateTime.Now;
+                                    }
+                                    dbContext.SaveChanges();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        catch (Exception) {
+            return null;
+        }
+    }
+
+    public static bool sendEmail(string emailTo, string emailSubject, string emailBody) {
+        bool response = false;
+        string emailType = ConfigurationManager.AppSettings["emailType"];
+        string emailSMTP = ConfigurationManager.AppSettings["emailSMTP"];
+        string emailPort = ConfigurationManager.AppSettings["emailPort"];
+        string emailSMTPUser = ConfigurationManager.AppSettings["emailSMTPUser"];
+        string emailSMTPPassword = ConfigurationManager.AppSettings["emailSMTPPassword"];
+        if (emailType == "GMail") {
+            try {
+                int emailSMTPPort = int.Parse(emailPort);
+                SmtpClient SmtpServer = new SmtpClient(emailSMTP, emailSMTPPort);
+                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+                MailMessage email = new MailMessage();
+                email.From = new MailAddress(emailSMTPUser);
+                email.To.Add(emailTo);
+                //email.CC.Add("panxanth@gmail.com");
+                email.SubjectEncoding = Encoding.UTF8;
+                email.Subject = emailSubject;
+                email.BodyEncoding = Encoding.UTF8;
+                email.IsBodyHtml = true;
+                email.Body = emailBody;
+                SmtpServer.Timeout = 5000;
+                SmtpServer.EnableSsl = true;
+                SmtpServer.UseDefaultCredentials = false;
+                SmtpServer.Credentials = new NetworkCredential(emailSMTPUser, emailSMTPPassword);
+                SmtpServer.Send(email);
+                response = true;
+            }
+            catch (Exception) { }
+        }
+        return response;
     }
 
 }

@@ -62,8 +62,13 @@
                             var returnedLogin = JSON.parse(response.d);
                             if (returnedLogin.result == "OK") {
                                 $(location).attr("href", "/Pages/Users/TasksList.aspx");
-                            } else if (returnedLogin.result == "OK_Helper")  {
+                            } else if (returnedLogin.result == "OK_ChangePasswd") {
+                                $(location).attr("href", "/Pages/Password/ChangePassword.aspx");
+                            } else if (returnedLogin.result == "OK_Helper") {
                                 $(location).attr("href", "/Pages/Helpers/DailyList.aspx");
+                            } else if (returnedLogin.result == "Locked") {
+                                hideErrors();
+                                $("#div_user_locked").fadeIn("slow");
                             } else {
                                 hideErrors();
                                 $("#div_error").fadeIn("slow");
@@ -79,6 +84,7 @@
             $("#div_name_empty").hide();
             $("#div_password_empty").hide();
             $("#div_empty").hide();
+            $("#div_user_locked").hide();
         }
     </script>
 </head>
@@ -114,11 +120,17 @@
             <div id="div_empty" class="div-error">
                 <p class="error">Η φόρμα εισόδου είναι κενη!</p>
             </div>
+            <div id="div_user_locked" class="div-error">
+                <p class="error">Ο χρήστης έχει κελιδωθεί από την εφαρμογή για 15'<br />λόγω επανειλημμένων λάθος κωδικών!</p>
+            </div>
+            <div id="div_forgot_password" class="div-error">
+                <p class="error"><a href="/Pages/Password/ForgotPassword.aspx">Ξέχασα τον Κωδικό Χρήστη</a></p>
+            </div>
 		</section>
     </div>
     </article>
     <footer>
-        &nbsp;&nbsp;Copyright &copy; 2020 OTE A.E.
+        &nbsp;&nbsp;Copyright &copy; 2023 OTE A.E.
     </footer>
 </body>
 </html>
