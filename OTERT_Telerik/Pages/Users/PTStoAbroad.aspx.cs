@@ -1086,6 +1086,7 @@ namespace OTERT.Pages.Administrator {
                             curTask.MSN = false;
                             curTask.LineTypeID = LineTypeID;
                             curTask.DateStamp = DateTime.Now;
+                            curTask.EnteredByUser = loggedUser.NameGR;
                             dbContext.Tasks.Add(curTask);
                             dbContext.SaveChanges();
                             var curOrder = dbContext.Orders.Where(n => n.ID == orderID).FirstOrDefault();

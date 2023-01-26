@@ -37,8 +37,10 @@ namespace ExpressionParser {
         }
 
         static Evaluator() {
-            ICodeCompiler compiler;
-            compiler = new JScriptCodeProvider().CreateCompiler();
+            //ICodeCompiler compiler;
+            //compiler = new JScriptCodeProvider().CreateCompiler();
+            CodeDomProvider compiler;
+            compiler = CodeDomProvider.CreateProvider("JScript");
 
             CompilerParameters parameters;
             parameters = new CompilerParameters();
