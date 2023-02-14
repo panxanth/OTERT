@@ -9,11 +9,12 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Configuration;
-using Telerik.Web.UI.Chat;
 using OTERT_Entity;
-using System.Data.Entity;
+using log4net;
 
 public class Utilities {
+
+    private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
     public void MyDelay(double newseconds) {
         DateTime newDate = DateTime.Now.AddSeconds(newseconds);
@@ -443,6 +444,16 @@ public class Utilities {
             catch (Exception) { }
         }
         return response;
+    }
+
+    public static void logSomething(string username, string eventType) {
+        string dateStamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        string message = dateStamp + ","+ eventType + "," + username+","+","+",";
+        log.Info(message);
+    }
+
+    public static class LogEventTypes {
+        public static readonly string LoginSuccess = "USER ACTION - LOGIN SUCCESS";
     }
 
 }

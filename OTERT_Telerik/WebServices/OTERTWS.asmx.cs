@@ -80,6 +80,7 @@ namespace OTERT.WebServices {
                                     responseObj = new { result = "OK_Helper" };
                                 } else {
                                     responseObj = new { result = "OK" };
+                                    Utilities.logSomething(loggedUser.UserName, Utilities.LogEventTypes.LoginSuccess);
                                 }
                             }
                         } else {

@@ -185,9 +185,11 @@
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/InvoiceMail.aspx">Τιμολόγιο (Email)</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoAbroadCharges.aspx">ΠΤΣ προς Εξωτερικό - Χρεωπιστωτικό</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoAbroadOrders.aspx">ΠΤΣ προς Εξωτερικό - Παραγγελίες</a></li>
-                        <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTSToAbroadSummaryDebtTable.aspx">ΠΤΣ προς Εξωτερικό - Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες</a></li>
+                        <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/PrintTemplates/PTSToAbroadSummaryDebtTable.aspx">ΠΤΣ προς Εξωτερικό - Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες</a></li>
+                        <!-- 
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTSToAbroadChargesReport.aspx">ΠΤΣ προς Εξωτερικό - Αναφορά Χρεώσεων</a></li>
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/PrintTemplates/PTSToAbroadExpectedInvoices.aspx">ΠΤΣ προς Εξωτερικό - Κατάσταση Αναμενώμενων Τιμολογίων από Ξένους Τηλεπ/κούς Οργανισμούς</a></li>
+                        -->
                     </ul>
                 </li>
             </ul>
@@ -216,7 +218,7 @@
     </form>
     </article>
     <footer>
-        &nbsp;&nbsp;Copyright &copy; 2020 OTE A.E.
+        &nbsp;&nbsp;Copyright &copy; 2023 OTE A.E.
     </footer>
 </body>
 </html>

@@ -129,7 +129,7 @@
                             <telerik:GridBoundColumn DataField="CallCharges" HeaderText="Κόστος Κλήσεων" Visible="false" ReadOnly="true" >
                                 <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                             </telerik:GridBoundColumn>
-                            <telerik:GridTemplateColumn DataField="AddedCharges" UniqueName="AddedCharges" HeaderText="Επιπρόσθετα Τέλη (ΚΤ6951) (€)" Visible="false" >
+                            <telerik:GridTemplateColumn DataField="AddedCharges" UniqueName="AddedCharges" HeaderText="Επιπρόσθετα Τέλη (€)" Visible="false" >
                                 <ItemTemplate>
                                     <asp:Label Text='<% #Eval("AddedCharges") %>' runat="server" /> 
                                 </ItemTemplate>
@@ -137,7 +137,7 @@
                                     <asp:TextBox ID="txtAddedCharges" Text='<% #Bind("AddedCharges") %>' runat="server" OnTextChanged="txtAddedCharges_TextChanged" AutoPostBack="true" />
                                 </EditItemTemplate>
                             </telerik:GridTemplateColumn>
-                            <telerik:GridTemplateColumn DataField="InvoiceCost" UniqueName="InvoiceCost" HeaderText="Ποσό Τιμολογίου (ΚΤ6630) (€)" Visible="false" >
+                            <telerik:GridTemplateColumn DataField="InvoiceCost" UniqueName="InvoiceCost" HeaderText="Ποσό Τιμολογίου (€)" Visible="false" >
                                 <ItemTemplate>
                                     <asp:Label Text='<% #Eval("InvoiceCost") %>' runat="server" /> 
                                 </ItemTemplate>
