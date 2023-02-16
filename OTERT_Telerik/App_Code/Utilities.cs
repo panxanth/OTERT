@@ -354,6 +354,7 @@ public class Utilities {
                             using (var dbContext = new OTERTConnStr()) {
                                 Users user = dbContext.Users.Where(n => n.ID == curUser.ID).FirstOrDefault();
                                 if (user != null) {
+                                    if (user.PasswordLockedDatetime == null) { user.PasswordLockedDatetime = new DateTime(1900, 1, 1); }
                                     if (user.PasswordLockedDatetime.Value.AddMinutes(15) < DateTime.Now) {
                                         user.PasswordWrongTimes = 0;
                                         user.PasswordLockedDatetime = new DateTime(1900, 1, 1);
@@ -381,6 +382,7 @@ public class Utilities {
                             using (var dbContext = new OTERTConnStr()) {
                                 Users user = dbContext.Users.Where(n => n.ID == curUser.ID).FirstOrDefault();
                                 if (user != null) {
+                                    if (user.PasswordLockedDatetime == null) { user.PasswordLockedDatetime = new DateTime(1900, 1, 1); }
                                     if (user.PasswordLockedDatetime.Value.AddMinutes(15) < DateTime.Now) {
                                         user.PasswordWrongTimes = 0;
                                         user.PasswordLockedDatetime = new DateTime(1900, 1, 1);
@@ -428,7 +430,7 @@ public class Utilities {
                 MailMessage email = new MailMessage();
                 email.From = new MailAddress(emailSMTPUser);
                 email.To.Add(emailTo);
-                //email.CC.Add("panxanth@gmail.com");
+                //email.Bcc.Add("panxanth@gmail.com");
                 email.SubjectEncoding = Encoding.UTF8;
                 email.Subject = emailSubject;
                 email.BodyEncoding = Encoding.UTF8;
@@ -442,8 +444,27 @@ public class Utilities {
                 response = true;
             }
             catch (Exception) { }
+        } else if (emailType == "OTE") {
+            try {
+                int emailSMTPPort = int.Parse(emailPort);
+                SmtpClient SmtpServer = new SmtpClient(emailSMTP, emailSMTPPort);
+                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+                MailMessage email = new MailMessage();
+                email.From = new MailAddress(emailSMTPUser);
+                email.To.Add(emailTo);
+                //email.Bcc.Add("panxanth@ote.gr");
+                email.SubjectEncoding = Encoding.UTF8;
+                email.Subject = emailSubject;
+                email.BodyEncoding = Encoding.UTF8;
+                email.IsBodyHtml = true;
+                email.Body = emailBody;
+                SmtpServer.Timeout = 5000;
+                SmtpServer.Send(email);
+                response = true;
+            }
+            catch (Exception) { }
         }
-        return response;
+            return response;
     }
 
     public static void logSomething(string username, string eventType) {

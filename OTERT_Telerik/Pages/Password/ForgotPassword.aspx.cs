@@ -72,9 +72,9 @@ namespace OTERT.Pages.Password {
             } else if (string.IsNullOrEmpty(users[0].Email.Trim())) {
                 e.IsValid = false;
                 valUserName.ErrorMessage = "Ο Χρήστης δεν έχει δηλωμένο Email!";
-            } else if (!users[0].Email.Trim().EndsWith("@ote.gr") && !users[0].Email.Trim().EndsWith("@cosmote.gr") && !users[0].Email.Trim().EndsWith("@evalue.gr")) {
+            } else if (!users[0].Email.Trim().EndsWith("@ote.gr") && !users[0].Email.Trim().EndsWith("@cosmote.gr") && !users[0].Email.Trim().EndsWith("@cosmote-evalue.gr")) {
                 e.IsValid = false;
-                valUserName.ErrorMessage = "Ο Χρήστης δεν έχει δηλωμένο ετειρικό Email! (@ote, @cosmote ή @evalue)";
+                valUserName.ErrorMessage = "Ο Χρήστης δεν έχει δηλωμένο ετειρικό Email! (@ote.gr, @cosmote.gr ή @cosmote-evalue.gr)";
             }
         }
 
