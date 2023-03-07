@@ -11,15 +11,11 @@ using System.Text;
 using System.Configuration;
 using OTERT_Entity;
 using log4net;
+using System.Web;
 
 public class Utilities {
 
     private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-    public void MyDelay(double newseconds) {
-        DateTime newDate = DateTime.Now.AddSeconds(newseconds);
-        do { } while (DateTime.Now < newDate);
-    }
 
     private static string Ones(string Number) {
         int _Number = Convert.ToInt32(Number);
@@ -467,14 +463,56 @@ public class Utilities {
             return response;
     }
 
-    public static void logSomething(string username, string eventType) {
+    public static void logSomething(string username, string IP, string eventType, string message = "") {
         string dateStamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        string message = dateStamp + ","+ eventType + "," + username+","+","+",";
-        log.Info(message);
+        string string2print = dateStamp + ","+ eventType + "," + username + "," + IP + "," + message;
+        log.Info(string2print);
     }
 
     public static class LogEventTypes {
         public static readonly string LoginSuccess = "USER ACTION - LOGIN SUCCESS";
+        public static readonly string LoginFailure = "USER ACTION - LOGIN FAILURE";
+        public static readonly string Logout = "USER ACTION - LOGOUT";
+        public static readonly string UserChangedPassword = "USER ACTION - PASSWORD CHANGED";
+        public static readonly string UserCreated = "ADMIN ACTION - USER CREATED";
+        public static readonly string UserDeleted = "ADMIN ACTION - USER DELETED";
+        public static readonly string UserModified = "ADMIN ACTION - USER MODIFIED";
+        public static readonly string AppException = "APP - EXCEPTION";
+    }
+
+    public static string GetIPAddress() {
+        return GetIPAddress(new HttpRequestWrapper(HttpContext.Current.Request));
+    }
+
+    internal static string GetIPAddress(HttpRequestBase request) {
+        // handle standardized 'Forwarded' header
+        string forwarded = request.Headers["Forwarded"];
+        if (!String.IsNullOrEmpty(forwarded)) {
+            foreach (string segment in forwarded.Split(',')[0].Split(';')) {
+                string[] pair = segment.Trim().Split('=');
+                if (pair.Length == 2 && pair[0].Equals("for", StringComparison.OrdinalIgnoreCase)) {
+                    string ip = pair[1].Trim('"');
+                    // IPv6 addresses are always enclosed in square brackets
+                    int left = ip.IndexOf('['), right = ip.IndexOf(']');
+                    if (left == 0 && right > 0) {
+                        return ip.Substring(1, right - 1);
+                    }
+                    // strip port of IPv4 addresses
+                    int colon = ip.IndexOf(':');
+                    if (colon != -1) {
+                        return ip.Substring(0, colon);
+                    }
+                    // this will return IPv4, "unknown", and obfuscated addresses
+                    return ip;
+                }
+            }
+        }
+        // handle non-standardized 'X-Forwarded-For' header
+        string xForwardedFor = request.Headers["X-Forwarded-For"];
+        if (!String.IsNullOrEmpty(xForwardedFor)) {
+            return xForwardedFor.Split(',')[0];
+        }
+        return request.UserHostAddress;
     }
 
 }

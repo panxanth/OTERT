@@ -32,6 +32,7 @@ namespace OTERT.Controller {
                                                           select new File4ListB {
                                                               ID = us.ID,
                                                               OrderID = us.OrderID,
+                                                              OrderPTSGRID = us.OrderPTSGRID,
                                                               TaskID = us.TaskID,
                                                               CustomerID = us.CustomerID != null ? us.CustomerID : (us.Tasks.CustomerID > 0 ? us.Tasks.CustomerID : (us.Orders.Customer1ID > 0 ? us.Orders.Customer1ID : -1)),
                                                               CustomerName = us.CustomerID != null ? us.Customers.NameGR : (us.Tasks.CustomerID > 0 ? us.Tasks.Customers.NameGR : (us.Orders.Customer1ID > 0 ? us.Orders.Customers1.NameGR : "")),
@@ -49,7 +50,6 @@ namespace OTERT.Controller {
                                 for (int i = 0; i < expressionsOR.Length; i++) { columnExpressions.Add(expressionsOR[i]); }
                             }
                         }
-
                         List<string> DateStampExpressions = columnExpressions.Where(item => item.Contains("DateStamp")).ToList();
                         columnExpressions.RemoveAll(item => item.Contains("DateStamp"));
                         recFilter = string.Join("AND", columnExpressions.ToArray());
@@ -97,6 +97,15 @@ namespace OTERT.Controller {
             }
         }
 
+        public int CountFilesByOrderPTSGRID(int orderPTSGRID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    return dbContext.Files.Where(k => k.OrderPTSGRID == orderPTSGRID).Count();
+                }
+                catch (Exception) { return -1; }
+            }
+        }
+
         public int CountFilesByCustomerID(int customerID) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
@@ -114,6 +123,7 @@ namespace OTERT.Controller {
                                               select new FileB {
                                                   ID = us.ID,
                                                   OrderID = us.OrderID,
+                                                  OrderPTSGRID = us.OrderPTSGRID,
                                                   TaskID = us.TaskID,
                                                   CustomerID = us.CustomerID,
                                                   FilePath = us.FilePath,
@@ -134,6 +144,7 @@ namespace OTERT.Controller {
                                         select new FileB {
                                             ID = us.ID,
                                             OrderID = us.OrderID,
+                                            OrderPTSGRID = us.OrderPTSGRID,
                                             TaskID = us.TaskID,
                                             CustomerID = us.CustomerID,
                                             FilePath = us.FilePath,
@@ -154,6 +165,7 @@ namespace OTERT.Controller {
                                         select new FileB {
                                             ID = us.ID,
                                             OrderID = us.OrderID,
+                                            OrderPTSGRID = us.OrderPTSGRID,
                                             TaskID = us.TaskID,
                                             CustomerID = us.CustomerID,
                                             FilePath = us.FilePath,
@@ -174,6 +186,7 @@ namespace OTERT.Controller {
                                         select new FileB {
                                             ID = us.ID,
                                             OrderID = us.OrderID,
+                                            OrderPTSGRID = us.OrderPTSGRID,
                                             TaskID = us.TaskID,
                                             CustomerID = us.CustomerID,
                                             FilePath = us.FilePath,
@@ -194,6 +207,7 @@ namespace OTERT.Controller {
                                         select new FileB {
                                             ID = us.ID,
                                             OrderID = us.OrderID,
+                                            OrderPTSGRID = us.OrderPTSGRID,
                                             TaskID = us.TaskID,
                                             CustomerID = us.CustomerID,
                                             FilePath = us.FilePath,
@@ -214,12 +228,55 @@ namespace OTERT.Controller {
                                         select new FileB {
                                             ID = us.ID,
                                             OrderID = us.OrderID,
+                                            OrderPTSGRID = us.OrderPTSGRID,
                                             TaskID = us.TaskID,
                                             CustomerID = us.CustomerID,
                                             FilePath = us.FilePath,
                                             FileName = us.FileName,
                                             DateStamp = us.DateStamp
                                         }).Where(k => k.CustomerID == customerID).OrderBy(o => o.DateStamp).Skip(recSkip).Take(recTake).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
+        public List<FileB> GetFilesByOrderPTSGRID(int orderPTSGRID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<FileB> data = (from us in dbContext.Files
+                                        select new FileB {
+                                            ID = us.ID,
+                                            OrderID = us.OrderID,
+                                            OrderPTSGRID = us.OrderPTSGRID,
+                                            TaskID = us.TaskID,
+                                            CustomerID = us.CustomerID,
+                                            FilePath = us.FilePath,
+                                            FileName = us.FileName,
+                                            DateStamp = us.DateStamp
+                                        }).Where(k => k.OrderPTSGRID == orderPTSGRID).OrderBy(o => o.DateStamp).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
+        public List<FileB> GetFilesByOrderPTSGRID(int orderPTSGRID, int recSkip, int recTake) {
+            using (var dbContext = new OTERTConnStr()) {
+                try {
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    List<FileB> data = (from us in dbContext.Files
+                                        select new FileB {
+                                            ID = us.ID,
+                                            OrderID = us.OrderID,
+                                            OrderPTSGRID = us.OrderPTSGRID,
+                                            TaskID = us.TaskID,
+                                            CustomerID = us.CustomerID,
+                                            FilePath = us.FilePath,
+                                            FileName = us.FileName,
+                                            DateStamp = us.DateStamp
+                                        }).Where(k => k.OrderPTSGRID == orderPTSGRID).OrderBy(o => o.DateStamp).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -235,6 +292,7 @@ namespace OTERT.Controller {
                                                     select new File4ListB {
                                                         ID = us.ID,
                                                         OrderID = us.OrderID,
+                                                        OrderPTSGRID = us.OrderPTSGRID,
                                                         TaskID = us.TaskID,
                                                         CustomerID = us.CustomerID != null ? us.CustomerID : (us.Tasks.CustomerID > 0 ? us.Tasks.CustomerID : (us.Orders.Customer1ID > 0 ? us.Orders.Customer1ID : -1)),
                                                         CustomerName = us.CustomerID != null ? us.Customers.NameGR : (us.Tasks.CustomerID > 0 ? us.Tasks.Customers.NameGR : (us.Orders.Customer1ID > 0 ? us.Orders.Customers1.NameGR : "")),

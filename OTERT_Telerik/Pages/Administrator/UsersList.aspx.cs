@@ -10,6 +10,7 @@ using OTERT.Model;
 using OTERT.Controller;
 using OTERT_Entity;
 using System.Collections.Generic;
+using Telerik.Web.Data.Extensions;
 
 namespace OTERT.Pages.Administrator {
 
@@ -107,7 +108,11 @@ namespace OTERT.Pages.Administrator {
                         newID = -1;
                         Session.Remove("UserGroupID");
                     }
-                    try { dbContext.SaveChanges(); }
+                    try { 
+                        dbContext.SaveChanges();
+                        string message = "Modified User: " + user.UserName + " (" + user.ID.ToString() + ")";
+                        Utilities.logSomething(loggedUser.UserName, Utilities.GetIPAddress(), Utilities.LogEventTypes.UserModified, message);
+                    }
                     catch (Exception) { ShowErrorMessage(-1); }
                 }
             }
@@ -141,6 +146,8 @@ namespace OTERT.Pages.Administrator {
                         user.PasswordIsHashed = true;
                         dbContext.Users.Add(user);
                         dbContext.SaveChanges();
+                        string message = "New User: " + user.UserName ;
+                        Utilities.logSomething(loggedUser.UserName, Utilities.GetIPAddress(), Utilities.LogEventTypes.UserCreated, message);
                     }
                     catch (Exception) { ShowErrorMessage(-1); }
                     finally {
@@ -156,8 +163,20 @@ namespace OTERT.Pages.Administrator {
             using (var dbContext = new OTERTConnStr()) {
                 var user = dbContext.Users.Where(n => n.ID == ID).FirstOrDefault();
                 if (user != null) {
+                    List<UserPasswords> upl = dbContext.UserPasswords.Where(k => k.UserID == ID).ToList();
+                    if (upl.Count > 0) {
+                        foreach (UserPasswords up in upl) { dbContext.UserPasswords.Remove(up); }
+                    }
+                    List<UserPasswordReset> uprl = dbContext.UserPasswordReset.Where(k => k.UserID == ID).ToList();
+                    if (uprl.Count > 0) {
+                        foreach (UserPasswordReset upr in uprl) { dbContext.UserPasswordReset.Remove(upr); }
+                    }
                     dbContext.Users.Remove(user);
-                    try { dbContext.SaveChanges(); }
+                    try { 
+                        dbContext.SaveChanges();
+                        string message = "Deleted User: " + user.UserName + " (" + user.ID.ToString() + ")";
+                        Utilities.logSomething(loggedUser.UserName, Utilities.GetIPAddress(), Utilities.LogEventTypes.UserDeleted, message);
+                    }
                     catch (Exception ex) {
                         string err = ex.InnerException.InnerException.Message;
                         int errCode = -1;

@@ -296,8 +296,8 @@ namespace OTERT.Pages.Administrator {
                                 ddlLineType.SelectedIndex = ddlLineType.FindItemByValue(currTask.LineTypeID.ToString()).Index;
                                 Session["LineTypeID"] = currTask.LineTypeID;
                             } else {
-                                ddlRequestedPosition.SelectedIndex = 0;
-                                Session["LineTypeID"] = ddlRequestedPosition.SelectedItem.Value;
+                                ddlLineType.SelectedIndex = 0;
+                                Session["LineTypeID"] = ddlLineType.SelectedItem.Value;
                             }
                             if (string.IsNullOrEmpty(currTask.TelephoneNumber)) { txtTelephoneNumber.Text = "ΤΙΜΟΛΟΓΙΟ"; }
                         } else {
@@ -1113,13 +1113,13 @@ namespace OTERT.Pages.Administrator {
             } else if (e.Item.OwnerTableView.Name == "AttachedFiles") {
                 GridTableView detailtabl = e.Item.OwnerTableView;
                 GridDataItem parentItem = detailtabl.ParentItem;
-                int orderID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
+                int orderPTSGRID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
                 var editableItem = ((GridEditableItem)e.Item);
                 using (var dbContext = new OTERTConnStr()) {
                     var curFile = new Files();
                     Hashtable values = new Hashtable();
                     editableItem.ExtractValues(values);
-                    curFile.OrderID = orderID;
+                    curFile.OrderPTSGRID = orderPTSGRID;
                     curFile.FileName = (string)values["FileName"];
                     curFile.FilePath = uploadedFilePath;
                     curFile.DateStamp = DateTime.Now;

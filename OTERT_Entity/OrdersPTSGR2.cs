@@ -12,20 +12,23 @@ namespace OTERT_Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class Files
+    public partial class OrdersPTSGR2
     {
-        public int ID { get; set; }
-        public Nullable<int> TaskID { get; set; }
-        public Nullable<int> OrderID { get; set; }
-        public string FilePath { get; set; }
-        public string FileName { get; set; }
-        public System.DateTime DateStamp { get; set; }
-        public Nullable<int> CustomerID { get; set; }
-        public Nullable<int> OrderPTSGRID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public OrdersPTSGR2()
+        {
+            this.TasksPTSGR = new HashSet<TasksPTSGR>();
+        }
     
-        public virtual Orders Orders { get; set; }
-        public virtual Tasks Tasks { get; set; }
+        public int ID { get; set; }
+        public int OrdersPTSGRID { get; set; }
+        public int CountryID { get; set; }
+        public int ProviderID { get; set; }
+    
+        public virtual Countries Countries { get; set; }
         public virtual Customers Customers { get; set; }
         public virtual OrdersPTSGR OrdersPTSGR { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TasksPTSGR> TasksPTSGR { get; set; }
     }
 }

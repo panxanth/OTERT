@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="874c5265a1124d12a9e45e46a5e3c369" Name="Diagram1">
+      <Diagram DiagramId="874c5265a1124d12a9e45e46a5e3c369" Name="Diagram1" ZoomLevel="94">
         <EntityTypeShape EntityType="OTERT_Model.Countries" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.CountryPricelist" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OTERT_Model.Customers" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
@@ -69,16 +69,6 @@
         <AssociationConnector Association="OTERT_Model.FK_TasksLine_Invoices" />
         <AssociationConnector Association="OTERT_Model.FK_TasksLine_Jobs" />
         <AssociationConnector Association="OTERT_Model.FK_TasksLine_Tasks" />
-        <EntityTypeShape EntityType="OTERT_Model.OrdersPTSGR" Width="1.5" PointX="13" PointY="17.375" />
-        <EntityTypeShape EntityType="OTERT_Model.TasksPTSGR" Width="1.5" PointX="18.375" PointY="0.75" />
-        <AssociationConnector Association="OTERT_Model.fk_TasksPTSGR_Customers" />
-        <AssociationConnector Association="OTERT_Model.fk_TasksPTSGR_Jobs" />
-        <AssociationConnector Association="OTERT_Model.FK_TasksPTSGR_LineTypes" />
-        <AssociationConnector Association="OTERT_Model.fk_TasksPTSGR_OrderPTSGRID" />
-        <AssociationConnector Association="OTERT_Model.fk_TasksPTSGR_RequestedPositions" />
-        <AssociationConnector Association="OTERT_Model.FK_OrdersPTSGR_Countries" />
-        <AssociationConnector Association="OTERT_Model.FK_OrdersPTSGR_Customers" />
-        <AssociationConnector Association="OTERT_Model.FK_OrdersPTSGR_Orders" />
         <EntityTypeShape EntityType="OTERT_Model.JobCancelPrices" Width="1.5" PointX="9.75" PointY="22.625" />
         <AssociationConnector Association="OTERT_Model.FK_JobCancelPrices_Jobs" />
         <EntityTypeShape EntityType="OTERT_Model.PTSGRPricelist" Width="1.5" PointX="15.375" PointY="16.75" />
@@ -87,6 +77,18 @@
         <AssociationConnector Association="OTERT_Model.fk_UserPasswords_Users" />
         <EntityTypeShape EntityType="OTERT_Model.UserPasswordReset" Width="1.5" PointX="3" PointY="26.375" />
         <AssociationConnector Association="OTERT_Model.FK_UserPasswordReset_Users" />
+        <EntityTypeShape EntityType="OTERT_Model.OrdersPTSGR" Width="1.5" PointX="6.5" PointY="22" />
+        <AssociationConnector Association="OTERT_Model.FK_OrdersPTSGR_Events" />
+        <EntityTypeShape EntityType="OTERT_Model.OrdersPTSGR2" Width="1.5" PointX="12.75" PointY="17.375" />
+        <AssociationConnector Association="OTERT_Model.FK_OrdersPTSGR2_Countries" />
+        <AssociationConnector Association="OTERT_Model.FK_OrdersPTSGR2_Customers" />
+        <AssociationConnector Association="OTERT_Model.FK_OrdersPTSGR2_OrdersPTSGR" />
+        <EntityTypeShape EntityType="OTERT_Model.TasksPTSGR" Width="1.5" PointX="19" PointY="6.125" />
+        <AssociationConnector Association="OTERT_Model.fk_TasksPTSGR_Customers" />
+        <AssociationConnector Association="OTERT_Model.FK_TasksPTSGR_LineTypes" />
+        <AssociationConnector Association="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2" />
+        <AssociationConnector Association="OTERT_Model.fk_TasksPTSGR_RequestedPositions" />
+        <AssociationConnector Association="OTERT_Model.FK_Files_OrdersPTSGR" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

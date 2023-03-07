@@ -64,6 +64,7 @@ namespace OTERT.Pages.Password {
                 }
                 catch (Exception) { }
                 finally {
+                    Utilities.logSomething(loggedUser.UserName, Utilities.GetIPAddress(), Utilities.LogEventTypes.UserChangedPassword);
                     string redirectURL = "~/Pages/Password/ChangePasswordOK.aspx?result=" + success.ToString();
                     Response.Redirect(redirectURL, false);
                     Context.ApplicationInstance.CompleteRequest();

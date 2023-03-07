@@ -164,15 +164,21 @@ namespace OTERT.Model {
         public DateTime? DateTimeEnd { get; set; }
     }
 
-    public class OrdersPTSGRDTO {
+    public class OrderPTSGRDTO {
         public int ID { get; set; }
-        public int OrderID { get; set; }
-        public OrderDTO Order { get; set; }
+        public int EventID { get; set; }
+        public EventDTO Event { get; set; }
         public string RegNo { get; set; }
+    }
+
+    public class OrderPTSGR2DTO {
+        public int ID { get; set; }
+        public int OrdersPTSGRID { get; set; }
+        public OrderPTSGRDTO OrderPTSGR { get; set; }
         public int CountryID { get; set; }
         public CountryDTO Country { get; set; }
-        public int? CustomerID { get; set; }
-        public CustomerDTO Customer { get; set; }
+        public int ProviderID { get; set; }
+        public CustomerDTO Provider { get; set; }
     }
 
     public class SateliteDTO {
@@ -185,6 +191,7 @@ namespace OTERT.Model {
         public int ID { get; set; }
         public int? TaskID { get; set; }
         public int? OrderID { get; set; }
+        public int? OrderPTSGRID { get; set; }
         public int? CustomerID { get; set; }
         public string FilePath { get; set; }
         public string FileName { get; set; }

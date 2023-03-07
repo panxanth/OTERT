@@ -18,6 +18,7 @@ namespace OTERT_Entity
         public Events()
         {
             this.Orders = new HashSet<Orders>();
+            this.OrdersPTSGR = new HashSet<OrdersPTSGR>();
         }
     
         public int ID { get; set; }
@@ -28,5 +29,7 @@ namespace OTERT_Entity
         public virtual Places Places { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrdersPTSGR> OrdersPTSGR { get; set; }
     }
 }

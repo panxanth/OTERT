@@ -19,7 +19,6 @@ namespace OTERT.Pages.Password {
         protected string pageTitle;
         protected int newID;
         
-
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Αλλαγή Κωδικού Χρήστη";

@@ -103,6 +103,7 @@ namespace OTERT.Model {
         public int ID { get; set; }
         public int? TaskID { get; set; }
         public int? OrderID { get; set; }
+        public int? OrderPTSGRID { get; set; }
         public int? CustomerID { get; set; }
         public string FilePath { get; set; }
         public string FileName { get; set; }
@@ -113,6 +114,7 @@ namespace OTERT.Model {
         public int ID { get; set; }
         public int? TaskID { get; set; }
         public int? OrderID { get; set; }
+        public int? OrderPTSGRID { get; set; }
         public int? CustomerID { get; set; }
         public string CustomerName { get; set; }
         public string FilePath { get; set; }
@@ -184,6 +186,23 @@ namespace OTERT.Model {
         public string InoiceProtocol { get; set; }
         public DateTime? DateTimeStart { get; set; }
         public DateTime? DateTimeEnd { get; set; }
+    }
+
+    public class OrderPTSGRB{
+        public int ID { get; set; }
+        public string RegNo { get; set; }
+        public int EventID { get; set; }
+        public EventDTO Event { get; set; }
+    }
+
+    public class OrderPTSGR2B {
+        public int ID { get; set; }
+        public int OrdersPTSGRID { get; set; }
+        public OrderPTSGRDTO OrderPTSGR {get; set;}
+        public int CountryID { get; set; }
+        public CountryDTO Country { get; set; }
+        public int ProviderID { get; set; }
+        public CustomerDTO Provider { get; set; }
     }
 
     public class OrderTypeB {
@@ -274,8 +293,47 @@ namespace OTERT.Model {
         public decimal? InvoiceCost { get; set; }
         public string GivenPhoneNumber { get; set; }
         public string CorrespondentPhone { get; set; }
+    }
 
-
+    public class TaskPTSGRB {
+        public int ID { get; set; }
+        public int? OrderPTSGR2ID { get; set; }
+        public OrderPTSGR2DTO Order { get; set; }
+        public string RegNo { get; set; }
+        public DateTime OrderDate { get; set; }
+        public int CustomerID { get; set; }
+        public CustomerDTO Customer { get; set; }
+        public int? RequestedPositionID { get; set; }
+        public RequestedPositionDTO RequestedPosition { get; set; }
+        public DateTime? DateTimeStartOrder { get; set; }
+        public DateTime? DateTimeEndOrder { get; set; }
+        public int DateTimeDurationOrder { get; set; }
+        public DateTime? DateTimeStartActual { get; set; }
+        public DateTime? DateTimeEndActual { get; set; }
+        public int? DateTimeDurationActual { get; set; }
+        public decimal? CostCalculated { get; set; }
+        public decimal InstallationCost { get; set; }
+        public decimal MonthlyCharges { get; set; }
+        public string TelephoneNumber { get; set; }
+        public decimal? TechnicalSupport { get; set; }
+        public decimal? AddedCharges { get; set; }
+        public decimal? CostActual { get; set; }
+        public DateTime? PaymentDateOrder { get; set; }
+        public DateTime? PaymentDateCalculated { get; set; }
+        public DateTime? PaymentDateActual { get; set; }
+        public bool IsLocked { get; set; }
+        public bool IsCanceled { get; set; }
+        public decimal? CancelPrice { get; set; }
+        public string Comments { get; set; }
+        public string InvoceComments { get; set; }
+        public List<FileB> Files { get; set; }
+        public decimal MSNCost { get; set; }
+        public bool Internet { get; set; }
+        public int? LineTypeID { get; set; }
+        public LineTypeDTO LineType { get; set; }
+        public DateTime DateStamp { get; set; }
+        public string EnteredByUser { get; set; }
+        public decimal? InvoiceCost { get; set; }
     }
 
     public class UserB {

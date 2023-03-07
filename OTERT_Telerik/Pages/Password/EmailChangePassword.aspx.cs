@@ -82,6 +82,7 @@ namespace OTERT.Pages.Password {
                             dbContext.UserPasswords.Add(up);
                             dbContext.SaveChanges();
                             success = true;
+                            Utilities.logSomething(loggedUser.UserName, Utilities.GetIPAddress(), Utilities.LogEventTypes.UserChangedPassword);
                             string redirectURL = "~/Pages/Password/EmailChangePasswordOK?result=" + success.ToString();
                             Response.Redirect(redirectURL);
                         }

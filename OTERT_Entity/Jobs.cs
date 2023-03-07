@@ -21,7 +21,6 @@ namespace OTERT_Entity
             this.JobFormulas = new HashSet<JobFormulas>();
             this.DiscountLine = new HashSet<DiscountLine>();
             this.TasksLine = new HashSet<TasksLine>();
-            this.TasksPTSGR = new HashSet<TasksPTSGR>();
             this.JobCancelPrices = new HashSet<JobCancelPrices>();
         }
     
@@ -44,8 +43,6 @@ namespace OTERT_Entity
         public virtual ICollection<DiscountLine> DiscountLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TasksLine> TasksLine { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TasksPTSGR> TasksPTSGR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobCancelPrices> JobCancelPrices { get; set; }
     }

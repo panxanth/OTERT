@@ -80,14 +80,15 @@ namespace OTERT.WebServices {
                                     responseObj = new { result = "OK_Helper" };
                                 } else {
                                     responseObj = new { result = "OK" };
-                                    Utilities.logSomething(loggedUser.UserName, Utilities.LogEventTypes.LoginSuccess);
                                 }
+                                Utilities.logSomething(loggedUser.UserName, Utilities.GetIPAddress(), Utilities.LogEventTypes.LoginSuccess);
                             }
                         } else {
                             responseObj = new { result = "Locked" };
                         }
                     } else {
                         responseObj = new { result = "Unknown" };
+                        Utilities.logSomething(login.Username, Utilities.GetIPAddress(), Utilities.LogEventTypes.LoginFailure, "password: " + login.Password);
                     }
                     return new JavaScriptSerializer().Serialize(responseObj);
                 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="OTERT_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="OTERT_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Countries">
           <Key>
             <PropertyRef Name="ID" />
@@ -133,6 +133,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TaskID" Type="int" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="OrderPTSGRID" Type="int" />
           <Property Name="CustomerID" Type="int" />
           <Property Name="FilePath" Type="nvarchar(max)" Nullable="false" />
           <Property Name="FileName" Type="nvarchar" MaxLength="255" Nullable="false" />
@@ -233,10 +234,17 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="OrderID" Type="int" Nullable="false" />
-          <Property Name="CountryID" Type="int" Nullable="false" />
-          <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="RegNo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="EventID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrdersPTSGR2">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrdersPTSGRID" Type="int" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
+          <Property Name="ProviderID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OrderTypes">
           <Key>
@@ -361,12 +369,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="OrderPTSGRID" Type="int" />
+          <Property Name="OrderPTSGR2ID" Type="int" Nullable="false" />
           <Property Name="RegNo" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="OrderDate" Type="datetime" Nullable="false" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="RequestedPositionID" Type="int" />
-          <Property Name="JobID" Type="int" Nullable="false" />
           <Property Name="DateTimeStartOrder" Type="datetime" />
           <Property Name="DateTimeEndOrder" Type="datetime" />
           <Property Name="DateTimeDurationOrder" Type="int" Nullable="false" />
@@ -374,7 +381,7 @@
           <Property Name="DateTimeEndActual" Type="datetime" />
           <Property Name="DateTimeDurationActual" Type="int" />
           <Property Name="CostCalculated" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="TelephoneNumber" Type="varchar" MaxLength="100" />
+          <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="100" />
           <Property Name="TechnicalSupport" Type="decimal" Precision="18" Scale="2" />
           <Property Name="AddedCharges" Type="decimal" Precision="18" Scale="2" />
           <Property Name="CostActual" Type="decimal" Precision="18" Scale="2" />
@@ -394,6 +401,7 @@
           <Property Name="InstallationCost" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MonthlyCharges" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MSNCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InvoiceCost" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="UIControlsVisibility">
           <Key>
@@ -591,6 +599,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Files_OrdersPTSGR">
+          <End Role="OrdersPTSGR" Type="Self.OrdersPTSGR" Multiplicity="0..1" />
+          <End Role="Files" Type="Self.Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrdersPTSGR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="OrderPTSGRID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Files_Tasks">
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="0..1" />
           <End Role="Files" Type="Self.Files" Multiplicity="*" />
@@ -723,39 +743,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrdersPTSGR_Countries">
-          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
+        <Association Name="FK_OrdersPTSGR_Events">
+          <End Role="Events" Type="Self.Events" Multiplicity="1" />
           <End Role="OrdersPTSGR" Type="Self.OrdersPTSGR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrdersPTSGR">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersPTSGR2_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
+          <End Role="OrdersPTSGR2" Type="Self.OrdersPTSGR2" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Countries">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="OrdersPTSGR">
+            <Dependent Role="OrdersPTSGR2">
               <PropertyRef Name="CountryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrdersPTSGR_Customers">
+        <Association Name="FK_OrdersPTSGR2_Customers">
           <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
-          <End Role="OrdersPTSGR" Type="Self.OrdersPTSGR" Multiplicity="*" />
+          <End Role="OrdersPTSGR2" Type="Self.OrdersPTSGR2" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customers">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="OrdersPTSGR">
-              <PropertyRef Name="CustomerID" />
+            <Dependent Role="OrdersPTSGR2">
+              <PropertyRef Name="ProviderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrdersPTSGR_Orders">
-          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
-          <End Role="OrdersPTSGR" Type="Self.OrdersPTSGR" Multiplicity="*" />
+        <Association Name="FK_OrdersPTSGR2_OrdersPTSGR">
+          <End Role="OrdersPTSGR" Type="Self.OrdersPTSGR" Multiplicity="1" />
+          <End Role="OrdersPTSGR2" Type="Self.OrdersPTSGR2" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Orders">
+            <Principal Role="OrdersPTSGR">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="OrdersPTSGR">
-              <PropertyRef Name="OrderID" />
+            <Dependent Role="OrdersPTSGR2">
+              <PropertyRef Name="OrdersPTSGRID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -915,18 +947,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_TasksPTSGR_Jobs">
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
-          <End Role="TasksPTSGR" Type="Self.TasksPTSGR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Jobs">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TasksPTSGR">
-              <PropertyRef Name="JobID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TasksPTSGR_LineTypes">
           <End Role="LineTypes" Type="Self.LineTypes" Multiplicity="0..1" />
           <End Role="TasksPTSGR" Type="Self.TasksPTSGR" Multiplicity="*" />
@@ -939,15 +959,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_TasksPTSGR_OrderPTSGRID">
-          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+        <Association Name="FK_TasksPTSGR_OrdersPTSGR2">
+          <End Role="OrdersPTSGR2" Type="Self.OrdersPTSGR2" Multiplicity="1" />
           <End Role="TasksPTSGR" Type="Self.TasksPTSGR" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Orders">
+            <Principal Role="OrdersPTSGR2">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="TasksPTSGR">
-              <PropertyRef Name="OrderPTSGRID" />
+              <PropertyRef Name="OrderPTSGR2ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1032,6 +1052,7 @@
           <EntitySet Name="LineTypes" EntityType="Self.LineTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrdersPTSGR" EntityType="Self.OrdersPTSGR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrdersPTSGR2" EntityType="Self.OrdersPTSGR2" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderTypes" EntityType="Self.OrderTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Places" EntityType="Self.Places" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PTSGRPricelist" EntityType="Self.PTSGRPricelist" Schema="dbo" store:Type="Tables" />
@@ -1095,6 +1116,10 @@
             <End Role="Orders" EntitySet="Orders" />
             <End Role="Files" EntitySet="Files" />
           </AssociationSet>
+          <AssociationSet Name="FK_Files_OrdersPTSGR" Association="Self.FK_Files_OrdersPTSGR">
+            <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
           <AssociationSet Name="FK_Files_Tasks" Association="Self.FK_Files_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Files" EntitySet="Files" />
@@ -1139,17 +1164,21 @@
             <End Role="OrderTypes" EntitySet="OrderTypes" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrdersPTSGR_Countries" Association="Self.FK_OrdersPTSGR_Countries">
+          <AssociationSet Name="FK_OrdersPTSGR_Events" Association="Self.FK_OrdersPTSGR_Events">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersPTSGR2_Countries" Association="Self.FK_OrdersPTSGR2_Countries">
             <End Role="Countries" EntitySet="Countries" />
-            <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
+            <End Role="OrdersPTSGR2" EntitySet="OrdersPTSGR2" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrdersPTSGR_Customers" Association="Self.FK_OrdersPTSGR_Customers">
+          <AssociationSet Name="FK_OrdersPTSGR2_Customers" Association="Self.FK_OrdersPTSGR2_Customers">
             <End Role="Customers" EntitySet="Customers" />
-            <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
+            <End Role="OrdersPTSGR2" EntitySet="OrdersPTSGR2" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrdersPTSGR_Orders" Association="Self.FK_OrdersPTSGR_Orders">
-            <End Role="Orders" EntitySet="Orders" />
+          <AssociationSet Name="FK_OrdersPTSGR2_OrdersPTSGR" Association="Self.FK_OrdersPTSGR2_OrdersPTSGR">
             <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
+            <End Role="OrdersPTSGR2" EntitySet="OrdersPTSGR2" />
           </AssociationSet>
           <AssociationSet Name="fk_Places_Countries" Association="Self.fk_Places_Countries">
             <End Role="Countries" EntitySet="Countries" />
@@ -1203,16 +1232,12 @@
             <End Role="Customers" EntitySet="Customers" />
             <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
           </AssociationSet>
-          <AssociationSet Name="fk_TasksPTSGR_Jobs" Association="Self.fk_TasksPTSGR_Jobs">
-            <End Role="Jobs" EntitySet="Jobs" />
-            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
-          </AssociationSet>
           <AssociationSet Name="FK_TasksPTSGR_LineTypes" Association="Self.FK_TasksPTSGR_LineTypes">
             <End Role="LineTypes" EntitySet="LineTypes" />
             <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
           </AssociationSet>
-          <AssociationSet Name="fk_TasksPTSGR_OrderPTSGRID" Association="Self.fk_TasksPTSGR_OrderPTSGRID">
-            <End Role="Orders" EntitySet="Orders" />
+          <AssociationSet Name="FK_TasksPTSGR_OrdersPTSGR2" Association="Self.FK_TasksPTSGR_OrdersPTSGR2">
+            <End Role="OrdersPTSGR2" EntitySet="OrdersPTSGR2" />
             <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
           </AssociationSet>
           <AssociationSet Name="fk_TasksPTSGR_RequestedPositions" Association="Self.fk_TasksPTSGR_RequestedPositions">
@@ -1249,7 +1274,7 @@
           <Property Name="NameEN" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customers" Relationship="Self.fk_Customers_Countries" FromRole="Countries" ToRole="Customers" />
           <NavigationProperty Name="Places" Relationship="Self.fk_Places_Countries" FromRole="Countries" ToRole="Places" />
-          <NavigationProperty Name="OrdersPTSGR" Relationship="OTERT_Model.FK_OrdersPTSGR_Countries" FromRole="Countries" ToRole="OrdersPTSGR" />
+          <NavigationProperty Name="OrdersPTSGR2" Relationship="OTERT_Model.FK_OrdersPTSGR2_Countries" FromRole="Countries" ToRole="OrdersPTSGR2" />
         </EntityType>
         <EntityType Name="CountryPricelist">
           <Key>
@@ -1312,10 +1337,10 @@
           <NavigationProperty Name="Files" Relationship="OTERT_Model.FK_Files_Customers" FromRole="Customers" ToRole="Files" />
           <NavigationProperty Name="Invoices" Relationship="OTERT_Model.FK_Invoices_Customers" FromRole="Customers" ToRole="Invoices" />
           <Property Name="IsPTS" Type="Boolean" />
-          <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.fk_TasksPTSGR_Customers" FromRole="Customers" ToRole="TasksPTSGR" />
-          <NavigationProperty Name="OrdersPTSGR" Relationship="OTERT_Model.FK_OrdersPTSGR_Customers" FromRole="Customers" ToRole="OrdersPTSGR" />
           <Property Name="ContactPersonInvoice" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="IsTemporary" Type="Boolean" />
+          <NavigationProperty Name="OrdersPTSGR2" Relationship="OTERT_Model.FK_OrdersPTSGR2_Customers" FromRole="Customers" ToRole="OrdersPTSGR2" />
+          <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.fk_TasksPTSGR_Customers" FromRole="Customers" ToRole="TasksPTSGR" />
         </EntityType>
         <EntityType Name="CustomerTypes">
           <Key>
@@ -1348,6 +1373,7 @@
           <Property Name="NameEN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Places" Relationship="Self.fk_Events_Places" FromRole="Events" ToRole="Places" />
           <NavigationProperty Name="Orders" Relationship="OTERT_Model.fk_Orders_Events" FromRole="Events" ToRole="Orders" />
+          <NavigationProperty Name="OrdersPTSGR" Relationship="OTERT_Model.FK_OrdersPTSGR_Events" FromRole="Events" ToRole="OrdersPTSGR" />
         </EntityType>
         <EntityType Name="Jobs">
           <Key>
@@ -1367,7 +1393,6 @@
           <NavigationProperty Name="JobTypes" Relationship="OTERT_Model.FK_Jobs_JobTypes" FromRole="Jobs" ToRole="JobTypes" />
           <NavigationProperty Name="DiscountLine" Relationship="OTERT_Model.FK_DiscountLine_Jobs" FromRole="Jobs" ToRole="DiscountLine" />
           <NavigationProperty Name="TasksLine" Relationship="OTERT_Model.FK_TasksLine_Jobs" FromRole="Jobs" ToRole="TasksLine" />
-          <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.fk_TasksPTSGR_Jobs" FromRole="Jobs" ToRole="TasksPTSGR" />
           <NavigationProperty Name="JobCancelPrices" Relationship="OTERT_Model.FK_JobCancelPrices_Jobs" FromRole="Jobs" ToRole="JobCancelPrices" />
         </EntityType>
         <EntityType Name="Languages">
@@ -1406,8 +1431,6 @@
           <NavigationProperty Name="Events" Relationship="OTERT_Model.fk_Orders_Events" FromRole="Orders" ToRole="Events" />
           <NavigationProperty Name="Files" Relationship="OTERT_Model.FK_Files_Orders" FromRole="Orders" ToRole="Files" />
           <Property Name="IsLocked" Type="Boolean" />
-          <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.fk_TasksPTSGR_OrderPTSGRID" FromRole="Orders" ToRole="TasksPTSGR" />
-          <NavigationProperty Name="OrdersPTSGR" Relationship="OTERT_Model.FK_OrdersPTSGR_Orders" FromRole="Orders" ToRole="OrdersPTSGR" />
           <Property Name="InoiceProtocol" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="DateTimeStart" Type="DateTime" Precision="3" />
           <Property Name="DateTimeEnd" Type="DateTime" Precision="3" />
@@ -1898,40 +1921,6 @@
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="TasksLine" EntitySet="TasksLine" />
           </AssociationSet>
-          <EntitySet Name="OrdersPTSGR" EntityType="OTERT_Model.OrdersPTSGR" />
-          <EntitySet Name="TasksPTSGR" EntityType="OTERT_Model.TasksPTSGR" />
-          <AssociationSet Name="fk_TasksPTSGR_Customers" Association="OTERT_Model.fk_TasksPTSGR_Customers">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
-          </AssociationSet>
-          <AssociationSet Name="fk_TasksPTSGR_Jobs" Association="OTERT_Model.fk_TasksPTSGR_Jobs">
-            <End Role="Jobs" EntitySet="Jobs" />
-            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TasksPTSGR_LineTypes" Association="OTERT_Model.FK_TasksPTSGR_LineTypes">
-            <End Role="LineTypes" EntitySet="LineTypes" />
-            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
-          </AssociationSet>
-          <AssociationSet Name="fk_TasksPTSGR_OrderPTSGRID" Association="OTERT_Model.fk_TasksPTSGR_OrderPTSGRID">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
-          </AssociationSet>
-          <AssociationSet Name="fk_TasksPTSGR_RequestedPositions" Association="OTERT_Model.fk_TasksPTSGR_RequestedPositions">
-            <End Role="RequestedPositions" EntitySet="RequestedPositions" />
-            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrdersPTSGR_Countries" Association="OTERT_Model.FK_OrdersPTSGR_Countries">
-            <End Role="Countries" EntitySet="Countries" />
-            <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrdersPTSGR_Customers" Association="OTERT_Model.FK_OrdersPTSGR_Customers">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrdersPTSGR_Orders" Association="OTERT_Model.FK_OrdersPTSGR_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
-          </AssociationSet>
           <EntitySet Name="JobCancelPrices" EntityType="OTERT_Model.JobCancelPrices" />
           <AssociationSet Name="FK_JobCancelPrices_Jobs" Association="OTERT_Model.FK_JobCancelPrices_Jobs">
             <End Role="Jobs" EntitySet="Jobs" />
@@ -1948,6 +1937,45 @@
           <AssociationSet Name="FK_UserPasswordReset_Users" Association="OTERT_Model.FK_UserPasswordReset_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserPasswordReset" EntitySet="UserPasswordReset" />
+          </AssociationSet>
+          <EntitySet Name="OrdersPTSGR" EntityType="OTERT_Model.OrdersPTSGR" />
+          <AssociationSet Name="FK_OrdersPTSGR_Events" Association="OTERT_Model.FK_OrdersPTSGR_Events">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
+          </AssociationSet>
+          <EntitySet Name="OrdersPTSGR2" EntityType="OTERT_Model.OrdersPTSGR2" />
+          <AssociationSet Name="FK_OrdersPTSGR2_Countries" Association="OTERT_Model.FK_OrdersPTSGR2_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="OrdersPTSGR2" EntitySet="OrdersPTSGR2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersPTSGR2_Customers" Association="OTERT_Model.FK_OrdersPTSGR2_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="OrdersPTSGR2" EntitySet="OrdersPTSGR2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersPTSGR2_OrdersPTSGR" Association="OTERT_Model.FK_OrdersPTSGR2_OrdersPTSGR">
+            <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
+            <End Role="OrdersPTSGR2" EntitySet="OrdersPTSGR2" />
+          </AssociationSet>
+          <EntitySet Name="TasksPTSGR" EntityType="OTERT_Model.TasksPTSGR" />
+          <AssociationSet Name="fk_TasksPTSGR_Customers" Association="OTERT_Model.fk_TasksPTSGR_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksPTSGR_LineTypes" Association="OTERT_Model.FK_TasksPTSGR_LineTypes">
+            <End Role="LineTypes" EntitySet="LineTypes" />
+            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksPTSGR_OrdersPTSGR2" Association="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2">
+            <End Role="OrdersPTSGR2" EntitySet="OrdersPTSGR2" />
+            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TasksPTSGR_RequestedPositions" Association="OTERT_Model.fk_TasksPTSGR_RequestedPositions">
+            <End Role="RequestedPositions" EntitySet="RequestedPositions" />
+            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Files_OrdersPTSGR" Association="OTERT_Model.FK_Files_OrdersPTSGR">
+            <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
+            <End Role="Files" EntitySet="Files" />
           </AssociationSet>
         </EntityContainer>
         <Association Name="fk_Orders_Customers_1">
@@ -2124,6 +2152,8 @@
           <NavigationProperty Name="Tasks" Relationship="OTERT_Model.FK_Files_Tasks" FromRole="Files" ToRole="Tasks" />
           <Property Name="CustomerID" Type="Int32" />
           <NavigationProperty Name="Customers" Relationship="OTERT_Model.FK_Files_Customers" FromRole="Files" ToRole="Customers" />
+          <Property Name="OrderPTSGRID" Type="Int32" />
+          <NavigationProperty Name="OrdersPTSGR" Relationship="OTERT_Model.FK_Files_OrdersPTSGR" FromRole="Files" ToRole="OrdersPTSGR" />
         </EntityType>
         <Association Name="FK_Files_Orders">
           <End Type="OTERT_Model.Orders" Role="Orders" Multiplicity="0..1" />
@@ -2322,159 +2352,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="OrdersPTSGR">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderID" Type="Int32" Nullable="false" />
-          <Property Name="CountryID" Type="Int32" Nullable="false" />
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
-          <Property Name="RegNo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Countries" Relationship="OTERT_Model.FK_OrdersPTSGR_Countries" FromRole="OrdersPTSGR" ToRole="Countries" />
-          <NavigationProperty Name="Customers" Relationship="OTERT_Model.FK_OrdersPTSGR_Customers" FromRole="OrdersPTSGR" ToRole="Customers" />
-          <NavigationProperty Name="Orders" Relationship="OTERT_Model.FK_OrdersPTSGR_Orders" FromRole="OrdersPTSGR" ToRole="Orders" />
-        </EntityType>
-        <EntityType Name="TasksPTSGR">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderPTSGRID" Type="Int32" />
-          <Property Name="RegNo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
-          <Property Name="RequestedPositionID" Type="Int32" />
-          <Property Name="JobID" Type="Int32" Nullable="false" />
-          <Property Name="DateTimeStartOrder" Type="DateTime" Precision="3" />
-          <Property Name="DateTimeEndOrder" Type="DateTime" Precision="3" />
-          <Property Name="DateTimeDurationOrder" Type="Int32" Nullable="false" />
-          <Property Name="DateTimeStartActual" Type="DateTime" Precision="3" />
-          <Property Name="DateTimeEndActual" Type="DateTime" Precision="3" />
-          <Property Name="DateTimeDurationActual" Type="Int32" />
-          <Property Name="CostCalculated" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TelephoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="TechnicalSupport" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="AddedCharges" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CostActual" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PaymentDateOrder" Type="DateTime" Precision="3" />
-          <Property Name="PaymentDateCalculated" Type="DateTime" Precision="3" />
-          <Property Name="PaymentDateActual" Type="DateTime" Precision="3" />
-          <Property Name="IsLocked" Type="Boolean" />
-          <Property Name="IsCanceled" Type="Boolean" />
-          <Property Name="CancelPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="InvoceComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MSN1" Type="Boolean" />
-          <Property Name="MSN2" Type="Boolean" />
-          <Property Name="LineTypeID" Type="Int32" />
-          <Property Name="DateStamp" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EnteredByUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="InstallationCost" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MonthlyCharges" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MSNCost" Type="Decimal" Precision="18" Scale="2" />
-          <NavigationProperty Name="Customers" Relationship="OTERT_Model.fk_TasksPTSGR_Customers" FromRole="TasksPTSGR" ToRole="Customers" />
-          <NavigationProperty Name="Jobs" Relationship="OTERT_Model.fk_TasksPTSGR_Jobs" FromRole="TasksPTSGR" ToRole="Jobs" />
-          <NavigationProperty Name="LineTypes" Relationship="OTERT_Model.FK_TasksPTSGR_LineTypes" FromRole="TasksPTSGR" ToRole="LineTypes" />
-          <NavigationProperty Name="Orders" Relationship="OTERT_Model.fk_TasksPTSGR_OrderPTSGRID" FromRole="TasksPTSGR" ToRole="Orders" />
-          <NavigationProperty Name="RequestedPositions" Relationship="OTERT_Model.fk_TasksPTSGR_RequestedPositions" FromRole="TasksPTSGR" ToRole="RequestedPositions" />
-        </EntityType>
-        <Association Name="fk_TasksPTSGR_Customers">
-          <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
-          <End Type="OTERT_Model.TasksPTSGR" Role="TasksPTSGR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customers">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TasksPTSGR">
-              <PropertyRef Name="CustomerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_TasksPTSGR_Jobs">
-          <End Type="OTERT_Model.Jobs" Role="Jobs" Multiplicity="1" />
-          <End Type="OTERT_Model.TasksPTSGR" Role="TasksPTSGR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Jobs">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TasksPTSGR">
-              <PropertyRef Name="JobID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TasksPTSGR_LineTypes">
-          <End Type="OTERT_Model.LineTypes" Role="LineTypes" Multiplicity="0..1" />
-          <End Type="OTERT_Model.TasksPTSGR" Role="TasksPTSGR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LineTypes">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TasksPTSGR">
-              <PropertyRef Name="LineTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_TasksPTSGR_OrderPTSGRID">
-          <End Type="OTERT_Model.Orders" Role="Orders" Multiplicity="0..1" />
-          <End Type="OTERT_Model.TasksPTSGR" Role="TasksPTSGR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TasksPTSGR">
-              <PropertyRef Name="OrderPTSGRID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_TasksPTSGR_RequestedPositions">
-          <End Type="OTERT_Model.RequestedPositions" Role="RequestedPositions" Multiplicity="0..1" />
-          <End Type="OTERT_Model.TasksPTSGR" Role="TasksPTSGR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RequestedPositions">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TasksPTSGR">
-              <PropertyRef Name="RequestedPositionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrdersPTSGR_Countries">
-          <End Type="OTERT_Model.Countries" Role="Countries" Multiplicity="1" />
-          <End Type="OTERT_Model.OrdersPTSGR" Role="OrdersPTSGR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Countries">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OrdersPTSGR">
-              <PropertyRef Name="CountryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrdersPTSGR_Customers">
-          <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
-          <End Type="OTERT_Model.OrdersPTSGR" Role="OrdersPTSGR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customers">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OrdersPTSGR">
-              <PropertyRef Name="CustomerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrdersPTSGR_Orders">
-          <End Type="OTERT_Model.Orders" Role="Orders" Multiplicity="1" />
-          <End Type="OTERT_Model.OrdersPTSGR" Role="OrdersPTSGR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OrdersPTSGR">
-              <PropertyRef Name="OrderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="JobCancelPrices">
           <Key>
             <PropertyRef Name="ID" />
@@ -2562,6 +2439,181 @@
             </Principal>
             <Dependent Role="UserPasswordReset">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrdersPTSGR">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegNo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EventID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Events" Relationship="OTERT_Model.FK_OrdersPTSGR_Events" FromRole="OrdersPTSGR" ToRole="Events" />
+          <NavigationProperty Name="OrdersPTSGR2" Relationship="OTERT_Model.FK_OrdersPTSGR2_OrdersPTSGR" FromRole="OrdersPTSGR" ToRole="OrdersPTSGR2" />
+          <NavigationProperty Name="Files" Relationship="OTERT_Model.FK_Files_OrdersPTSGR" FromRole="OrdersPTSGR" ToRole="Files" />
+        </EntityType>
+        <Association Name="FK_OrdersPTSGR_Events">
+          <End Type="OTERT_Model.Events" Role="Events" Multiplicity="1" />
+          <End Type="OTERT_Model.OrdersPTSGR" Role="OrdersPTSGR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrdersPTSGR">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrdersPTSGR2">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrdersPTSGRID" Type="Int32" Nullable="false" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <Property Name="ProviderID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Countries" Relationship="OTERT_Model.FK_OrdersPTSGR2_Countries" FromRole="OrdersPTSGR2" ToRole="Countries" />
+          <NavigationProperty Name="Customers" Relationship="OTERT_Model.FK_OrdersPTSGR2_Customers" FromRole="OrdersPTSGR2" ToRole="Customers" />
+          <NavigationProperty Name="OrdersPTSGR" Relationship="OTERT_Model.FK_OrdersPTSGR2_OrdersPTSGR" FromRole="OrdersPTSGR2" ToRole="OrdersPTSGR" />
+          <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2" FromRole="OrdersPTSGR2" ToRole="TasksPTSGR" />
+        </EntityType>
+        <Association Name="FK_OrdersPTSGR2_Countries">
+          <End Type="OTERT_Model.Countries" Role="Countries" Multiplicity="1" />
+          <End Type="OTERT_Model.OrdersPTSGR2" Role="OrdersPTSGR2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrdersPTSGR2">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersPTSGR2_Customers">
+          <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
+          <End Type="OTERT_Model.OrdersPTSGR2" Role="OrdersPTSGR2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrdersPTSGR2">
+              <PropertyRef Name="ProviderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersPTSGR2_OrdersPTSGR">
+          <End Type="OTERT_Model.OrdersPTSGR" Role="OrdersPTSGR" Multiplicity="1" />
+          <End Type="OTERT_Model.OrdersPTSGR2" Role="OrdersPTSGR2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrdersPTSGR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrdersPTSGR2">
+              <PropertyRef Name="OrdersPTSGRID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TasksPTSGR">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderPTSGR2ID" Type="Int32" Nullable="false" />
+          <Property Name="RegNo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="RequestedPositionID" Type="Int32" />
+          <Property Name="DateTimeStartOrder" Type="DateTime" Precision="3" />
+          <Property Name="DateTimeEndOrder" Type="DateTime" Precision="3" />
+          <Property Name="DateTimeDurationOrder" Type="Int32" Nullable="false" />
+          <Property Name="DateTimeStartActual" Type="DateTime" Precision="3" />
+          <Property Name="DateTimeEndActual" Type="DateTime" Precision="3" />
+          <Property Name="DateTimeDurationActual" Type="Int32" />
+          <Property Name="CostCalculated" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TelephoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TechnicalSupport" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AddedCharges" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CostActual" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentDateOrder" Type="DateTime" Precision="3" />
+          <Property Name="PaymentDateCalculated" Type="DateTime" Precision="3" />
+          <Property Name="PaymentDateActual" Type="DateTime" Precision="3" />
+          <Property Name="IsLocked" Type="Boolean" />
+          <Property Name="IsCanceled" Type="Boolean" />
+          <Property Name="CancelPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InvoceComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MSN1" Type="Boolean" />
+          <Property Name="MSN2" Type="Boolean" />
+          <Property Name="LineTypeID" Type="Int32" />
+          <Property Name="DateStamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EnteredByUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="InstallationCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MonthlyCharges" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MSNCost" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Customers" Relationship="OTERT_Model.fk_TasksPTSGR_Customers" FromRole="TasksPTSGR" ToRole="Customers" />
+          <NavigationProperty Name="LineTypes" Relationship="OTERT_Model.FK_TasksPTSGR_LineTypes" FromRole="TasksPTSGR" ToRole="LineTypes" />
+          <NavigationProperty Name="OrdersPTSGR2" Relationship="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2" FromRole="TasksPTSGR" ToRole="OrdersPTSGR2" />
+          <NavigationProperty Name="RequestedPositions" Relationship="OTERT_Model.fk_TasksPTSGR_RequestedPositions" FromRole="TasksPTSGR" ToRole="RequestedPositions" />
+          <Property Name="InvoiceCost" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <Association Name="fk_TasksPTSGR_Customers">
+          <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
+          <End Type="OTERT_Model.TasksPTSGR" Role="TasksPTSGR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TasksPTSGR">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksPTSGR_LineTypes">
+          <End Type="OTERT_Model.LineTypes" Role="LineTypes" Multiplicity="0..1" />
+          <End Type="OTERT_Model.TasksPTSGR" Role="TasksPTSGR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LineTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TasksPTSGR">
+              <PropertyRef Name="LineTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksPTSGR_OrdersPTSGR2">
+          <End Type="OTERT_Model.OrdersPTSGR2" Role="OrdersPTSGR2" Multiplicity="1" />
+          <End Type="OTERT_Model.TasksPTSGR" Role="TasksPTSGR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrdersPTSGR2">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TasksPTSGR">
+              <PropertyRef Name="OrderPTSGR2ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TasksPTSGR_RequestedPositions">
+          <End Type="OTERT_Model.RequestedPositions" Role="RequestedPositions" Multiplicity="0..1" />
+          <End Type="OTERT_Model.TasksPTSGR" Role="TasksPTSGR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestedPositions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TasksPTSGR">
+              <PropertyRef Name="RequestedPositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Files_OrdersPTSGR">
+          <End Type="OTERT_Model.OrdersPTSGR" Role="OrdersPTSGR" Multiplicity="0..1" />
+          <End Type="OTERT_Model.Files" Role="Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrdersPTSGR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="OrderPTSGRID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2870,6 +2922,7 @@
           <EntitySetMapping Name="Files">
             <EntityTypeMapping TypeName="OTERT_Model.Files">
               <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="OrderPTSGRID" ColumnName="OrderPTSGRID" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
@@ -2941,57 +2994,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OrdersPTSGR">
-            <EntityTypeMapping TypeName="OTERT_Model.OrdersPTSGR">
-              <MappingFragment StoreEntitySet="OrdersPTSGR">
-                <ScalarProperty Name="RegNo" ColumnName="RegNo" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TasksPTSGR">
-            <EntityTypeMapping TypeName="OTERT_Model.TasksPTSGR">
-              <MappingFragment StoreEntitySet="TasksPTSGR">
-                <ScalarProperty Name="MSNCost" ColumnName="MSNCost" />
-                <ScalarProperty Name="MonthlyCharges" ColumnName="MonthlyCharges" />
-                <ScalarProperty Name="InstallationCost" ColumnName="InstallationCost" />
-                <ScalarProperty Name="EnteredByUser" ColumnName="EnteredByUser" />
-                <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
-                <ScalarProperty Name="LineTypeID" ColumnName="LineTypeID" />
-                <ScalarProperty Name="MSN2" ColumnName="MSN2" />
-                <ScalarProperty Name="MSN1" ColumnName="MSN1" />
-                <ScalarProperty Name="InvoceComments" ColumnName="InvoceComments" />
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="CancelPrice" ColumnName="CancelPrice" />
-                <ScalarProperty Name="IsCanceled" ColumnName="IsCanceled" />
-                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
-                <ScalarProperty Name="PaymentDateActual" ColumnName="PaymentDateActual" />
-                <ScalarProperty Name="PaymentDateCalculated" ColumnName="PaymentDateCalculated" />
-                <ScalarProperty Name="PaymentDateOrder" ColumnName="PaymentDateOrder" />
-                <ScalarProperty Name="CostActual" ColumnName="CostActual" />
-                <ScalarProperty Name="AddedCharges" ColumnName="AddedCharges" />
-                <ScalarProperty Name="TechnicalSupport" ColumnName="TechnicalSupport" />
-                <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
-                <ScalarProperty Name="CostCalculated" ColumnName="CostCalculated" />
-                <ScalarProperty Name="DateTimeDurationActual" ColumnName="DateTimeDurationActual" />
-                <ScalarProperty Name="DateTimeEndActual" ColumnName="DateTimeEndActual" />
-                <ScalarProperty Name="DateTimeStartActual" ColumnName="DateTimeStartActual" />
-                <ScalarProperty Name="DateTimeDurationOrder" ColumnName="DateTimeDurationOrder" />
-                <ScalarProperty Name="DateTimeEndOrder" ColumnName="DateTimeEndOrder" />
-                <ScalarProperty Name="DateTimeStartOrder" ColumnName="DateTimeStartOrder" />
-                <ScalarProperty Name="JobID" ColumnName="JobID" />
-                <ScalarProperty Name="RequestedPositionID" ColumnName="RequestedPositionID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-                <ScalarProperty Name="RegNo" ColumnName="RegNo" />
-                <ScalarProperty Name="OrderPTSGRID" ColumnName="OrderPTSGRID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="JobCancelPrices">
             <EntityTypeMapping TypeName="OTERT_Model.JobCancelPrices">
               <MappingFragment StoreEntitySet="JobCancelPrices">
@@ -3044,6 +3046,65 @@
                 <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
                 <ScalarProperty Name="GUID" ColumnName="GUID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrdersPTSGR">
+            <EntityTypeMapping TypeName="OTERT_Model.OrdersPTSGR">
+              <MappingFragment StoreEntitySet="OrdersPTSGR">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="RegNo" ColumnName="RegNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrdersPTSGR2">
+            <EntityTypeMapping TypeName="OTERT_Model.OrdersPTSGR2">
+              <MappingFragment StoreEntitySet="OrdersPTSGR2">
+                <ScalarProperty Name="ProviderID" ColumnName="ProviderID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="OrdersPTSGRID" ColumnName="OrdersPTSGRID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TasksPTSGR">
+            <EntityTypeMapping TypeName="OTERT_Model.TasksPTSGR">
+              <MappingFragment StoreEntitySet="TasksPTSGR">
+                <ScalarProperty Name="InvoiceCost" ColumnName="InvoiceCost" />
+                <ScalarProperty Name="MSNCost" ColumnName="MSNCost" />
+                <ScalarProperty Name="MonthlyCharges" ColumnName="MonthlyCharges" />
+                <ScalarProperty Name="InstallationCost" ColumnName="InstallationCost" />
+                <ScalarProperty Name="EnteredByUser" ColumnName="EnteredByUser" />
+                <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
+                <ScalarProperty Name="LineTypeID" ColumnName="LineTypeID" />
+                <ScalarProperty Name="MSN2" ColumnName="MSN2" />
+                <ScalarProperty Name="MSN1" ColumnName="MSN1" />
+                <ScalarProperty Name="InvoceComments" ColumnName="InvoceComments" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="CancelPrice" ColumnName="CancelPrice" />
+                <ScalarProperty Name="IsCanceled" ColumnName="IsCanceled" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="PaymentDateActual" ColumnName="PaymentDateActual" />
+                <ScalarProperty Name="PaymentDateCalculated" ColumnName="PaymentDateCalculated" />
+                <ScalarProperty Name="PaymentDateOrder" ColumnName="PaymentDateOrder" />
+                <ScalarProperty Name="CostActual" ColumnName="CostActual" />
+                <ScalarProperty Name="AddedCharges" ColumnName="AddedCharges" />
+                <ScalarProperty Name="TechnicalSupport" ColumnName="TechnicalSupport" />
+                <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
+                <ScalarProperty Name="CostCalculated" ColumnName="CostCalculated" />
+                <ScalarProperty Name="DateTimeDurationActual" ColumnName="DateTimeDurationActual" />
+                <ScalarProperty Name="DateTimeEndActual" ColumnName="DateTimeEndActual" />
+                <ScalarProperty Name="DateTimeStartActual" ColumnName="DateTimeStartActual" />
+                <ScalarProperty Name="DateTimeDurationOrder" ColumnName="DateTimeDurationOrder" />
+                <ScalarProperty Name="DateTimeEndOrder" ColumnName="DateTimeEndOrder" />
+                <ScalarProperty Name="DateTimeStartOrder" ColumnName="DateTimeStartOrder" />
+                <ScalarProperty Name="RequestedPositionID" ColumnName="RequestedPositionID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="RegNo" ColumnName="RegNo" />
+                <ScalarProperty Name="OrderPTSGR2ID" ColumnName="OrderPTSGR2ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

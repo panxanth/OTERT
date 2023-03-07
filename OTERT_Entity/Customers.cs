@@ -23,8 +23,8 @@ namespace OTERT_Entity
             this.Orders11 = new HashSet<Orders>();
             this.Files = new HashSet<Files>();
             this.Invoices = new HashSet<Invoices>();
+            this.OrdersPTSGR2 = new HashSet<OrdersPTSGR2>();
             this.TasksPTSGR = new HashSet<TasksPTSGR>();
-            this.OrdersPTSGR = new HashSet<OrdersPTSGR>();
         }
     
         public int ID { get; set; }
@@ -79,8 +79,8 @@ namespace OTERT_Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Invoices> Invoices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TasksPTSGR> TasksPTSGR { get; set; }
+        public virtual ICollection<OrdersPTSGR2> OrdersPTSGR2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrdersPTSGR> OrdersPTSGR { get; set; }
+        public virtual ICollection<TasksPTSGR> TasksPTSGR { get; set; }
     }
 }

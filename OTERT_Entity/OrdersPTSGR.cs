@@ -14,14 +14,21 @@ namespace OTERT_Entity
     
     public partial class OrdersPTSGR
     {
-        public int ID { get; set; }
-        public int OrderID { get; set; }
-        public int CountryID { get; set; }
-        public int CustomerID { get; set; }
-        public string RegNo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public OrdersPTSGR()
+        {
+            this.OrdersPTSGR2 = new HashSet<OrdersPTSGR2>();
+            this.Files = new HashSet<Files>();
+        }
     
-        public virtual Countries Countries { get; set; }
-        public virtual Customers Customers { get; set; }
-        public virtual Orders Orders { get; set; }
+        public int ID { get; set; }
+        public string RegNo { get; set; }
+        public int EventID { get; set; }
+    
+        public virtual Events Events { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrdersPTSGR2> OrdersPTSGR2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Files> Files { get; set; }
     }
 }

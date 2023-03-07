@@ -15,12 +15,11 @@ namespace OTERT_Entity
     public partial class TasksPTSGR
     {
         public int ID { get; set; }
-        public Nullable<int> OrderPTSGRID { get; set; }
+        public int OrderPTSGR2ID { get; set; }
         public string RegNo { get; set; }
         public System.DateTime OrderDate { get; set; }
         public int CustomerID { get; set; }
         public Nullable<int> RequestedPositionID { get; set; }
-        public int JobID { get; set; }
         public Nullable<System.DateTime> DateTimeStartOrder { get; set; }
         public Nullable<System.DateTime> DateTimeEndOrder { get; set; }
         public int DateTimeDurationOrder { get; set; }
@@ -48,11 +47,11 @@ namespace OTERT_Entity
         public Nullable<decimal> InstallationCost { get; set; }
         public Nullable<decimal> MonthlyCharges { get; set; }
         public Nullable<decimal> MSNCost { get; set; }
+        public Nullable<decimal> InvoiceCost { get; set; }
     
         public virtual Customers Customers { get; set; }
-        public virtual Jobs Jobs { get; set; }
         public virtual LineTypes LineTypes { get; set; }
-        public virtual Orders Orders { get; set; }
+        public virtual OrdersPTSGR2 OrdersPTSGR2 { get; set; }
         public virtual RequestedPositions RequestedPositions { get; set; }
     }
 }
