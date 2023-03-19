@@ -45,7 +45,9 @@ namespace OTERT.Controller {
                                                  },
                                                  NameGR = us.Events.NameGR,
                                                  NameEN = us.Events.NameEN
-                                             }
+                                             },
+                                             DateTimeStart = us.DateTimeStart,
+                                             DateTimeEnd = us.DateTimeEnd,
                                          }).Where(o => o.ID == orderID).FirstOrDefault();
                     return data;
                 }
@@ -59,10 +61,10 @@ namespace OTERT.Controller {
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     List<OrderPTSGRB> data = (from us in dbContext.OrdersPTSGR
                                               select new OrderPTSGRB {
-                                             ID = us.ID,
-                                             RegNo = us.RegNo,
-                                             EventID = us.EventID,
-                                             Event = new EventDTO {
+                                              ID = us.ID,
+                                              RegNo = us.RegNo,
+                                              EventID = us.EventID,
+                                              Event = new EventDTO {
                                                                  ID = us.Events.ID,
                                                                  PlaceID = us.Events.PlaceID,
                                                                  Place = new PlaceDTO {
@@ -78,8 +80,10 @@ namespace OTERT.Controller {
                                                                  },
                                                                  NameGR = us.Events.NameGR,
                                                                  NameEN = us.Events.NameEN
-                                             }
-                                         }).OrderBy(o => o.ID).ToList();
+                                              },
+                                              DateTimeStart = us.DateTimeStart,
+                                              DateTimeEnd = us.DateTimeEnd,
+                                          }).OrderBy(o => o.ID).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -92,10 +96,10 @@ namespace OTERT.Controller {
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     List<OrderPTSGRB> data = (from us in dbContext.OrdersPTSGR
                                               select new OrderPTSGRB{
-                                             ID = us.ID,
-                                             RegNo = us.RegNo,
-                                             EventID = us.EventID,
-                                             Event = new EventDTO {
+                                              ID = us.ID,
+                                              RegNo = us.RegNo,
+                                              EventID = us.EventID,
+                                              Event = new EventDTO {
                                                                    ID = us.Events.ID,
                                                                    PlaceID = us.Events.PlaceID,
                                                                    Place = new PlaceDTO {
@@ -111,8 +115,10 @@ namespace OTERT.Controller {
                                                                    },
                                                                    NameGR = us.Events.NameGR,
                                                                    NameEN = us.Events.NameEN
-                                             }
-                                         }).OrderByDescending(o => o.ID).Skip(recSkip).Take(recTake).ToList();
+                                              },
+                                              DateTimeStart = us.DateTimeStart,
+                                              DateTimeEnd = us.DateTimeEnd,
+                                          }).OrderByDescending(o => o.ID).Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -125,10 +131,10 @@ namespace OTERT.Controller {
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     IQueryable<OrderPTSGRB> datatmp = (from us in dbContext.OrdersPTSGR
                                                        select new OrderPTSGRB {
-                                                      ID = us.ID,
-                                                      RegNo = us.RegNo,
-                                                      EventID = us.EventID,
-                                                      Event = new EventDTO {
+                                                       ID = us.ID,
+                                                       RegNo = us.RegNo,
+                                                       EventID = us.EventID,
+                                                       Event = new EventDTO {
                                                           ID = us.Events.ID,
                                                           PlaceID = us.Events.PlaceID,
                                                           Place = new PlaceDTO {
@@ -144,8 +150,10 @@ namespace OTERT.Controller {
                                                           },
                                                           NameGR = us.Events.NameGR,
                                                           NameEN = us.Events.NameEN
-                                                      }
-                                                  });
+                                                       },
+                                                       DateTimeStart = us.DateTimeStart,
+                                                       DateTimeEnd = us.DateTimeEnd,
+                                                   });
                     /*
                     if (!string.IsNullOrEmpty(recFilter)) {
                         string[] expressionsAND = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);

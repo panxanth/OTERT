@@ -236,6 +236,8 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RegNo" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="EventID" Type="int" Nullable="false" />
+          <Property Name="DateTimeStart" Type="datetime" />
+          <Property Name="DateTimeEnd" Type="datetime" />
         </EntityType>
         <EntityType Name="OrdersPTSGR2">
           <Key>
@@ -2452,6 +2454,8 @@
           <NavigationProperty Name="Events" Relationship="OTERT_Model.FK_OrdersPTSGR_Events" FromRole="OrdersPTSGR" ToRole="Events" />
           <NavigationProperty Name="OrdersPTSGR2" Relationship="OTERT_Model.FK_OrdersPTSGR2_OrdersPTSGR" FromRole="OrdersPTSGR" ToRole="OrdersPTSGR2" />
           <NavigationProperty Name="Files" Relationship="OTERT_Model.FK_Files_OrdersPTSGR" FromRole="OrdersPTSGR" ToRole="Files" />
+          <Property Name="DateTimeStart" Type="DateTime" Precision="3" />
+          <Property Name="DateTimeEnd" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_OrdersPTSGR_Events">
           <End Type="OTERT_Model.Events" Role="Events" Multiplicity="1" />
@@ -3053,6 +3057,8 @@
           <EntitySetMapping Name="OrdersPTSGR">
             <EntityTypeMapping TypeName="OTERT_Model.OrdersPTSGR">
               <MappingFragment StoreEntitySet="OrdersPTSGR">
+                <ScalarProperty Name="DateTimeEnd" ColumnName="DateTimeEnd" />
+                <ScalarProperty Name="DateTimeStart" ColumnName="DateTimeStart" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
                 <ScalarProperty Name="RegNo" ColumnName="RegNo" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

@@ -73,18 +73,6 @@ namespace OTERT.Pages.Administrator {
         }
 
         protected void gridMain_NeedDataSource(object sender, GridNeedDataSourceEventArgs e) {
-
-            //int recSkip = gridMain.MasterTableView.CurrentPageIndex * gridMain.MasterTableView.PageSize;
-            //int recTake = gridMain.MasterTableView.PageSize;
-            //string recFilter = gridMain.MasterTableView.FilterExpression;
-            //GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
-            //try {
-            //    OrdersController cont = new OrdersController();
-            //    gridMain.VirtualItemCount = cont.CountOrders(OrderTypeID);
-            //    gridMain.DataSource = cont.GetOrders(OrderTypeID, recSkip, recTake, recFilter, gridSortExxpressions);
-            //}
-            //catch (Exception) { }
-
             int oredrID = -1;
             if (Request.QueryString["ID"] != null && Request.QueryString["ID"] != string.Empty) {
                 int.TryParse(Request.QueryString["ID"], out oredrID);
@@ -120,7 +108,6 @@ namespace OTERT.Pages.Administrator {
                     ElasticButton img = (ElasticButton)item["btnDelete"].Controls[0];
                     img.ToolTip = "Διαγραφή";
                 }
-                /*
                 if (e.Item is GridFilteringItem) {
                     GridFilteringItem filterItem = (GridFilteringItem)e.Item;
                     (filterItem["DateTimeStart"].Controls[0] as LiteralControl).Text = "Από: ";
@@ -131,7 +118,6 @@ namespace OTERT.Pages.Administrator {
                     DateTimeStartΤο.TimePopupButton.Visible = false;
                     DateTimeStartFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + DateTimeStartFrom.ClientID + "', '" + DateTimeStartΤο.ClientID + "');");
                 }
-                */
             }
             else if (e.Item.OwnerTableView.Name == "Tasks2Details") {
                 if (e.Item is GridDataItem) {
@@ -216,6 +202,8 @@ namespace OTERT.Pages.Administrator {
                             Session["PlaceID"] = currOrder.Event.PlaceID;
                             ddlEvent.SelectedIndex = ddlEvent.FindItemByValue(currOrder.EventID.ToString()).Index;
                             Session["EventID"] = currOrder.EventID;
+                            ddlPlace.Enabled = false;
+                            ddlEvent.Enabled = false;
                         } else {
                             ddlPlace.SelectedIndex = 0;
                             if (ddlPlace.SelectedItem != null) { Session["PlaceID"] = ddlPlace.SelectedItem.Value; }
@@ -247,6 +235,7 @@ namespace OTERT.Pages.Administrator {
                         ddlCountry.DataBind();
                         if (currOrderPTSGR2 != null) {
                             ddlCountry.SelectedIndex = ddlCountry.FindItemByValue(currOrderPTSGR2.CountryID.ToString()).Index;
+                            ddlCountry.Enabled = false;
                             CustomersController rcont = new CustomersController();
                             ddlProvider.DataSource = rcont.GetProvidersForCountry(currOrderPTSGR2.CountryID);
                             ddlProvider.DataTextField = "NameGR";
@@ -1015,17 +1004,14 @@ namespace OTERT.Pages.Administrator {
                 }
                 catch (Exception) { }
             }
-            else if (e.CommandName == "orderCopy")
-            {
+            else if (e.CommandName == "orderCopy") {
                 GridDataItem item = (GridDataItem)e.Item;
                 int orderID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
                 OrdersController oCont = new OrdersController();
                 OrderB curOrder = oCont.GetOrder(orderID);
-                using (var dbContext = new OTERTConnStr())
-                {
+                using (var dbContext = new OTERTConnStr()) {
                     var newOrder = new Orders();
-                    try
-                    {
+                    try {
                         newOrder.RegNo = curOrder.RegNo;
                         newOrder.InoiceProtocol = curOrder.InoiceProtocol;
                         newOrder.OrderTypeID = curOrder.OrderTypeID;
@@ -1049,14 +1035,16 @@ namespace OTERT.Pages.Administrator {
                     var curOrder = dbContext.OrdersPTSGR.Where(n => n.ID == ID).FirstOrDefault();
                     if (curOrder != null) {
                         editableItem.UpdateValues(curOrder);
-                        if (Session["EventID"] != null) { EventID = int.Parse(Session["EventID"].ToString()); }
-                        if (EventID > 0) {
-                            curOrder.EventID = EventID;
-                            EventID = -1;
-                            Session.Remove("EventID");
-                        }
+                        //if (Session["EventID"] != null) { EventID = int.Parse(Session["EventID"].ToString()); }
+                        //if (EventID > 0) {
+                        //    curOrder.EventID = EventID;
+                        //    EventID = -1;
+                        //    Session.Remove("EventID");
+                        //}
                         PlaceID = -1;
                         Session.Remove("PlaceID");
+                        EventID = -1;
+                        Session.Remove("EventID");
                         try { dbContext.SaveChanges(); }
                         catch (Exception) { ShowErrorMessage(-1); }
                     }
@@ -1071,8 +1059,8 @@ namespace OTERT.Pages.Administrator {
                     if (curOrdersPTSGR2 != null) {
                         try {
                             editableItem.UpdateValues(curOrdersPTSGR2);
-                            if (Session["CountryID"] != null) { CountryID = int.Parse(Session["CountryID"].ToString()); }
-                            if (CountryID > 0) { curOrdersPTSGR2.CountryID = CountryID; }
+                            //if (Session["CountryID"] != null) { CountryID = int.Parse(Session["CountryID"].ToString()); }
+                            //if (CountryID > 0) { curOrdersPTSGR2.CountryID = CountryID; }
                             if (Session["ProviderID"] != null) { ProviderID = int.Parse(Session["ProviderID"].ToString()); }
                             if (ProviderID > 0) { curOrdersPTSGR2.ProviderID = ProviderID; }
                             int test = dbContext.SaveChanges();
@@ -1095,14 +1083,13 @@ namespace OTERT.Pages.Administrator {
                 var editableItem = ((GridEditableItem)e.Item);
                 var ID = (int)editableItem.GetDataKeyValue("ID");
                 GridDataItem parentItem = e.Item.OwnerTableView.ParentItem;
-                int orderID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
-                using (var dbContext = new OTERTConnStr())
-                {
-                    var curTask = dbContext.Tasks.Where(n => n.ID == ID).FirstOrDefault();
-                    if (curTask != null)
-                    {
-                        try
-                        {
+                int orderPTSGR2ID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
+                GridDataItem parentItem2 = e.Item.OwnerTableView.ParentItem.OwnerTableView.ParentItem;
+                int orderPTSGRID = int.Parse(parentItem2.GetDataKeyValue("ID").ToString());
+                using (var dbContext = new OTERTConnStr()) {
+                    var curTask = dbContext.TasksPTSGR.Where(n => n.ID == ID).FirstOrDefault();
+                    if (curTask != null) {
+                        try {
                             editableItem.UpdateValues(curTask);
                             if (Session["CustomerID"] != null) { CustomerID = int.Parse(Session["CustomerID"].ToString()); }
                             if (CustomerID > 0) { curTask.CustomerID = CustomerID; }
@@ -1111,15 +1098,14 @@ namespace OTERT.Pages.Administrator {
                             if (Session["LineTypeID"] != null) { LineTypeID = int.Parse(Session["LineTypeID"].ToString()); }
                             if (LineTypeID > 0) { curTask.LineTypeID = LineTypeID; }
                             int test = dbContext.SaveChanges();
-                            var curOrder = dbContext.Orders.Where(n => n.ID == orderID).FirstOrDefault();
-                            DateTime?[] datesForOrder = getDatesForOrder(orderID);
+                            var curOrder = dbContext.OrdersPTSGR.Where(n => n.ID == orderPTSGRID).FirstOrDefault();
+                            DateTime?[] datesForOrder = getDatesForOrder(orderPTSGRID);
                             curOrder.DateTimeStart = datesForOrder[0];
                             curOrder.DateTimeEnd = datesForOrder[1];
                             dbContext.SaveChanges();
                         }
                         catch (Exception) { ShowErrorMessage(-1); }
-                        finally
-                        {
+                        finally {
                             CustomerID = -1;
                             Session.Remove("CustomerID");
                             PositionID = -1;
@@ -1197,6 +1183,8 @@ namespace OTERT.Pages.Administrator {
             } else if (e.Item.OwnerTableView.Name == "TasksDetails") {
                 GridDataItem parentItem = e.Item.OwnerTableView.ParentItem;
                 int orderPTSGR2ID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
+                GridDataItem parentItem2 = e.Item.OwnerTableView.ParentItem.OwnerTableView.ParentItem;
+                int orderPTSGRID = int.Parse(parentItem2.GetDataKeyValue("ID").ToString());
                 var editableItem = ((GridEditableItem)e.Item);
                 using (var dbContext = new OTERTConnStr()) {
                     TasksPTSGR curTask = new TasksPTSGR();
@@ -1235,11 +1223,11 @@ namespace OTERT.Pages.Administrator {
                             curTask.EnteredByUser = loggedUser.NameGR;
                             dbContext.TasksPTSGR.Add(curTask);
                             dbContext.SaveChanges();
-                            //var curOrder = dbContext.Orders.Where(n => n.ID == orderID).FirstOrDefault();
-                            //DateTime?[] datesForOrder = getDatesForOrder(orderID);
-                            //curOrder.DateTimeStart = datesForOrder[0];
-                            //curOrder.DateTimeEnd = datesForOrder[1];
-                            //dbContext.SaveChanges();
+                            var curOrder = dbContext.OrdersPTSGR.Where(n => n.ID == orderPTSGRID).FirstOrDefault();
+                            DateTime?[] datesForOrder = getDatesForOrder(orderPTSGRID);
+                            curOrder.DateTimeStart = datesForOrder[0];
+                            curOrder.DateTimeEnd = datesForOrder[1];
+                            dbContext.SaveChanges();
                         }
                         catch (Exception) { ShowErrorMessage(-1); }
                         finally {
@@ -1255,9 +1243,15 @@ namespace OTERT.Pages.Administrator {
 
 
                             e.Item.OwnerTableView.Rebind();
-                            string oldID = parentItem.GetDataKeyValue("ID").ToString();
                             gridMain.Rebind();
-                            expandDetailTableRowByID(oldID);
+                            var test = e.Item.OwnerTableView.Items;
+                            for (int i = 0; i < test.Count; i++) {
+                                test[i].OwnerTableView.Rebind();
+                            }
+                            //string oldID = parentItem.GetDataKeyValue("ID").ToString();
+                            //gridMain.Rebind();
+
+                            expandDetailTableRowByID(orderPTSGRID.ToString(), orderPTSGR2ID.ToString());
                         }
                     }
                     else { ShowErrorMessage(-1); }
@@ -1324,6 +1318,9 @@ namespace OTERT.Pages.Administrator {
             } else if (e.Item.OwnerTableView.Name == "TasksDetails") {
                 var ID = (int)((GridDataItem)e.Item).GetDataKeyValue("ID");
                 GridDataItem parentItem = e.Item.OwnerTableView.ParentItem;
+                int orderPTSGR2ID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
+                GridDataItem parentItem2 = e.Item.OwnerTableView.ParentItem.OwnerTableView.ParentItem;
+                int orderPTSGRID = int.Parse(parentItem2.GetDataKeyValue("ID").ToString());
                 using (var dbContext = new OTERTConnStr()) {
                     var curTask = dbContext.TasksPTSGR.Where(n => n.ID == ID).FirstOrDefault();
                     if (curTask != null) {
@@ -1332,11 +1329,16 @@ namespace OTERT.Pages.Administrator {
                                 int curOrderPTSR2ID = curTask.OrderPTSGR2ID;
                                 dbContext.TasksPTSGR.Remove(curTask);
                                 dbContext.SaveChanges();
-                                //var curOrder = dbContext.Orders.Where(n => n.ID == curOrderID).FirstOrDefault();
-                                //DateTime?[] datesForOrder = getDatesForOrder(curOrderID);
-                                //curOrder.DateTimeStart = datesForOrder[0];
-                                //curOrder.DateTimeEnd = datesForOrder[1];
-                                //dbContext.SaveChanges();
+                                var curOrder = dbContext.OrdersPTSGR.Where(n => n.ID == orderPTSGRID).FirstOrDefault();
+                                DateTime?[] datesForOrder = getDatesForOrder(orderPTSGRID);
+                                curOrder.DateTimeStart = datesForOrder[0];
+                                curOrder.DateTimeEnd = datesForOrder[1];
+                                dbContext.SaveChanges();
+                                e.Item.OwnerTableView.Rebind();
+                                parentItem.OwnerTableView.Rebind();
+                                parentItem.Expanded = true;
+                                parentItem2.OwnerTableView.Rebind();
+                                parentItem2.Expanded = true;
                             }
                             catch (Exception ex) {
                                 string err = ex.InnerException.InnerException.Message;
@@ -1361,11 +1363,7 @@ namespace OTERT.Pages.Administrator {
                             }
                             dbContext.OrdersPTSGR2.Remove(curOrder);
                             dbContext.SaveChanges();
-                                //var curOrder = dbContext.Orders.Where(n => n.ID == curOrderID).FirstOrDefault();
-                                //DateTime?[] datesForOrder = getDatesForOrder(curOrderID);
-                                //curOrder.DateTimeStart = datesForOrder[0];
-                                //curOrder.DateTimeEnd = datesForOrder[1];
-                                //dbContext.SaveChanges();
+                            
                         }
                         catch (Exception ex) {
                             string err = ex.InnerException.InnerException.Message;
@@ -1441,27 +1439,6 @@ namespace OTERT.Pages.Administrator {
                     ddlProvider.DataBind();
                     ddlProvider.SelectedIndex = 0;
                     Session["ProviderID"] = ddlProvider.SelectedItem.Value; ;
-                    /*
-                    if (ddlCustomer1.Items.Count > 0) { Session["Customer1ID"] = ddlCustomer1.SelectedItem.Value; } else { Session.Remove("Customer1ID"); }
-                    RadDropDownList ddlPlace = (RadDropDownList)item.FindControl("ddlPlace");
-                    ddlPlace.ClearSelection();
-                    PlacesController pcont = new PlacesController();
-                    ddlPlace.DataSource = pcont.GetPlacesForCountry(CountryID);
-                    ddlPlace.DataTextField = "NameGR";
-                    ddlPlace.DataValueField = "ID";
-                    ddlPlace.DataBind();
-                    ddlPlace.SelectedIndex = 0;
-                    if (ddlPlace.Items.Count > 0) { Session["PlaceID"] = ddlPlace.SelectedItem.Value; } else { Session.Remove("PlaceID"); }
-                    RadDropDownList ddlEvent = (RadDropDownList)item.FindControl("ddlEvent");
-                    ddlEvent.ClearSelection();
-                    EventsController econt = new EventsController();
-                    ddlEvent.DataSource = econt.GetEventsForPlace(Int32.Parse(ddlPlace.SelectedItem.Value));
-                    ddlEvent.DataTextField = "NameGR";
-                    ddlEvent.DataValueField = "ID";
-                    ddlEvent.DataBind();
-                    ddlEvent.SelectedIndex = 0;
-                    if (ddlEvent.Items.Count > 0) { Session["EventID"] = ddlEvent.SelectedItem.Value; } else { Session.Remove("EventID"); }
-                    */
                 } else {
                     RadDropDownList ddlCountries = (RadDropDownList)sender;
                     GridEditableItem item = (GridEditableItem)ddlCountries.NamingContainer;
@@ -1590,9 +1567,6 @@ namespace OTERT.Pages.Administrator {
             Response.ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
             Response.BinaryWrite(renderedBytes);
             Response.End();
-            //HttpContext.Current.Response.Flush(); // Sends all currently buffered output to the client.
-            //HttpContext.Current.Response.SuppressContent = true;  // Gets or sets a value indicating whether to send HTTP content to the client.
-            //HttpContext.Current.ApplicationInstance.CompleteRequest();
         }
 
         protected RadFlowDocument LoadSampleDocument(string uniqueName) {
@@ -1727,11 +1701,11 @@ namespace OTERT.Pages.Administrator {
 
         protected DateTime?[] getDatesForOrder(int orderID) {
             DateTime?[] dates2Return = new DateTime?[] { null, null };
-            TasksController tc = new TasksController();
-            List<TaskB> tasksForOrder = tc.GetTasksForOrder(orderID);
+            TasksPTSGRController tc = new TasksPTSGRController();
+            List<TaskPTSGRB> tasksForOrder = tc.GetTasksPTSGRForOrderPTSGRID(orderID);
             if (tasksForOrder.Count > 0) {
-                TaskB smallerDateTask = tasksForOrder.OrderBy(x => x.DateTimeStartActual).FirstOrDefault();
-                TaskB biggerDateTask = tasksForOrder.OrderBy(x => x.DateTimeStartActual).LastOrDefault();
+                TaskPTSGRB smallerDateTask = tasksForOrder.OrderBy(x => x.DateTimeStartActual).FirstOrDefault();
+                TaskPTSGRB biggerDateTask = tasksForOrder.OrderBy(x => x.DateTimeStartActual).LastOrDefault();
                 dates2Return[0] = smallerDateTask.DateTimeStartActual;
                 dates2Return[1] = biggerDateTask.DateTimeEndActual;
             }
@@ -1746,15 +1720,20 @@ namespace OTERT.Pages.Administrator {
             }
         }
 
-        protected void expandDetailTableRowByID(string ID) {
+        protected void expandDetailTableRowByID(string ID, string ID2) {
+            foreach (GridDataItem item in gridMain.MasterTableView.Items) {
+                if (item.GetDataKeyValue("ID").ToString() == ID) {
+                    item.Expanded = true;
+                }
+            }
+            //gridMain.MasterTableView.DetailTables[]
             foreach (GridTableView childTable in gridMain.MasterTableView.DetailTables) {
-                if (childTable.Name == "TasksDetails") {
-                    foreach (GridDataItem item in childTable.Items) {
-                        if (item.GetDataKeyValue("ID").ToString() == ID) {
-                            item.Expanded = true;
-                        }
-                    }
+                if (childTable.Name == "Tasks2Details") {
                     childTable.Rebind();
+                    foreach (GridDataItem item in childTable.Items) {
+                        if (item.GetDataKeyValue("ID").ToString() == ID2) { item.Expanded = true; }
+                    }
+                    
                 }
             }
         }

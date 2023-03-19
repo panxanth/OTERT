@@ -169,6 +169,8 @@ namespace OTERT.Model {
         public int EventID { get; set; }
         public EventDTO Event { get; set; }
         public string RegNo { get; set; }
+        public DateTime? DateTimeStart { get; set; }
+        public DateTime? DateTimeEnd { get; set; }
     }
 
     public class OrderPTSGR2DTO {
