@@ -1,0 +1,4 @@
+﻿TimeStamp,EventType,User,Client IP,Message
+2023-03-23 12:00:12,USER ACTION - LOGIN SUCCESS,kafka,127.0.0.1,
+TimeStamp,EventType,User,Client IP,Message
+2023-03-23 12:19:44,USER ACTION - LOGIN SUCCESS,kafka,127.0.0.1,

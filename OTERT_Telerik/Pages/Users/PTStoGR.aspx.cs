@@ -21,6 +21,7 @@ using OTERT.Controller;
 using OTERT_Entity;
 using System.Web;
 using System.Data.Entity;
+using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
 
 namespace OTERT.Pages.Administrator {
 
@@ -32,7 +33,7 @@ namespace OTERT.Pages.Administrator {
         protected RadScriptManager RadScriptManager1;
         protected string pageTitle, uploadedFilePath;
         protected int ProviderID, EventID, CountryID, PlaceID;
-        protected int CustomerID, Customer1ID, PositionID, LineTypeID;
+        protected int CustomerID, Customer1ID, PositionID, PTSRPricelistID, MSNCount;
         protected UserB loggedUser;
         const string fileUploadFolder = "~/UploadedFiles/";
         const string templatesFolder = "~/Templates/";
@@ -64,10 +65,12 @@ namespace OTERT.Pages.Administrator {
                 Session.Remove("CustomerID");
                 PositionID = -1;
                 Session.Remove("PositionID");
-                LineTypeID = -1;
-                Session.Remove("LineTypeID");
+                PTSRPricelistID = -1;
+                Session.Remove("PTSRPricelistID");
                 PlaceID = -1;
                 Session.Remove("PlaceID");
+                MSNCount = 0;
+                Session.Remove("MSNCount");
             }
             if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
@@ -90,10 +93,10 @@ namespace OTERT.Pages.Administrator {
                 catch (Exception) { }
             } else {
                 try {
-                    OrdersController cont = new OrdersController();
+                    OrdersPTSGRController cont = new OrdersPTSGRController();
                     gridMain.VirtualItemCount = 1;
-                    List<OrderB> ds = new List<OrderB>();
-                    OrderB singleOrder = cont.GetOrder(oredrID);
+                    List<OrderPTSGRB> ds = new List<OrderPTSGRB>();
+                    OrderPTSGRB singleOrder = cont.GetOrder(oredrID);
                     if (singleOrder != null) { ds.Add(singleOrder); }
                     gridMain.DataSource = ds;
                 }
@@ -118,8 +121,7 @@ namespace OTERT.Pages.Administrator {
                     DateTimeStartΤο.TimePopupButton.Visible = false;
                     DateTimeStartFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + DateTimeStartFrom.ClientID + "', '" + DateTimeStartΤο.ClientID + "');");
                 }
-            }
-            else if (e.Item.OwnerTableView.Name == "Tasks2Details") {
+            } else if (e.Item.OwnerTableView.Name == "Tasks2Details") {
                 if (e.Item is GridDataItem) {
                     GridDataItem item = (GridDataItem)e.Item;
                     ElasticButton img = (ElasticButton)item["btnDelete2"].Controls[0];
@@ -135,8 +137,6 @@ namespace OTERT.Pages.Administrator {
                     GridEditableItem item = e.Item as GridEditableItem;
                     RadDatePicker dpOrderDate = (RadDatePicker)item["OrderDate"].Controls[0];
                     dpOrderDate.DateInput.Width = Unit.Pixel(250);
-                    RadDatePicker dpPaymentDateOrder = (RadDatePicker)item["PaymentDateOrder"].Controls[0];
-                    dpPaymentDateOrder.DateInput.Width = Unit.Pixel(250);
                     RadDatePicker dpPaymentDateActual = (RadDatePicker)item["PaymentDateActual"].Controls[0];
                     dpPaymentDateActual.DateInput.Width = Unit.Pixel(250);
                     RadDateTimePicker dpDateTimeStartActual = (RadDateTimePicker)item["DateTimeStartActual"].Controls[0];
@@ -182,6 +182,8 @@ namespace OTERT.Pages.Administrator {
                     Session.Remove("EventID");
                     PlaceID = -1;
                     Session.Remove("PlaceID");
+                    MSNCount = 0;
+                    Session.Remove("MSNCount");
                     GridEditableItem item = e.Item as GridEditableItem;
                     RadDropDownList ddlEvent = item.FindControl("ddlEvent") as RadDropDownList;
                     RadDropDownList ddlPlace = item.FindControl("ddlPlace") as RadDropDownList;
@@ -257,21 +259,24 @@ namespace OTERT.Pages.Administrator {
                     Session.Remove("CustomerID");
                     PositionID = -1;
                     Session.Remove("PositionID");
-                    LineTypeID = -1;
-                    Session.Remove("LineTypeID");
+                    PTSRPricelistID = -1;
+                    Session.Remove("PTSRPricelistID");
+                    MSNCount = 0;
+                    Session.Remove("MSNCount");
                     GridDataItem parentItem = e.Item.OwnerTableView.ParentItem;
                     int orderPTSGR2ID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
                     OrdersPTSGR2Controller ocon = new OrdersPTSGR2Controller();
                     OrderPTSGR2B curOrderPTSGR2 = ocon.GetOrder(orderPTSGR2ID);
                     GridEditableItem item = e.Item as GridEditableItem;
                     RadDropDownList ddlCustomers = item.FindControl("ddlCustomers") as RadDropDownList;
+                    RadDropDownList ddlMSNCount = item.FindControl("ddlMSNCount") as RadDropDownList;
                     RadDropDownList ddlRequestedPosition = item.FindControl("ddlRequestedPosition") as RadDropDownList;
-                    RadDropDownList ddlLineType = item.FindControl("ddlLineType") as RadDropDownList;
+                    RadDropDownList ddlPTSRPricelist = item.FindControl("ddlPTSRPricelist") as RadDropDownList;
                     TextBox txtRegNo = item["RegNo"].Controls[0] as TextBox;
                     TextBox txtTelephoneNumber = item["TelephoneNumber"].Controls[0] as TextBox;
                     try {
                         txtRegNo.Text = curOrderPTSGR2.OrderPTSGR.RegNo;
-                        TaskB currTask = e.Item.DataItem as TaskB;
+                        TaskPTSGRB currTask = e.Item.DataItem as TaskPTSGRB;
                         CustomersController ccont = new CustomersController();
                         ddlCustomers.DataSource = ccont.GetCustomersForCountryPTS(curOrderPTSGR2.CountryID);
                         ddlCustomers.DataTextField = "NameGR";
@@ -282,11 +287,14 @@ namespace OTERT.Pages.Administrator {
                         ddlRequestedPosition.DataTextField = "NameGR";
                         ddlRequestedPosition.DataValueField = "ID";
                         ddlRequestedPosition.DataBind();
-                        LineTypesController ltcont = new LineTypesController();
-                        ddlLineType.DataSource = ltcont.GetLineTypes();
-                        ddlLineType.DataTextField = "Name";
-                        ddlLineType.DataValueField = "ID";
-                        ddlLineType.DataBind();
+                        PTSGRPricelistController ptcont = new PTSGRPricelistController();
+                        ddlPTSRPricelist.DataSource = ptcont.GetPTSGRPricelists();
+                        ddlPTSRPricelist.DataTextField = "Name";
+                        ddlPTSRPricelist.DataValueField = "ID";
+                        ddlPTSRPricelist.DataBind();
+                        ddlMSNCount.Items.Add(new DropDownListItem("0", "0"));
+                        ddlMSNCount.Items.Add(new DropDownListItem("1", "1"));
+                        ddlMSNCount.Items.Add(new DropDownListItem("2", "2"));
                         if (currTask != null) {
                             ddlCustomers.SelectedIndex = ddlCustomers.FindItemByValue(currTask.CustomerID.ToString()).Index;
                             Session["CustomerID"] = currTask.CustomerID;
@@ -297,22 +305,19 @@ namespace OTERT.Pages.Administrator {
                                 ddlRequestedPosition.SelectedIndex = 0;
                                 Session["PositionID"] = ddlRequestedPosition.SelectedItem.Value;
                             }
-                            if (currTask.LineTypeID != null) {
-                                ddlLineType.SelectedIndex = ddlLineType.FindItemByValue(currTask.LineTypeID.ToString()).Index;
-                                Session["LineTypeID"] = currTask.LineTypeID;
-                            } else {
-                                ddlLineType.SelectedIndex = 0;
-                                Session["LineTypeID"] = ddlLineType.SelectedItem.Value;
-                            }
-                            if (string.IsNullOrEmpty(currTask.TelephoneNumber)) { txtTelephoneNumber.Text = "ΤΙΜΟΛΟΓΙΟ"; }
+                            ddlPTSRPricelist.SelectedIndex = ddlPTSRPricelist.FindItemByValue(currTask.PTSRPricelistID.ToString()).Index;
+                            Session["PTSRPricelistID"] = currTask.PTSRPricelistID;
+                            ddlMSNCount.SelectedIndex = ddlMSNCount.FindItemByValue(currTask.MSNCount.ToString()).Index;
+                            Session["MSNCount"] = currTask.MSNCount;
                         } else {
                             ddlCustomers.SelectedIndex = 0;
                             Session["CustomerID"] = ddlCustomers.SelectedItem.Value;
                             ddlRequestedPosition.SelectedIndex = 0;
                             Session["PositionID"] = ddlRequestedPosition.SelectedItem.Value;
-                            ddlLineType.SelectedIndex = 0;
-                            Session["LineTypeID"] = ddlLineType.SelectedItem.Value;
-                            txtTelephoneNumber.Text = "ΤΙΜΟΛΟΓΙΟ";
+                            ddlPTSRPricelist.SelectedIndex = 0;
+                            Session["PTSRPricelistID"] = ddlPTSRPricelist.SelectedItem.Value;
+                            ddlMSNCount.SelectedIndex = ddlMSNCount.FindItemByValue(currTask.MSNCount.ToString()).Index;
+                            Session["MSNCount"] = currTask.MSNCount;
                         }
                     }
                     catch (Exception) { }
@@ -1095,8 +1100,10 @@ namespace OTERT.Pages.Administrator {
                             if (CustomerID > 0) { curTask.CustomerID = CustomerID; }
                             if (Session["PositionID"] != null) { PositionID = int.Parse(Session["PositionID"].ToString()); }
                             if (PositionID > 0) { curTask.RequestedPositionID = PositionID; }
-                            if (Session["LineTypeID"] != null) { LineTypeID = int.Parse(Session["LineTypeID"].ToString()); }
-                            if (LineTypeID > 0) { curTask.LineTypeID = LineTypeID; }
+                            if (Session["PTSRPricelistID"] != null) { PTSRPricelistID = int.Parse(Session["PTSRPricelistID"].ToString()); }
+                            if (PTSRPricelistID > 0) { curTask.PTSRPricelistID = PTSRPricelistID; }
+                            if (Session["MSNCount"] != null) { MSNCount = int.Parse(Session["MSNCount"].ToString()); }
+                            if (MSNCount >= 0) { curTask.MSNCount = MSNCount; }
                             int test = dbContext.SaveChanges();
                             var curOrder = dbContext.OrdersPTSGR.Where(n => n.ID == orderPTSGRID).FirstOrDefault();
                             DateTime?[] datesForOrder = getDatesForOrder(orderPTSGRID);
@@ -1110,8 +1117,10 @@ namespace OTERT.Pages.Administrator {
                             Session.Remove("CustomerID");
                             PositionID = -1;
                             Session.Remove("PositionID");
-                            LineTypeID = -1;
-                            Session.Remove("LineTypeID");
+                            PTSRPricelistID = -1;
+                            Session.Remove("PTSRPricelistID");
+                            MSNCount = 0;
+                            Session.Remove("MSNCount");
                             gridMain.EditIndexes.Clear();
                             e.Item.OwnerTableView.Rebind();
                             string oldID = parentItem.GetDataKeyValue("ID").ToString();
@@ -1192,8 +1201,9 @@ namespace OTERT.Pages.Administrator {
                     editableItem.ExtractValues(values);
                     if (Session["CustomerID"] != null) { CustomerID = int.Parse(Session["CustomerID"].ToString()); }
                     if (Session["PositionID"] != null) { PositionID = int.Parse(Session["PositionID"].ToString()); }
-                    if (Session["LineTypeID"] != null) { LineTypeID = int.Parse(Session["LineTypeID"].ToString()); }
-                    if (CustomerID > 0 && PositionID > 0 && LineTypeID > 0) {
+                    if (Session["PTSRPricelistID"] != null) { PTSRPricelistID = int.Parse(Session["PTSRPricelistID"].ToString()); }
+                    if (Session["MSNCount"] != null) { MSNCount = int.Parse(Session["MSNCount"].ToString()); }
+                    if (CustomerID > 0 && PositionID > 0 && PTSRPricelistID > 0) {
                         try {
                             curTask.OrderPTSGR2ID = orderPTSGR2ID;
                             curTask.RegNo = (string)values["RegNo"];
@@ -1203,24 +1213,19 @@ namespace OTERT.Pages.Administrator {
                             if (values["DateTimeStartActual"] != null) { curTask.DateTimeStartActual = DateTime.Parse((string)values["DateTimeStartActual"]); } else { curTask.DateTimeStartActual = null; }
                             if (values["DateTimeEndActual"] != null) { curTask.DateTimeEndActual = DateTime.Parse((string)values["DateTimeEndActual"]); } else { curTask.DateTimeEndActual = null; }
                             if (values["DateTimeDurationActual"] != null) { curTask.DateTimeDurationActual = int.Parse((string)values["DateTimeDurationActual"]); } else { curTask.DateTimeDurationActual = null; }
-                            if (values["CostCalculated"] != null) { curTask.CostCalculated = decimal.Parse((string)values["CostCalculated"]); } else { curTask.CostCalculated = null; }
-                            curTask.InstallationCost = 0;
-                            curTask.MonthlyCharges = 0;
-                            curTask.InvoceComments = (string)values["InvoceComments"]; //Ονομ/νυμο Ανταποκριτή
+                            curTask.CorrespondentName = (string)values["CorrespondentName"]; //Ονομ/νυμο Ανταποκριτή
                             curTask.TelephoneNumber = (string)values["TelephoneNumber"];
-                            curTask.TechnicalSupport = 0;
                             if (values["AddedCharges"] != null) { curTask.AddedCharges = decimal.Parse((string)values["AddedCharges"]); } else { curTask.AddedCharges = null; }
                             if (values["CostActual"] != null) { curTask.CostActual = decimal.Parse((string)values["CostActual"]); } else { curTask.CostActual = null; }
-                            if (values["PaymentDateOrder"] != null) { curTask.PaymentDateOrder = DateTime.Parse((string)values["PaymentDateOrder"]); } else { curTask.PaymentDateOrder = null; }
                             if (values["PaymentDateActual"] != null) { curTask.PaymentDateActual = DateTime.Parse((string)values["PaymentDateActual"]); } else { curTask.PaymentDateActual = null; }
                             curTask.IsLocked = (bool)values["IsLocked"];
                             curTask.IsCanceled = (bool)values["IsCanceled"];
-                            curTask.CancelPrice = 0;
                             curTask.Comments = (string)values["Comments"];
-                            curTask.MSNCost = 0;
-                            curTask.LineTypeID = LineTypeID;
+                            curTask.MSNCount = MSNCount;
+                            curTask.PTSRPricelistID = PTSRPricelistID;
                             curTask.DateStamp = DateTime.Now;
                             curTask.EnteredByUser = loggedUser.NameGR;
+                            curTask.PTSRPricelistID = 1;
                             dbContext.TasksPTSGR.Add(curTask);
                             dbContext.SaveChanges();
                             var curOrder = dbContext.OrdersPTSGR.Where(n => n.ID == orderPTSGRID).FirstOrDefault();
@@ -1235,9 +1240,10 @@ namespace OTERT.Pages.Administrator {
                             Session.Remove("CustomerID");
                             PositionID = -1;
                             Session.Remove("PositionID");
-                            LineTypeID = -1;
-                            Session.Remove("LineTypeID");
-
+                            PTSRPricelistID = -1;
+                            Session.Remove("PTSRPricelistID");
+                            MSNCount = 0;
+                            Session.Remove("MSNCount");
 
 
 
@@ -1256,8 +1262,7 @@ namespace OTERT.Pages.Administrator {
                     }
                     else { ShowErrorMessage(-1); }
                 }
-            }
-            else if (e.Item.OwnerTableView.Name == "AttachedFiles") {
+            } else if (e.Item.OwnerTableView.Name == "AttachedFiles") {
                 GridTableView detailtabl = e.Item.OwnerTableView;
                 GridDataItem parentItem = detailtabl.ParentItem;
                 int orderID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
@@ -1490,13 +1495,24 @@ namespace OTERT.Pages.Administrator {
             catch (Exception) { }
         }
 
-        protected void ddlLineType_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+        protected void ddlPTSRPricelist_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
             try {
-                LineTypeID = int.Parse(e.Value);
-                Session["LineTypeID"] = LineTypeID;
-                RadDropDownList ddlLineType = (RadDropDownList)sender;
-                GridEditableItem eitem = (GridEditableItem)ddlLineType.NamingContainer;
-                //calculateCosts(eitem);
+                PTSRPricelistID = int.Parse(e.Value);
+                Session["PTSRPricelistID"] = PTSRPricelistID;
+                RadDropDownList ddlPTSRPricelist = (RadDropDownList)sender;
+                GridEditableItem eitem = (GridEditableItem)ddlPTSRPricelist.NamingContainer;
+                calculateCosts(eitem);
+            }
+            catch (Exception) { }
+        }
+
+        protected void ddlMSNCount_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                MSNCount = int.Parse(e.Value);
+                Session["MSNCount"] = MSNCount;
+                RadDropDownList ddlMSNCount = (RadDropDownList)sender;
+                GridEditableItem eitem = (GridEditableItem)ddlMSNCount.NamingContainer;
+                calculateCosts(eitem);
             }
             catch (Exception) { }
         }
@@ -1520,29 +1536,34 @@ namespace OTERT.Pages.Administrator {
         }
 
         protected void calculateCosts(GridEditableItem eitem) {
-            GridDataItem parentItem = eitem.OwnerTableView.ParentItem;
-            //int orderID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
-            //OrdersController ocon = new OrdersController();
-            //OrderB curOrder = ocon.GetOrder(orderID);
-            DateTime nullDate = new DateTime(1900, 1, 1);
-            RadDatePicker dpActualStartDate = (RadDatePicker)eitem["DateTimeStartActual"].Controls[0]; ;
-            DateTime actualStartDate = dpActualStartDate.SelectedDate ?? nullDate;
-            RadDatePicker dpActualEndDate = (RadDatePicker)eitem["DateTimeEndActual"].Controls[0];
-            DateTime actualEndDate = dpActualEndDate.SelectedDate ?? nullDate;
-            TextBox txtActualDuration = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
-            TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
-            TextBox txtInvoiceCost = (TextBox)eitem.FindControl("txtInvoiceCost");
-            TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
-            if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
-                TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
-                int duration = 0;
-                duration = (int)Math.Ceiling(actualSpan.TotalDays);
-                txtActualDuration.Text = duration.ToString();
-                double calculatedCost = 0;
-                if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { calculatedCost += double.Parse(txtAddedCharges.Text.Replace(".", ",")); }
-                if (!string.IsNullOrEmpty(txtInvoiceCost.Text)) { calculatedCost += double.Parse(txtInvoiceCost.Text.Replace(".", ",")); }
-                txtCostActual.Text = calculatedCost.ToString();
+            try {
+                DateTime nullDate = new DateTime(1900, 1, 1);
+                RadDropDownList ddlPTSGRPriceList = (RadDropDownList)eitem.FindControl("ddlPTSRPricelist");
+                int newPTSGRPriceID = int.Parse(ddlPTSGRPriceList.SelectedItem.Value);
+                RadDropDownList ddlMSNCount = (RadDropDownList)eitem.FindControl("ddlMSNCount");
+                int newMSNCount = int.Parse(ddlMSNCount.SelectedItem.Value);
+                RadDateTimePicker dpDateTimeStartActual = (RadDateTimePicker)eitem["DateTimeStartActual"].Controls[0];
+                DateTime newActualStartDate = dpDateTimeStartActual.SelectedDate ?? nullDate;
+                RadDateTimePicker dpDateTimeEndActual = (RadDateTimePicker)eitem["DateTimeEndActual"].Controls[0];
+                DateTime newActualEndDate = dpDateTimeEndActual.SelectedDate ?? nullDate;
+                TextBox txtDateTimeDurationActual = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
+                TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
+                TextBox txtInvoiceCost = (TextBox)eitem.FindControl("txtInvoiceCost");
+                TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
+                if (newActualStartDate > nullDate && newActualEndDate > nullDate && newActualEndDate > newActualStartDate) {
+                    TimeSpan newActualSpan = newActualEndDate.Subtract(newActualStartDate);
+                    int newActualDuration = (int)Math.Ceiling(newActualSpan.TotalDays);
+                    PTSGRPricelistController pCon = new PTSGRPricelistController();
+                    PTSGRPricelistB curPricelist = pCon.GetPTSGRPricelist(newPTSGRPriceID);
+                    decimal newInvoiceCost = curPricelist.InstallationCost + (newActualDuration * curPricelist.ChargesPerDay + newMSNCount * newActualDuration * curPricelist.MSNPerDay.GetValueOrDefault());
+                    decimal newCostActual = newInvoiceCost;
+                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { newCostActual = newInvoiceCost + decimal.Parse(txtAddedCharges.Text.Replace(".", ",")); }
+                    txtDateTimeDurationActual.Text = newActualDuration.ToString();
+                    txtInvoiceCost.Text = Math.Round(newInvoiceCost, 2, MidpointRounding.AwayFromZero).ToString();
+                    txtCostActual.Text = newCostActual.ToString();
+                }
             }
+            catch(Exception) { }
         }
 
         protected void uplFile_FileUploaded(object sender, FileUploadedEventArgs e) {

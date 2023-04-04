@@ -10,7 +10,7 @@ using OTERT.WebServices;
 
 namespace OTERT.Controller {
 
-    public class TasksPTSGRController{
+    public class TasksPTSGRController {
 
         public int CountTasksPTSGR() {
             using (var dbContext = new OTERTConnStr()) {
@@ -28,7 +28,7 @@ namespace OTERT.Controller {
                     int count = 0;
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     if (!string.IsNullOrEmpty(recFilter)) {
-                        IQueryable test = dbContext.Tasks.Where(o => o.OrderID != null);
+                        IQueryable test = dbContext.TasksPTSGR;
                         string[] expressionsAND = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
                         List<string> columnExpressions = new List<string>();
                         for (int k = 0; k < expressionsAND.Length; k++) {
@@ -148,7 +148,7 @@ namespace OTERT.Controller {
                         }
                         count = test.Count();
                     } else {
-                        count = dbContext.Tasks.Where(o => o.OrderID != null).Count();
+                        count = dbContext.TasksPTSGR.Count();
                     }
                     return count;
                 }
@@ -161,138 +161,139 @@ namespace OTERT.Controller {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
                     TaskPTSGRB data = (from us in dbContext.TasksPTSGR
-                                  select new TaskPTSGRB{
-                                      ID = us.ID,
-                                      OrderPTSGR2ID = us.OrderPTSGR2ID,
-                                      Order = new OrderPTSGR2DTO{
-                                          ID = us.OrdersPTSGR2.ID,
-                                          OrdersPTSGRID = us.OrdersPTSGR2.OrdersPTSGRID,
-                                          OrderPTSGR = new OrderPTSGRDTO {
-                                              ID = us.OrdersPTSGR2.OrdersPTSGR.ID,
-                                              RegNo = us.OrdersPTSGR2.OrdersPTSGR.RegNo,
-                                              EventID = us.OrdersPTSGR2.OrdersPTSGR.EventID,
-                                              Event = new EventDTO {
-                                                  NameGR = us.OrdersPTSGR2.OrdersPTSGR.Events.NameGR,
-                                                  NameEN = us.OrdersPTSGR2.OrdersPTSGR.Events.NameEN,
-                                                  PlaceID = us.OrdersPTSGR2.OrdersPTSGR.Events.PlaceID,
-                                                  Place = new PlaceDTO {
-                                                      NameGR = us.OrdersPTSGR2.OrdersPTSGR.Events.Places.NameGR,
-                                                      NameEN = us.OrdersPTSGR2.OrdersPTSGR.Events.Places.NameEN
-                                                  }
-                                              }
-                                          },
-                                          CountryID = us.OrdersPTSGR2.CountryID,
-                                          Country = new CountryDTO
-                                          {
-                                              NameGR = us.OrdersPTSGR2.Countries.NameGR,
-                                              NameEN = us.OrdersPTSGR2.Countries.NameEN
-                                          },
-                                          ProviderID = us.OrdersPTSGR2.ProviderID,
-                                          Provider = new CustomerDTO
-                                          {
-                                              ID = us.OrdersPTSGR2.Customers.ID,
-                                              CountryID = us.OrdersPTSGR2.Customers.CountryID,
-                                              NameGR = us.OrdersPTSGR2.Customers.NameGR,
-                                              NameEN = us.OrdersPTSGR2.Customers.NameEN,
-                                              NamedInvoiceGR = us.OrdersPTSGR2.Customers.NamedInvoiceGR,
-                                              NamedInvoiceEN = us.OrdersPTSGR2.Customers.NamedInvoiceEN,
-                                              ZIPCode = us.OrdersPTSGR2.Customers.ZIPCode,
-                                              CityGR = us.OrdersPTSGR2.Customers.CityGR,
-                                              CityEN = us.OrdersPTSGR2.Customers.CityEN,
-                                              ChargeTelephone = us.OrdersPTSGR2.Customers.ChargeTelephone,
-                                              Telephone1 = us.OrdersPTSGR2.Customers.Telephone1,
-                                              Telephone2 = us.OrdersPTSGR2.Customers.Telephone2,
-                                              FAX1 = us.OrdersPTSGR2.Customers.FAX1,
-                                              FAX2 = us.OrdersPTSGR2.Customers.FAX2,
-                                              Address1GR = us.OrdersPTSGR2.Customers.Address1GR,
-                                              Address1EN = us.OrdersPTSGR2.Customers.Address1EN,
-                                              Address2GR = us.OrdersPTSGR2.Customers.Address2GR,
-                                              Address2EN = us.OrdersPTSGR2.Customers.Address2EN,
-                                              ContactPersonGR = us.OrdersPTSGR2.Customers.ContactPersonGR,
-                                              ContactPersonEN = us.OrdersPTSGR2.Customers.ContactPersonEN,
-                                              CustomerTypeID = us.OrdersPTSGR2.Customers.CustomerTypeID,
-                                              LanguageID = us.OrdersPTSGR2.Customers.LanguageID,
-                                              Email = us.OrdersPTSGR2.Customers.Email,
-                                              URL = us.OrdersPTSGR2.Customers.URL,
-                                              AFM = us.OrdersPTSGR2.Customers.AFM,
-                                              DOY = us.OrdersPTSGR2.Customers.DOY,
-                                              SAPCode = us.OrdersPTSGR2.Customers.SAPCode,
-                                              UserID = us.OrdersPTSGR2.Customers.UserID,
-                                              Comments = us.OrdersPTSGR2.Customers.Comments,
-                                              IsProvider = us.OrdersPTSGR2.Customers.IsProvider,
-                                              IsOTE = us.OrdersPTSGR2.Customers.IsOTE
-                                          }
-                                      },
-                                      RegNo = us.RegNo,
-                                      OrderDate = us.OrderDate,
-                                      CustomerID = us.CustomerID,
-                                      Customer = new CustomerDTO {
-                                          ID = us.Customers.ID,
-                                          CountryID = us.Customers.CountryID,
-                                          NameGR = us.Customers.NameGR,
-                                          NameEN = us.Customers.NameEN,
-                                          NamedInvoiceGR = us.Customers.NamedInvoiceGR,
-                                          NamedInvoiceEN = us.Customers.NamedInvoiceEN,
-                                          ZIPCode = us.Customers.ZIPCode,
-                                          CityGR = us.Customers.CityGR,
-                                          CityEN = us.Customers.CityEN,
-                                          ChargeTelephone = us.Customers.ChargeTelephone,
-                                          Telephone1 = us.Customers.Telephone1,
-                                          Telephone2 = us.Customers.Telephone2,
-                                          FAX1 = us.Customers.FAX1,
-                                          FAX2 = us.Customers.FAX2,
-                                          Address1GR = us.Customers.Address1GR,
-                                          Address1EN = us.Customers.Address1EN,
-                                          Address2GR = us.Customers.Address2GR,
-                                          Address2EN = us.Customers.Address2EN,
-                                          ContactPersonGR = us.Customers.ContactPersonGR,
-                                          ContactPersonEN = us.Customers.ContactPersonEN,
-                                          CustomerTypeID = us.Customers.CustomerTypeID,
-                                          LanguageID = us.Customers.LanguageID,
-                                          Email = us.Customers.Email,
-                                          URL = us.Customers.URL,
-                                          AFM = us.Customers.AFM,
-                                          DOY = us.Customers.DOY,
-                                          SAPCode = us.Customers.SAPCode,
-                                          UserID = us.Customers.UserID,
-                                          Comments = us.Customers.Comments,
-                                          IsProvider = us.Customers.IsProvider,
-                                          IsOTE = us.Customers.IsOTE
-                                      },
-                                      RequestedPositionID = us.RequestedPositionID,
-                                      RequestedPosition = new RequestedPositionDTO {
-                                          ID = us.RequestedPositionID == null ? -1 : us.RequestedPositions.ID,
-                                          NameGR = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameGR,
-                                          NameEN = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameEN
-                                      },
-                                      DateTimeStartOrder = us.DateTimeStartOrder,
-                                      DateTimeEndOrder = us.DateTimeEndOrder,
-                                      DateTimeDurationOrder = us.DateTimeDurationOrder,
-                                      DateTimeStartActual = us.DateTimeStartActual,
-                                      DateTimeEndActual = us.DateTimeEndActual,
-                                      DateTimeDurationActual = us.DateTimeDurationActual,
-                                      CostCalculated = us.CostCalculated,
-                                      InstallationCost = us.InstallationCost == null ? 0 : (decimal)us.InstallationCost,
-                                      MonthlyCharges = us.MonthlyCharges == null ? 0 : (decimal)us.MonthlyCharges,
-                                      TelephoneNumber = us.TelephoneNumber,
-                                      TechnicalSupport = us.TechnicalSupport,
-                                      AddedCharges = us.AddedCharges,
-                                      CostActual = us.CostActual,
-                                      PaymentDateOrder = us.PaymentDateOrder,
-                                      PaymentDateCalculated = us.PaymentDateCalculated,
-                                      PaymentDateActual = us.PaymentDateActual,
-                                      IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
-                                      IsCanceled = us.IsCanceled == null ? false : (bool)us.IsCanceled,
-                                      CancelPrice = us.CancelPrice,
-                                      Comments = us.Comments,
-                                      InvoceComments = us.InvoceComments,
-                                      MSNCost = us.MSNCost == null ? 0 : (decimal)us.MSNCost,
-                                      InvoiceCost = us.InvoiceCost == null ? 0 : (decimal)us.InvoiceCost,
-                                      LineTypeID = us.LineTypeID,
-                                      LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name },
-                                      DateStamp = us.DateStamp,
-                                      EnteredByUser = us.EnteredByUser
-                                  }).Where(k => k.ID == taskID).FirstOrDefault();
+                                       select new TaskPTSGRB {
+                                           ID = us.ID,
+                                           OrderPTSGR2ID = us.OrderPTSGR2ID,
+                                           Order = new OrderPTSGR2DTO {
+                                               ID = us.OrdersPTSGR2.ID,
+                                               OrdersPTSGRID = us.OrdersPTSGR2.OrdersPTSGRID,
+                                               OrderPTSGR = new OrderPTSGRDTO {
+                                                   ID = us.OrdersPTSGR2.OrdersPTSGR.ID,
+                                                   RegNo = us.OrdersPTSGR2.OrdersPTSGR.RegNo,
+                                                   EventID = us.OrdersPTSGR2.OrdersPTSGR.EventID,
+                                                   Event = new EventDTO {
+                                                       NameGR = us.OrdersPTSGR2.OrdersPTSGR.Events.NameGR,
+                                                       NameEN = us.OrdersPTSGR2.OrdersPTSGR.Events.NameEN,
+                                                       PlaceID = us.OrdersPTSGR2.OrdersPTSGR.Events.PlaceID,
+                                                       Place = new PlaceDTO {
+                                                           NameGR = us.OrdersPTSGR2.OrdersPTSGR.Events.Places.NameGR,
+                                                           NameEN = us.OrdersPTSGR2.OrdersPTSGR.Events.Places.NameEN
+                                                       }
+                                                   }
+                                               },
+                                               CountryID = us.OrdersPTSGR2.CountryID,
+                                               Country = new CountryDTO
+                                               {
+                                                   NameGR = us.OrdersPTSGR2.Countries.NameGR,
+                                                   NameEN = us.OrdersPTSGR2.Countries.NameEN
+                                               },
+                                               ProviderID = us.OrdersPTSGR2.ProviderID,
+                                               Provider = new CustomerDTO
+                                               {
+                                                   ID = us.OrdersPTSGR2.Customers.ID,
+                                                   CountryID = us.OrdersPTSGR2.Customers.CountryID,
+                                                   NameGR = us.OrdersPTSGR2.Customers.NameGR,
+                                                   NameEN = us.OrdersPTSGR2.Customers.NameEN,
+                                                   NamedInvoiceGR = us.OrdersPTSGR2.Customers.NamedInvoiceGR,
+                                                   NamedInvoiceEN = us.OrdersPTSGR2.Customers.NamedInvoiceEN,
+                                                   ZIPCode = us.OrdersPTSGR2.Customers.ZIPCode,
+                                                   CityGR = us.OrdersPTSGR2.Customers.CityGR,
+                                                   CityEN = us.OrdersPTSGR2.Customers.CityEN,
+                                                   ChargeTelephone = us.OrdersPTSGR2.Customers.ChargeTelephone,
+                                                   Telephone1 = us.OrdersPTSGR2.Customers.Telephone1,
+                                                   Telephone2 = us.OrdersPTSGR2.Customers.Telephone2,
+                                                   FAX1 = us.OrdersPTSGR2.Customers.FAX1,
+                                                   FAX2 = us.OrdersPTSGR2.Customers.FAX2,
+                                                   Address1GR = us.OrdersPTSGR2.Customers.Address1GR,
+                                                   Address1EN = us.OrdersPTSGR2.Customers.Address1EN,
+                                                   Address2GR = us.OrdersPTSGR2.Customers.Address2GR,
+                                                   Address2EN = us.OrdersPTSGR2.Customers.Address2EN,
+                                                   ContactPersonGR = us.OrdersPTSGR2.Customers.ContactPersonGR,
+                                                   ContactPersonEN = us.OrdersPTSGR2.Customers.ContactPersonEN,
+                                                   CustomerTypeID = us.OrdersPTSGR2.Customers.CustomerTypeID,
+                                                   LanguageID = us.OrdersPTSGR2.Customers.LanguageID,
+                                                   Email = us.OrdersPTSGR2.Customers.Email,
+                                                   URL = us.OrdersPTSGR2.Customers.URL,
+                                                   AFM = us.OrdersPTSGR2.Customers.AFM,
+                                                   DOY = us.OrdersPTSGR2.Customers.DOY,
+                                                   SAPCode = us.OrdersPTSGR2.Customers.SAPCode,
+                                                   UserID = us.OrdersPTSGR2.Customers.UserID,
+                                                   Comments = us.OrdersPTSGR2.Customers.Comments,
+                                                   IsProvider = us.OrdersPTSGR2.Customers.IsProvider,
+                                                   IsOTE = us.OrdersPTSGR2.Customers.IsOTE
+                                               }
+                                           },
+                                           RegNo = us.RegNo,
+                                           OrderDate = us.OrderDate,
+                                           CustomerID = us.CustomerID,
+                                           Customer = new CustomerDTO {
+                                               ID = us.Customers.ID,
+                                               CountryID = us.Customers.CountryID,
+                                               NameGR = us.Customers.NameGR,
+                                               NameEN = us.Customers.NameEN,
+                                               NamedInvoiceGR = us.Customers.NamedInvoiceGR,
+                                               NamedInvoiceEN = us.Customers.NamedInvoiceEN,
+                                               ZIPCode = us.Customers.ZIPCode,
+                                               CityGR = us.Customers.CityGR,
+                                               CityEN = us.Customers.CityEN,
+                                               ChargeTelephone = us.Customers.ChargeTelephone,
+                                               Telephone1 = us.Customers.Telephone1,
+                                               Telephone2 = us.Customers.Telephone2,
+                                               FAX1 = us.Customers.FAX1,
+                                               FAX2 = us.Customers.FAX2,
+                                               Address1GR = us.Customers.Address1GR,
+                                               Address1EN = us.Customers.Address1EN,
+                                               Address2GR = us.Customers.Address2GR,
+                                               Address2EN = us.Customers.Address2EN,
+                                               ContactPersonGR = us.Customers.ContactPersonGR,
+                                               ContactPersonEN = us.Customers.ContactPersonEN,
+                                               CustomerTypeID = us.Customers.CustomerTypeID,
+                                               LanguageID = us.Customers.LanguageID,
+                                               Email = us.Customers.Email,
+                                               URL = us.Customers.URL,
+                                               AFM = us.Customers.AFM,
+                                               DOY = us.Customers.DOY,
+                                               SAPCode = us.Customers.SAPCode,
+                                               UserID = us.Customers.UserID,
+                                               Comments = us.Customers.Comments,
+                                               IsProvider = us.Customers.IsProvider,
+                                               IsOTE = us.Customers.IsOTE
+                                           },
+                                           RequestedPositionID = us.RequestedPositionID,
+                                           RequestedPosition = new RequestedPositionDTO {
+                                               ID = us.RequestedPositionID == null ? -1 : us.RequestedPositions.ID,
+                                               NameGR = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameGR,
+                                               NameEN = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameEN
+                                           },
+                                           DateTimeStartActual = us.DateTimeStartActual,
+                                           DateTimeEndActual = us.DateTimeEndActual,
+                                           DateTimeDurationActual = us.DateTimeDurationActual,
+                                           TelephoneNumber = us.TelephoneNumber,
+                                           AddedCharges = us.AddedCharges,
+                                           CostActual = us.CostActual,
+                                           PaymentDateActual = us.PaymentDateActual,
+                                           IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
+                                           IsCanceled = us.IsCanceled == null ? false : (bool)us.IsCanceled,
+                                           Comments = us.Comments,
+                                           CorrespondentName = us.CorrespondentName,
+                                           MSNCount = us.MSNCount,
+                                           MSN1 = us.MSN1,
+                                           MSN2 = us.MSN2,
+                                           PTSRPricelistID = us.PTSRPricelistID,
+                                           PTSRPricelist = new PTSGRPricelistDTO {
+                                                ID = us.PTSGRPricelist.ID,
+                                                Name = us.PTSGRPricelist.Name,
+                                                InstallationCost = us.PTSGRPricelist.InstallationCost,
+                                                ChargesPerMonth = us.PTSGRPricelist.ChargesPerMonth,
+                                                ChargesPerDay = us.PTSGRPricelist.ChargesPerDay,
+                                                MSNPerMonth = us.PTSGRPricelist.MSNPerMonth == null ? 0 : us.PTSGRPricelist.MSNPerMonth,
+                                                MSNPerDay = us.PTSGRPricelist.MSNPerDay == null ? 0 : us.PTSGRPricelist.MSNPerDay,
+                                                IsChargePerMonth = us.PTSGRPricelist.IsChargePerMonth
+                                            },
+                                           InvoiceCost = us.InvoiceCost == null ? 0 : (decimal)us.InvoiceCost,
+                                           DateStamp = us.DateStamp,
+                                           EnteredByUser = us.EnteredByUser
+                                       }).Where(k => k.ID == taskID).FirstOrDefault();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -406,31 +407,32 @@ namespace OTERT.Controller {
                                                      NameGR = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameGR,
                                                      NameEN = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameEN
                                                  },
-                                                 DateTimeStartOrder = us.DateTimeStartOrder,
-                                                 DateTimeEndOrder = us.DateTimeEndOrder,
-                                                 DateTimeDurationOrder = us.DateTimeDurationOrder,
                                                  DateTimeStartActual = us.DateTimeStartActual,
                                                  DateTimeEndActual = us.DateTimeEndActual,
                                                  DateTimeDurationActual = us.DateTimeDurationActual,
-                                                 CostCalculated = us.CostCalculated,
-                                                 InstallationCost = us.InstallationCost == null ? 0 : (decimal)us.InstallationCost,
-                                                 MonthlyCharges = us.MonthlyCharges == null ? 0 : (decimal)us.MonthlyCharges,
                                                  TelephoneNumber = us.TelephoneNumber,
-                                                 TechnicalSupport = us.TechnicalSupport,
                                                  AddedCharges = us.AddedCharges,
                                                  CostActual = us.CostActual,
-                                                 PaymentDateOrder = us.PaymentDateOrder,
-                                                 PaymentDateCalculated = us.PaymentDateCalculated,
                                                  PaymentDateActual = us.PaymentDateActual,
                                                  IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
                                                  IsCanceled = us.IsCanceled == null ? false : (bool)us.IsCanceled,
-                                                 CancelPrice = us.CancelPrice,
                                                  Comments = us.Comments,
-                                                 InvoceComments = us.InvoceComments,
-                                                 MSNCost = us.MSNCost == null ? 0 : (decimal)us.MSNCost,
+                                                 CorrespondentName = us.CorrespondentName,
+                                                 MSNCount = us.MSNCount,
+                                                 MSN1 = us.MSN1,
+                                                 MSN2 = us.MSN2,
+                                                 PTSRPricelistID = us.PTSRPricelistID,
+                                                 PTSRPricelist = new PTSGRPricelistDTO {
+                                                     ID = us.PTSGRPricelist.ID,
+                                                     Name = us.PTSGRPricelist.Name,
+                                                     InstallationCost = us.PTSGRPricelist.InstallationCost,
+                                                     ChargesPerMonth = us.PTSGRPricelist.ChargesPerMonth,
+                                                     ChargesPerDay = us.PTSGRPricelist.ChargesPerDay,
+                                                     MSNPerMonth = us.PTSGRPricelist.MSNPerMonth == null ? 0 : us.PTSGRPricelist.MSNPerMonth,
+                                                     MSNPerDay = us.PTSGRPricelist.MSNPerDay == null ? 0 : us.PTSGRPricelist.MSNPerDay,
+                                                     IsChargePerMonth = us.PTSGRPricelist.IsChargePerMonth
+                                                 },
                                                  InvoiceCost = us.InvoiceCost == null ? 0 : (decimal)us.InvoiceCost,
-                                                 LineTypeID = us.LineTypeID,
-                                                 LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name },
                                                  DateStamp = us.DateStamp,
                                                  EnteredByUser = us.EnteredByUser
                                              }).Where(k => k.OrderPTSGR2ID == OrderID).OrderByDescending(o => o.OrderDate).ToList();
@@ -547,31 +549,32 @@ namespace OTERT.Controller {
                                                      NameGR = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameGR,
                                                      NameEN = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameEN
                                                  },
-                                                 DateTimeStartOrder = us.DateTimeStartOrder,
-                                                 DateTimeEndOrder = us.DateTimeEndOrder,
-                                                 DateTimeDurationOrder = us.DateTimeDurationOrder,
                                                  DateTimeStartActual = us.DateTimeStartActual,
                                                  DateTimeEndActual = us.DateTimeEndActual,
                                                  DateTimeDurationActual = us.DateTimeDurationActual,
-                                                 CostCalculated = us.CostCalculated,
-                                                 InstallationCost = us.InstallationCost == null ? 0 : (decimal)us.InstallationCost,
-                                                 MonthlyCharges = us.MonthlyCharges == null ? 0 : (decimal)us.MonthlyCharges,
                                                  TelephoneNumber = us.TelephoneNumber,
-                                                 TechnicalSupport = us.TechnicalSupport,
                                                  AddedCharges = us.AddedCharges,
                                                  CostActual = us.CostActual,
-                                                 PaymentDateOrder = us.PaymentDateOrder,
-                                                 PaymentDateCalculated = us.PaymentDateCalculated,
                                                  PaymentDateActual = us.PaymentDateActual,
                                                  IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
                                                  IsCanceled = us.IsCanceled == null ? false : (bool)us.IsCanceled,
-                                                 CancelPrice = us.CancelPrice,
                                                  Comments = us.Comments,
-                                                 InvoceComments = us.InvoceComments,
-                                                 MSNCost = us.MSNCost == null ? 0 : (decimal)us.MSNCost,
+                                                 CorrespondentName = us.CorrespondentName,
+                                                 MSNCount = us.MSNCount,
+                                                 MSN1 = us.MSN1,
+                                                 MSN2 = us.MSN2,
+                                                 PTSRPricelistID = us.PTSRPricelistID,
+                                                 PTSRPricelist = new PTSGRPricelistDTO {
+                                                     ID = us.PTSGRPricelist.ID,
+                                                     Name = us.PTSGRPricelist.Name,
+                                                     InstallationCost = us.PTSGRPricelist.InstallationCost,
+                                                     ChargesPerMonth = us.PTSGRPricelist.ChargesPerMonth,
+                                                     ChargesPerDay = us.PTSGRPricelist.ChargesPerDay,
+                                                     MSNPerMonth = us.PTSGRPricelist.MSNPerMonth == null ? 0 : us.PTSGRPricelist.MSNPerMonth,
+                                                     MSNPerDay = us.PTSGRPricelist.MSNPerDay == null ? 0 : us.PTSGRPricelist.MSNPerDay,
+                                                     IsChargePerMonth = us.PTSGRPricelist.IsChargePerMonth
+                                                 },
                                                  InvoiceCost = us.InvoiceCost == null ? 0 : (decimal)us.InvoiceCost,
-                                                 LineTypeID = us.LineTypeID,
-                                                 LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name },
                                                  DateStamp = us.DateStamp,
                                                  EnteredByUser = us.EnteredByUser
                                              }).Where(k => k.Order.OrderPTSGR.ID == OrderID && (k.DateTimeStartActual != null && k.DateTimeEndActual != null)).OrderByDescending(o => o.OrderDate).ToList();
@@ -581,169 +584,145 @@ namespace OTERT.Controller {
             }
         }
 
-        public List<TaskB> GetAllTasksforPTStoAbroad(int recSkip, int recTake, string recFilter, GridSortExpressionCollection gridSortExxpressions) {
+        public List<TaskPTSGRB> GetAllTasksPTSGR(int recSkip, int recTake, string recFilter, GridSortExpressionCollection gridSortExxpressions) {
             using (var dbContext = new OTERTConnStr()) {
                 try {
                     dbContext.Configuration.ProxyCreationEnabled = false;
-                    IQueryable<TaskB> datatmp = (from us in dbContext.Tasks
-                                                 select new TaskB {
-                                                     ID = us.ID,
-                                                     OrderID = us.OrderID,
-                                                     Order = new OrderDTO {
-                                                         ID = us.OrderID == null ? -1 : us.Orders.ID,
-                                                         OrderTypeID = us.OrderID == null ? -1 : us.Orders.OrderTypeID,
-                                                         RegNo = us.OrderID == null ? "" : us.Orders.RegNo,
-                                                         Customer1ID = us.OrderID == null ? -1 : us.Orders.Customer1ID,
-                                                         Customer1 = us.OrderID == null ? null : new CustomerDTO {
-                                                             ID = us.Orders.Customers1.ID,
-                                                             CountryID = us.Orders.Customers1.CountryID,
-                                                             NameGR = us.Orders.Customers1.NameGR,
-                                                             NameEN = us.Orders.Customers1.NameEN,
-                                                             NamedInvoiceGR = us.Orders.Customers1.NamedInvoiceGR,
-                                                             NamedInvoiceEN = us.Orders.Customers1.NamedInvoiceEN,
-                                                             ZIPCode = us.Orders.Customers1.ZIPCode,
-                                                             CityGR = us.Orders.Customers1.CityGR,
-                                                             CityEN = us.Orders.Customers1.CityEN,
-                                                             ChargeTelephone = us.Orders.Customers1.ChargeTelephone,
-                                                             Telephone1 = us.Orders.Customers1.Telephone1,
-                                                             Telephone2 = us.Orders.Customers1.Telephone2,
-                                                             FAX1 = us.Orders.Customers1.FAX1,
-                                                             FAX2 = us.Orders.Customers1.FAX2,
-                                                             Address1GR = us.Orders.Customers1.Address1GR,
-                                                             Address1EN = us.Orders.Customers1.Address1EN,
-                                                             Address2GR = us.Orders.Customers1.Address2GR,
-                                                             Address2EN = us.Orders.Customers1.Address2EN,
-                                                             ContactPersonGR = us.Orders.Customers1.ContactPersonGR,
-                                                             ContactPersonEN = us.Orders.Customers1.ContactPersonEN,
-                                                             CustomerTypeID = us.Orders.Customers1.CustomerTypeID,
-                                                             LanguageID = us.Orders.Customers1.LanguageID,
-                                                             Email = us.Orders.Customers1.Email,
-                                                             URL = us.Orders.Customers1.URL,
-                                                             AFM = us.Orders.Customers1.AFM,
-                                                             DOY = us.Orders.Customers1.DOY,
-                                                             SAPCode = us.Orders.Customers1.SAPCode,
-                                                             UserID = us.Orders.Customers1.UserID,
-                                                             Comments = us.Orders.Customers1.Comments,
-                                                             IsProvider = us.Orders.Customers1.IsProvider,
-                                                             IsOTE = us.Orders.Customers1.IsOTE
+                    IQueryable<TaskPTSGRB> datatmp = (from us in dbContext.TasksPTSGR
+                                                      select new TaskPTSGRB {
+                                                          ID = us.ID,
+                                                          OrderPTSGR2ID = us.OrderPTSGR2ID,
+                                                          Order = new OrderPTSGR2DTO {
+                                                              ID = us.OrderPTSGR2ID,
+                                                              OrdersPTSGRID = us.OrdersPTSGR2.OrdersPTSGRID,
+                                                              OrderPTSGR = new OrderPTSGRDTO {
+                                                                  ID = us.OrdersPTSGR2.OrdersPTSGR.ID,
+                                                                  EventID = us.OrdersPTSGR2.OrdersPTSGR.EventID,
+                                                                  Event = new EventDTO {
+                                                                      ID = us.OrdersPTSGR2.OrdersPTSGR.Events.ID,
+                                                                      PlaceID = us.OrdersPTSGR2.OrdersPTSGR.Events.PlaceID,
+                                                                      Place = new PlaceDTO {
+                                                                          ID = us.OrdersPTSGR2.OrdersPTSGR.Events.Places.ID,
+                                                                          NameGR = us.OrdersPTSGR2.OrdersPTSGR.Events.Places.NameGR,
+                                                                          NameEN = us.OrdersPTSGR2.OrdersPTSGR.Events.Places.NameEN,
+                                                                      },
+                                                                      NameGR = us.OrdersPTSGR2.OrdersPTSGR.Events.NameGR,
+                                                                      NameEN = us.OrdersPTSGR2.OrdersPTSGR.Events.NameEN
+                                                                  },
+                                                                  RegNo = us.OrdersPTSGR2.OrdersPTSGR.RegNo
+                                                              },
+                                                              CountryID = us.OrdersPTSGR2.CountryID,
+                                                              Country = new CountryDTO { 
+                                                                    ID = us.OrdersPTSGR2.Countries.ID,
+                                                                    NameGR = us.OrdersPTSGR2.Countries.NameGR,
+                                                                    NameEN = us.OrdersPTSGR2.Countries.NameEN
+                                                              },
+                                                              ProviderID = us.OrdersPTSGR2.ProviderID,
+                                                              Provider = new CustomerDTO {
+                                                                  ID = us.OrdersPTSGR2.Customers.ID,
+                                                                  CountryID = us.OrdersPTSGR2.Customers.CountryID,
+                                                                  NameGR = us.OrdersPTSGR2.Customers.NameGR,
+                                                                  NameEN = us.OrdersPTSGR2.Customers.NameEN,
+                                                                  NamedInvoiceGR = us.OrdersPTSGR2.Customers.NamedInvoiceGR,
+                                                                  NamedInvoiceEN = us.OrdersPTSGR2.Customers.NamedInvoiceEN,
+                                                                  ZIPCode = us.OrdersPTSGR2.Customers.ZIPCode,
+                                                                  CityGR = us.OrdersPTSGR2.Customers.CityGR,
+                                                                  CityEN = us.OrdersPTSGR2.Customers.CityEN,
+                                                                  ChargeTelephone = us.OrdersPTSGR2.Customers.ChargeTelephone,
+                                                                  Telephone1 = us.OrdersPTSGR2.Customers.Telephone1,
+                                                                  Telephone2 = us.OrdersPTSGR2.Customers.Telephone2,
+                                                                  FAX1 = us.OrdersPTSGR2.Customers.FAX1,
+                                                                  FAX2 = us.OrdersPTSGR2.Customers.FAX2,
+                                                                  Address1GR = us.OrdersPTSGR2.Customers.Address1GR,
+                                                                  Address1EN = us.OrdersPTSGR2.Customers.Address1EN,
+                                                                  Address2GR = us.OrdersPTSGR2.Customers.Address2GR,
+                                                                  Address2EN = us.OrdersPTSGR2.Customers.Address2EN,
+                                                                  ContactPersonGR = us.OrdersPTSGR2.Customers.ContactPersonGR,
+                                                                  ContactPersonEN = us.OrdersPTSGR2.Customers.ContactPersonEN,
+                                                                  CustomerTypeID = us.OrdersPTSGR2.Customers.CustomerTypeID,
+                                                                  LanguageID = us.OrdersPTSGR2.Customers.LanguageID,
+                                                                  Email = us.OrdersPTSGR2.Customers.Email,
+                                                                  URL = us.OrdersPTSGR2.Customers.URL,
+                                                                  AFM = us.OrdersPTSGR2.Customers.AFM,
+                                                                  DOY = us.OrdersPTSGR2.Customers.DOY,
+                                                                  SAPCode = us.OrdersPTSGR2.Customers.SAPCode,
+                                                                  UserID = us.OrdersPTSGR2.Customers.UserID,
+                                                                  Comments = us.OrdersPTSGR2.Customers.Comments,
+                                                                  IsProvider = us.OrdersPTSGR2.Customers.IsProvider,
+                                                                  IsOTE = us.OrdersPTSGR2.Customers.IsOTE
+                                                              }
                                                          },
-                                                         EventID = us.Orders.EventID,
-                                                         Event = new EventDTO {
-                                                             ID = us.OrderID == null ? -1 : us.Orders.Events.ID,
-                                                             PlaceID = us.OrderID == null ? -1 : us.Orders.Events.PlaceID,
-                                                             Place = new PlaceDTO {
-                                                                 ID = us.OrderID == null ? -1 : us.Orders.Events.Places.ID,
-                                                                 CountryID = us.OrderID == null ? -1 : us.Orders.Events.Places.CountryID,
-                                                                 Country = new CountryDTO {
-                                                                     ID = us.OrderID == null ? -1 : us.Orders.Events.Places.Countries.ID,
-                                                                     NameGR = us.OrderID == null ? "" : us.Orders.Events.Places.Countries.NameGR,
-                                                                     NameEN = us.OrderID == null ? "" : us.Orders.Events.Places.Countries.NameEN
-                                                                 },
-                                                                 NameGR = us.OrderID == null ? "" : us.Orders.Events.Places.NameGR,
-                                                                 NameEN = us.OrderID == null ? "" : us.Orders.Events.Places.NameEN
-                                                             },
-                                                             NameGR = us.OrderID == null ? "" : us.Orders.Events.NameGR,
-                                                             NameEN = us.OrderID == null ? "" : us.Orders.Events.NameEN
-                                                         }
-                                                     },
-                                                     RegNo = us.RegNo,
-                                                     OrderDate = us.OrderDate,
-                                                     CustomerID = us.CustomerID,
-                                                     Customer = new CustomerDTO {
-                                                         ID = us.Customers.ID,
-                                                         CountryID = us.Customers.CountryID,
-                                                         NameGR = us.Customers.NameGR,
-                                                         NameEN = us.Customers.NameEN,
-                                                         NamedInvoiceGR = us.Customers.NamedInvoiceGR,
-                                                         NamedInvoiceEN = us.Customers.NamedInvoiceEN,
-                                                         ZIPCode = us.Customers.ZIPCode,
-                                                         CityGR = us.Customers.CityGR,
-                                                         CityEN = us.Customers.CityEN,
-                                                         ChargeTelephone = us.Customers.ChargeTelephone,
-                                                         Telephone1 = us.Customers.Telephone1,
-                                                         Telephone2 = us.Customers.Telephone2,
-                                                         FAX1 = us.Customers.FAX1,
-                                                         FAX2 = us.Customers.FAX2,
-                                                         Address1GR = us.Customers.Address1GR,
-                                                         Address1EN = us.Customers.Address1EN,
-                                                         Address2GR = us.Customers.Address2GR,
-                                                         Address2EN = us.Customers.Address2EN,
-                                                         ContactPersonGR = us.Customers.ContactPersonGR,
-                                                         ContactPersonEN = us.Customers.ContactPersonEN,
-                                                         CustomerTypeID = us.Customers.CustomerTypeID,
-                                                         LanguageID = us.Customers.LanguageID,
-                                                         Email = us.Customers.Email,
-                                                         URL = us.Customers.URL,
-                                                         AFM = us.Customers.AFM,
-                                                         DOY = us.Customers.DOY,
-                                                         SAPCode = us.Customers.SAPCode,
-                                                         UserID = us.Customers.UserID,
-                                                         Comments = us.Customers.Comments,
-                                                         IsProvider = us.Customers.IsProvider,
-                                                         IsOTE = us.Customers.IsOTE
-                                                     },
-                                                     RequestedPositionID = us.RequestedPositionID,
-                                                     RequestedPosition = new RequestedPositionDTO {
-                                                         ID = us.RequestedPositionID == null ? -1 : us.RequestedPositions.ID,
-                                                         NameGR = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameGR,
-                                                         NameEN = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameEN
-                                                     },
-                                                     JobID = us.JobID,
-                                                     Job = new JobDTO {
-                                                         ID = us.Jobs.ID,
-                                                         JobsMainID = us.Jobs.JobsMainID,
-                                                         JobsMain = new JobMainDTO { ID = us.Jobs.JobsMain.ID, Name = us.Jobs.JobsMain.Name, PageID = us.Jobs.JobsMain.PageID },
-                                                         Name = us.Jobs.Name,
-                                                         MinimumTime = us.Jobs.MinimumTime,
-                                                         InvoiceCode = us.Jobs.InvoiceCode,
-                                                         SalesID = us.Jobs.SalesID
-                                                     },
-                                                     DistanceID = us.DistancesID,
-                                                     Distance = new DistanceDTO {
-                                                         ID = us.Distances.ID,
-                                                         JobsMainID = us.Distances.JobsMainID,
-                                                         JobsMain = new JobMainDTO { ID = us.Distances.JobsMain.ID, Name = us.Distances.JobsMain.Name, PageID = us.Distances.JobsMain.PageID },
-                                                         Description = us.Distances.Position1 + " - " + us.Distances.Position2 + " (" + us.Distances.KM.ToString() + " km)",
-                                                         Position1 = us.Distances.Position1,
-                                                         Position2 = us.Distances.Position2,
-                                                         KM = us.Distances.KM
-                                                     },
-                                                     DateTimeStartOrder = us.DateTimeStartOrder,
-                                                     DateTimeEndOrder = us.DateTimeEndOrder,
-                                                     DateTimeDurationOrder = us.DateTimeDurationOrder,
-                                                     DateTimeStartActual = us.DateTimeStartActual,
-                                                     DateTimeEndActual = us.DateTimeEndActual,
-                                                     DateTimeDurationActual = us.DateTimeDurationActual,
-                                                     CostCalculated = us.CostCalculated,
-                                                     InstallationCharges = us.InstallationCharges == null ? false : (bool)us.InstallationCharges,
-                                                     MonthlyCharges = us.MonthlyCharges == null ? false : (bool)us.MonthlyCharges,
-                                                     CallCharges = us.CallCharges,
-                                                     TelephoneNumber = us.TelephoneNumber,
-                                                     TechnicalSupport = us.TechnicalSupport,
-                                                     AddedCharges = us.AddedCharges,
-                                                     CostActual = us.CostActual,
-                                                     PaymentDateOrder = us.PaymentDateOrder,
-                                                     PaymentDateCalculated = us.PaymentDateCalculated,
-                                                     PaymentDateActual = us.PaymentDateActual,
-                                                     IsForHelpers = us.IsForHelpers == null ? false : (bool)us.IsForHelpers,
-                                                     IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
-                                                     IsCanceled = us.IsCanceled == null ? false : (bool)us.IsCanceled,
-                                                     CancelPrice = us.CancelPrice,
-                                                     Comments = us.Comments,
-                                                     InvoceComments = us.InvoceComments,
-                                                     SateliteID = us.SateliteID,
-                                                     Satelite = new SateliteDTO {
-                                                         ID = us.SateliteID == null ? -1 : us.Satelites.ID,
-                                                         Name = us.SateliteID == null ? "" : us.Satelites.Name,
-                                                         Frequency = us.SateliteID == null ? "" : us.Satelites.Frequency
-                                                     },
-                                                     MSN = us.MSN == null ? false : (bool)us.MSN,
-                                                     Internet = us.Internet == null ? false : (bool)us.Internet,
-                                                     LineTypeID = us.LineTypeID,
-                                                     LineType = us.LineTypeID == null ? null : new LineTypeDTO { ID = us.LineTypes.ID, Name = us.LineTypes.Name },
-                                                     DateStamp = us.DateStamp,
-                                                     EnteredByUser = us.EnteredByUser
-                                                 }).Where(o => o.OrderID != null);
+                                                         RegNo = us.RegNo,
+                                                         OrderDate = us.OrderDate,
+                                                         CustomerID = us.CustomerID,
+                                                         Customer = new CustomerDTO {
+                                                             ID = us.Customers.ID,
+                                                             CountryID = us.Customers.CountryID,
+                                                             NameGR = us.Customers.NameGR,
+                                                             NameEN = us.Customers.NameEN,
+                                                             NamedInvoiceGR = us.Customers.NamedInvoiceGR,
+                                                             NamedInvoiceEN = us.Customers.NamedInvoiceEN,
+                                                             ZIPCode = us.Customers.ZIPCode,
+                                                             CityGR = us.Customers.CityGR,
+                                                             CityEN = us.Customers.CityEN,
+                                                             ChargeTelephone = us.Customers.ChargeTelephone,
+                                                             Telephone1 = us.Customers.Telephone1,
+                                                             Telephone2 = us.Customers.Telephone2,
+                                                             FAX1 = us.Customers.FAX1,
+                                                             FAX2 = us.Customers.FAX2,
+                                                             Address1GR = us.Customers.Address1GR,
+                                                             Address1EN = us.Customers.Address1EN,
+                                                             Address2GR = us.Customers.Address2GR,
+                                                             Address2EN = us.Customers.Address2EN,
+                                                             ContactPersonGR = us.Customers.ContactPersonGR,
+                                                             ContactPersonEN = us.Customers.ContactPersonEN,
+                                                             CustomerTypeID = us.Customers.CustomerTypeID,
+                                                             LanguageID = us.Customers.LanguageID,
+                                                             Email = us.Customers.Email,
+                                                             URL = us.Customers.URL,
+                                                             AFM = us.Customers.AFM,
+                                                             DOY = us.Customers.DOY,
+                                                             SAPCode = us.Customers.SAPCode,
+                                                             UserID = us.Customers.UserID,
+                                                             Comments = us.Customers.Comments,
+                                                             IsProvider = us.Customers.IsProvider,
+                                                             IsOTE = us.Customers.IsOTE
+                                                         },
+                                                         RequestedPositionID = us.RequestedPositionID,
+                                                         RequestedPosition = new RequestedPositionDTO {
+                                                             ID = us.RequestedPositionID == null ? -1 : us.RequestedPositions.ID,
+                                                             NameGR = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameGR,
+                                                             NameEN = us.RequestedPositionID == null ? "" : us.RequestedPositions.NameEN
+                                                         },
+                                                         DateTimeStartActual = us.DateTimeStartActual,
+                                                         DateTimeEndActual = us.DateTimeEndActual,
+                                                         DateTimeDurationActual = us.DateTimeDurationActual,
+                                                         TelephoneNumber = us.TelephoneNumber,
+                                                         AddedCharges = us.AddedCharges,
+                                                         CostActual = us.CostActual,
+                                                         PaymentDateActual = us.PaymentDateActual,
+                                                         IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
+                                                         IsCanceled = us.IsCanceled == null ? false : (bool)us.IsCanceled,
+                                                         Comments = us.Comments,
+                                                          CorrespondentName = us.CorrespondentName,
+                                                          MSNCount = us.MSNCount,
+                                                          MSN1 = us.MSN1,
+                                                          MSN2 = us.MSN2,
+                                                          PTSRPricelistID = us.PTSRPricelistID,
+                                                          PTSRPricelist = new PTSGRPricelistDTO {
+                                                              ID = us.PTSGRPricelist.ID,
+                                                              Name = us.PTSGRPricelist.Name,
+                                                              InstallationCost = us.PTSGRPricelist.InstallationCost,
+                                                              ChargesPerMonth = us.PTSGRPricelist.ChargesPerMonth,
+                                                              ChargesPerDay = us.PTSGRPricelist.ChargesPerDay,
+                                                              MSNPerMonth = us.PTSGRPricelist.MSNPerMonth == null ? 0 : us.PTSGRPricelist.MSNPerMonth,
+                                                              MSNPerDay = us.PTSGRPricelist.MSNPerDay == null ? 0 : us.PTSGRPricelist.MSNPerDay,
+                                                              IsChargePerMonth = us.PTSGRPricelist.IsChargePerMonth
+                                                          },
+                                                          InvoiceCost = us.InvoiceCost == null ? 0 : (decimal)us.InvoiceCost,
+                                                          DateStamp = us.DateStamp,
+                                                         EnteredByUser = us.EnteredByUser
+                                                    });
                     if (!string.IsNullOrEmpty(recFilter)) {
                         string[] expressionsAND = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
                         List<string> columnExpressions = new List<string>();
@@ -870,9 +849,9 @@ namespace OTERT.Controller {
                         else { sortFieldName = gridSortExxpressions[0].FieldName; }
                         datatmp = datatmp.OrderBy(sortFieldName + " " + gridSortExxpressions[0].SortOrder);
                     } else {
-                        datatmp = datatmp.OrderByDescending(o => o.OrderID).ThenByDescending(o => o.ID);
+                        datatmp = datatmp.OrderByDescending(o => o.OrderPTSGR2ID).ThenByDescending(o => o.Order.OrdersPTSGRID).ThenByDescending(o => o.ID);
                     }
-                    List<TaskB> data = datatmp.Skip(recSkip).Take(recTake).ToList();
+                    List<TaskPTSGRB> data = datatmp.Skip(recSkip).Take(recTake).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

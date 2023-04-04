@@ -39,9 +39,29 @@ namespace OTERT.Controller {
                                                       ChargesPerDay = us.ChargesPerDay,
                                                       MSNPerMonth = us.MSNPerMonth == null ? 0 : us.MSNPerMonth,
                                                       MSNPerDay = us.MSNPerDay == null ? 0 : us.MSNPerDay,
-                                                      SupportsMSN = us.SupportsMSN,
                                                       IsChargePerMonth = us.IsChargePerMonth
                                                   }).OrderBy(o => o.Name).ToList();
+                    return data;
+                }
+                catch (Exception) { return null; }
+            }
+        }
+
+        public PTSGRPricelistB GetPTSGRPricelist(int ID) {
+            using (var dbContext = new OTERTConnStr()) {
+                try{
+                    dbContext.Configuration.ProxyCreationEnabled = false;
+                    PTSGRPricelistB data = (from us in dbContext.PTSGRPricelist
+                                                  select new PTSGRPricelistB {
+                                                      ID = us.ID,
+                                                      Name = us.Name,
+                                                      InstallationCost = us.InstallationCost,
+                                                      ChargesPerMonth = us.ChargesPerMonth,
+                                                      ChargesPerDay = us.ChargesPerDay,
+                                                      MSNPerMonth = us.MSNPerMonth == null ? 0 : us.MSNPerMonth,
+                                                      MSNPerDay = us.MSNPerDay == null ? 0 : us.MSNPerDay,
+                                                      IsChargePerMonth = us.IsChargePerMonth
+                                                  }).Where(k => k.ID == ID).FirstOrDefault();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -61,7 +81,6 @@ namespace OTERT.Controller {
                                                                 ChargesPerDay = us.ChargesPerDay,
                                                                 MSNPerMonth = us.MSNPerMonth == null ? 0 : us.MSNPerMonth,
                                                                 MSNPerDay = us.MSNPerDay == null ? 0 : us.MSNPerDay,
-                                                                SupportsMSN = us.SupportsMSN,
                                                                 IsChargePerMonth = us.IsChargePerMonth
                                                             });
                     if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }

@@ -99,7 +99,6 @@ namespace OTERT.Pages.Administrator {
                     currPricelist.ChargesPerDay = decimal.Parse((string)values["ChargesPerDay"]);
                     currPricelist.MSNPerMonth = decimal.Parse((string)values["MSNPerMonth"]);
                     currPricelist.MSNPerDay = decimal.Parse((string)values["MSNPerDay"]);
-                    if (currPricelist.MSNPerMonth > 0 || currPricelist.MSNPerDay > 0) { currPricelist.SupportsMSN = true; } else { currPricelist.SupportsMSN = false; }
                     currPricelist.IsChargePerMonth = (bool)values["IsChargePerMonth"];
                     dbContext.PTSGRPricelist.Add(currPricelist);
                     dbContext.SaveChanges();

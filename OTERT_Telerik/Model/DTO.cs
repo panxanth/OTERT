@@ -270,4 +270,15 @@ namespace OTERT.Model {
         public bool? IsLocked { get; set; }
     }
 
+    public class PTSGRPricelistDTO {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public decimal InstallationCost { get; set; }
+        public decimal ChargesPerMonth { get; set; }
+        public decimal ChargesPerDay { get; set; }
+        public decimal? MSNPerMonth { get; set; }
+        public decimal? MSNPerDay { get; set; }
+        public bool IsChargePerMonth { get; set; }
+    }
+
 }

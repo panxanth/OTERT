@@ -83,13 +83,13 @@
         <AssociationConnector Association="OTERT_Model.FK_OrdersPTSGR2_Countries" />
         <AssociationConnector Association="OTERT_Model.FK_OrdersPTSGR2_Customers" />
         <AssociationConnector Association="OTERT_Model.FK_OrdersPTSGR2_OrdersPTSGR" />
-        <EntityTypeShape EntityType="OTERT_Model.TasksPTSGR" Width="1.5" PointX="19" PointY="6.125" />
-        <AssociationConnector Association="OTERT_Model.fk_TasksPTSGR_Customers" />
-        <AssociationConnector Association="OTERT_Model.FK_TasksPTSGR_LineTypes" />
-        <AssociationConnector Association="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2" />
-        <AssociationConnector Association="OTERT_Model.fk_TasksPTSGR_RequestedPositions" />
         <AssociationConnector Association="OTERT_Model.FK_Files_OrdersPTSGR" />
-      </Diagram>
+        <EntityTypeShape EntityType="OTERT_Model.TasksPTSGR" Width="2" PointX="18.625" PointY="6" />
+        <AssociationConnector Association="OTERT_Model.fk_TasksPTSGR_Customers" />
+        <AssociationConnector Association="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2" />
+        <AssociationConnector Association="OTERT_Model.FK_TasksPTSGR_PTSGRPricelist" />
+        <AssociationConnector Association="OTERT_Model.fk_TasksPTSGR_RequestedPositions" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

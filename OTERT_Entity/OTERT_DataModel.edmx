@@ -275,8 +275,6 @@
           <Property Name="ChargesPerDay" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="MSNPerMonth" Type="decimal" Precision="18" Scale="5" />
           <Property Name="MSNPerDay" Type="decimal" Precision="18" Scale="5" />
-          <Property Name="HasRouter" Type="bit" Nullable="false" />
-          <Property Name="SupportsMSN" Type="bit" Nullable="false" />
           <Property Name="IsChargePerMonth" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="RequestedPositions">
@@ -376,34 +374,24 @@
           <Property Name="OrderDate" Type="datetime" Nullable="false" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="RequestedPositionID" Type="int" />
-          <Property Name="DateTimeStartOrder" Type="datetime" />
-          <Property Name="DateTimeEndOrder" Type="datetime" />
-          <Property Name="DateTimeDurationOrder" Type="int" Nullable="false" />
+          <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="CorrespondentName" Type="nvarchar" MaxLength="255" />
+          <Property Name="PTSRPricelistID" Type="int" Nullable="false" />
+          <Property Name="MSNCount" Type="int" Nullable="false" />
+          <Property Name="MSN1" Type="varchar" MaxLength="50" />
+          <Property Name="MSN2" Type="varchar" MaxLength="50" />
           <Property Name="DateTimeStartActual" Type="datetime" />
           <Property Name="DateTimeEndActual" Type="datetime" />
           <Property Name="DateTimeDurationActual" Type="int" />
-          <Property Name="CostCalculated" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="100" />
-          <Property Name="TechnicalSupport" Type="decimal" Precision="18" Scale="2" />
           <Property Name="AddedCharges" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InvoiceCost" Type="decimal" Precision="18" Scale="2" />
           <Property Name="CostActual" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="PaymentDateOrder" Type="datetime" />
-          <Property Name="PaymentDateCalculated" Type="datetime" />
           <Property Name="PaymentDateActual" Type="datetime" />
           <Property Name="IsLocked" Type="bit" />
           <Property Name="IsCanceled" Type="bit" />
-          <Property Name="CancelPrice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Comments" Type="nvarchar(max)" />
-          <Property Name="InvoceComments" Type="nvarchar(max)" />
-          <Property Name="MSN1" Type="bit" />
-          <Property Name="MSN2" Type="bit" />
-          <Property Name="LineTypeID" Type="int" />
           <Property Name="DateStamp" Type="datetime" Nullable="false" />
           <Property Name="EnteredByUser" Type="nvarchar" MaxLength="255" />
-          <Property Name="InstallationCost" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="MonthlyCharges" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="MSNCost" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="InvoiceCost" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="UIControlsVisibility">
           <Key>
@@ -949,18 +937,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TasksPTSGR_LineTypes">
-          <End Role="LineTypes" Type="Self.LineTypes" Multiplicity="0..1" />
-          <End Role="TasksPTSGR" Type="Self.TasksPTSGR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LineTypes">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TasksPTSGR">
-              <PropertyRef Name="LineTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TasksPTSGR_OrdersPTSGR2">
           <End Role="OrdersPTSGR2" Type="Self.OrdersPTSGR2" Multiplicity="1" />
           <End Role="TasksPTSGR" Type="Self.TasksPTSGR" Multiplicity="*" />
@@ -970,6 +946,18 @@
             </Principal>
             <Dependent Role="TasksPTSGR">
               <PropertyRef Name="OrderPTSGR2ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksPTSGR_PTSGRPricelist">
+          <End Role="PTSGRPricelist" Type="Self.PTSGRPricelist" Multiplicity="1" />
+          <End Role="TasksPTSGR" Type="Self.TasksPTSGR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PTSGRPricelist">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TasksPTSGR">
+              <PropertyRef Name="PTSRPricelistID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1234,12 +1222,12 @@
             <End Role="Customers" EntitySet="Customers" />
             <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
           </AssociationSet>
-          <AssociationSet Name="FK_TasksPTSGR_LineTypes" Association="Self.FK_TasksPTSGR_LineTypes">
-            <End Role="LineTypes" EntitySet="LineTypes" />
-            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
-          </AssociationSet>
           <AssociationSet Name="FK_TasksPTSGR_OrdersPTSGR2" Association="Self.FK_TasksPTSGR_OrdersPTSGR2">
             <End Role="OrdersPTSGR2" EntitySet="OrdersPTSGR2" />
+            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksPTSGR_PTSGRPricelist" Association="Self.FK_TasksPTSGR_PTSGRPricelist">
+            <End Role="PTSGRPricelist" EntitySet="PTSGRPricelist" />
             <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
           </AssociationSet>
           <AssociationSet Name="fk_TasksPTSGR_RequestedPositions" Association="Self.fk_TasksPTSGR_RequestedPositions">
@@ -1414,7 +1402,6 @@
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="CountryPricelist" Relationship="Self.fk_CountryPricelist_LineTypes" FromRole="LineTypes" ToRole="CountryPricelist" />
           <NavigationProperty Name="Tasks" Relationship="OTERT_Model.FK_Tasks_LineTypes" FromRole="LineTypes" ToRole="Tasks" />
-          <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.FK_TasksPTSGR_LineTypes" FromRole="LineTypes" ToRole="TasksPTSGR" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -1958,28 +1945,28 @@
             <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
             <End Role="OrdersPTSGR2" EntitySet="OrdersPTSGR2" />
           </AssociationSet>
+          <AssociationSet Name="FK_Files_OrdersPTSGR" Association="OTERT_Model.FK_Files_OrdersPTSGR">
+            <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
           <EntitySet Name="TasksPTSGR" EntityType="OTERT_Model.TasksPTSGR" />
           <AssociationSet Name="fk_TasksPTSGR_Customers" Association="OTERT_Model.fk_TasksPTSGR_Customers">
             <End Role="Customers" EntitySet="Customers" />
-            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TasksPTSGR_LineTypes" Association="OTERT_Model.FK_TasksPTSGR_LineTypes">
-            <End Role="LineTypes" EntitySet="LineTypes" />
             <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
           </AssociationSet>
           <AssociationSet Name="FK_TasksPTSGR_OrdersPTSGR2" Association="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2">
             <End Role="OrdersPTSGR2" EntitySet="OrdersPTSGR2" />
             <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
           </AssociationSet>
+          <AssociationSet Name="FK_TasksPTSGR_PTSGRPricelist" Association="OTERT_Model.FK_TasksPTSGR_PTSGRPricelist">
+            <End Role="PTSGRPricelist" EntitySet="PTSGRPricelist" />
+            <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
+          </AssociationSet>
           <AssociationSet Name="fk_TasksPTSGR_RequestedPositions" Association="OTERT_Model.fk_TasksPTSGR_RequestedPositions">
             <End Role="RequestedPositions" EntitySet="RequestedPositions" />
             <End Role="TasksPTSGR" EntitySet="TasksPTSGR" />
           </AssociationSet>
-          <AssociationSet Name="FK_Files_OrdersPTSGR" Association="OTERT_Model.FK_Files_OrdersPTSGR">
-            <End Role="OrdersPTSGR" EntitySet="OrdersPTSGR" />
-            <End Role="Files" EntitySet="Files" />
-          </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <Association Name="fk_Orders_Customers_1">
           <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
           <End Type="OTERT_Model.Orders" Role="Orders" Multiplicity="*" />
@@ -2385,11 +2372,10 @@
           <Property Name="InstallationCost" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
           <Property Name="ChargesPerMonth" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
           <Property Name="ChargesPerDay" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <Property Name="SupportsMSN" Type="Boolean" Nullable="false" />
           <Property Name="IsChargePerMonth" Type="Boolean" Nullable="false" />
           <Property Name="MSNPerMonth" Type="Decimal" Precision="18" Scale="5" />
           <Property Name="MSNPerDay" Type="Decimal" Precision="18" Scale="5" />
-          <Property Name="HasRouter" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.FK_TasksPTSGR_PTSGRPricelist" FromRole="PTSGRPricelist" ToRole="TasksPTSGR" />
         </EntityType>
         <EntityType Name="EventLogs">
           <Key>
@@ -2518,6 +2504,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Files_OrdersPTSGR">
+          <End Type="OTERT_Model.OrdersPTSGR" Role="OrdersPTSGR" Multiplicity="0..1" />
+          <End Type="OTERT_Model.Files" Role="Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrdersPTSGR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="OrderPTSGRID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="TasksPTSGR">
           <Key>
             <PropertyRef Name="ID" />
@@ -2528,38 +2526,28 @@
           <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CustomerID" Type="Int32" Nullable="false" />
           <Property Name="RequestedPositionID" Type="Int32" />
-          <Property Name="DateTimeStartOrder" Type="DateTime" Precision="3" />
-          <Property Name="DateTimeEndOrder" Type="DateTime" Precision="3" />
-          <Property Name="DateTimeDurationOrder" Type="Int32" Nullable="false" />
+          <Property Name="TelephoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CorrespondentName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PTSRPricelistID" Type="Int32" Nullable="false" />
+          <Property Name="MSNCount" Type="Int32" Nullable="false" />
+          <Property Name="MSN1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MSN2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DateTimeStartActual" Type="DateTime" Precision="3" />
           <Property Name="DateTimeEndActual" Type="DateTime" Precision="3" />
           <Property Name="DateTimeDurationActual" Type="Int32" />
-          <Property Name="CostCalculated" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TelephoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="TechnicalSupport" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="AddedCharges" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InvoiceCost" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="CostActual" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PaymentDateOrder" Type="DateTime" Precision="3" />
-          <Property Name="PaymentDateCalculated" Type="DateTime" Precision="3" />
           <Property Name="PaymentDateActual" Type="DateTime" Precision="3" />
           <Property Name="IsLocked" Type="Boolean" />
           <Property Name="IsCanceled" Type="Boolean" />
-          <Property Name="CancelPrice" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="InvoceComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MSN1" Type="Boolean" />
-          <Property Name="MSN2" Type="Boolean" />
-          <Property Name="LineTypeID" Type="Int32" />
           <Property Name="DateStamp" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EnteredByUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="InstallationCost" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MonthlyCharges" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MSNCost" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="Customers" Relationship="OTERT_Model.fk_TasksPTSGR_Customers" FromRole="TasksPTSGR" ToRole="Customers" />
-          <NavigationProperty Name="LineTypes" Relationship="OTERT_Model.FK_TasksPTSGR_LineTypes" FromRole="TasksPTSGR" ToRole="LineTypes" />
           <NavigationProperty Name="OrdersPTSGR2" Relationship="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2" FromRole="TasksPTSGR" ToRole="OrdersPTSGR2" />
+          <NavigationProperty Name="PTSGRPricelist" Relationship="OTERT_Model.FK_TasksPTSGR_PTSGRPricelist" FromRole="TasksPTSGR" ToRole="PTSGRPricelist" />
           <NavigationProperty Name="RequestedPositions" Relationship="OTERT_Model.fk_TasksPTSGR_RequestedPositions" FromRole="TasksPTSGR" ToRole="RequestedPositions" />
-          <Property Name="InvoiceCost" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="fk_TasksPTSGR_Customers">
           <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
@@ -2570,18 +2558,6 @@
             </Principal>
             <Dependent Role="TasksPTSGR">
               <PropertyRef Name="CustomerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TasksPTSGR_LineTypes">
-          <End Type="OTERT_Model.LineTypes" Role="LineTypes" Multiplicity="0..1" />
-          <End Type="OTERT_Model.TasksPTSGR" Role="TasksPTSGR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LineTypes">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TasksPTSGR">
-              <PropertyRef Name="LineTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2597,6 +2573,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TasksPTSGR_PTSGRPricelist">
+          <End Type="OTERT_Model.PTSGRPricelist" Role="PTSGRPricelist" Multiplicity="1" />
+          <End Type="OTERT_Model.TasksPTSGR" Role="TasksPTSGR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PTSGRPricelist">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TasksPTSGR">
+              <PropertyRef Name="PTSRPricelistID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_TasksPTSGR_RequestedPositions">
           <End Type="OTERT_Model.RequestedPositions" Role="RequestedPositions" Multiplicity="0..1" />
           <End Type="OTERT_Model.TasksPTSGR" Role="TasksPTSGR" Multiplicity="*" />
@@ -2609,19 +2597,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Files_OrdersPTSGR">
-          <End Type="OTERT_Model.OrdersPTSGR" Role="OrdersPTSGR" Multiplicity="0..1" />
-          <End Type="OTERT_Model.Files" Role="Files" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrdersPTSGR">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Files">
-              <PropertyRef Name="OrderPTSGRID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -3011,11 +2987,9 @@
           <EntitySetMapping Name="PTSGRPricelist">
             <EntityTypeMapping TypeName="OTERT_Model.PTSGRPricelist">
               <MappingFragment StoreEntitySet="PTSGRPricelist">
-                <ScalarProperty Name="HasRouter" ColumnName="HasRouter" />
                 <ScalarProperty Name="MSNPerDay" ColumnName="MSNPerDay" />
                 <ScalarProperty Name="MSNPerMonth" ColumnName="MSNPerMonth" />
                 <ScalarProperty Name="IsChargePerMonth" ColumnName="IsChargePerMonth" />
-                <ScalarProperty Name="SupportsMSN" ColumnName="SupportsMSN" />
                 <ScalarProperty Name="ChargesPerDay" ColumnName="ChargesPerDay" />
                 <ScalarProperty Name="ChargesPerMonth" ColumnName="ChargesPerMonth" />
                 <ScalarProperty Name="InstallationCost" ColumnName="InstallationCost" />
@@ -3078,34 +3052,24 @@
           <EntitySetMapping Name="TasksPTSGR">
             <EntityTypeMapping TypeName="OTERT_Model.TasksPTSGR">
               <MappingFragment StoreEntitySet="TasksPTSGR">
-                <ScalarProperty Name="InvoiceCost" ColumnName="InvoiceCost" />
-                <ScalarProperty Name="MSNCost" ColumnName="MSNCost" />
-                <ScalarProperty Name="MonthlyCharges" ColumnName="MonthlyCharges" />
-                <ScalarProperty Name="InstallationCost" ColumnName="InstallationCost" />
                 <ScalarProperty Name="EnteredByUser" ColumnName="EnteredByUser" />
                 <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
-                <ScalarProperty Name="LineTypeID" ColumnName="LineTypeID" />
-                <ScalarProperty Name="MSN2" ColumnName="MSN2" />
-                <ScalarProperty Name="MSN1" ColumnName="MSN1" />
-                <ScalarProperty Name="InvoceComments" ColumnName="InvoceComments" />
                 <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="CancelPrice" ColumnName="CancelPrice" />
                 <ScalarProperty Name="IsCanceled" ColumnName="IsCanceled" />
                 <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
                 <ScalarProperty Name="PaymentDateActual" ColumnName="PaymentDateActual" />
-                <ScalarProperty Name="PaymentDateCalculated" ColumnName="PaymentDateCalculated" />
-                <ScalarProperty Name="PaymentDateOrder" ColumnName="PaymentDateOrder" />
                 <ScalarProperty Name="CostActual" ColumnName="CostActual" />
+                <ScalarProperty Name="InvoiceCost" ColumnName="InvoiceCost" />
                 <ScalarProperty Name="AddedCharges" ColumnName="AddedCharges" />
-                <ScalarProperty Name="TechnicalSupport" ColumnName="TechnicalSupport" />
-                <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
-                <ScalarProperty Name="CostCalculated" ColumnName="CostCalculated" />
                 <ScalarProperty Name="DateTimeDurationActual" ColumnName="DateTimeDurationActual" />
                 <ScalarProperty Name="DateTimeEndActual" ColumnName="DateTimeEndActual" />
                 <ScalarProperty Name="DateTimeStartActual" ColumnName="DateTimeStartActual" />
-                <ScalarProperty Name="DateTimeDurationOrder" ColumnName="DateTimeDurationOrder" />
-                <ScalarProperty Name="DateTimeEndOrder" ColumnName="DateTimeEndOrder" />
-                <ScalarProperty Name="DateTimeStartOrder" ColumnName="DateTimeStartOrder" />
+                <ScalarProperty Name="MSN2" ColumnName="MSN2" />
+                <ScalarProperty Name="MSN1" ColumnName="MSN1" />
+                <ScalarProperty Name="MSNCount" ColumnName="MSNCount" />
+                <ScalarProperty Name="PTSRPricelistID" ColumnName="PTSRPricelistID" />
+                <ScalarProperty Name="CorrespondentName" ColumnName="CorrespondentName" />
+                <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
                 <ScalarProperty Name="RequestedPositionID" ColumnName="RequestedPositionID" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />

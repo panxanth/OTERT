@@ -14,15 +14,22 @@ namespace OTERT_Entity
     
     public partial class PTSGRPricelist
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PTSGRPricelist()
+        {
+            this.TasksPTSGR = new HashSet<TasksPTSGR>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public decimal InstallationCost { get; set; }
         public decimal ChargesPerMonth { get; set; }
         public decimal ChargesPerDay { get; set; }
-        public bool SupportsMSN { get; set; }
         public bool IsChargePerMonth { get; set; }
         public Nullable<decimal> MSNPerMonth { get; set; }
         public Nullable<decimal> MSNPerDay { get; set; }
-        public bool HasRouter { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TasksPTSGR> TasksPTSGR { get; set; }
     }
 }

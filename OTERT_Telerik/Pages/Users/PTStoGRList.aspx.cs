@@ -14,7 +14,7 @@ using Telerik.Windows.Documents.Spreadsheet.Utilities;
 
 namespace OTERT.Pages.UserPages {
 
-    public partial class PTStoAbroadList : Page {
+    public partial class PTStoGRList : Page {
 
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
@@ -31,8 +31,8 @@ namespace OTERT.Pages.UserPages {
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
-                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Λίστες > ΠΤΣ προς ΕΞωτερικό";
-                gridMain.MasterTableView.Caption = "Λίστες > ΠΤΣ προς ΕΞωτερικό";
+                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Λίστες > ΠΤΣ προς Ελλάδα";
+                gridMain.MasterTableView.Caption = "Λίστες > ΠΤΣ προς Ελλάδα";
             }
             if (Session["LoggedUser"] != null) { loggedUser = Session["LoggedUser"] as UserB; } else { Response.Redirect("/Default.aspx", true); }
         }
@@ -43,9 +43,9 @@ namespace OTERT.Pages.UserPages {
             string recFilter = gridMain.MasterTableView.FilterExpression;
             GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
             try {
-                TasksController cont = new TasksController();
-                gridMain.VirtualItemCount = cont.CountAllTasksforPTStoAbroad(recFilter);
-                gridMain.DataSource = cont.GetAllTasksforPTStoAbroad(recSkip, recTake, recFilter, gridSortExxpressions);
+                TasksPTSGRController cont = new TasksPTSGRController();
+                gridMain.VirtualItemCount = cont.CountAllTasksPTSGR(recFilter);
+                gridMain.DataSource = cont.GetAllTasksPTSGR(recSkip, recTake, recFilter, gridSortExxpressions);
             }
             catch (Exception) { }
         }
@@ -62,10 +62,8 @@ namespace OTERT.Pages.UserPages {
                     (filterItem["OrderDate"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
                     (filterItem["DateTimeStartActual"].Controls[0] as LiteralControl).Text = "Από: ";
                     (filterItem["DateTimeStartActual"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
-                    (filterItem["PaymentDateOrder"].Controls[0] as LiteralControl).Text = "Από: ";
-                    (filterItem["PaymentDateOrder"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
-                    (filterItem["PaymentDateCalculated"].Controls[0] as LiteralControl).Text = "Από: ";
-                    (filterItem["PaymentDateCalculated"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
+                    (filterItem["PaymentDateActual"].Controls[0] as LiteralControl).Text = "Από: ";
+                    (filterItem["PaymentDateActual"].Controls[3] as LiteralControl).Text = "<br />Έως: ";
                     RadDateTimePicker OrderDateFrom = filterItem["OrderDate"].Controls[1] as RadDateTimePicker;
                     OrderDateFrom.TimePopupButton.Visible = false;
                     OrderDateFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
@@ -84,24 +82,15 @@ namespace OTERT.Pages.UserPages {
                     startActualTo.DateInput.DisplayDateFormat = "d/M/yyyy";
                     startActualTo.DateInput.DateFormat = "d/M/yyyy";
                     startActualFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + startActualFrom.ClientID + "', '" + startActualTo.ClientID + "');");
-                    RadDateTimePicker PaymentDateOrderFrom = filterItem["PaymentDateOrder"].Controls[1] as RadDateTimePicker;
-                    PaymentDateOrderFrom.TimePopupButton.Visible = false;
-                    PaymentDateOrderFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
-                    PaymentDateOrderFrom.DateInput.DateFormat = "d/M/yyyy";
-                    RadDateTimePicker PaymentDateOrderTo = filterItem["PaymentDateOrder"].Controls[4] as RadDateTimePicker;
-                    PaymentDateOrderTo.TimePopupButton.Visible = false;
-                    PaymentDateOrderTo.DateInput.DisplayDateFormat = "d/M/yyyy";
-                    PaymentDateOrderTo.DateInput.DateFormat = "d/M/yyyy";
-                    PaymentDateOrderFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + PaymentDateOrderFrom.ClientID + "', '" + PaymentDateOrderTo.ClientID + "');");
-                    RadDateTimePicker PaymentDateCalculatedFrom = filterItem["PaymentDateCalculated"].Controls[1] as RadDateTimePicker;
-                    PaymentDateCalculatedFrom.TimePopupButton.Visible = false;
-                    PaymentDateCalculatedFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
-                    PaymentDateCalculatedFrom.DateInput.DateFormat = "d/M/yyyy";
-                    RadDateTimePicker PaymentDateCalculatedTo = filterItem["PaymentDateCalculated"].Controls[4] as RadDateTimePicker;
-                    PaymentDateCalculatedTo.TimePopupButton.Visible = false;
-                    PaymentDateCalculatedTo.DateInput.DisplayDateFormat = "d/M/yyyy";
-                    PaymentDateCalculatedTo.DateInput.DateFormat = "d/M/yyyy";
-                    PaymentDateCalculatedFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + PaymentDateCalculatedFrom.ClientID + "', '" + PaymentDateCalculatedTo.ClientID + "');");
+                    RadDateTimePicker PaymentDateActualFrom = filterItem["PaymentDateActual"].Controls[1] as RadDateTimePicker;
+                    PaymentDateActualFrom.TimePopupButton.Visible = false;
+                    PaymentDateActualFrom.DateInput.DisplayDateFormat = "d/M/yyyy";
+                    PaymentDateActualFrom.DateInput.DateFormat = "d/M/yyyy";
+                    RadDateTimePicker PaymentDateActualTo = filterItem["PaymentDateActual"].Controls[4] as RadDateTimePicker;
+                    PaymentDateActualTo.TimePopupButton.Visible = false;
+                    PaymentDateActualTo.DateInput.DisplayDateFormat = "d/M/yyyy";
+                    PaymentDateActualTo.DateInput.DateFormat = "d/M/yyyy";
+                    startActualFrom.DateInput.Attributes.Add("onchange", "javascript:UpdateTo('" + PaymentDateActualFrom.ClientID + "', '" + PaymentDateActualTo.ClientID + "');");
                 }
             }
         }
@@ -110,24 +99,24 @@ namespace OTERT.Pages.UserPages {
             if (e.Item.OwnerTableView.Name == "Master") {
                 if (e.Item is GridFilteringItem) {
                     GridFilteringItem filterItem = (GridFilteringItem)e.Item;
-                    RadDropDownList c1list = (RadDropDownList)filterItem.FindControl("ddlCustomer1Filter");
+                    RadDropDownList plist = (RadDropDownList)filterItem.FindControl("ddlProvidersFilter");
                     RadDropDownList clist = (RadDropDownList)filterItem.FindControl("ddlCustomersFilter");
                     RadDropDownList elist = (RadDropDownList)filterItem.FindControl("ddlEventFilter");
                     RadDropDownList countrylist = (RadDropDownList)filterItem.FindControl("ddlCuntryFilter");
                     try {
                         CustomersController ccont = new CustomersController();
-                        c1list.DataSource = ccont.GetForeignProviders();
-                        c1list.DataTextField = "NameGR";
-                        c1list.DataValueField = "ID";
-                        c1list.DataBind();
-                        c1list.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
-                        clist.DataSource = ccont.GetPTSCustomers();
+                        plist.DataSource = ccont.GetForeignProviders();
+                        plist.DataTextField = "NameGR";
+                        plist.DataValueField = "ID";
+                        plist.DataBind();
+                        plist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
+                        clist.DataSource = ccont.GetForeignPTSCustomers();
                         clist.DataTextField = "NameGR";
                         clist.DataValueField = "ID";
                         clist.DataBind();
                         clist.Items.Insert(0, new DropDownListItem("Κανένα Φίλτρο", "0"));
                         EventsController econt = new EventsController();
-                        elist.DataSource = econt.GetForeignEvents();
+                        elist.DataSource = econt.GetGreekEvents();
                         elist.DataTextField = "NameGR";
                         elist.DataValueField = "ID";
                         elist.DataBind();
@@ -151,9 +140,9 @@ namespace OTERT.Pages.UserPages {
 
         protected void gridMain_EditCommand(object source, GridCommandEventArgs e) {
             GridEditableItem editableItem = ((GridEditableItem)e.Item);
-            int ID = (int)editableItem.GetDataKeyValue("OrderID");
+            int ID = (int)editableItem.GetDataKeyValue("Order.OrdersPTSGRID");
             try {
-                Response.Redirect("PTStoAbroad.aspx?id=" + ID.ToString(), false);
+                Response.Redirect("PTStoGR.aspx?id=" + ID.ToString(), false);
             }
             catch (Exception) { }
         }
@@ -163,10 +152,10 @@ namespace OTERT.Pages.UserPages {
             int recSkip = detailtabl.CurrentPageIndex * gridMain.PageSize;
             int recTake = detailtabl.PageSize;
             GridDataItem parentItem = detailtabl.ParentItem;
-            int taskID = int.Parse(parentItem.GetDataKeyValue("OrderID").ToString());
+            int taskID = int.Parse(parentItem.GetDataKeyValue("Order.OrdersPTSGRID").ToString());
             FilesController cont = new FilesController();
             detailtabl.VirtualItemCount = cont.CountFiles(taskID);
-            detailtabl.DataSource = cont.GetFilesByOrderID(taskID, recSkip, recTake);
+            detailtabl.DataSource = cont.GetFilesByOrderPTSGRID(taskID, recSkip, recTake);
         }
 
         protected void btnExportXLSX_Click(object sender, EventArgs e) {
@@ -179,7 +168,7 @@ namespace OTERT.Pages.UserPages {
             }
             Response.ClearHeaders();
             Response.ClearContent();
-            Response.AppendHeader("content-disposition", "attachment; filename=PTSToAbroad-Report-" + DateTime.Now.ToString("dd-MM-yyyy") + ".xlsx");
+            Response.AppendHeader("content-disposition", "attachment; filename=PTSToGR-Report-" + DateTime.Now.ToString("dd-MM-yyyy") + ".xlsx");
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             Response.BinaryWrite(renderedBytes);
             Response.End();
@@ -190,13 +179,13 @@ namespace OTERT.Pages.UserPages {
             workbook.Sheets.Add(SheetType.Worksheet);
             Worksheet worksheet = workbook.ActiveWorksheet;
             worksheet.Name = "OTE RT";
-            List<TaskB> tasks = new List<TaskB>();
+            List<TaskPTSGRB> tasks = new List<TaskPTSGRB>();
             try {
                 string recFilter = gridMain.MasterTableView.FilterExpression;
                 GridSortExpressionCollection gridSortExxpressions = gridMain.MasterTableView.SortExpressions;
-                TasksController cont = new TasksController();
-                int tasksCount = cont.CountAllTasksforPTStoAbroad(recFilter);
-                tasks = cont.GetAllTasksforPTStoAbroad(0, tasksCount, recFilter, gridSortExxpressions);
+                TasksPTSGRController cont = new TasksPTSGRController();
+                int tasksCount = cont.CountAllTasksPTSGR(recFilter);
+                tasks = cont.GetAllTasksPTSGR(0, tasksCount, recFilter, gridSortExxpressions);
             }
             catch (Exception) { }
             prepareDocument(worksheet);
@@ -204,77 +193,65 @@ namespace OTERT.Pages.UserPages {
             CellBorder border = new CellBorder(CellBorderStyle.Thin, tcBlack);
             CellBorders borders = new CellBorders(border, border, border, border, null, null, null, null);
             double fontSize = 12;
-            foreach (TaskB curTask in tasks) {
-                worksheet.Cells[currentRow,0].SetValue(curTask.OrderID.ToString());
-                worksheet.Cells[currentRow,0].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,0].SetBorders(borders);
-                worksheet.Cells[currentRow,1].SetValue(curTask.Order.RegNo);
-                worksheet.Cells[currentRow,1].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,1].SetBorders(borders);
-                worksheet.Cells[currentRow,2].SetValue(curTask.Order.Event.Place.Country.NameGR);
-                worksheet.Cells[currentRow,2].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,2].SetBorders(borders);
-                worksheet.Cells[currentRow,3].SetValue(curTask.Order.Customer1.NameGR);
-                worksheet.Cells[currentRow,3].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,3].SetBorders(borders);
-                worksheet.Cells[currentRow,4].SetValue(curTask.Order.Event.NameGR);
-                worksheet.Cells[currentRow,4].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,4].SetBorders(borders);
-                worksheet.Cells[currentRow,5].SetValue(curTask.ID);
-                worksheet.Cells[currentRow,5].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,5].SetBorders(borders);
-                worksheet.Cells[currentRow,6].SetValue(curTask.OrderDate);
-                worksheet.Cells[currentRow,6].SetFormat(new CellValueFormat(dateFormat));
-                worksheet.Cells[currentRow,6].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,6].SetBorders(borders);
-                worksheet.Cells[currentRow,7].SetValue(curTask.Customer.NameGR);
-                worksheet.Cells[currentRow,7].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,7].SetBorders(borders);
-                worksheet.Cells[currentRow,8].SetValue(curTask.TelephoneNumber);
-                worksheet.Cells[currentRow,8].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,8].SetBorders(borders);
-                worksheet.Cells[currentRow,9].SetValue(curTask.DateTimeStartActual.GetValueOrDefault());
-                worksheet.Cells[currentRow,9].SetFormat(new CellValueFormat(dateFormat));
-                worksheet.Cells[currentRow,9].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,9].SetBorders(borders);
-                worksheet.Cells[currentRow,10].SetValue(curTask.CostActual.ToString());
-                worksheet.Cells[currentRow,10].SetFormat(new CellValueFormat(currencyFormat));
-                worksheet.Cells[currentRow,10].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,10].SetBorders(borders);
-                if (curTask.PaymentDateOrder.GetValueOrDefault().Year > 2000) {
-                    worksheet.Cells[currentRow, 11].SetValue(curTask.PaymentDateOrder.GetValueOrDefault());
+            foreach (TaskPTSGRB curTask in tasks) {
+                worksheet.Cells[currentRow, 0].SetValue(curTask.Order.OrdersPTSGRID.ToString());
+                worksheet.Cells[currentRow, 0].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 0].SetBorders(borders);
+                worksheet.Cells[currentRow, 1].SetValue(curTask.RegNo);
+                worksheet.Cells[currentRow, 1].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 1].SetBorders(borders);
+                worksheet.Cells[currentRow, 2].SetValue(curTask.Order.OrderPTSGR.Event.NameGR);
+                worksheet.Cells[currentRow, 2].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 2].SetBorders(borders);
+                worksheet.Cells[currentRow, 3].SetValue(curTask.OrderPTSGR2ID.ToString());
+                worksheet.Cells[currentRow, 3].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 3].SetBorders(borders);
+                worksheet.Cells[currentRow, 4].SetValue(curTask.Order.Country.NameGR);
+                worksheet.Cells[currentRow, 4].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 4].SetBorders(borders);
+                worksheet.Cells[currentRow, 5].SetValue(curTask.Order.Provider.NameGR);
+                worksheet.Cells[currentRow, 5].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 5].SetBorders(borders);
+                worksheet.Cells[currentRow, 6].SetValue(curTask.ID);
+                worksheet.Cells[currentRow, 6].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 6].SetBorders(borders);
+                worksheet.Cells[currentRow, 7].SetValue(curTask.OrderDate);
+                worksheet.Cells[currentRow, 7].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 7].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 7].SetBorders(borders);
+                worksheet.Cells[currentRow, 8].SetValue(curTask.Customer.NameGR);
+                worksheet.Cells[currentRow, 8].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 8].SetBorders(borders);
+                if (curTask.DateTimeStartActual.GetValueOrDefault().Year > 2000) {
+                    worksheet.Cells[currentRow, 9].SetValue(curTask.DateTimeStartActual.GetValueOrDefault());
+                } else {
+                    worksheet.Cells[currentRow, 9].SetValue("");
+                }
+                worksheet.Cells[currentRow, 9].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 9].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 9].SetBorders(borders);
+                worksheet.Cells[currentRow, 10].SetValue(curTask.CostActual.ToString());
+                worksheet.Cells[currentRow, 10].SetFormat(new CellValueFormat(currencyFormat));
+                worksheet.Cells[currentRow, 10].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 10].SetBorders(borders);
+
+                if (curTask.PaymentDateActual.GetValueOrDefault().Year > 2000) {
+                    worksheet.Cells[currentRow, 11].SetValue(curTask.PaymentDateActual.GetValueOrDefault());
                 } else {
                     worksheet.Cells[currentRow, 11].SetValue("");
                 }
-                worksheet.Cells[currentRow,11].SetFormat(new CellValueFormat(dateFormat));
-                worksheet.Cells[currentRow,11].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,11].SetBorders(borders);
-                if (curTask.PaymentDateCalculated.GetValueOrDefault().Year > 2000) {
-                    worksheet.Cells[currentRow, 12].SetValue(curTask.PaymentDateCalculated.GetValueOrDefault());
-                } else {
-                    worksheet.Cells[currentRow, 12].SetValue("");
-                }
-                worksheet.Cells[currentRow,12].SetFormat(new CellValueFormat(dateFormat));
-                worksheet.Cells[currentRow,12].SetFontSize(fontSize);
-                worksheet.Cells[currentRow,12].SetBorders(borders);
-                worksheet.Cells[currentRow, 13].SetValue(curTask.EnteredByUser);
+                worksheet.Cells[currentRow, 11].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 11].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 11].SetBorders(borders);
+                worksheet.Cells[currentRow, 12].SetValue(curTask.EnteredByUser);
+                worksheet.Cells[currentRow, 12].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 12].SetBorders(borders);
+                worksheet.Cells[currentRow, 13].SetValue(curTask.DateStamp);
+                worksheet.Cells[currentRow, 13].SetFormat(new CellValueFormat(dateWithHoursFormat));
                 worksheet.Cells[currentRow, 13].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 13].SetBorders(borders);
-                worksheet.Cells[currentRow, 14].SetValue(curTask.DateStamp);
-                worksheet.Cells[currentRow, 14].SetFormat(new CellValueFormat(dateWithHoursFormat));
-                worksheet.Cells[currentRow, 14].SetFontSize(fontSize);
-                worksheet.Cells[currentRow, 14].SetBorders(borders);
                 currentRow++;
             }
-
-            //worksheet.Cells[currentRow, 0].SetValue("=SUM(K2:K4)");
-            //worksheet.Cells[currentRow, 0].SetFontSize(fontSize);
-            //worksheet.Cells[currentRow, 0].SetBorders(borders);
-
-            //worksheet.Cells[currentRow, 0].SetValue("=SUBTOTAL(109,K2:K4)");
-            //worksheet.GroupingProperties.SummaryRowIsBelow = true;
-            //bool test = worksheet.Rows[1, 5].Group();
-
             for (int i = 0; i < worksheet.Columns.Count; i++) { worksheet.Columns[i].AutoFitWidth(); }
             for (int i = 0; i < worksheet.Columns.Count; i++) {
                 if (i==1) { worksheet.Columns[i].SetWidth(new ColumnWidth(70, true)); }
@@ -296,6 +273,7 @@ namespace OTERT.Pages.UserPages {
         protected void prepareDocument(Worksheet worksheet) {
             PatternFill pfGreen = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 153, 204, 0), System.Windows.Media.Colors.Transparent);
             PatternFill pfOrange = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 255, 204, 0), System.Windows.Media.Colors.Transparent);
+            PatternFill pfCyan = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 137, 233, 245), System.Windows.Media.Colors.Transparent);
             PatternFill pfRed = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 255, 0, 0), System.Windows.Media.Colors.Transparent);
             PatternFill pfBlue = new PatternFill(PatternType.Solid, System.Windows.Media.Color.FromArgb(255, 0, 0, 255), System.Windows.Media.Colors.Transparent);
             CellBorder border = new CellBorder(CellBorderStyle.Thin, tcBlack);
@@ -316,50 +294,50 @@ namespace OTERT.Pages.UserPages {
             worksheet.Cells[0, 1].SetIsWrapped(true);
             worksheet.Cells[0, 1].SetFill(pfGreen);
             worksheet.Cells[0, 1].SetBorders(borders);
-            worksheet.Cells[0, 2].SetValue("Χώρα");
+            worksheet.Cells[0, 2].SetValue("Διοργάνωση");
             worksheet.Cells[0, 2].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 2].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 2].SetFontSize(fontSize);
             worksheet.Cells[0, 2].SetIsBold(true);
             worksheet.Cells[0, 2].SetFill(pfGreen);
             worksheet.Cells[0, 2].SetBorders(borders);
-            worksheet.Cells[0, 3].SetValue("Πάροχος");
+            worksheet.Cells[0, 3].SetValue("Πάροχος Α/Α");
+            worksheet.Cells[0, 3].SetFontSize(fontSize);
             worksheet.Cells[0, 3].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 3].SetVerticalAlignment(RadVerticalAlignment.Center);
-            worksheet.Cells[0, 3].SetFontSize(fontSize);
             worksheet.Cells[0, 3].SetIsBold(true);
-            worksheet.Cells[0, 3].SetFill(pfGreen);
+            worksheet.Cells[0, 3].SetFill(pfCyan);
             worksheet.Cells[0, 3].SetBorders(borders);
-            worksheet.Cells[0, 4].SetValue("Διοργάνωση");
+            worksheet.Cells[0, 4].SetValue("Από Χώρα");
             worksheet.Cells[0, 4].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 4].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 4].SetFontSize(fontSize);
             worksheet.Cells[0, 4].SetIsBold(true);
-            worksheet.Cells[0, 4].SetFill(pfGreen);
+            worksheet.Cells[0, 4].SetFill(pfCyan);
             worksheet.Cells[0, 4].SetBorders(borders);
-            worksheet.Cells[0, 5].SetValue("Παραγγελία Α/Α");
+            worksheet.Cells[0, 5].SetValue("Πάροχος");
             worksheet.Cells[0, 5].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 5].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 5].SetFontSize(fontSize);
             worksheet.Cells[0, 5].SetIsBold(true);
-            worksheet.Cells[0, 5].SetFill(pfOrange);
+            worksheet.Cells[0, 5].SetFill(pfCyan);
             worksheet.Cells[0, 5].SetBorders(borders);
-            worksheet.Cells[0, 6].SetValue("Ημ/νία\nΠαραγγελίας");
+            worksheet.Cells[0, 6].SetValue("Παραγγελία Α/Α");
             worksheet.Cells[0, 6].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 6].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 6].SetFontSize(fontSize);
             worksheet.Cells[0, 6].SetIsBold(true);
-            worksheet.Cells[0, 6].SetIsWrapped(true);
             worksheet.Cells[0, 6].SetFill(pfOrange);
             worksheet.Cells[0, 6].SetBorders(borders);
-            worksheet.Cells[0, 7].SetValue("Πελάτης");
+            worksheet.Cells[0, 7].SetValue("Ημ/νία\nΠαραγγελίας");
             worksheet.Cells[0, 7].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 7].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 7].SetFontSize(fontSize);
             worksheet.Cells[0, 7].SetIsBold(true);
+            worksheet.Cells[0, 7].SetIsWrapped(true);
             worksheet.Cells[0, 7].SetFill(pfOrange);
             worksheet.Cells[0, 7].SetBorders(borders);
-            worksheet.Cells[0, 8].SetValue("Τηλέφωνο Χρέωσης");
+            worksheet.Cells[0, 8].SetValue("Πελάτης");
             worksheet.Cells[0, 8].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 8].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 8].SetFontSize(fontSize);
@@ -381,7 +359,7 @@ namespace OTERT.Pages.UserPages {
             worksheet.Cells[0, 10].SetIsBold(true);
             worksheet.Cells[0, 10].SetFill(pfOrange);
             worksheet.Cells[0, 10].SetBorders(borders);
-            worksheet.Cells[0, 11].SetValue("Ημ/νία Λήψης\nΞένου Τιμολογίου");
+            worksheet.Cells[0, 11].SetValue("Ημ/νία Τιμολόγησης");
             worksheet.Cells[0, 11].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 11].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 11].SetFontSize(fontSize);
@@ -390,16 +368,16 @@ namespace OTERT.Pages.UserPages {
             worksheet.Cells[0, 11].SetForeColor(tcWhite);
             worksheet.Cells[0, 11].SetFill(pfRed);
             worksheet.Cells[0, 11].SetBorders(borders);
-            worksheet.Cells[0, 12].SetValue("Ημ/νία Ελέγχου\nΤιμολογίου");
+            worksheet.Cells[0, 12].SetValue("Χρήστης");
             worksheet.Cells[0, 12].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 12].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 12].SetFontSize(fontSize);
             worksheet.Cells[0, 12].SetIsBold(true);
             worksheet.Cells[0, 12].SetIsWrapped(true);
             worksheet.Cells[0, 12].SetForeColor(tcWhite);
-            worksheet.Cells[0, 12].SetFill(pfRed);
+            worksheet.Cells[0, 12].SetFill(pfBlue);
             worksheet.Cells[0, 12].SetBorders(borders);
-            worksheet.Cells[0, 13].SetValue("Χρήστης");
+            worksheet.Cells[0, 13].SetValue("Ημ/νία\nΚαταχώρησης");
             worksheet.Cells[0, 13].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 13].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 13].SetFontSize(fontSize);
@@ -408,15 +386,6 @@ namespace OTERT.Pages.UserPages {
             worksheet.Cells[0, 13].SetForeColor(tcWhite);
             worksheet.Cells[0, 13].SetFill(pfBlue);
             worksheet.Cells[0, 13].SetBorders(borders);
-            worksheet.Cells[0, 14].SetValue("Ημ/νία\nΚαταχώρησης");
-            worksheet.Cells[0, 14].SetHorizontalAlignment(RadHorizontalAlignment.Center);
-            worksheet.Cells[0, 14].SetVerticalAlignment(RadVerticalAlignment.Center);
-            worksheet.Cells[0, 14].SetFontSize(fontSize);
-            worksheet.Cells[0, 14].SetIsBold(true);
-            worksheet.Cells[0, 14].SetIsWrapped(true);
-            worksheet.Cells[0, 14].SetForeColor(tcWhite);
-            worksheet.Cells[0, 14].SetFill(pfBlue);
-            worksheet.Cells[0, 14].SetBorders(borders);
         }
 
         protected void ddlCustomersFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
@@ -479,12 +448,12 @@ namespace OTERT.Pages.UserPages {
             if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
         }
 
-        protected void ddlCustomer1Filter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+        protected void ddlProvidersFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
             RadDropDownList list = sender as RadDropDownList;
             string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
             List<string> columnExpressions = new List<string>(expressions);
             foreach (string expression in columnExpressions) {
-                if (expression.Contains("Order.Customer1ID")) {
+                if (expression.Contains("Order.ProviderID")) {
                     columnExpressions.Remove(expression);
                     break;
                 }
@@ -492,19 +461,19 @@ namespace OTERT.Pages.UserPages {
             string finalExpression = string.Join("AND", columnExpressions.ToArray());
             if (e.Value != "0") {
                 if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
-                finalExpression += "(Order.Customer1ID = " + e.Value + ")";
-                gridMain.MasterTableView.GetColumn("Customer1ID").CurrentFilterFunction = GridKnownFunction.EqualTo;
-                gridMain.MasterTableView.GetColumn("Customer1ID").CurrentFilterValue = e.Value;
+                finalExpression += "(Order.ProviderID = " + e.Value + ")";
+                gridMain.MasterTableView.GetColumn("ProviderID").CurrentFilterFunction = GridKnownFunction.EqualTo;
+                gridMain.MasterTableView.GetColumn("ProviderID").CurrentFilterValue = e.Value;
             } else {
-                gridMain.MasterTableView.GetColumn("Customer1ID").CurrentFilterFunction = GridKnownFunction.NoFilter;
-                gridMain.MasterTableView.GetColumn("Customer1ID").CurrentFilterValue = null;
+                gridMain.MasterTableView.GetColumn("ProviderID").CurrentFilterFunction = GridKnownFunction.NoFilter;
+                gridMain.MasterTableView.GetColumn("ProviderID").CurrentFilterValue = null;
             }
             gridMain.MasterTableView.FilterExpression = finalExpression;
             ViewState[list.ClientID] = e.Value;
             gridMain.MasterTableView.Rebind();
         }
 
-        protected void ddlCustomer1Filter_PreRender(object sender, EventArgs e) {
+        protected void ddlProvidersFilter_PreRender(object sender, EventArgs e) {
             RadDropDownList list = sender as RadDropDownList;
             if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
         }

@@ -308,35 +308,26 @@ namespace OTERT.Model {
         public CustomerDTO Customer { get; set; }
         public int? RequestedPositionID { get; set; }
         public RequestedPositionDTO RequestedPosition { get; set; }
-        public DateTime? DateTimeStartOrder { get; set; }
-        public DateTime? DateTimeEndOrder { get; set; }
-        public int DateTimeDurationOrder { get; set; }
+        public string TelephoneNumber { get; set; }
+        public string CorrespondentName { get; set; }
+        public int PTSRPricelistID { get; set; }
+        public PTSGRPricelistDTO PTSRPricelist { get; set; }
+        public int MSNCount { get; set; }
+        public string MSN1 { get; set; }
+        public string MSN2 { get; set; }
         public DateTime? DateTimeStartActual { get; set; }
         public DateTime? DateTimeEndActual { get; set; }
         public int? DateTimeDurationActual { get; set; }
-        public decimal? CostCalculated { get; set; }
-        public decimal InstallationCost { get; set; }
-        public decimal MonthlyCharges { get; set; }
-        public string TelephoneNumber { get; set; }
-        public decimal? TechnicalSupport { get; set; }
         public decimal? AddedCharges { get; set; }
+        public decimal? InvoiceCost { get; set; }
         public decimal? CostActual { get; set; }
-        public DateTime? PaymentDateOrder { get; set; }
-        public DateTime? PaymentDateCalculated { get; set; }
         public DateTime? PaymentDateActual { get; set; }
         public bool IsLocked { get; set; }
         public bool IsCanceled { get; set; }
-        public decimal? CancelPrice { get; set; }
         public string Comments { get; set; }
-        public string InvoceComments { get; set; }
-        public List<FileB> Files { get; set; }
-        public decimal MSNCost { get; set; }
-        public bool Internet { get; set; }
-        public int? LineTypeID { get; set; }
-        public LineTypeDTO LineType { get; set; }
         public DateTime DateStamp { get; set; }
         public string EnteredByUser { get; set; }
-        public decimal? InvoiceCost { get; set; }
+        public List<FileB> Files { get; set; }
     }
 
     public class UserB {
@@ -429,7 +420,6 @@ namespace OTERT.Model {
         public decimal ChargesPerDay { get; set; }
         public decimal? MSNPerMonth { get; set; }
         public decimal? MSNPerDay { get; set; }
-        public bool SupportsMSN { get; set; }
         public bool IsChargePerMonth { get; set; }
     }
 

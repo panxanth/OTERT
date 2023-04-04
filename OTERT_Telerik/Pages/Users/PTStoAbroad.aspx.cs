@@ -1113,13 +1113,13 @@ namespace OTERT.Pages.Administrator {
             } else if (e.Item.OwnerTableView.Name == "AttachedFiles") {
                 GridTableView detailtabl = e.Item.OwnerTableView;
                 GridDataItem parentItem = detailtabl.ParentItem;
-                int orderPTSGRID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
+                int orderID = int.Parse(parentItem.GetDataKeyValue("ID").ToString());
                 var editableItem = ((GridEditableItem)e.Item);
                 using (var dbContext = new OTERTConnStr()) {
                     var curFile = new Files();
                     Hashtable values = new Hashtable();
                     editableItem.ExtractValues(values);
-                    curFile.OrderPTSGRID = orderPTSGRID;
+                    curFile.OrderID = orderID;
                     curFile.FileName = (string)values["FileName"];
                     curFile.FilePath = uploadedFilePath;
                     curFile.DateStamp = DateTime.Now;

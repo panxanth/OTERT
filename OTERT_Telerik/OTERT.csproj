@@ -366,6 +366,10 @@
       <DependentUpon>PTStoAbroad.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Users\PTStoGRList.aspx.cs">
+      <DependentUpon>PTStoGRList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Users\PTStoGR.aspx.cs">
       <DependentUpon>PTStoGR.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -515,6 +519,7 @@
     <Content Include="Pages\Users\Downlink.aspx" />
     <Content Include="Pages\Users\DownlinkSNG.aspx" />
     <Content Include="Pages\Users\PTStoAbroad.aspx" />
+    <Content Include="Pages\Users\PTStoGRList.aspx" />
     <Content Include="Pages\Users\PTStoGR.aspx" />
     <Content Include="Pages\Users\LongDistanceTwoPoints.aspx" />
     <Content Include="Pages\Users\PTStoAbroadList.aspx" />

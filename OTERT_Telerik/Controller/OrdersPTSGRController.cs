@@ -154,7 +154,6 @@ namespace OTERT.Controller {
                                                        DateTimeStart = us.DateTimeStart,
                                                        DateTimeEnd = us.DateTimeEnd,
                                                    });
-                    /*
                     if (!string.IsNullOrEmpty(recFilter)) {
                         string[] expressionsAND = recFilter.Split(new string[] { "AND" }, StringSplitOptions.None);
                         List<string> columnExpressions = new List<string>();
@@ -186,9 +185,9 @@ namespace OTERT.Controller {
                             if (orderDates.Count == 2) {
                                 if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
                                 if (DateTimeStartExpressions[0].Contains(">=")) {
-                                    recFilter = "DateTimeStart >= @0 AND DateTimeEnd <= @1";
+                                    recFilter = "DateTimeStart >= @0 AND DateTimeStart <= @1";
                                 } else {
-                                    recFilter = "DateTimeStart < @0 OR DateTimeEnd > @1";
+                                    recFilter = "DateTimeStart < @0 OR DateTimeStart > @1";
                                 }
                                 datatmp = datatmp.Where(recFilter, new DateTime(orderDates[0].Year, orderDates[0].Month, orderDates[0].Day, orderDates[0].Hour, orderDates[0].Minute, 0), new DateTime(orderDates[1].Year, orderDates[1].Month, orderDates[1].Day, orderDates[1].Hour, orderDates[1].Minute, 0));
                             } else {
@@ -198,7 +197,6 @@ namespace OTERT.Controller {
                         
                         
                     }
-                    */
                     if (gridSortExxpressions.Count > 0) {
                         string sortFieldName = "";
                         if (gridSortExxpressions[0].FieldName == "PlaceID") { sortFieldName = "Event.Place.NameGR"; }
