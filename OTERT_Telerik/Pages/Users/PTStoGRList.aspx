@@ -77,7 +77,7 @@
                     <telerik:GridEditCommandColumn EditText="Προβολή" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" ButtonType="ImageButton" />
                     <telerik:GridBoundColumn DataField="Order.OrdersPTSGRID" HeaderText="Διοργάνωση Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" AllowFiltering="false" HeaderStyle-Font-Bold="true" AllowSorting="false" />
                     <telerik:GridBoundColumn UniqueName="RegNo" DataField="RegNo" HeaderText="Αριθμός Πρωτοκόλλου" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="true" HeaderStyle-Font-Bold="true" FilterControlWidth="140px" />
-                    <telerik:GridTemplateColumn UniqueName="EventID" DataField="Order.EventID" SortExpression="Order.EventID" HeaderText="Διοργάνωση" HeaderStyle-Font-Bold="true" AllowSorting="true" >
+                    <telerik:GridTemplateColumn UniqueName="EventID" DataField="Order.OrderPTSGR.EventID" SortExpression="Order.OrderPTSGR.EventID" HeaderText="Διοργάνωση" HeaderStyle-Font-Bold="true" AllowSorting="true" >
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Order.OrderPTSGR.Event.NameGR") %>' runat="server" /> 
                         </ItemTemplate>
@@ -94,7 +94,7 @@
 		                    <telerik:RadDropDownList runat="server" ID="ddlCuntryFilter" RenderMode="Lightweight" AppendDataBoundItems="true" AutoPostBack="true" CausesValidation="false" Width="280px" DropDownHeight="400px" OnSelectedIndexChanged="ddlCuntryFilter_SelectedIndexChanged" OnPreRender="ddlCuntrysFilter_PreRender" />
 	                    </FilterTemplate>
                     </telerik:GridTemplateColumn>
-                    <telerik:GridTemplateColumn UniqueName="ProviderID" DataField="Order.Provider.ID" SortExpression="Order.Provider.ID" HeaderText="Πάροχος" HeaderStyle-Font-Bold="true" AllowSorting="true" >
+                    <telerik:GridTemplateColumn UniqueName="ProviderID" DataField="Order.ProviderID" SortExpression="Order.ProviderID" HeaderText="Πάροχος" HeaderStyle-Font-Bold="true" AllowSorting="true" >
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Order.Provider.NameGR") %>' runat="server" /> 
                         </ItemTemplate>
@@ -114,7 +114,7 @@
                     </telerik:GridTemplateColumn>
                     <telerik:GridDateTimeColumn UniqueName="DateTimeStartActual" DataField="DateTimeStartActual" HeaderText="Ημ/νία Υλοποίησης (Έναρξη)" DataType="System.DateTime" DataFormatString="{0:dd/MM/yyyy HH:mm}" PickerType="DateTimePicker" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="150px" />
                     <telerik:GridBoundColumn UniqueName="CostActual" DataField="CostActual" HeaderText="Ποσό Είσπραξης (€)" AutoPostBackOnFilter="true" CurrentFilterFunction="GreaterThan" ShowFilterIcon="true" HeaderStyle-Font-Bold="true" FilterControlWidth="140px" DataType="System.Decimal" />
-                    <telerik:GridDateTimeColumn UniqueName="PaymentDateActual" DataField="PaymentDateActual" HeaderText="Ημ/νία Τιμπλόγησης" DataType="System.DateTime" DataFormatString="{0:dd/MM/yyyy HH:mm}" PickerType="DateTimePicker" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="150px" />
+                    <telerik:GridDateTimeColumn UniqueName="PaymentDateActual" DataField="PaymentDateActual" HeaderText="Ημ/νία Τιμολόγησης" DataType="System.DateTime" DataFormatString="{0:dd/MM/yyyy HH:mm}" PickerType="DateTimePicker" HeaderStyle-Font-Bold="true" EnableRangeFiltering="true" EnableTimeIndependentFiltering="true" FilterControlWidth="150px" />
                 </Columns>
             </MasterTableView>
             <ClientSettings>

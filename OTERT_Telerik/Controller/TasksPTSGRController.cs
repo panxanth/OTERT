@@ -7,6 +7,7 @@ using OTERT_Entity;
 using System.Data.Entity;
 using Telerik.Web.UI;
 using OTERT.WebServices;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OTERT.Controller {
 
@@ -41,13 +42,15 @@ namespace OTERT.Controller {
                         }
                         List<string> OrderDateExpressions = columnExpressions.Where(item => item.Contains("OrderDate")).ToList();
                         List<string> StartActualExpressions = columnExpressions.Where(item => item.Contains("DateTimeStartActual")).ToList();
-                        List<string> PaymentDateOrderExpressions = columnExpressions.Where(item => item.Contains("PaymentDateOrder")).ToList();
-                        List<string> PaymentDateCalculatedExpressions = columnExpressions.Where(item => item.Contains("PaymentDateCalculated")).ToList();
-                        columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual") || item.Contains("PaymentDateOrder") || item.Contains("PaymentDateCalculated"));
+                        List<string> PaymentDateActualExpressions = columnExpressions.Where(item => item.Contains("PaymentDateActual")).ToList();
+                        columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual") || item.Contains("PaymentDateActual"));
                         recFilter = string.Join("AND", columnExpressions.ToArray());
                         if (!string.IsNullOrEmpty(recFilter)) {
-                            recFilter = recFilter.Replace("Order.", "Orders.");
-                            recFilter = recFilter.Replace("Event.Place.", "Events.Places.");
+                            recFilter = recFilter.Replace("Order.", "OrdersPTSGR2.");
+                            recFilter = recFilter.Replace("OrderPTSGR.", "OrdersPTSGR.");
+                            recFilter = recFilter.Replace("Event.", "Events.");
+                            recFilter = recFilter.Replace("Place.", "Places.");
+                            recFilter = recFilter.Replace("Customer.", "Customers.");
                             test = test.Where(recFilter);
                         }
                         if (OrderDateExpressions.Count > 0) {
@@ -98,9 +101,9 @@ namespace OTERT.Controller {
                                 test = test.Where(StartActualExpressions[0]);
                             }
                         }
-                        if (PaymentDateOrderExpressions.Count > 0) {
+                        if (PaymentDateActualExpressions.Count > 0) {
                             List<DateTime> startOrderDates = new List<DateTime>();
-                            foreach (string dtExpression in PaymentDateOrderExpressions) {
+                            foreach (string dtExpression in PaymentDateActualExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
                                 string format = "d/M/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
@@ -112,38 +115,14 @@ namespace OTERT.Controller {
                             }
                             if (startOrderDates.Count == 2) {
                                 if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
-                                if (PaymentDateOrderExpressions[0].Contains(">=")) {
-                                    recFilter = "PaymentDateOrder >= @0 AND PaymentDateOrder <= @1";
+                                if (PaymentDateActualExpressions[0].Contains(">=")) {
+                                    recFilter = "PaymentDateActual >= @0 AND PaymentDateActual <= @1";
                                 } else {
-                                    recFilter = "PaymentDateOrder < @0 OR PaymentDateOrder > @1";
+                                    recFilter = "PaymentDateActual < @0 OR PaymentDateActual > @1";
                                 }
                                 test = test.Where(recFilter, new DateTime(startOrderDates[0].Year, startOrderDates[0].Month, startOrderDates[0].Day, startOrderDates[0].Hour, startOrderDates[0].Minute, 0), new DateTime(startOrderDates[1].Year, startOrderDates[1].Month, startOrderDates[1].Day, startOrderDates[1].Hour, startOrderDates[1].Minute, 0));
                             } else {
-                                test = test.Where(PaymentDateOrderExpressions[0]);
-                            }
-                        }
-                        if (PaymentDateCalculatedExpressions.Count > 0) {
-                            List<DateTime> startOrderDates = new List<DateTime>();
-                            foreach (string dtExpression in PaymentDateCalculatedExpressions) {
-                                string[] dateExp = dtExpression.Split(new char[] { '"' });
-                                string format = "d/M/yyyy,h:mm:ss,tt";
-                                DateTime newDate;
-                                if (dateExp.Length > 1) {
-                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
-                                        startOrderDates.Add(newDate);
-                                    }
-                                }
-                            }
-                            if (PaymentDateCalculatedExpressions.Count == 2) {
-                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
-                                if (PaymentDateOrderExpressions[0].Contains(">=")) {
-                                    recFilter = "PaymentDateOrder >= @0 AND PaymentDateOrder <= @1";
-                                } else {
-                                    recFilter = "PaymentDateOrder < @0 OR PaymentDateOrder > @1";
-                                }
-                                test = test.Where(recFilter, new DateTime(startOrderDates[0].Year, startOrderDates[0].Month, startOrderDates[0].Day, startOrderDates[0].Hour, startOrderDates[0].Minute, 0), new DateTime(startOrderDates[1].Year, startOrderDates[1].Month, startOrderDates[1].Day, startOrderDates[1].Hour, startOrderDates[1].Minute, 0));
-                            } else {
-                                test = test.Where(PaymentDateCalculatedExpressions[0]);
+                                test = test.Where(PaymentDateActualExpressions[0]);
                             }
                         }
                         count = test.Count();
@@ -736,9 +715,8 @@ namespace OTERT.Controller {
                         }
                         List<string> OrderDateExpressions = columnExpressions.Where(item => item.Contains("OrderDate")).ToList();
                         List<string> StartActualExpressions = columnExpressions.Where(item => item.Contains("DateTimeStartActual")).ToList();
-                        List<string> PaymentDateOrderExpressions = columnExpressions.Where(item => item.Contains("PaymentDateOrder")).ToList();
-                        List<string> PaymentDateCalculatedExpressions = columnExpressions.Where(item => item.Contains("PaymentDateCalculated")).ToList();
-                        columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual") || item.Contains("PaymentDateOrder") || item.Contains("PaymentDateCalculated"));
+                        List<string> PaymentDateActualExpressions = columnExpressions.Where(item => item.Contains("PaymentDateActual")).ToList();
+                        columnExpressions.RemoveAll(item => item.Contains("OrderDate") || item.Contains("DateTimeStartActual") || item.Contains("PaymentDateActual"));
                         recFilter = string.Join("AND", columnExpressions.ToArray());
                         if (!string.IsNullOrEmpty(recFilter)) { datatmp = datatmp.Where(recFilter); }
                         System.Globalization.DateTimeFormatInfo greek = new System.Globalization.CultureInfo("el-GR").DateTimeFormat;
@@ -790,61 +768,36 @@ namespace OTERT.Controller {
                                 datatmp = datatmp.Where(StartActualExpressions[0]);
                             }
                         }
-                        if (PaymentDateOrderExpressions.Count > 0) {
-                            List<DateTime> startOrderDates = new List<DateTime>();
-                            foreach (string dtExpression in PaymentDateOrderExpressions) {
+                        if (PaymentDateActualExpressions.Count > 0) {
+                            List<DateTime> PaymentDateActual = new List<DateTime>();
+                            foreach (string dtExpression in PaymentDateActualExpressions) {
                                 string[] dateExp = dtExpression.Split(new char[] { '"' });
                                 string format = "d/M/yyyy,h:mm:ss,tt";
                                 DateTime newDate;
                                 if (dateExp.Length > 1) {
                                     if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
-                                        startOrderDates.Add(newDate);
+                                        PaymentDateActual.Add(newDate);
                                     }
                                 }
                             }
-                            if (startOrderDates.Count == 2) {
+                            if (PaymentDateActual.Count == 2) {
                                 if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
-                                if (PaymentDateOrderExpressions[0].Contains(">=")) {
-                                    recFilter = "PaymentDateOrder >= @0 AND PaymentDateOrder <= @1";
+                                if (PaymentDateActualExpressions[0].Contains(">=")) {
+                                    recFilter = "PaymentDateActual >= @0 AND PaymentDateActual <= @1";
                                 } else {
-                                    recFilter = "PaymentDateOrder < @0 OR PaymentDateOrder > @1";
+                                    recFilter = "PaymentDateActual < @0 OR PaymentDateActual > @1";
                                 }
-                                datatmp = datatmp.Where(recFilter, new DateTime(startOrderDates[0].Year, startOrderDates[0].Month, startOrderDates[0].Day, startOrderDates[0].Hour, startOrderDates[0].Minute, 0), new DateTime(startOrderDates[1].Year, startOrderDates[1].Month, startOrderDates[1].Day, startOrderDates[1].Hour, startOrderDates[1].Minute, 0));
+                                datatmp = datatmp.Where(recFilter, new DateTime(PaymentDateActual[0].Year, PaymentDateActual[0].Month, PaymentDateActual[0].Day, PaymentDateActual[0].Hour, PaymentDateActual[0].Minute, 0), new DateTime(PaymentDateActual[1].Year, PaymentDateActual[1].Month, PaymentDateActual[1].Day, PaymentDateActual[1].Hour, PaymentDateActual[1].Minute, 0));
                             } else {
-                                datatmp = datatmp.Where(PaymentDateOrderExpressions[0]);
-                            }
-                        }
-                        if (PaymentDateCalculatedExpressions.Count > 0) {
-                            List<DateTime> startOrderDates = new List<DateTime>();
-                            foreach (string dtExpression in PaymentDateCalculatedExpressions) {
-                                string[] dateExp = dtExpression.Split(new char[] { '"' });
-                                string format = "d/M/yyyy,h:mm:ss,tt";
-                                DateTime newDate;
-                                if (dateExp.Length > 1) {
-                                    if (DateTime.TryParseExact(dateExp[1], format, greek, System.Globalization.DateTimeStyles.None, out newDate)) {
-                                        startOrderDates.Add(newDate);
-                                    }
-                                }
-                            }
-                            if (PaymentDateCalculatedExpressions.Count == 2) {
-                                if (!string.IsNullOrEmpty(recFilter)) { recFilter += " AND "; }
-                                if (PaymentDateOrderExpressions[0].Contains(">=")) {
-                                    recFilter = "PaymentDateOrder >= @0 AND PaymentDateOrder <= @1";
-                                } else {
-                                    recFilter = "PaymentDateOrder < @0 OR PaymentDateOrder > @1";
-                                }
-                                datatmp = datatmp.Where(recFilter, new DateTime(startOrderDates[0].Year, startOrderDates[0].Month, startOrderDates[0].Day, startOrderDates[0].Hour, startOrderDates[0].Minute, 0), new DateTime(startOrderDates[1].Year, startOrderDates[1].Month, startOrderDates[1].Day, startOrderDates[1].Hour, startOrderDates[1].Minute, 0));
-                            } else {
-                                datatmp = datatmp.Where(PaymentDateCalculatedExpressions[0]);
+                                datatmp = datatmp.Where(PaymentDateActualExpressions[0]);
                             }
                         }
                     }
                     if (gridSortExxpressions.Count > 0) {
                         string sortFieldName = "";
-                        if (gridSortExxpressions[0].FieldName == "Order.RegNo") { sortFieldName = "Order.RegNo"; }
-                        else if (gridSortExxpressions[0].FieldName == "Order.Event.Place.CountryID") { sortFieldName = "Order.Event.Place.Country.NameGR"; }
-                        else if (gridSortExxpressions[0].FieldName == "Order.Customer1ID") { sortFieldName = "Order.Customer1.NameGR"; }
-                        else if (gridSortExxpressions[0].FieldName == "Order.EventID") { sortFieldName = "Order.Event.NameGR"; }
+                        if (gridSortExxpressions[0].FieldName == "Order.EventID") { sortFieldName = "Order.OrderPTSGR.Event.NameGR"; }
+                        else if (gridSortExxpressions[0].FieldName == "Order.CountryID") { sortFieldName = "Order.OrderPTSGR.Country.NameGR"; }
+                        else if (gridSortExxpressions[0].FieldName == "Order.ProviderID") { sortFieldName = "Order.OrderPTSGR.Provider.NameGR"; }
                         else if (gridSortExxpressions[0].FieldName == "CustomerID") { sortFieldName = "Customer.NameGR"; }
                         else { sortFieldName = gridSortExxpressions[0].FieldName; }
                         datatmp = datatmp.OrderBy(sortFieldName + " " + gridSortExxpressions[0].SortOrder);

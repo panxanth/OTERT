@@ -423,7 +423,7 @@ namespace OTERT.Pages.UserPages {
             string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
             List<string> columnExpressions = new List<string>(expressions);
             foreach (string expression in columnExpressions) {
-                if (expression.Contains("Order.Event.Place.CountryID")) {
+                if (expression.Contains("Order.CountryID")) {
                     columnExpressions.Remove(expression);
                     break;
                 }
@@ -431,7 +431,7 @@ namespace OTERT.Pages.UserPages {
             string finalExpression = string.Join("AND", columnExpressions.ToArray());
             if (e.Value != "0") {
                 if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
-                finalExpression += "(Order.Event.Place.CountryID = " + e.Value + ")";
+                finalExpression += "(Order.CountryID = " + e.Value + ")";
                 gridMain.MasterTableView.GetColumn("CountryID").CurrentFilterFunction = GridKnownFunction.EqualTo;
                 gridMain.MasterTableView.GetColumn("CountryID").CurrentFilterValue = e.Value;
             } else {
@@ -483,7 +483,7 @@ namespace OTERT.Pages.UserPages {
             string[] expressions = gridMain.MasterTableView.FilterExpression.Split(new string[] { "AND" }, StringSplitOptions.None);
             List<string> columnExpressions = new List<string>(expressions);
             foreach (string expression in columnExpressions) {
-                if (expression.Contains("Order.EventID")) {
+                if (expression.Contains("Order.OrderPTSGR.EventID")) {
                     columnExpressions.Remove(expression);
                     break;
                 }
@@ -491,7 +491,7 @@ namespace OTERT.Pages.UserPages {
             string finalExpression = string.Join("AND", columnExpressions.ToArray());
             if (e.Value != "0") {
                 if (!string.IsNullOrEmpty(finalExpression)) { finalExpression += " AND "; }
-                finalExpression += "(Order.EventID = " + e.Value + ")";
+                finalExpression += "(Order.OrderPTSGR.EventID = " + e.Value + ")";
                 gridMain.MasterTableView.GetColumn("EventID").CurrentFilterFunction = GridKnownFunction.EqualTo;
                 gridMain.MasterTableView.GetColumn("EventID").CurrentFilterValue = e.Value;
             } else {

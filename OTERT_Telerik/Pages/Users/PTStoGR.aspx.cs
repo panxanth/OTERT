@@ -316,8 +316,8 @@ namespace OTERT.Pages.Administrator {
                             Session["PositionID"] = ddlRequestedPosition.SelectedItem.Value;
                             ddlPTSRPricelist.SelectedIndex = 0;
                             Session["PTSRPricelistID"] = ddlPTSRPricelist.SelectedItem.Value;
-                            ddlMSNCount.SelectedIndex = ddlMSNCount.FindItemByValue(currTask.MSNCount.ToString()).Index;
-                            Session["MSNCount"] = currTask.MSNCount;
+                            ddlMSNCount.SelectedIndex = 0;
+                            Session["MSNCount"] = ddlMSNCount.SelectedItem.Value;
                         }
                     }
                     catch (Exception) { }
@@ -1213,19 +1213,21 @@ namespace OTERT.Pages.Administrator {
                             if (values["DateTimeStartActual"] != null) { curTask.DateTimeStartActual = DateTime.Parse((string)values["DateTimeStartActual"]); } else { curTask.DateTimeStartActual = null; }
                             if (values["DateTimeEndActual"] != null) { curTask.DateTimeEndActual = DateTime.Parse((string)values["DateTimeEndActual"]); } else { curTask.DateTimeEndActual = null; }
                             if (values["DateTimeDurationActual"] != null) { curTask.DateTimeDurationActual = int.Parse((string)values["DateTimeDurationActual"]); } else { curTask.DateTimeDurationActual = null; }
-                            curTask.CorrespondentName = (string)values["CorrespondentName"]; //Ονομ/νυμο Ανταποκριτή
+                            curTask.CorrespondentName = (string)values["CorrespondentName"];
                             curTask.TelephoneNumber = (string)values["TelephoneNumber"];
                             if (values["AddedCharges"] != null) { curTask.AddedCharges = decimal.Parse((string)values["AddedCharges"]); } else { curTask.AddedCharges = null; }
                             if (values["CostActual"] != null) { curTask.CostActual = decimal.Parse((string)values["CostActual"]); } else { curTask.CostActual = null; }
+                            if (values["InvoiceCost"] != null) { curTask.InvoiceCost = decimal.Parse((string)values["InvoiceCost"]); } else { curTask.InvoiceCost = null; }
                             if (values["PaymentDateActual"] != null) { curTask.PaymentDateActual = DateTime.Parse((string)values["PaymentDateActual"]); } else { curTask.PaymentDateActual = null; }
                             curTask.IsLocked = (bool)values["IsLocked"];
                             curTask.IsCanceled = (bool)values["IsCanceled"];
                             curTask.Comments = (string)values["Comments"];
                             curTask.MSNCount = MSNCount;
+                            curTask.MSN1 = (string)values["MSN1"];
+                            curTask.MSN2 = (string)values["MSN2"];
                             curTask.PTSRPricelistID = PTSRPricelistID;
                             curTask.DateStamp = DateTime.Now;
                             curTask.EnteredByUser = loggedUser.NameGR;
-                            curTask.PTSRPricelistID = 1;
                             dbContext.TasksPTSGR.Add(curTask);
                             dbContext.SaveChanges();
                             var curOrder = dbContext.OrdersPTSGR.Where(n => n.ID == orderPTSGRID).FirstOrDefault();
@@ -1244,10 +1246,6 @@ namespace OTERT.Pages.Administrator {
                             Session.Remove("PTSRPricelistID");
                             MSNCount = 0;
                             Session.Remove("MSNCount");
-
-
-
-
                             e.Item.OwnerTableView.Rebind();
                             gridMain.Rebind();
                             var test = e.Item.OwnerTableView.Items;
@@ -1560,7 +1558,7 @@ namespace OTERT.Pages.Administrator {
                     if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { newCostActual = newInvoiceCost + decimal.Parse(txtAddedCharges.Text.Replace(".", ",")); }
                     txtDateTimeDurationActual.Text = newActualDuration.ToString();
                     txtInvoiceCost.Text = Math.Round(newInvoiceCost, 2, MidpointRounding.AwayFromZero).ToString();
-                    txtCostActual.Text = newCostActual.ToString();
+                    txtCostActual.Text = Math.Round(newCostActual, 2, MidpointRounding.AwayFromZero).ToString();
                 }
             }
             catch(Exception) { }
