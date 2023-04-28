@@ -31,6 +31,7 @@ namespace OTERT_Entity
         public Nullable<int> SalesID { get; set; }
         public int JobsMainID { get; set; }
         public int JobTypesID { get; set; }
+        public Nullable<bool> IsTimeInDays { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tasks> Tasks { get; set; }

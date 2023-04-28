@@ -34,8 +34,9 @@ namespace OTERT.Controller {
                                     MinimumTime = us.MinimumTime,
                                     InvoiceCode = us.InvoiceCode,
                                     SalesID = us.SalesID,
-                                    Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
-                                }).Where(o => o.ID == JobID).FirstOrDefault();
+                                    Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type },
+                                    IsTimeInDays = us.IsTimeInDays == null ? false : us.IsTimeInDays.Value
+                                 }).Where(o => o.ID == JobID).FirstOrDefault();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -57,7 +58,8 @@ namespace OTERT.Controller {
                                            MinimumTime = us.MinimumTime,
                                            InvoiceCode = us.InvoiceCode,
                                            SalesID = us.SalesID,
-                                           Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
+                                           Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type },
+                                           IsTimeInDays = us.IsTimeInDays == null ? false : us.IsTimeInDays.Value
                                        }).OrderBy(o => o.Name).ToList();
                     return data;
                 }
@@ -80,11 +82,13 @@ namespace OTERT.Controller {
                                            MinimumTime = us.MinimumTime,
                                            InvoiceCode = us.InvoiceCode,
                                            SalesID = us.SalesID,
-                                           Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
+                                           Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type },
+                                           IsTimeInDays = us.IsTimeInDays == null ? false : us.IsTimeInDays.Value
                                        });
-                    if (!string.IsNullOrEmpty(recFilter)) { test = test.Where(recFilter); }
-                    test = test.OrderBy(o => o.Name);
-                    List<JobB> data = test.Skip(recSkip).Take(recTake).ToList();
+                    if (!string.IsNullOrEmpty(recFilter)) { test = test.Where(recFilter).OrderBy(o => o.Name); } else { test = test.OrderBy(o => o.Name).Skip(recSkip).Take(recTake); }
+                    //test = test.OrderBy(o => o.Name);
+                    //List<JobB> data = test.Skip(recSkip).Take(recTake).ToList();
+                    List<JobB> data = test.ToList();
                     return data;
                 }
                 catch (Exception) { return null; }
@@ -106,7 +110,8 @@ namespace OTERT.Controller {
                                            MinimumTime = us.MinimumTime,
                                            InvoiceCode = us.InvoiceCode,
                                            SalesID = us.SalesID,
-                                           Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
+                                           Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type },
+                                           IsTimeInDays = us.IsTimeInDays == null ? false : us.IsTimeInDays.Value
                                        }).Where(k => k.JobsMainID == JobsMainID).OrderBy(o => o.Name).ToList();
                     return data;
                 }
@@ -129,7 +134,8 @@ namespace OTERT.Controller {
                                            MinimumTime = us.MinimumTime,
                                            InvoiceCode = us.InvoiceCode,
                                            SalesID = us.SalesID,
-                                           Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type }
+                                           Sale = us.SalesID == null ? null : new SaleDTO { ID = us.Sales.ID, Name = us.Sales.Name, Type = us.Sales.Type },
+                                           IsTimeInDays = us.IsTimeInDays == null ? false : us.IsTimeInDays.Value
                                        }).Where(k => k.JobsMain.PageID == PageID).OrderBy(o => o.Name).ToList();
                     return data;
                 }

@@ -183,6 +183,7 @@
           <Property Name="SalesID" Type="int" />
           <Property Name="MinimumTime" Type="int" />
           <Property Name="InvoiceCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsTimeInDays" Type="bit" />
         </EntityType>
         <EntityType Name="JobsMain">
           <Key>
@@ -1384,6 +1385,7 @@
           <NavigationProperty Name="DiscountLine" Relationship="OTERT_Model.FK_DiscountLine_Jobs" FromRole="Jobs" ToRole="DiscountLine" />
           <NavigationProperty Name="TasksLine" Relationship="OTERT_Model.FK_TasksLine_Jobs" FromRole="Jobs" ToRole="TasksLine" />
           <NavigationProperty Name="JobCancelPrices" Relationship="OTERT_Model.FK_JobCancelPrices_Jobs" FromRole="Jobs" ToRole="JobCancelPrices" />
+          <Property Name="IsTimeInDays" Type="Boolean" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -2699,6 +2701,7 @@
           <EntitySetMapping Name="Jobs">
             <EntityTypeMapping TypeName="OTERT_Model.Jobs">
               <MappingFragment StoreEntitySet="Jobs">
+                <ScalarProperty Name="IsTimeInDays" ColumnName="IsTimeInDays" />
                 <ScalarProperty Name="JobTypesID" ColumnName="JobTypesID" />
                 <ScalarProperty Name="JobsMainID" ColumnName="JobsMainID" />
                 <ScalarProperty Name="SalesID" ColumnName="SalesID" />

@@ -227,6 +227,7 @@
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>
                     <telerik:GridBoundColumn DataField="MinimumTime" HeaderText="Ελάχιστος χρόνος χρέωσης" AllowFiltering="false" />
+                    <telerik:GridCheckBoxColumn DataField="IsTimeInDays" UniqueName="IsTimeInDays" HeaderText="Ο χρόνος σε ημέρες;" AllowFiltering="false" DataType="System.Boolean" />
                     <telerik:GridBoundColumn DataField="InvoiceCode" HeaderText="Κωδικός Έργου (για τιμολόγιο)" AllowFiltering="false" />
                     <telerik:GridButtonColumn UniqueName="btnDelete" ConfirmText="Να διαγραφεί αυτή η Κατηγορία Έργου;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                 </Columns>

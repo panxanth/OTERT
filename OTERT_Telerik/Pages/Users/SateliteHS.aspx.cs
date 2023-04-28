@@ -193,6 +193,7 @@ namespace OTERT.Pages.UserPages {
 
         protected void calculateCosts(GridEditableItem eitem) {
             DateTime nullDate = new DateTime(1900, 1, 1);
+            int minutesInDay = 1440;
             RadDatePicker dpOrderStartDate = (RadDatePicker)eitem["DateTimeStartOrder"].Controls[0]; ;
             DateTime orderStartDate = dpOrderStartDate.SelectedDate ?? nullDate;
             RadDatePicker dpOrderEndDate = (RadDatePicker)eitem["DateTimeEndOrder"].Controls[0];
@@ -222,7 +223,8 @@ namespace OTERT.Pages.UserPages {
                 string formula = "";
                 if (actualStartDate > nullDate && actualEndDate > nullDate && actualEndDate > actualStartDate) {
                     TimeSpan actualSpan = actualEndDate.Subtract(actualStartDate);
-                    int askedDuration = (int)Math.Ceiling(actualSpan.TotalMinutes);
+                    int askedDuration = 0;
+                    if (currentJob.IsTimeInDays == true) { askedDuration = (int)Math.Ceiling(actualSpan.TotalMinutes / minutesInDay); } else { askedDuration = (int)Math.Ceiling(actualSpan.TotalMinutes); }
                     if (askedDuration < minDuration) { askedDuration = minDuration; }
                     txtActualDuration.Text = askedDuration.ToString();
                     formula = findFormula(curJobFormulas, askedDuration, double.Parse(selectedSatelite.Frequency), -1);
@@ -237,7 +239,8 @@ namespace OTERT.Pages.UserPages {
                     txtCostActual.Text = calculatedCost.ToString();
                 } else if (orderStartDate > nullDate && orderEndDate > nullDate && orderEndDate > orderStartDate) {
                     TimeSpan orderSpan = orderEndDate.Subtract(orderStartDate);
-                    int askedDuration = (int)Math.Ceiling(orderSpan.TotalMinutes);
+                    int askedDuration = 0;
+                    if (currentJob.IsTimeInDays == true) { askedDuration = (int)Math.Ceiling(orderSpan.TotalMinutes / minutesInDay); } else { askedDuration = (int)Math.Ceiling(orderSpan.TotalMinutes); }
                     if (askedDuration < minDuration) { askedDuration = minDuration; }
                     txtOrderDurationOrder.Text = askedDuration.ToString();
                     formula = findFormula(curJobFormulas, askedDuration, double.Parse(selectedSatelite.Frequency.Replace(".", ",")), -1);

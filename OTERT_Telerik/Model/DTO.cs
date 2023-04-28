@@ -121,6 +121,7 @@ namespace OTERT.Model {
         public int? MinimumTime { get; set; }
         public string InvoiceCode { get; set; }
         public int? SalesID { get; set; }
+        public bool? IsTimeInDays { get; set; }
         public SaleDTO Sale { get; set; }
     }
 
