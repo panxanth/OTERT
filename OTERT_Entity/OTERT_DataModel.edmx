@@ -235,7 +235,6 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RegNo" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="EventID" Type="int" Nullable="false" />
           <Property Name="DateTimeStart" Type="datetime" />
           <Property Name="DateTimeEnd" Type="datetime" />
@@ -246,6 +245,8 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrdersPTSGRID" Type="int" Nullable="false" />
+          <Property Name="RegNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="InvoiceProtocol" Type="nvarchar" MaxLength="100" />
           <Property Name="CountryID" Type="int" Nullable="false" />
           <Property Name="ProviderID" Type="int" Nullable="false" />
         </EntityType>
@@ -372,6 +373,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderPTSGR2ID" Type="int" Nullable="false" />
           <Property Name="RegNo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="InvoiceProtocol" Type="nvarchar" MaxLength="100" />
           <Property Name="OrderDate" Type="datetime" Nullable="false" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="RequestedPositionID" Type="int" />
@@ -384,6 +386,7 @@
           <Property Name="DateTimeStartActual" Type="datetime" />
           <Property Name="DateTimeEndActual" Type="datetime" />
           <Property Name="DateTimeDurationActual" Type="int" />
+          <Property Name="CallChardes" Type="decimal" Precision="18" Scale="2" />
           <Property Name="AddedCharges" Type="decimal" Precision="18" Scale="2" />
           <Property Name="InvoiceCost" Type="decimal" Precision="18" Scale="2" />
           <Property Name="CostActual" Type="decimal" Precision="18" Scale="2" />
@@ -2437,7 +2440,6 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RegNo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="EventID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Events" Relationship="OTERT_Model.FK_OrdersPTSGR_Events" FromRole="OrdersPTSGR" ToRole="Events" />
           <NavigationProperty Name="OrdersPTSGR2" Relationship="OTERT_Model.FK_OrdersPTSGR2_OrdersPTSGR" FromRole="OrdersPTSGR" ToRole="OrdersPTSGR2" />
@@ -2469,6 +2471,8 @@
           <NavigationProperty Name="Customers" Relationship="OTERT_Model.FK_OrdersPTSGR2_Customers" FromRole="OrdersPTSGR2" ToRole="Customers" />
           <NavigationProperty Name="OrdersPTSGR" Relationship="OTERT_Model.FK_OrdersPTSGR2_OrdersPTSGR" FromRole="OrdersPTSGR2" ToRole="OrdersPTSGR" />
           <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2" FromRole="OrdersPTSGR2" ToRole="TasksPTSGR" />
+          <Property Name="RegNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceProtocol" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_OrdersPTSGR2_Countries">
           <End Type="OTERT_Model.Countries" Role="Countries" Multiplicity="1" />
@@ -2550,6 +2554,8 @@
           <NavigationProperty Name="OrdersPTSGR2" Relationship="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2" FromRole="TasksPTSGR" ToRole="OrdersPTSGR2" />
           <NavigationProperty Name="PTSGRPricelist" Relationship="OTERT_Model.FK_TasksPTSGR_PTSGRPricelist" FromRole="TasksPTSGR" ToRole="PTSGRPricelist" />
           <NavigationProperty Name="RequestedPositions" Relationship="OTERT_Model.fk_TasksPTSGR_RequestedPositions" FromRole="TasksPTSGR" ToRole="RequestedPositions" />
+          <Property Name="InvoiceProtocol" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CallChardes" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="fk_TasksPTSGR_Customers">
           <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
@@ -3037,7 +3043,6 @@
                 <ScalarProperty Name="DateTimeEnd" ColumnName="DateTimeEnd" />
                 <ScalarProperty Name="DateTimeStart" ColumnName="DateTimeStart" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
-                <ScalarProperty Name="RegNo" ColumnName="RegNo" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3045,6 +3050,8 @@
           <EntitySetMapping Name="OrdersPTSGR2">
             <EntityTypeMapping TypeName="OTERT_Model.OrdersPTSGR2">
               <MappingFragment StoreEntitySet="OrdersPTSGR2">
+                <ScalarProperty Name="InvoiceProtocol" ColumnName="InvoiceProtocol" />
+                <ScalarProperty Name="RegNo" ColumnName="RegNo" />
                 <ScalarProperty Name="ProviderID" ColumnName="ProviderID" />
                 <ScalarProperty Name="CountryID" ColumnName="CountryID" />
                 <ScalarProperty Name="OrdersPTSGRID" ColumnName="OrdersPTSGRID" />
@@ -3055,6 +3062,8 @@
           <EntitySetMapping Name="TasksPTSGR">
             <EntityTypeMapping TypeName="OTERT_Model.TasksPTSGR">
               <MappingFragment StoreEntitySet="TasksPTSGR">
+                <ScalarProperty Name="CallChardes" ColumnName="CallChardes" />
+                <ScalarProperty Name="InvoiceProtocol" ColumnName="InvoiceProtocol" />
                 <ScalarProperty Name="EnteredByUser" ColumnName="EnteredByUser" />
                 <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
                 <ScalarProperty Name="Comments" ColumnName="Comments" />

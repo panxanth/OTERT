@@ -22,7 +22,6 @@ namespace OTERT_Entity
         }
     
         public int ID { get; set; }
-        public string RegNo { get; set; }
         public int EventID { get; set; }
         public Nullable<System.DateTime> DateTimeStart { get; set; }
         public Nullable<System.DateTime> DateTimeEnd { get; set; }

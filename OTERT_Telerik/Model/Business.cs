@@ -191,7 +191,6 @@ namespace OTERT.Model {
 
     public class OrderPTSGRB{
         public int ID { get; set; }
-        public string RegNo { get; set; }
         public int EventID { get; set; }
         public EventDTO Event { get; set; }
         public DateTime? DateTimeStart { get; set; }
@@ -201,6 +200,8 @@ namespace OTERT.Model {
 
     public class OrderPTSGR2B {
         public int ID { get; set; }
+        public string RegNo { get; set; }
+        public string InvoiceProtocol {get; set; }
         public int OrdersPTSGRID { get; set; }
         public OrderPTSGRDTO OrderPTSGR {get; set;}
         public int CountryID { get; set; }
@@ -304,6 +305,7 @@ namespace OTERT.Model {
         public int? OrderPTSGR2ID { get; set; }
         public OrderPTSGR2DTO Order { get; set; }
         public string RegNo { get; set; }
+        public string InvoiceProtocol { get; set; }
         public DateTime OrderDate { get; set; }
         public int CustomerID { get; set; }
         public CustomerDTO Customer { get; set; }
@@ -319,6 +321,7 @@ namespace OTERT.Model {
         public DateTime? DateTimeStartActual { get; set; }
         public DateTime? DateTimeEndActual { get; set; }
         public int? DateTimeDurationActual { get; set; }
+        public decimal? CallCharges { get; set; }
         public decimal? AddedCharges { get; set; }
         public decimal? InvoiceCost { get; set; }
         public decimal? CostActual { get; set; }

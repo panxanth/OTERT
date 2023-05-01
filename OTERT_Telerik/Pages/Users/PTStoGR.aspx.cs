@@ -22,6 +22,7 @@ using OTERT_Entity;
 using System.Web;
 using System.Data.Entity;
 using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
+using ExpressionParser;
 
 namespace OTERT.Pages.Administrator {
 
@@ -159,6 +160,10 @@ namespace OTERT.Pages.Administrator {
                     dpDateTimeEndActual.SharedTimeView.TimeFormat = "HH:mm";
                     dpDateTimeEndActual.AutoPostBackControl = Telerik.Web.UI.Calendar.AutoPostBackControl.Both;
                     dpDateTimeEndActual.SelectedDateChanged += new SelectedDateChangedEventHandler(dpDate_SelectedIndexChanged);
+                    CheckBox chkIsCanceled = (CheckBox)item.FindControl("chkIsCanceled");
+                    chkIsCanceled.Enabled = true;
+                    chkIsCanceled.AutoPostBack = true;
+                    chkIsCanceled.CheckedChanged += new EventHandler(chkIsCanceled_CheckedChanged);
                 }
             } else if (e.Item.OwnerTableView.Name == "AttachedFiles") {
                 if (e.Item is GridDataItem) {
@@ -273,9 +278,12 @@ namespace OTERT.Pages.Administrator {
                     RadDropDownList ddlRequestedPosition = item.FindControl("ddlRequestedPosition") as RadDropDownList;
                     RadDropDownList ddlPTSRPricelist = item.FindControl("ddlPTSRPricelist") as RadDropDownList;
                     TextBox txtRegNo = item["RegNo"].Controls[0] as TextBox;
+                    TextBox txtInvoiceProtocol = item["InvoiceProtocol"].Controls[0] as TextBox;
                     TextBox txtTelephoneNumber = item["TelephoneNumber"].Controls[0] as TextBox;
+                    CheckBox chkIsCanceled = (CheckBox)item.FindControl("chkIsCanceled");
                     try {
-                        txtRegNo.Text = curOrderPTSGR2.OrderPTSGR.RegNo;
+                        txtRegNo.Text = curOrderPTSGR2.RegNo;
+                        txtInvoiceProtocol.Text = curOrderPTSGR2.InvoiceProtocol;
                         TaskPTSGRB currTask = e.Item.DataItem as TaskPTSGRB;
                         CustomersController ccont = new CustomersController();
                         ddlCustomers.DataSource = ccont.GetCustomersForCountryPTS(curOrderPTSGR2.CountryID);
@@ -309,6 +317,7 @@ namespace OTERT.Pages.Administrator {
                             Session["PTSRPricelistID"] = currTask.PTSRPricelistID;
                             ddlMSNCount.SelectedIndex = ddlMSNCount.FindItemByValue(currTask.MSNCount.ToString()).Index;
                             Session["MSNCount"] = currTask.MSNCount;
+                            chkIsCanceled.Checked = currTask.IsCanceled;
                         } else {
                             ddlCustomers.SelectedIndex = 0;
                             Session["CustomerID"] = ddlCustomers.SelectedItem.Value;
@@ -318,6 +327,7 @@ namespace OTERT.Pages.Administrator {
                             Session["PTSRPricelistID"] = ddlPTSRPricelist.SelectedItem.Value;
                             ddlMSNCount.SelectedIndex = 0;
                             Session["MSNCount"] = ddlMSNCount.SelectedItem.Value;
+                            chkIsCanceled.Checked = false;
                         }
                     }
                     catch (Exception) { }
@@ -383,6 +393,9 @@ namespace OTERT.Pages.Administrator {
                     break;
                 case 3:
                     RadWindowManager1.RadAlert("Το Α/Α που δώσατε είναι λάθος! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
+                    break;
+                case 4:
+                    RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ελέγξτε τον τύπο ακύρωσης.", 400, 200, "Σφάλμα", "");
                     break;
                 default:
                     RadWindowManager1.RadAlert("Υπήρξε κάποιο λάθος στα δεδομένα! Παρακαλώ ξαναπροσπαθήστε.", 400, 200, "Σφάλμα", "");
@@ -1109,6 +1122,10 @@ namespace OTERT.Pages.Administrator {
                             DateTime?[] datesForOrder = getDatesForOrder(orderPTSGRID);
                             curOrder.DateTimeStart = datesForOrder[0];
                             curOrder.DateTimeEnd = datesForOrder[1];
+                            CheckBox chkIsCanceled = (CheckBox)editableItem.FindControl("chkIsCanceled");
+                            curTask.IsCanceled = chkIsCanceled.Checked;
+                            TextBox txtCallCharges = (TextBox)editableItem.FindControl("txtCallCharges");
+                            if (!string.IsNullOrEmpty(txtCallCharges.Text.Trim())) { curTask.CallChardes = decimal.Parse(txtCallCharges.Text.Trim()); } else { curTask.CallChardes = null; }
                             dbContext.SaveChanges();
                         }
                         catch (Exception) { ShowErrorMessage(-1); }
@@ -1142,7 +1159,6 @@ namespace OTERT.Pages.Administrator {
                     if (Session["EventID"] != null) { EventID = int.Parse(Session["EventID"].ToString()); }
                     if (EventID > 0) {
                         try {
-                            curOrder.RegNo = (string)values["RegNo"];
                             curOrder.EventID = EventID;
                             dbContext.OrdersPTSGR.Add(curOrder);
                             dbContext.SaveChanges();
@@ -1165,6 +1181,8 @@ namespace OTERT.Pages.Administrator {
                     var curOrderPTSGR2 = new OrdersPTSGR2();
                     Hashtable values = new Hashtable();
                     editableItem.ExtractValues(values);
+                    curOrderPTSGR2.RegNo = (string)values["RegNo"];
+                    curOrderPTSGR2.InvoiceProtocol = (string)values["InvoiceProtocol"];
                     if (Session["CountryID"] != null) { CountryID = int.Parse(Session["CountryID"].ToString()); }
                     if (Session["ProviderID"] != null) { ProviderID = int.Parse(Session["ProviderID"].ToString()); }
                     if (CountryID > 0 && ProviderID > 0){
@@ -1207,6 +1225,7 @@ namespace OTERT.Pages.Administrator {
                         try {
                             curTask.OrderPTSGR2ID = orderPTSGR2ID;
                             curTask.RegNo = (string)values["RegNo"];
+                            curTask.InvoiceProtocol = (string)values["InvoiceProtocol"];
                             curTask.OrderDate = DateTime.Parse((string)values["OrderDate"]);
                             curTask.CustomerID = CustomerID;
                             curTask.RequestedPositionID = PositionID;
@@ -1215,12 +1234,14 @@ namespace OTERT.Pages.Administrator {
                             if (values["DateTimeDurationActual"] != null) { curTask.DateTimeDurationActual = int.Parse((string)values["DateTimeDurationActual"]); } else { curTask.DateTimeDurationActual = null; }
                             curTask.CorrespondentName = (string)values["CorrespondentName"];
                             curTask.TelephoneNumber = (string)values["TelephoneNumber"];
+                            if (values["CallCharges"] != null) { curTask.CallChardes = decimal.Parse((string)values["CallCharges"]); } else { curTask.CallChardes = null; }
                             if (values["AddedCharges"] != null) { curTask.AddedCharges = decimal.Parse((string)values["AddedCharges"]); } else { curTask.AddedCharges = null; }
                             if (values["CostActual"] != null) { curTask.CostActual = decimal.Parse((string)values["CostActual"]); } else { curTask.CostActual = null; }
                             if (values["InvoiceCost"] != null) { curTask.InvoiceCost = decimal.Parse((string)values["InvoiceCost"]); } else { curTask.InvoiceCost = null; }
                             if (values["PaymentDateActual"] != null) { curTask.PaymentDateActual = DateTime.Parse((string)values["PaymentDateActual"]); } else { curTask.PaymentDateActual = null; }
                             curTask.IsLocked = (bool)values["IsLocked"];
-                            curTask.IsCanceled = (bool)values["IsCanceled"];
+                            CheckBox chkIsCanceled = (CheckBox)editableItem.FindControl("chkIsCanceled");
+                            curTask.IsCanceled = chkIsCanceled.Checked;
                             curTask.Comments = (string)values["Comments"];
                             curTask.MSNCount = MSNCount;
                             curTask.MSN1 = (string)values["MSN1"];
@@ -1521,6 +1542,12 @@ namespace OTERT.Pages.Administrator {
             calculateCosts(eitem);
         }
 
+        protected void txtCallCharges_TextChanged(object sender, EventArgs e){
+            TextBox txtCallCharges = (TextBox)sender;
+            GridEditableItem eitem = (GridEditableItem)txtCallCharges.NamingContainer;
+            calculateCosts(eitem);
+        }
+
         protected void txtInvoiceCost_TextChanged(object sender, EventArgs e) {
             TextBox txtInvoiceCost = (TextBox)sender;
             GridEditableItem eitem = (GridEditableItem)txtInvoiceCost.NamingContainer;
@@ -1546,6 +1573,7 @@ namespace OTERT.Pages.Administrator {
                 DateTime newActualEndDate = dpDateTimeEndActual.SelectedDate ?? nullDate;
                 TextBox txtDateTimeDurationActual = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
                 TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
+                TextBox txtCallCharges = (TextBox)eitem.FindControl("txtCallCharges");
                 TextBox txtInvoiceCost = (TextBox)eitem.FindControl("txtInvoiceCost");
                 TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
                 if (newActualStartDate > nullDate && newActualEndDate > nullDate && newActualEndDate > newActualStartDate) {
@@ -1555,7 +1583,8 @@ namespace OTERT.Pages.Administrator {
                     PTSGRPricelistB curPricelist = pCon.GetPTSGRPricelist(newPTSGRPriceID);
                     decimal newInvoiceCost = curPricelist.InstallationCost + (newActualDuration * curPricelist.ChargesPerDay + newMSNCount * newActualDuration * curPricelist.MSNPerDay.GetValueOrDefault());
                     decimal newCostActual = newInvoiceCost;
-                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { newCostActual = newInvoiceCost + decimal.Parse(txtAddedCharges.Text.Replace(".", ",")); }
+                    if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { newCostActual += decimal.Parse(txtAddedCharges.Text.Replace(".", ",")); }
+                    if (!string.IsNullOrEmpty(txtCallCharges.Text)) { newCostActual += decimal.Parse(txtCallCharges.Text.Replace(".", ",")); }
                     txtDateTimeDurationActual.Text = newActualDuration.ToString();
                     txtInvoiceCost.Text = Math.Round(newInvoiceCost, 2, MidpointRounding.AwayFromZero).ToString();
                     txtCostActual.Text = Math.Round(newCostActual, 2, MidpointRounding.AwayFromZero).ToString();
@@ -2176,6 +2205,96 @@ namespace OTERT.Pages.Administrator {
             }
             catch (Exception) { }
         }
+
+        protected void ddlCancelationPrices_SelectedIndexChanged(object sender, DropDownListEventArgs e) {
+            try {
+                RadDropDownList ddlCancelationPrices = (RadDropDownList)sender;
+                if (ddlCancelationPrices.SelectedIndex != 0) {
+                    GridEditableItem eitem = (GridEditableItem)ddlCancelationPrices.NamingContainer;
+                    TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
+                    double cancelationCost = 0;
+                    bool successParce = double.TryParse(ddlCancelationPrices.SelectedItem.Value.Replace(".", ","), out cancelationCost);
+                    cancelationCost = Math.Round(cancelationCost, 2, MidpointRounding.AwayFromZero);
+                    txtCostActual.Text = cancelationCost.ToString();
+                }
+            }
+            catch (Exception) { ShowErrorMessage(4); }
+        }
+
+        protected void ddlCancelationPrices_PreRender(object sender, EventArgs e) {
+            RadDropDownList list = sender as RadDropDownList;
+            if (ViewState[list.ClientID] != null) { list.SelectedValue = ViewState[list.ClientID].ToString(); }
+        }
+
+        protected void btnCancelationCancel_Click(object sender, EventArgs e) {
+            Button btnCancelationCancel = (Button)sender;
+            GridEditableItem eitem = (GridEditableItem)btnCancelationCancel.NamingContainer;
+            CheckBox chkIsCanceled = (CheckBox)eitem.FindControl("chkIsCanceled"); ;
+            Label lblCancelationMsg = (Label)eitem.FindControl("lblCancelationMsg");
+            RadDropDownList ddlCancelationPrices = (RadDropDownList)eitem.FindControl("ddlCancelationPrices");
+            Button btnCancelationOK = (Button)eitem.FindControl("btnCancelationOK");
+            lblCancelationMsg.Visible = false;
+            ddlCancelationPrices.Visible = false;
+            btnCancelationOK.Visible = false;
+            btnCancelationCancel.Visible = false;
+            chkIsCanceled.Checked = false;
+            calculateCosts(eitem);
+        }
+
+        protected void btnCancelationOK_Click(object sender, EventArgs e) {
+            Button btnCancelationOK = (Button)sender;
+            GridEditableItem eitem = (GridEditableItem)btnCancelationOK.NamingContainer;
+            CheckBox chkIsCanceled = (CheckBox)eitem.FindControl("chkIsCanceled"); ;
+            Label lblCancelationMsg = (Label)eitem.FindControl("lblCancelationMsg");
+            RadDropDownList ddlCancelationPrices = (RadDropDownList)eitem.FindControl("ddlCancelationPrices");
+            Button btnCancelationCancel = (Button)eitem.FindControl("btnCancelationCancel");
+            lblCancelationMsg.Visible = false;
+            ddlCancelationPrices.Visible = false;
+            btnCancelationOK.Visible = false;
+            btnCancelationCancel.Visible = false;
+            chkIsCanceled.Checked = true;
+            TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
+            txtCostActual.Text = "0";
+        }
+
+        protected void chkIsCanceled_CheckedChanged(object sender, EventArgs e) {
+            CheckBox chkIsCanceled = (CheckBox)sender;
+            GridEditableItem eitem = (GridEditableItem)chkIsCanceled.NamingContainer;
+            Label lblCancelationMsg = (Label)eitem.FindControl("lblCancelationMsg");
+            RadDropDownList ddlCancelationPrices = (RadDropDownList)eitem.FindControl("ddlCancelationPrices");
+            ddlCancelationPrices.Items.Clear();
+            Button btnCancelationOK = (Button)eitem.FindControl("btnCancelationOK");
+            Button btnCancelationCancel = (Button)eitem.FindControl("btnCancelationCancel");
+            if (chkIsCanceled.Checked) {
+                if (Session["PTSRPricelistID"] != null) {
+                    int PTSRPricelistID = int.Parse(Session["PTSRPricelistID"].ToString());
+                    PTSGRPricelistController cont = new PTSGRPricelistController();
+                    PTSGRPricelistB curPTSGRPricelist = cont.GetPTSGRPricelist(PTSRPricelistID);
+                    if (curPTSGRPricelist != null) {
+                        ddlCancelationPrices.Items.Insert(0, new DropDownListItem("Επιλέξτε Ποσό Ακύρωσης", "-1"));
+                        ddlCancelationPrices.Items.Insert(1, new DropDownListItem("Μηδενικό", "0"));
+                        ddlCancelationPrices.Items.Insert(2, new DropDownListItem("Κόστος Εγκατάστασης", curPTSGRPricelist.InstallationCost.ToString()));
+                        lblCancelationMsg.Visible = false;
+                        ddlCancelationPrices.Visible = true;
+                        btnCancelationOK.Visible = false;
+                        btnCancelationCancel.Visible = false;
+                    } else {
+                        lblCancelationMsg.Text = "Δεν υπάρχουν Ποσά Ακύρωσης για τη συγκεκριμένη Κατηγορία Έργου. Το συνολικό κόστος θα μηδενιστεί!";
+                        lblCancelationMsg.Visible = true;
+                        ddlCancelationPrices.Visible = false;
+                        btnCancelationOK.Visible = true;
+                        btnCancelationCancel.Visible = true;
+                    }
+                }
+            } else {
+                lblCancelationMsg.Visible = false;
+                ddlCancelationPrices.Visible = false;
+                btnCancelationOK.Visible = false;
+                btnCancelationCancel.Visible = false;
+                calculateCosts(eitem);
+            }
+        }
+
     }
 
 }

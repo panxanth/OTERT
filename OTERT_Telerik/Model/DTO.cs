@@ -169,7 +169,6 @@ namespace OTERT.Model {
         public int ID { get; set; }
         public int EventID { get; set; }
         public EventDTO Event { get; set; }
-        public string RegNo { get; set; }
         public DateTime? DateTimeStart { get; set; }
         public DateTime? DateTimeEnd { get; set; }
     }
@@ -182,6 +181,8 @@ namespace OTERT.Model {
         public CountryDTO Country { get; set; }
         public int ProviderID { get; set; }
         public CustomerDTO Provider { get; set; }
+        public string RegNo { get; set; }
+        public string InvoiceProtocol { get; set; }
     }
 
     public class SateliteDTO {

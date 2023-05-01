@@ -194,36 +194,46 @@ namespace OTERT.Pages.UserPages {
             CellBorders borders = new CellBorders(border, border, border, border, null, null, null, null);
             double fontSize = 12;
             foreach (TaskPTSGRB curTask in tasks) {
-                worksheet.Cells[currentRow, 0].SetValue(curTask.Order.OrdersPTSGRID.ToString());
+                worksheet.Cells[currentRow, 0].SetValue(curTask.OrderDate);
+                worksheet.Cells[currentRow, 0].SetFormat(new CellValueFormat(dateFormat));
                 worksheet.Cells[currentRow, 0].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 0].SetBorders(borders);
-                worksheet.Cells[currentRow, 1].SetValue(curTask.RegNo);
+                worksheet.Cells[currentRow, 1].SetValue(curTask.Order.OrderPTSGR.Event.NameGR);
                 worksheet.Cells[currentRow, 1].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 1].SetBorders(borders);
-                worksheet.Cells[currentRow, 2].SetValue(curTask.Order.OrderPTSGR.Event.NameGR);
+                worksheet.Cells[currentRow, 2].SetValue(curTask.Order.Provider.NameGR);
                 worksheet.Cells[currentRow, 2].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 2].SetBorders(borders);
-                worksheet.Cells[currentRow, 3].SetValue(curTask.OrderPTSGR2ID.ToString());
+                worksheet.Cells[currentRow, 3].SetValue(curTask.Order.Country.NameGR);
                 worksheet.Cells[currentRow, 3].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 3].SetBorders(borders);
-                worksheet.Cells[currentRow, 4].SetValue(curTask.Order.Country.NameGR);
+                worksheet.Cells[currentRow, 4].SetValue(curTask.RegNo);
                 worksheet.Cells[currentRow, 4].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 4].SetBorders(borders);
-                worksheet.Cells[currentRow, 5].SetValue(curTask.Order.Provider.NameGR);
+                worksheet.Cells[currentRow, 5].SetValue(curTask.Customer.NameGR);
                 worksheet.Cells[currentRow, 5].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 5].SetBorders(borders);
-                worksheet.Cells[currentRow, 6].SetValue(curTask.ID);
+                if (curTask.DateTimeStartActual.GetValueOrDefault().Year > 2000) {
+                    worksheet.Cells[currentRow, 6].SetValue(curTask.DateTimeStartActual.GetValueOrDefault());
+                } else {
+                    worksheet.Cells[currentRow, 6].SetValue("");
+                }
+                worksheet.Cells[currentRow, 6].SetFormat(new CellValueFormat(dateFormat));
                 worksheet.Cells[currentRow, 6].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 6].SetBorders(borders);
-                worksheet.Cells[currentRow, 7].SetValue(curTask.OrderDate);
+                if (curTask.DateTimeEndActual.GetValueOrDefault().Year > 2000) {
+                    worksheet.Cells[currentRow, 7].SetValue(curTask.DateTimeEndActual.GetValueOrDefault());
+                } else {
+                    worksheet.Cells[currentRow, 7].SetValue("");
+                }
                 worksheet.Cells[currentRow, 7].SetFormat(new CellValueFormat(dateFormat));
                 worksheet.Cells[currentRow, 7].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 7].SetBorders(borders);
-                worksheet.Cells[currentRow, 8].SetValue(curTask.Customer.NameGR);
+                worksheet.Cells[currentRow, 8].SetValue(curTask.InvoiceProtocol);
                 worksheet.Cells[currentRow, 8].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 8].SetBorders(borders);
-                if (curTask.DateTimeStartActual.GetValueOrDefault().Year > 2000) {
-                    worksheet.Cells[currentRow, 9].SetValue(curTask.DateTimeStartActual.GetValueOrDefault());
+                if (curTask.PaymentDateActual.GetValueOrDefault().Year > 2000) {
+                    worksheet.Cells[currentRow, 9].SetValue(curTask.PaymentDateActual.GetValueOrDefault());
                 } else {
                     worksheet.Cells[currentRow, 9].SetValue("");
                 }
@@ -234,13 +244,8 @@ namespace OTERT.Pages.UserPages {
                 worksheet.Cells[currentRow, 10].SetFormat(new CellValueFormat(currencyFormat));
                 worksheet.Cells[currentRow, 10].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 10].SetBorders(borders);
-
-                if (curTask.PaymentDateActual.GetValueOrDefault().Year > 2000) {
-                    worksheet.Cells[currentRow, 11].SetValue(curTask.PaymentDateActual.GetValueOrDefault());
-                } else {
-                    worksheet.Cells[currentRow, 11].SetValue("");
-                }
-                worksheet.Cells[currentRow, 11].SetFormat(new CellValueFormat(dateFormat));
+                worksheet.Cells[currentRow, 11].SetValue("");
+                worksheet.Cells[currentRow, 11].SetFormat(new CellValueFormat(currencyFormat));
                 worksheet.Cells[currentRow, 11].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 11].SetBorders(borders);
                 worksheet.Cells[currentRow, 12].SetValue(curTask.EnteredByUser);
@@ -250,23 +255,32 @@ namespace OTERT.Pages.UserPages {
                 worksheet.Cells[currentRow, 13].SetFormat(new CellValueFormat(dateWithHoursFormat));
                 worksheet.Cells[currentRow, 13].SetFontSize(fontSize);
                 worksheet.Cells[currentRow, 13].SetBorders(borders);
+                worksheet.Cells[currentRow, 14].SetValue(curTask.Order.OrdersPTSGRID.ToString());
+                worksheet.Cells[currentRow, 14].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 14].SetBorders(borders);
+                worksheet.Cells[currentRow, 15].SetValue(curTask.OrderPTSGR2ID.ToString());
+                worksheet.Cells[currentRow, 15].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 15].SetBorders(borders);
+                worksheet.Cells[currentRow, 16].SetValue(curTask.ID);
+                worksheet.Cells[currentRow, 16].SetFontSize(fontSize);
+                worksheet.Cells[currentRow, 16].SetBorders(borders);
                 currentRow++;
             }
             for (int i = 0; i < worksheet.Columns.Count; i++) { worksheet.Columns[i].AutoFitWidth(); }
             for (int i = 0; i < worksheet.Columns.Count; i++) {
-                if (i==1) { worksheet.Columns[i].SetWidth(new ColumnWidth(70, true)); }
-                if (i == 6 || i == 9 || i == 11 || i == 12) { worksheet.Columns[i].SetWidth(new ColumnWidth(100, true)); }
+                //if (i==1) { worksheet.Columns[i].SetWidth(new ColumnWidth(70, true)); }
+                if (i == 4 || i == 8) { worksheet.Columns[i].SetWidth(new ColumnWidth(100, true)); }
                 ColumnSelection columnSelection = worksheet.Columns[i];
                 ColumnWidth columnWidth = columnSelection.GetWidth().Value;
                 double curColWidth = columnWidth.Value + 10;
                 if (curColWidth > 2000) { curColWidth = 2000; }
                 columnSelection.SetWidth(new ColumnWidth(curColWidth, columnWidth.IsCustom));
             }
-            ColumnSelection columnSelection4 = worksheet.Columns[4];
-            ColumnWidth columnWidth4 = columnSelection4.GetWidth().Value;
-            double curColWidth4 = columnWidth4.Value + 10;
-            if (curColWidth4 > 2000) { curColWidth4 = 2000; }
-            columnSelection4.SetWidth(new ColumnWidth(curColWidth4, columnWidth4.IsCustom));
+            //ColumnSelection columnSelection4 = worksheet.Columns[4];
+            //ColumnWidth columnWidth4 = columnSelection4.GetWidth().Value;
+            //double curColWidth4 = columnWidth4.Value + 10;
+            //if (curColWidth4 > 2000) { curColWidth4 = 2000; }
+            //columnSelection4.SetWidth(new ColumnWidth(curColWidth4, columnWidth4.IsCustom));
             return workbook;
         }
 
@@ -279,57 +293,59 @@ namespace OTERT.Pages.UserPages {
             CellBorder border = new CellBorder(CellBorderStyle.Thin, tcBlack);
             CellBorders borders = new CellBorders(border, border, border, border, null, null, null, null);
             double fontSize = 12;
-            worksheet.Cells[0, 0].SetValue("Διοργάνωση Α/Α");
-            worksheet.Cells[0, 0].SetFontSize(fontSize);
+            worksheet.Cells[0, 0].SetValue("Ημ/νία\nΠαραγγελίας");
             worksheet.Cells[0, 0].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 0].SetVerticalAlignment(RadVerticalAlignment.Center);
+            worksheet.Cells[0, 0].SetFontSize(fontSize);
             worksheet.Cells[0, 0].SetIsBold(true);
-            worksheet.Cells[0, 0].SetFill(pfGreen);
+            worksheet.Cells[0, 0].SetIsWrapped(true);
+            worksheet.Cells[0, 0].SetFill(pfOrange);
             worksheet.Cells[0, 0].SetBorders(borders);
-            worksheet.Cells[0, 1].SetValue("Αριθμός\nΠρωτοκόλλου");
-            worksheet.Cells[0, 1].SetFontSize(fontSize);
+            worksheet.Cells[0, 1].SetValue("Διοργάνωση");
             worksheet.Cells[0, 1].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 1].SetVerticalAlignment(RadVerticalAlignment.Center);
+            worksheet.Cells[0, 1].SetFontSize(fontSize);
             worksheet.Cells[0, 1].SetIsBold(true);
-            worksheet.Cells[0, 1].SetIsWrapped(true);
             worksheet.Cells[0, 1].SetFill(pfGreen);
             worksheet.Cells[0, 1].SetBorders(borders);
-            worksheet.Cells[0, 2].SetValue("Διοργάνωση");
+            worksheet.Cells[0, 2].SetValue("Πάροχος");
             worksheet.Cells[0, 2].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 2].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 2].SetFontSize(fontSize);
             worksheet.Cells[0, 2].SetIsBold(true);
-            worksheet.Cells[0, 2].SetFill(pfGreen);
+            worksheet.Cells[0, 2].SetFill(pfCyan);
             worksheet.Cells[0, 2].SetBorders(borders);
-            worksheet.Cells[0, 3].SetValue("Πάροχος Α/Α");
-            worksheet.Cells[0, 3].SetFontSize(fontSize);
+            worksheet.Cells[0, 3].SetValue("Από Χώρα");
             worksheet.Cells[0, 3].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 3].SetVerticalAlignment(RadVerticalAlignment.Center);
+            worksheet.Cells[0, 3].SetFontSize(fontSize);
             worksheet.Cells[0, 3].SetIsBold(true);
             worksheet.Cells[0, 3].SetFill(pfCyan);
             worksheet.Cells[0, 3].SetBorders(borders);
-            worksheet.Cells[0, 4].SetValue("Από Χώρα");
+            worksheet.Cells[0, 4].SetValue("Αριθμός\nΠρωτοκόλλου");
+            worksheet.Cells[0, 4].SetFontSize(fontSize);
             worksheet.Cells[0, 4].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 4].SetVerticalAlignment(RadVerticalAlignment.Center);
-            worksheet.Cells[0, 4].SetFontSize(fontSize);
             worksheet.Cells[0, 4].SetIsBold(true);
+            worksheet.Cells[0, 4].SetIsWrapped(true);
             worksheet.Cells[0, 4].SetFill(pfCyan);
             worksheet.Cells[0, 4].SetBorders(borders);
-            worksheet.Cells[0, 5].SetValue("Πάροχος");
+            worksheet.Cells[0, 5].SetValue("Πελάτης");
             worksheet.Cells[0, 5].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 5].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 5].SetFontSize(fontSize);
             worksheet.Cells[0, 5].SetIsBold(true);
-            worksheet.Cells[0, 5].SetFill(pfCyan);
+            worksheet.Cells[0, 5].SetFill(pfOrange);
             worksheet.Cells[0, 5].SetBorders(borders);
-            worksheet.Cells[0, 6].SetValue("Παραγγελία Α/Α");
+            worksheet.Cells[0, 6].SetValue("Ημ/νία Υλοποίησης\n(Έναρξη)");
             worksheet.Cells[0, 6].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 6].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 6].SetFontSize(fontSize);
             worksheet.Cells[0, 6].SetIsBold(true);
+            worksheet.Cells[0, 6].SetIsWrapped(true);
             worksheet.Cells[0, 6].SetFill(pfOrange);
             worksheet.Cells[0, 6].SetBorders(borders);
-            worksheet.Cells[0, 7].SetValue("Ημ/νία\nΠαραγγελίας");
+            worksheet.Cells[0, 7].SetValue("Ημ/νία Υλοποίησης\n(Λήξη)");
             worksheet.Cells[0, 7].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 7].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 7].SetFontSize(fontSize);
@@ -337,36 +353,36 @@ namespace OTERT.Pages.UserPages {
             worksheet.Cells[0, 7].SetIsWrapped(true);
             worksheet.Cells[0, 7].SetFill(pfOrange);
             worksheet.Cells[0, 7].SetBorders(borders);
-            worksheet.Cells[0, 8].SetValue("Πελάτης");
+            worksheet.Cells[0, 8].SetValue("Πρωτόκολλο\nΤιμολόγησης");
+            worksheet.Cells[0, 8].SetFontSize(fontSize);
             worksheet.Cells[0, 8].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 8].SetVerticalAlignment(RadVerticalAlignment.Center);
-            worksheet.Cells[0, 8].SetFontSize(fontSize);
             worksheet.Cells[0, 8].SetIsBold(true);
-            worksheet.Cells[0, 8].SetFill(pfOrange);
+            worksheet.Cells[0, 8].SetIsWrapped(true);
+            worksheet.Cells[0, 8].SetFill(pfCyan);
             worksheet.Cells[0, 8].SetBorders(borders);
-            worksheet.Cells[0, 9].SetValue("Ημ/νία Υλοποίησης\n(Έναρξη)");
+            worksheet.Cells[0, 9].SetValue("Ημ/νία Τιμολόγησης");
             worksheet.Cells[0, 9].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 9].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 9].SetFontSize(fontSize);
             worksheet.Cells[0, 9].SetIsBold(true);
             worksheet.Cells[0, 9].SetIsWrapped(true);
-            worksheet.Cells[0, 9].SetFill(pfOrange);
+            worksheet.Cells[0, 9].SetForeColor(tcWhite);
+            worksheet.Cells[0, 9].SetFill(pfRed);
             worksheet.Cells[0, 9].SetBorders(borders);
-            worksheet.Cells[0, 10].SetValue("Ποσό Είσπραξης (€)");
+            worksheet.Cells[0, 10].SetValue("Ποσό Τιμολογίου (€)");
             worksheet.Cells[0, 10].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 10].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 10].SetFontSize(fontSize);
             worksheet.Cells[0, 10].SetIsBold(true);
             worksheet.Cells[0, 10].SetFill(pfOrange);
             worksheet.Cells[0, 10].SetBorders(borders);
-            worksheet.Cells[0, 11].SetValue("Ημ/νία Τιμολόγησης");
+            worksheet.Cells[0, 11].SetValue("ΠΟΣΌ ΠΟΥ ΑΦΟΡΑ ΤΟ 5%");
             worksheet.Cells[0, 11].SetHorizontalAlignment(RadHorizontalAlignment.Center);
             worksheet.Cells[0, 11].SetVerticalAlignment(RadVerticalAlignment.Center);
             worksheet.Cells[0, 11].SetFontSize(fontSize);
             worksheet.Cells[0, 11].SetIsBold(true);
-            worksheet.Cells[0, 11].SetIsWrapped(true);
-            worksheet.Cells[0, 11].SetForeColor(tcWhite);
-            worksheet.Cells[0, 11].SetFill(pfRed);
+            worksheet.Cells[0, 11].SetFill(pfOrange);
             worksheet.Cells[0, 11].SetBorders(borders);
             worksheet.Cells[0, 12].SetValue("Χρήστης");
             worksheet.Cells[0, 12].SetHorizontalAlignment(RadHorizontalAlignment.Center);
@@ -386,6 +402,27 @@ namespace OTERT.Pages.UserPages {
             worksheet.Cells[0, 13].SetForeColor(tcWhite);
             worksheet.Cells[0, 13].SetFill(pfBlue);
             worksheet.Cells[0, 13].SetBorders(borders);
+            worksheet.Cells[0, 14].SetValue("Διοργάνωση Α/Α");
+            worksheet.Cells[0, 14].SetFontSize(fontSize);
+            worksheet.Cells[0, 14].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 14].SetVerticalAlignment(RadVerticalAlignment.Center);
+            worksheet.Cells[0, 14].SetIsBold(true);
+            worksheet.Cells[0, 14].SetFill(pfGreen);
+            worksheet.Cells[0, 14].SetBorders(borders);
+            worksheet.Cells[0, 15].SetValue("Πάροχος Α/Α");
+            worksheet.Cells[0, 15].SetFontSize(fontSize);
+            worksheet.Cells[0, 15].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 15].SetVerticalAlignment(RadVerticalAlignment.Center);
+            worksheet.Cells[0, 15].SetIsBold(true);
+            worksheet.Cells[0, 15].SetFill(pfCyan);
+            worksheet.Cells[0, 15].SetBorders(borders);
+            worksheet.Cells[0, 16].SetValue("Παραγγελία Α/Α");
+            worksheet.Cells[0, 16].SetHorizontalAlignment(RadHorizontalAlignment.Center);
+            worksheet.Cells[0, 16].SetVerticalAlignment(RadVerticalAlignment.Center);
+            worksheet.Cells[0, 16].SetFontSize(fontSize);
+            worksheet.Cells[0, 16].SetIsBold(true);
+            worksheet.Cells[0, 16].SetFill(pfOrange);
+            worksheet.Cells[0, 16].SetBorders(borders);
         }
 
         protected void ddlCustomersFilter_SelectedIndexChanged(object sender, DropDownListEventArgs e) {

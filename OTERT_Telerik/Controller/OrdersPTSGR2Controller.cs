@@ -36,10 +36,11 @@ namespace OTERT.Controller {
                     List<OrderPTSGR2B> data = (from us in dbContext.OrdersPTSGR2
                                                select new OrderPTSGR2B {
                                                    ID = us.ID,
+                                                   RegNo = us.RegNo,
+                                                   InvoiceProtocol = us.InvoiceProtocol,
                                                    OrdersPTSGRID = us.OrdersPTSGRID,
                                                    OrderPTSGR = new OrderPTSGRDTO {
                                                        ID = us.OrdersPTSGR.ID,
-                                                       RegNo = us.OrdersPTSGR.RegNo,
                                                        EventID = us.OrdersPTSGR.EventID,
                                                        Event = new EventDTO {
                                                            NameGR = us.OrdersPTSGR.Events.NameGR,
@@ -104,10 +105,11 @@ namespace OTERT.Controller {
                     OrderPTSGR2B data = (from us in dbContext.OrdersPTSGR2
                                          select new OrderPTSGR2B {
                                              ID = us.ID,
+                                             RegNo = us.RegNo,
+                                             InvoiceProtocol = us.InvoiceProtocol,
                                              OrdersPTSGRID = us.OrdersPTSGRID,
                                              OrderPTSGR = new OrderPTSGRDTO {
                                                  ID = us.OrdersPTSGR.ID,
-                                                 RegNo = us.OrdersPTSGR.RegNo,
                                                  EventID = us.OrdersPTSGR.EventID,
                                                  Event = new EventDTO {
                                                      NameGR = us.OrdersPTSGR.Events.NameGR,
@@ -172,10 +174,11 @@ namespace OTERT.Controller {
                     List<OrderPTSGR2B> data = (from us in dbContext.OrdersPTSGR2
                                               select new OrderPTSGR2B {
                                                   ID = us.ID,
+                                                  RegNo = us.RegNo,
+                                                  InvoiceProtocol = us.InvoiceProtocol,
                                                   OrdersPTSGRID = us.OrdersPTSGRID,
                                                   OrderPTSGR = new OrderPTSGRDTO {
                                                       ID = us.OrdersPTSGR.ID,
-                                                      RegNo = us.OrdersPTSGR.RegNo,
                                                       EventID = us.OrdersPTSGR.EventID,
                                                       Event = new EventDTO {
                                                           NameGR = us.OrdersPTSGR.Events.NameGR,
@@ -240,10 +243,11 @@ namespace OTERT.Controller {
                     List<OrderPTSGR2B> data = (from us in dbContext.OrdersPTSGR2
                                                select new OrderPTSGR2B {
                                                    ID = us.ID,
+                                                   RegNo = us.RegNo,
+                                                   InvoiceProtocol = us.InvoiceProtocol,
                                                    OrdersPTSGRID = us.OrdersPTSGRID,
                                                    OrderPTSGR = new OrderPTSGRDTO {
                                                        ID = us.OrdersPTSGR.ID,
-                                                       RegNo = us.OrdersPTSGR.RegNo,
                                                        EventID = us.OrdersPTSGR.EventID,
                                                        Event = new EventDTO {
                                                            NameGR = us.OrdersPTSGR.Events.NameGR,
@@ -308,10 +312,11 @@ namespace OTERT.Controller {
                     IQueryable<OrderPTSGR2B> datatmp = (from us in dbContext.OrdersPTSGR2
                                                         select new OrderPTSGR2B {
                                                             ID = us.ID,
+                                                            RegNo = us.RegNo,
+                                                            InvoiceProtocol = us.InvoiceProtocol,
                                                             OrdersPTSGRID = us.OrdersPTSGRID,
                                                             OrderPTSGR = new OrderPTSGRDTO {
                                                                 ID = us.OrdersPTSGR.ID,
-                                                                RegNo = us.OrdersPTSGR.RegNo,
                                                                 EventID = us.OrdersPTSGR.EventID,
                                                                 Event = new EventDTO {
                                                                     NameGR = us.OrdersPTSGR.Events.NameGR,

@@ -24,6 +24,8 @@ namespace OTERT_Entity
         public int OrdersPTSGRID { get; set; }
         public int CountryID { get; set; }
         public int ProviderID { get; set; }
+        public string RegNo { get; set; }
+        public string InvoiceProtocol { get; set; }
     
         public virtual Countries Countries { get; set; }
         public virtual Customers Customers { get; set; }

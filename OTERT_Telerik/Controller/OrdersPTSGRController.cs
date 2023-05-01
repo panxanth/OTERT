@@ -27,7 +27,6 @@ namespace OTERT.Controller {
                     OrderPTSGRB data = (from us in dbContext.OrdersPTSGR
                                          select new OrderPTSGRB {
                                              ID = us.ID,
-                                             RegNo = us.RegNo,
                                              EventID = us.EventID,
                                              Event = new EventDTO {
                                                  ID = us.Events.ID,
@@ -62,7 +61,6 @@ namespace OTERT.Controller {
                     List<OrderPTSGRB> data = (from us in dbContext.OrdersPTSGR
                                               select new OrderPTSGRB {
                                               ID = us.ID,
-                                              RegNo = us.RegNo,
                                               EventID = us.EventID,
                                               Event = new EventDTO {
                                                                  ID = us.Events.ID,
@@ -97,7 +95,6 @@ namespace OTERT.Controller {
                     List<OrderPTSGRB> data = (from us in dbContext.OrdersPTSGR
                                               select new OrderPTSGRB{
                                               ID = us.ID,
-                                              RegNo = us.RegNo,
                                               EventID = us.EventID,
                                               Event = new EventDTO {
                                                                    ID = us.Events.ID,
@@ -132,7 +129,6 @@ namespace OTERT.Controller {
                     IQueryable<OrderPTSGRB> datatmp = (from us in dbContext.OrdersPTSGR
                                                        select new OrderPTSGRB {
                                                        ID = us.ID,
-                                                       RegNo = us.RegNo,
                                                        EventID = us.EventID,
                                                        Event = new EventDTO {
                                                           ID = us.Events.ID,

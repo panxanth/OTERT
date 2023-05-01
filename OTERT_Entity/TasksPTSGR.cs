@@ -38,6 +38,8 @@ namespace OTERT_Entity
         public string Comments { get; set; }
         public System.DateTime DateStamp { get; set; }
         public string EnteredByUser { get; set; }
+        public string InvoiceProtocol { get; set; }
+        public Nullable<decimal> CallChardes { get; set; }
     
         public virtual Customers Customers { get; set; }
         public virtual OrdersPTSGR2 OrdersPTSGR2 { get; set; }

@@ -77,6 +77,7 @@
                                 <telerik:GridBoundColumn UniqueName="RegNo" DataField="RegNo" HeaderText="Αριθμός Πρωτοκόλλου" HeaderStyle-Font-Bold="true" >
                                     <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                                 </telerik:GridBoundColumn>
+                                <telerik:GridBoundColumn UniqueName="InvoiceProtocol" DataField="InvoiceProtocol" HeaderText="Πρωτόκολλο Τιμολόγησης" HeaderStyle-Font-Bold="true" />
                                 <telerik:GridDateTimeColumn UniqueName="OrderDate" DataField="OrderDate" HeaderText="Ημ/νία Παραγγελίας" DataType="System.DateTime" PickerType="DatePicker" HeaderStyle-Font-Bold="true" >
                                     <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
                                 </telerik:GridDateTimeColumn>
@@ -120,7 +121,15 @@
                                 <telerik:GridDateTimeColumn UniqueName="DateTimeEndActual" DataField="DateTimeEndActual" HeaderText="Ημ/νία Υλοποίησης (Λήξη)" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" />
                                 <telerik:GridBoundColumn DataField="DateTimeDurationActual" HeaderText="Διάρκεια Υλοποίησης" Visible="false" />
                                 <telerik:GridBoundColumn DataField="CostCalculated" HeaderText="Προϋπολογιζόμενο Κόστος (€)" Visible="false" ReadOnly="true" />
-                                <telerik:GridTemplateColumn DataField="AddedCharges" UniqueName="AddedCharges" HeaderText="Επιπρόσθετα Τέλη (€)" Visible="false" >
+                                <telerik:GridTemplateColumn DataField="CallCharges" UniqueName="CallCharges" HeaderText="Χρέωση Κλήσεων (5%)" Visible="false" >
+                                    <ItemTemplate>
+                                        <asp:Label Text='<% #Eval("CallCharges") %>' runat="server" /> 
+                                    </ItemTemplate>
+                                    <EditItemTemplate>
+                                        <asp:TextBox ID="txtCallCharges" Text='<% #Bind("CallCharges") %>' runat="server" OnTextChanged="txtCallCharges_TextChanged" AutoPostBack="true" />
+                                    </EditItemTemplate>
+                                </telerik:GridTemplateColumn>
+                                <telerik:GridTemplateColumn DataField="AddedCharges" UniqueName="AddedCharges" HeaderText="Λοιπές Χρεώσεις" Visible="false" >
                                     <ItemTemplate>
                                         <asp:Label Text='<% #Eval("AddedCharges") %>' runat="server" /> 
                                     </ItemTemplate>
@@ -128,7 +137,7 @@
                                         <asp:TextBox ID="txtAddedCharges" Text='<% #Bind("AddedCharges") %>' runat="server" OnTextChanged="txtAddedCharges_TextChanged" AutoPostBack="true" />
                                     </EditItemTemplate>
                                 </telerik:GridTemplateColumn>
-                                <telerik:GridTemplateColumn DataField="InvoiceCost" UniqueName="InvoiceCost" HeaderText="Ποσό Τιμολογίου (€)" Visible="false" >
+                                <telerik:GridTemplateColumn DataField="InvoiceCost" UniqueName="InvoiceCost" HeaderText="Κόστος Εγκατάστασης + Πάγεια (€)    " Visible="false" >
                                     <ItemTemplate>
                                         <asp:Label Text='<% #Eval("InvoiceCost") %>' runat="server" /> 
                                     </ItemTemplate>
@@ -136,10 +145,21 @@
                                         <asp:TextBox ID="txtInvoiceCost" Text='<% #Bind("InvoiceCost") %>' runat="server" OnTextChanged="txtInvoiceCost_TextChanged" AutoPostBack="true" />
                                     </EditItemTemplate>
                                 </telerik:GridTemplateColumn>
-                                <telerik:GridBoundColumn DataField="CostActual" HeaderText="Ποσό Είσπραξης (€)" Visible="false" />
+                                <telerik:GridBoundColumn DataField="CostActual" HeaderText="Ποσό Τιμολογίου (€)" Visible="false" />
                                 <telerik:GridDateTimeColumn DataField="PaymentDateActual" HeaderText="Ημ/νία Τιμολόγησης" Visible="false" DataType="System.DateTime" PickerType="DatePicker" />
                                 <telerik:GridCheckBoxColumn DataField="IsLocked" HeaderText="Κλειδωμένο Έργο" Visible="false" DataType="System.Boolean" />
-                                <telerik:GridCheckBoxColumn DataField="IsCanceled" HeaderText="Ακυρωμένο Έργο" Visible="false" DataType="System.Boolean" />
+                                <telerik:GridTemplateColumn DataField="IsCanceled" UniqueName="chkIsCanceled" HeaderText="Ακυρωμένο Έργο" Visible="false" DataType="System.Boolean" >
+                                    <ItemTemplate>
+                                        <asp:Label Text='<% #Eval("IsCanceled") %>' runat="server" /> 
+                                    </ItemTemplate>
+                                    <EditItemTemplate>
+                                        <asp:CheckBox ID="chkIsCanceled" runat="server" />&nbsp;&nbsp;&nbsp;
+                                        <asp:Label ID="lblCancelationMsg" runat="server" Text="Δεν υπάρχουν Ποσά Ακύρωσης για τη συγκεκριμένη Κατηγορία Έργου. Το συνολικό κόστος θα μηδενιστεί!" ForeColor="Red" Font-Bold="true" Visible="false" />
+                                        <telerik:RadDropDownList runat="server" ID="ddlCancelationPrices" RenderMode="Lightweight" AutoPostBack="true" CausesValidation="false" Width="230" Visible="false" OnSelectedIndexChanged="ddlCancelationPrices_SelectedIndexChanged" OnPreRender="ddlCancelationPrices_PreRender" />&nbsp;&nbsp;&nbsp;
+                                        <asp:Button ID="btnCancelationOK" runat="server" Text="Συμφωνώ" Visible="false" OnClick="btnCancelationOK_Click" />&nbsp;&nbsp;&nbsp;
+                                        <asp:Button ID="btnCancelationCancel" runat="server" Text="Άκυρο" Visible="false" OnClick="btnCancelationCancel_Click" />
+                                    </EditItemTemplate>
+                                </telerik:GridTemplateColumn>
                                 <telerik:GridBoundColumn DataField="Comments" HeaderText="Παρατηρήσεις" Visible="false" />
                                 <telerik:GridButtonColumn UniqueName="btnDelete3" ConfirmText="Να διαγραφεί αυτή η Παραγγελία;" ConfirmDialogType="RadWindow" ConfirmTitle="Διαγραφή" ButtonType="FontIconButton" HeaderTooltip="Διαγραφή" CommandName="Delete" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
                             </Columns>
@@ -147,7 +167,11 @@
                     </DetailTables>
                         <Columns>
                             <telerik:GridEditCommandColumn EditText="Επεξεργασία" UniqueName="EditCommandColumn2" HeaderStyle-Width="20px" ItemStyle-HorizontalAlign="Center" />
-                            <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Wrap="false" HeaderStyle-Font-Bold="true" AllowFiltering="false" />
+                            <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Wrap="false" HeaderStyle-Font-Bold="true" AllowFiltering="false" HeaderStyle-Width="100px" />
+                            <telerik:GridBoundColumn UniqueName="RegNo" DataField="RegNo" HeaderText="Αριθμός Πρωτοκόλλου" HeaderStyle-Font-Bold="true" HeaderStyle-Wrap="false" HeaderStyle-Width="100px" >
+                                <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="Το πεδίο είναι υποχρεωτικό!" />
+                            </telerik:GridBoundColumn>
+                            <telerik:GridBoundColumn UniqueName="InvoiceProtocol" DataField="InvoiceProtocol" HeaderText="Πρωτόκολλο Τιμολόγησης" HeaderStyle-Font-Bold="true" HeaderStyle-Wrap="false" HeaderStyle-Width="100px" />
                             <telerik:GridTemplateColumn UniqueName="CountryID" DataField="CountryID" HeaderText="Χώρα" HeaderStyle-Font-Bold="true" AllowFiltering="false" SortExpression="CountryID" AllowSorting="true">
                                 <ItemTemplate>
                                     <asp:Label Text='<% #Eval("Country.NameGR") %>' runat="server" /> 
@@ -212,9 +236,6 @@
                     </telerik:GridTemplateColumn>
                     --%>
                     <telerik:GridBoundColumn DataField="ID" HeaderText="Α/Α" ReadOnly="true" ForceExtractValue="Always" ConvertEmptyStringToNull="true" HeaderStyle-Wrap="false" HeaderStyle-Font-Bold="true" AllowFiltering="false" />
-                    <telerik:GridBoundColumn UniqueName="RegNo" DataField="RegNo" HeaderText="Αρ. Πρωτοκόλλου" HeaderStyle-Font-Bold="true" >
-                        <ColumnValidationSettings EnableRequiredFieldValidation="true" RequiredFieldValidator-ForeColor="Red" RequiredFieldValidator-ErrorMessage="&nbsp;&nbsp;&nbsp;Το πεδίο είναι υποχρεωτικό!" />
-                    </telerik:GridBoundColumn>
                     <telerik:GridTemplateColumn UniqueName="PlaceID" DataField="PlaceID" HeaderText="Χώρος Διοργάνωσης" HeaderStyle-Font-Bold="true" AllowFiltering="true" SortExpression="PlaceID" AllowSorting="true">
                         <ItemTemplate>
                             <asp:Label Text='<% #Eval("Event.Place.NameGR") %>' runat="server" /> 

@@ -145,10 +145,11 @@ namespace OTERT.Controller {
                                            OrderPTSGR2ID = us.OrderPTSGR2ID,
                                            Order = new OrderPTSGR2DTO {
                                                ID = us.OrdersPTSGR2.ID,
+                                               RegNo = us.OrdersPTSGR2.RegNo,
+                                               InvoiceProtocol = us.OrdersPTSGR2.InvoiceProtocol,
                                                OrdersPTSGRID = us.OrdersPTSGR2.OrdersPTSGRID,
                                                OrderPTSGR = new OrderPTSGRDTO {
                                                    ID = us.OrdersPTSGR2.OrdersPTSGR.ID,
-                                                   RegNo = us.OrdersPTSGR2.OrdersPTSGR.RegNo,
                                                    EventID = us.OrdersPTSGR2.OrdersPTSGR.EventID,
                                                    Event = new EventDTO {
                                                        NameGR = us.OrdersPTSGR2.OrdersPTSGR.Events.NameGR,
@@ -203,6 +204,7 @@ namespace OTERT.Controller {
                                                }
                                            },
                                            RegNo = us.RegNo,
+                                           InvoiceProtocol = us.InvoiceProtocol,
                                            OrderDate = us.OrderDate,
                                            CustomerID = us.CustomerID,
                                            Customer = new CustomerDTO {
@@ -248,6 +250,7 @@ namespace OTERT.Controller {
                                            DateTimeEndActual = us.DateTimeEndActual,
                                            DateTimeDurationActual = us.DateTimeDurationActual,
                                            TelephoneNumber = us.TelephoneNumber,
+                                           CallCharges = us.CallChardes,
                                            AddedCharges = us.AddedCharges,
                                            CostActual = us.CostActual,
                                            PaymentDateActual = us.PaymentDateActual,
@@ -286,13 +289,14 @@ namespace OTERT.Controller {
                     List<TaskPTSGRB> data = (from us in dbContext.TasksPTSGR
                                              select new TaskPTSGRB {
                                                  ID = us.ID,
+                                                 RegNo = us.OrdersPTSGR2.RegNo,
+                                                 InvoiceProtocol = us.OrdersPTSGR2.InvoiceProtocol,
                                                  OrderPTSGR2ID = us.OrderPTSGR2ID,
                                                  Order = new OrderPTSGR2DTO {
                                                      ID = us.OrdersPTSGR2.ID,
                                                      OrdersPTSGRID = us.OrdersPTSGR2.OrdersPTSGRID,
                                                      OrderPTSGR = new OrderPTSGRDTO {
                                                          ID = us.OrdersPTSGR2.OrdersPTSGR.ID,
-                                                         RegNo = us.OrdersPTSGR2.OrdersPTSGR.RegNo,
                                                          EventID = us.OrdersPTSGR2.OrdersPTSGR.EventID,
                                                          Event = new EventDTO {
                                                              NameGR = us.OrdersPTSGR2.OrdersPTSGR.Events.NameGR,
@@ -344,7 +348,6 @@ namespace OTERT.Controller {
                                                          IsOTE = us.OrdersPTSGR2.Customers.IsOTE
                                                      }
                                                  },
-                                                 RegNo = us.RegNo,
                                                  OrderDate = us.OrderDate,
                                                  CustomerID = us.CustomerID,
                                                  Customer = new CustomerDTO {
@@ -390,6 +393,7 @@ namespace OTERT.Controller {
                                                  DateTimeEndActual = us.DateTimeEndActual,
                                                  DateTimeDurationActual = us.DateTimeDurationActual,
                                                  TelephoneNumber = us.TelephoneNumber,
+                                                 CallCharges = us.CallChardes,
                                                  AddedCharges = us.AddedCharges,
                                                  CostActual = us.CostActual,
                                                  PaymentDateActual = us.PaymentDateActual,
@@ -431,10 +435,11 @@ namespace OTERT.Controller {
                                                  OrderPTSGR2ID = us.OrderPTSGR2ID,
                                                  Order = new OrderPTSGR2DTO {
                                                      ID = us.OrdersPTSGR2.ID,
+                                                     RegNo = us.OrdersPTSGR2.RegNo,
+                                                     InvoiceProtocol = us.OrdersPTSGR2.InvoiceProtocol,
                                                      OrdersPTSGRID = us.OrdersPTSGR2.OrdersPTSGRID,
                                                      OrderPTSGR = new OrderPTSGRDTO {
                                                          ID = us.OrdersPTSGR2.OrdersPTSGR.ID,
-                                                         RegNo = us.OrdersPTSGR2.OrdersPTSGR.RegNo,
                                                          EventID = us.OrdersPTSGR2.OrdersPTSGR.EventID,
                                                          Event = new EventDTO {
                                                              NameGR = us.OrdersPTSGR2.OrdersPTSGR.Events.NameGR,
@@ -532,6 +537,7 @@ namespace OTERT.Controller {
                                                  DateTimeEndActual = us.DateTimeEndActual,
                                                  DateTimeDurationActual = us.DateTimeDurationActual,
                                                  TelephoneNumber = us.TelephoneNumber,
+                                                 CallCharges = us.CallChardes,
                                                  AddedCharges = us.AddedCharges,
                                                  CostActual = us.CostActual,
                                                  PaymentDateActual = us.PaymentDateActual,
@@ -574,6 +580,8 @@ namespace OTERT.Controller {
                                                           Order = new OrderPTSGR2DTO {
                                                               ID = us.OrderPTSGR2ID,
                                                               OrdersPTSGRID = us.OrdersPTSGR2.OrdersPTSGRID,
+                                                              RegNo = us.OrdersPTSGR2.RegNo,
+                                                              InvoiceProtocol = us.OrdersPTSGR2.InvoiceProtocol,
                                                               OrderPTSGR = new OrderPTSGRDTO {
                                                                   ID = us.OrdersPTSGR2.OrdersPTSGR.ID,
                                                                   EventID = us.OrdersPTSGR2.OrdersPTSGR.EventID,
@@ -587,8 +595,7 @@ namespace OTERT.Controller {
                                                                       },
                                                                       NameGR = us.OrdersPTSGR2.OrdersPTSGR.Events.NameGR,
                                                                       NameEN = us.OrdersPTSGR2.OrdersPTSGR.Events.NameEN
-                                                                  },
-                                                                  RegNo = us.OrdersPTSGR2.OrdersPTSGR.RegNo
+                                                                  }
                                                               },
                                                               CountryID = us.OrdersPTSGR2.CountryID,
                                                               Country = new CountryDTO { 
@@ -632,6 +639,7 @@ namespace OTERT.Controller {
                                                               }
                                                          },
                                                          RegNo = us.RegNo,
+                                                         InvoiceProtocol = us.InvoiceProtocol,
                                                          OrderDate = us.OrderDate,
                                                          CustomerID = us.CustomerID,
                                                          Customer = new CustomerDTO {
@@ -677,6 +685,7 @@ namespace OTERT.Controller {
                                                          DateTimeEndActual = us.DateTimeEndActual,
                                                          DateTimeDurationActual = us.DateTimeDurationActual,
                                                          TelephoneNumber = us.TelephoneNumber,
+                                                         CallCharges = us.CallChardes,
                                                          AddedCharges = us.AddedCharges,
                                                          CostActual = us.CostActual,
                                                          PaymentDateActual = us.PaymentDateActual,
