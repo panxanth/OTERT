@@ -184,6 +184,8 @@
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/Invoice.aspx">Τιμολόγιο (Συνοπτικό)</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/InvoiceDetailed.aspx">Τιμολόγιο (Αναλυτικό)</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/InvoiceMail.aspx">Τιμολόγιο (Email)</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoGRInvoices.aspx">ΠΤΣ προς Ελλάδα - Αποδείξεις</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoGROTEGLOBE.aspx">ΠΤΣ προς Ελλάδα - Επιστολή Οφειλών προς OTEGLOBE</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoAbroadCharges.aspx">ΠΤΣ προς Εξωτερικό - Χρεωπιστωτικό</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoAbroadOrders.aspx">ΠΤΣ προς Εξωτερικό - Παραγγελίες</a></li>
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/PrintTemplates/PTSToAbroadSummaryDebtTable.aspx">ΠΤΣ προς Εξωτερικό - Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες</a></li>

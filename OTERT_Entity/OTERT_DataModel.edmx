@@ -389,6 +389,8 @@
           <Property Name="CallChardes" Type="decimal" Precision="18" Scale="2" />
           <Property Name="AddedCharges" Type="decimal" Precision="18" Scale="2" />
           <Property Name="InvoiceCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DailyCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SubscriberFee" Type="decimal" Precision="18" Scale="2" />
           <Property Name="CostActual" Type="decimal" Precision="18" Scale="2" />
           <Property Name="PaymentDateActual" Type="datetime" />
           <Property Name="IsLocked" Type="bit" />
@@ -2470,9 +2472,9 @@
           <NavigationProperty Name="Countries" Relationship="OTERT_Model.FK_OrdersPTSGR2_Countries" FromRole="OrdersPTSGR2" ToRole="Countries" />
           <NavigationProperty Name="Customers" Relationship="OTERT_Model.FK_OrdersPTSGR2_Customers" FromRole="OrdersPTSGR2" ToRole="Customers" />
           <NavigationProperty Name="OrdersPTSGR" Relationship="OTERT_Model.FK_OrdersPTSGR2_OrdersPTSGR" FromRole="OrdersPTSGR2" ToRole="OrdersPTSGR" />
-          <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2" FromRole="OrdersPTSGR2" ToRole="TasksPTSGR" />
           <Property Name="RegNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="InvoiceProtocol" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TasksPTSGR" Relationship="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2" FromRole="OrdersPTSGR2" ToRole="TasksPTSGR" />
         </EntityType>
         <Association Name="FK_OrdersPTSGR2_Countries">
           <End Type="OTERT_Model.Countries" Role="Countries" Multiplicity="1" />
@@ -2529,6 +2531,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderPTSGR2ID" Type="Int32" Nullable="false" />
           <Property Name="RegNo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceProtocol" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CustomerID" Type="Int32" Nullable="false" />
           <Property Name="RequestedPositionID" Type="Int32" />
@@ -2541,8 +2544,11 @@
           <Property Name="DateTimeStartActual" Type="DateTime" Precision="3" />
           <Property Name="DateTimeEndActual" Type="DateTime" Precision="3" />
           <Property Name="DateTimeDurationActual" Type="Int32" />
+          <Property Name="CallChardes" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="AddedCharges" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="InvoiceCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DailyCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SubscriberFee" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="CostActual" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PaymentDateActual" Type="DateTime" Precision="3" />
           <Property Name="IsLocked" Type="Boolean" />
@@ -2554,8 +2560,6 @@
           <NavigationProperty Name="OrdersPTSGR2" Relationship="OTERT_Model.FK_TasksPTSGR_OrdersPTSGR2" FromRole="TasksPTSGR" ToRole="OrdersPTSGR2" />
           <NavigationProperty Name="PTSGRPricelist" Relationship="OTERT_Model.FK_TasksPTSGR_PTSGRPricelist" FromRole="TasksPTSGR" ToRole="PTSGRPricelist" />
           <NavigationProperty Name="RequestedPositions" Relationship="OTERT_Model.fk_TasksPTSGR_RequestedPositions" FromRole="TasksPTSGR" ToRole="RequestedPositions" />
-          <Property Name="InvoiceProtocol" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CallChardes" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="fk_TasksPTSGR_Customers">
           <End Type="OTERT_Model.Customers" Role="Customers" Multiplicity="1" />
@@ -3062,8 +3066,6 @@
           <EntitySetMapping Name="TasksPTSGR">
             <EntityTypeMapping TypeName="OTERT_Model.TasksPTSGR">
               <MappingFragment StoreEntitySet="TasksPTSGR">
-                <ScalarProperty Name="CallChardes" ColumnName="CallChardes" />
-                <ScalarProperty Name="InvoiceProtocol" ColumnName="InvoiceProtocol" />
                 <ScalarProperty Name="EnteredByUser" ColumnName="EnteredByUser" />
                 <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
                 <ScalarProperty Name="Comments" ColumnName="Comments" />
@@ -3071,8 +3073,11 @@
                 <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
                 <ScalarProperty Name="PaymentDateActual" ColumnName="PaymentDateActual" />
                 <ScalarProperty Name="CostActual" ColumnName="CostActual" />
+                <ScalarProperty Name="SubscriberFee" ColumnName="SubscriberFee" />
+                <ScalarProperty Name="DailyCost" ColumnName="DailyCost" />
                 <ScalarProperty Name="InvoiceCost" ColumnName="InvoiceCost" />
                 <ScalarProperty Name="AddedCharges" ColumnName="AddedCharges" />
+                <ScalarProperty Name="CallChardes" ColumnName="CallChardes" />
                 <ScalarProperty Name="DateTimeDurationActual" ColumnName="DateTimeDurationActual" />
                 <ScalarProperty Name="DateTimeEndActual" ColumnName="DateTimeEndActual" />
                 <ScalarProperty Name="DateTimeStartActual" ColumnName="DateTimeStartActual" />
@@ -3085,6 +3090,7 @@
                 <ScalarProperty Name="RequestedPositionID" ColumnName="RequestedPositionID" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="InvoiceProtocol" ColumnName="InvoiceProtocol" />
                 <ScalarProperty Name="RegNo" ColumnName="RegNo" />
                 <ScalarProperty Name="OrderPTSGR2ID" ColumnName="OrderPTSGR2ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

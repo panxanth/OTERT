@@ -121,7 +121,26 @@
                                 <telerik:GridDateTimeColumn UniqueName="DateTimeEndActual" DataField="DateTimeEndActual" HeaderText="Ημ/νία Υλοποίησης (Λήξη)" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" />
                                 <telerik:GridBoundColumn DataField="DateTimeDurationActual" HeaderText="Διάρκεια Υλοποίησης" Visible="false" />
                                 <telerik:GridBoundColumn DataField="CostCalculated" HeaderText="Προϋπολογιζόμενο Κόστος (€)" Visible="false" ReadOnly="true" />
-                                <telerik:GridTemplateColumn DataField="CallCharges" UniqueName="CallCharges" HeaderText="Χρέωση Κλήσεων (5%)" Visible="false" >
+
+
+
+                                <telerik:GridTemplateColumn DataField="InvoiceCost" UniqueName="InvoiceCost" HeaderText="Κόστος εγκατάστασης + Router    " Visible="false" >
+                                    <ItemTemplate>
+                                        <asp:Label Text='<% #Eval("InvoiceCost") %>' runat="server" /> 
+                                    </ItemTemplate>
+                                    <EditItemTemplate>
+                                        <asp:TextBox ID="txtInvoiceCost" Text='<% #Bind("InvoiceCost") %>' runat="server" OnTextChanged="txtInvoiceCost_TextChanged" AutoPostBack="true" />
+                                    </EditItemTemplate>
+                                </telerik:GridTemplateColumn>
+                                <telerik:GridTemplateColumn DataField="DailyCost" UniqueName="DailyCost" HeaderText="Πάγια    " Visible="false" >
+                                    <ItemTemplate>
+                                        <asp:Label Text='<% #Eval("DailyCost") %>' runat="server" /> 
+                                    </ItemTemplate>
+                                    <EditItemTemplate>
+                                        <asp:TextBox ID="txtDailyCost" Text='<% #Bind("DailyCost") %>' runat="server" OnTextChanged="txtDailyCost_TextChanged" AutoPostBack="true" />
+                                    </EditItemTemplate>
+                                </telerik:GridTemplateColumn>
+                                <telerik:GridTemplateColumn DataField="CallCharges" UniqueName="CallCharges" HeaderText="Χρεώσεις Κλήσεων" Visible="false" >
                                     <ItemTemplate>
                                         <asp:Label Text='<% #Eval("CallCharges") %>' runat="server" /> 
                                     </ItemTemplate>
@@ -137,12 +156,12 @@
                                         <asp:TextBox ID="txtAddedCharges" Text='<% #Bind("AddedCharges") %>' runat="server" OnTextChanged="txtAddedCharges_TextChanged" AutoPostBack="true" />
                                     </EditItemTemplate>
                                 </telerik:GridTemplateColumn>
-                                <telerik:GridTemplateColumn DataField="InvoiceCost" UniqueName="InvoiceCost" HeaderText="Κόστος Εγκατάστασης + Πάγεια (€)    " Visible="false" >
+                                <telerik:GridTemplateColumn DataField="SubscriberFee" UniqueName="SubscriberFee" HeaderText="Τέλος Συνδρομητών Σταθερής (5%)" Visible="false" >
                                     <ItemTemplate>
-                                        <asp:Label Text='<% #Eval("InvoiceCost") %>' runat="server" /> 
+                                        <asp:Label Text='<% #Eval("SubscriberFee") %>' runat="server" /> 
                                     </ItemTemplate>
                                     <EditItemTemplate>
-                                        <asp:TextBox ID="txtInvoiceCost" Text='<% #Bind("InvoiceCost") %>' runat="server" OnTextChanged="txtInvoiceCost_TextChanged" AutoPostBack="true" />
+                                        <asp:TextBox ID="txtSubscriberFee" Text='<% #Bind("SubscriberFee") %>' runat="server" />
                                     </EditItemTemplate>
                                 </telerik:GridTemplateColumn>
                                 <telerik:GridBoundColumn DataField="CostActual" HeaderText="Ποσό Τιμολογίου (€)" Visible="false" />

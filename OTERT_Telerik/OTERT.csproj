@@ -298,6 +298,14 @@
       <DependentUpon>PTSToAbroadChargesReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\PrintTemplates\PTStoGROTEGLOBE.aspx.cs">
+      <DependentUpon>PTStoGROTEGLOBE.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\PrintTemplates\PTStoGRInvoices.aspx.cs">
+      <DependentUpon>PTStoGRInvoices.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\PrintTemplates\PTSToAbroadSummaryDebtTable.aspx.cs">
       <DependentUpon>PTSToAbroadSummaryDebtTable.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -503,6 +511,8 @@
     <Content Include="Pages\Printouts\PTSToAbroadSummaryDebtTable.aspx" />
     <Content Include="Pages\PrintTemplates\PTSToAbroadExpectedInvoices.aspx" />
     <Content Include="Pages\PrintTemplates\PTSToAbroadChargesReport.aspx" />
+    <Content Include="Pages\PrintTemplates\PTStoGROTEGLOBE.aspx" />
+    <Content Include="Pages\PrintTemplates\PTStoGRInvoices.aspx" />
     <Content Include="Pages\PrintTemplates\PTSToAbroadSummaryDebtTable.aspx" />
     <Content Include="Pages\PrintTemplates\PTStoAbroadOrders.aspx" />
     <Content Include="Pages\PrintTemplates\PTStoAbroadCharges.aspx" />
@@ -654,7 +664,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

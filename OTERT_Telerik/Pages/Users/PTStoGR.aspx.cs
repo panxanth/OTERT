@@ -1542,6 +1542,12 @@ namespace OTERT.Pages.Administrator {
             calculateCosts(eitem);
         }
 
+        protected void txtDailyCost_TextChanged(object sender, EventArgs e) {
+            TextBox txtDailyCost = (TextBox)sender;
+            GridEditableItem eitem = (GridEditableItem)txtDailyCost.NamingContainer;
+            calculateCosts(eitem);
+        }
+
         protected void txtCallCharges_TextChanged(object sender, EventArgs e){
             TextBox txtCallCharges = (TextBox)sender;
             GridEditableItem eitem = (GridEditableItem)txtCallCharges.NamingContainer;

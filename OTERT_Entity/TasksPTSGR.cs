@@ -17,6 +17,7 @@ namespace OTERT_Entity
         public int ID { get; set; }
         public int OrderPTSGR2ID { get; set; }
         public string RegNo { get; set; }
+        public string InvoiceProtocol { get; set; }
         public System.DateTime OrderDate { get; set; }
         public int CustomerID { get; set; }
         public Nullable<int> RequestedPositionID { get; set; }
@@ -29,8 +30,11 @@ namespace OTERT_Entity
         public Nullable<System.DateTime> DateTimeStartActual { get; set; }
         public Nullable<System.DateTime> DateTimeEndActual { get; set; }
         public Nullable<int> DateTimeDurationActual { get; set; }
+        public Nullable<decimal> CallChardes { get; set; }
         public Nullable<decimal> AddedCharges { get; set; }
         public Nullable<decimal> InvoiceCost { get; set; }
+        public Nullable<decimal> DailyCost { get; set; }
+        public Nullable<decimal> SubscriberFee { get; set; }
         public Nullable<decimal> CostActual { get; set; }
         public Nullable<System.DateTime> PaymentDateActual { get; set; }
         public Nullable<bool> IsLocked { get; set; }
@@ -38,8 +42,6 @@ namespace OTERT_Entity
         public string Comments { get; set; }
         public System.DateTime DateStamp { get; set; }
         public string EnteredByUser { get; set; }
-        public string InvoiceProtocol { get; set; }
-        public Nullable<decimal> CallChardes { get; set; }
     
         public virtual Customers Customers { get; set; }
         public virtual OrdersPTSGR2 OrdersPTSGR2 { get; set; }

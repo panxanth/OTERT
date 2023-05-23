@@ -324,6 +324,8 @@ namespace OTERT.Model {
         public decimal? CallCharges { get; set; }
         public decimal? AddedCharges { get; set; }
         public decimal? InvoiceCost { get; set; }
+        public decimal? DailyCost { get; set; }
+        public decimal? SubscriberFee { get; set; }
         public decimal? CostActual { get; set; }
         public DateTime? PaymentDateActual { get; set; }
         public bool IsLocked { get; set; }
