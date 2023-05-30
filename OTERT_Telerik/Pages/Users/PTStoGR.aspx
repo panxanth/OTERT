@@ -121,9 +121,6 @@
                                 <telerik:GridDateTimeColumn UniqueName="DateTimeEndActual" DataField="DateTimeEndActual" HeaderText="Ημ/νία Υλοποίησης (Λήξη)" Visible="false" DataType="System.DateTime" PickerType="DateTimePicker" />
                                 <telerik:GridBoundColumn DataField="DateTimeDurationActual" HeaderText="Διάρκεια Υλοποίησης" Visible="false" />
                                 <telerik:GridBoundColumn DataField="CostCalculated" HeaderText="Προϋπολογιζόμενο Κόστος (€)" Visible="false" ReadOnly="true" />
-
-
-
                                 <telerik:GridTemplateColumn DataField="InvoiceCost" UniqueName="InvoiceCost" HeaderText="Κόστος εγκατάστασης + Router    " Visible="false" >
                                     <ItemTemplate>
                                         <asp:Label Text='<% #Eval("InvoiceCost") %>' runat="server" /> 

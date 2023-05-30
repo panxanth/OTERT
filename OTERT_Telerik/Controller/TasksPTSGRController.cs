@@ -8,6 +8,7 @@ using System.Data.Entity;
 using Telerik.Web.UI;
 using OTERT.WebServices;
 using static System.Net.Mime.MediaTypeNames;
+using OTERT.Pages.Helpers;
 
 namespace OTERT.Controller {
 
@@ -396,6 +397,8 @@ namespace OTERT.Controller {
                                                  CallCharges = us.CallChardes,
                                                  AddedCharges = us.AddedCharges,
                                                  CostActual = us.CostActual,
+                                                 DailyCost = us.DailyCost,
+                                                 SubscriberFee = us.SubscriberFee,
                                                  PaymentDateActual = us.PaymentDateActual,
                                                  IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
                                                  IsCanceled = us.IsCanceled == null ? false : (bool)us.IsCanceled,
@@ -540,6 +543,8 @@ namespace OTERT.Controller {
                                                  CallCharges = us.CallChardes,
                                                  AddedCharges = us.AddedCharges,
                                                  CostActual = us.CostActual,
+                                                 DailyCost = us.DailyCost,
+                                                 SubscriberFee = us.SubscriberFee,
                                                  PaymentDateActual = us.PaymentDateActual,
                                                  IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
                                                  IsCanceled = us.IsCanceled == null ? false : (bool)us.IsCanceled,
@@ -688,6 +693,8 @@ namespace OTERT.Controller {
                                                          CallCharges = us.CallChardes,
                                                          AddedCharges = us.AddedCharges,
                                                          CostActual = us.CostActual,
+                                                         DailyCost = us.DailyCost,
+                                                         SubscriberFee = us.SubscriberFee,
                                                          PaymentDateActual = us.PaymentDateActual,
                                                          IsLocked = us.IsLocked == null ? false : (bool)us.IsLocked,
                                                          IsCanceled = us.IsCanceled == null ? false : (bool)us.IsCanceled,

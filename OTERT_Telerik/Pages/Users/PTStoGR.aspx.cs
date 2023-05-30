@@ -1234,10 +1234,12 @@ namespace OTERT.Pages.Administrator {
                             if (values["DateTimeDurationActual"] != null) { curTask.DateTimeDurationActual = int.Parse((string)values["DateTimeDurationActual"]); } else { curTask.DateTimeDurationActual = null; }
                             curTask.CorrespondentName = (string)values["CorrespondentName"];
                             curTask.TelephoneNumber = (string)values["TelephoneNumber"];
+                            if (values["InvoiceCost"] != null) { curTask.InvoiceCost = decimal.Parse((string)values["InvoiceCost"]); } else { curTask.InvoiceCost = null; }
+                            if (values["DailyCost"] != null) { curTask.DailyCost = decimal.Parse((string)values["DailyCost"]); } else { curTask.DailyCost = null; }
                             if (values["CallCharges"] != null) { curTask.CallChardes = decimal.Parse((string)values["CallCharges"]); } else { curTask.CallChardes = null; }
                             if (values["AddedCharges"] != null) { curTask.AddedCharges = decimal.Parse((string)values["AddedCharges"]); } else { curTask.AddedCharges = null; }
+                            if (values["SubscriberFee"] != null) { curTask.SubscriberFee = decimal.Parse((string)values["SubscriberFee"]); } else { curTask.SubscriberFee = null; }
                             if (values["CostActual"] != null) { curTask.CostActual = decimal.Parse((string)values["CostActual"]); } else { curTask.CostActual = null; }
-                            if (values["InvoiceCost"] != null) { curTask.InvoiceCost = decimal.Parse((string)values["InvoiceCost"]); } else { curTask.InvoiceCost = null; }
                             if (values["PaymentDateActual"] != null) { curTask.PaymentDateActual = DateTime.Parse((string)values["PaymentDateActual"]); } else { curTask.PaymentDateActual = null; }
                             curTask.IsLocked = (bool)values["IsLocked"];
                             CheckBox chkIsCanceled = (CheckBox)editableItem.FindControl("chkIsCanceled");
@@ -1578,21 +1580,25 @@ namespace OTERT.Pages.Administrator {
                 RadDateTimePicker dpDateTimeEndActual = (RadDateTimePicker)eitem["DateTimeEndActual"].Controls[0];
                 DateTime newActualEndDate = dpDateTimeEndActual.SelectedDate ?? nullDate;
                 TextBox txtDateTimeDurationActual = (TextBox)eitem["DateTimeDurationActual"].Controls[0];
-                TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
-                TextBox txtCallCharges = (TextBox)eitem.FindControl("txtCallCharges");
                 TextBox txtInvoiceCost = (TextBox)eitem.FindControl("txtInvoiceCost");
+                TextBox txtDailyCost = (TextBox)eitem.FindControl("txtDailyCost");
+                TextBox txtCallCharges = (TextBox)eitem.FindControl("txtCallCharges");
+                TextBox txtAddedCharges = (TextBox)eitem.FindControl("txtAddedCharges");
+                TextBox txtSubscriberFee = (TextBox)eitem.FindControl("txtSubscriberFee");
                 TextBox txtCostActual = (TextBox)eitem["CostActual"].Controls[0];
                 if (newActualStartDate > nullDate && newActualEndDate > nullDate && newActualEndDate > newActualStartDate) {
                     TimeSpan newActualSpan = newActualEndDate.Subtract(newActualStartDate);
                     int newActualDuration = (int)Math.Ceiling(newActualSpan.TotalDays);
                     PTSGRPricelistController pCon = new PTSGRPricelistController();
                     PTSGRPricelistB curPricelist = pCon.GetPTSGRPricelist(newPTSGRPriceID);
-                    decimal newInvoiceCost = curPricelist.InstallationCost + (newActualDuration * curPricelist.ChargesPerDay + newMSNCount * newActualDuration * curPricelist.MSNPerDay.GetValueOrDefault());
-                    decimal newCostActual = newInvoiceCost;
+                    decimal newInvoiceCost = curPricelist.InstallationCost;
+                    decimal newDailyCost = newActualDuration * curPricelist.ChargesPerDay + newMSNCount * newActualDuration * curPricelist.MSNPerDay.GetValueOrDefault();
+                    decimal newCostActual = newInvoiceCost + newDailyCost;
                     if (!string.IsNullOrEmpty(txtAddedCharges.Text)) { newCostActual += decimal.Parse(txtAddedCharges.Text.Replace(".", ",")); }
                     if (!string.IsNullOrEmpty(txtCallCharges.Text)) { newCostActual += decimal.Parse(txtCallCharges.Text.Replace(".", ",")); }
                     txtDateTimeDurationActual.Text = newActualDuration.ToString();
                     txtInvoiceCost.Text = Math.Round(newInvoiceCost, 2, MidpointRounding.AwayFromZero).ToString();
+                    txtDailyCost.Text = Math.Round(newDailyCost, 2, MidpointRounding.AwayFromZero).ToString();
                     txtCostActual.Text = Math.Round(newCostActual, 2, MidpointRounding.AwayFromZero).ToString();
                 }
             }
