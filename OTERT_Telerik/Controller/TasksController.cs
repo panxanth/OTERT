@@ -2111,7 +2111,7 @@ namespace OTERT.Controller {
                                             InvoiceCost = us.InvoiceCost,
                                             GivenPhoneNumber = us.GivenPhoneNumber,
                                             CorrespondentPhone = us.CorrespondentPhone
-                                        }).Where(k => k.OrderID > 0 && k.PaymentDateOrder >= fromDate && k.PaymentDateOrder <= toDate).ToList();
+                                        }).Where(k => k.OrderID > 0 && k.PaymentDateActual >= fromDate && k.PaymentDateActual <= toDate).ToList();
                     return data;
                 }
                 catch (Exception) { return null; }

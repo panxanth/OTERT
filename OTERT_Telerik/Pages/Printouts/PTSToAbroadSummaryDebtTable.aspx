@@ -29,7 +29,7 @@
     <div>
         <table>
             <tr>
-                <td valign="middle">&nbsp;&nbsp;Ημ/νία Έκδοσης Τιμολογίου:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td valign="middle">&nbsp;&nbsp;Ημ/νία Ελέγχου Τιμολογίου:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td><telerik:RadDatePicker RenderMode="Lightweight" ID="dpDateFrom" runat="server" DateInput-Label="Από: " Culture="el-GR" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td><telerik:RadDatePicker RenderMode="Lightweight" ID="dpDateTo" runat="server" DateInput-Label="Έως: " Culture="el-GR" /></td>
             </tr>
