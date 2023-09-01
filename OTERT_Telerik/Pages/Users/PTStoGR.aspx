@@ -283,7 +283,7 @@
             </MasterTableView>
         </telerik:RadGrid>
         <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" />
-        <br /><br />&nbsp;Δώστε τον Α/Α της παραγγελίας για εκτύπωση:
+        <br /><br />&nbsp;Δώστε τον Α/Α του Παρόχου για εκτύπωση:
         <asp:TextBox ID="txtOrderID" runat="server" Text="" />&nbsp;&nbsp;
         <asp:ImageButton ID="btnPrintOrder" runat="server" ImageUrl="~/Images/print.png" ToolTip="Εκτύπωση Παραγγελίας" onclick="btnPrintOrder_Click" />
     </div>

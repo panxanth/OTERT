@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="PTStoGROTEGLOBE.aspx.cs" Inherits="OTERT.Pages.PrintTemplates.PTStoGROTEGLOBE" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/Inside.Master" AutoEventWireup="true" CodeBehind="PTStoGRTransmit.aspx.cs" Inherits="OTERT.Pages.PrintTemplates.PTStoGRTransmit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PHTitle" runat="server"><% =pageTitle %></asp:Content>
 
@@ -70,8 +70,8 @@
                             <asp:Panel ID="pnlDate" runat="server">
                                  <telerik:RadDropDownList runat="server" ID="ddlDate" RenderMode="Lightweight" Width="250px" AutoPostBack="true" CausesValidation="false" OnSelectedIndexChanged="ddlText_SelectedIndexChanged">
                                      <Items>
-                                         <telerik:DropDownListItem runat="server" Text='<% #DateTime.Now.ToString("dd MMMM yyyy") %>' Value="dd MMMM yyyy" />
-                                         <telerik:DropDownListItem runat="server" Text='<% #DateTime.Now.ToString("dd/MM/yyyy") %>' Value="dd/MM/yyyy" />
+                                         <telerik:DropDownListItem runat="server" Text='<% #DateTime.Now.ToString("dd MMMM yyyy") %>' Value="dddd, dd MMMM yyyy" />
+                                         <telerik:DropDownListItem runat="server" Text='<% #DateTime.Now.ToString("dd-MM-yyyy") %>' Value="dd/MM/yyyy" />
                                      </Items>
                                  </telerik:RadDropDownList>
                             </asp:Panel>

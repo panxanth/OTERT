@@ -1840,18 +1840,15 @@ namespace OTERT.Pages.Administrator {
             return finalString.ToUpper();
         }
 
-        protected void btnPrintOrder_Click(object sender, EventArgs e)
-        {
-            try
-            {
+        protected void btnPrintOrder_Click(object sender, EventArgs e) {
+            try {
                 int taskID = Int32.Parse(txtOrderID.Text);
                 TasksController tCont = new TasksController();
                 OrdersController oCont = new OrdersController();
                 CustomersController cCont = new CustomersController();
                 TaskB task2print = tCont.GetTask(taskID);
                 int orderID = task2print.OrderID.GetValueOrDefault();
-                if (orderID > 0)
-                {
+                if (orderID > 0) {
                     OrderB curOrder = oCont.GetOrder(orderID);
                     CustomerB curProvider = cCont.GetCustomer(curOrder.Customer1ID);
                     DocumentReplacemetsController cont = new DocumentReplacemetsController();
@@ -1910,10 +1907,8 @@ namespace OTERT.Pages.Administrator {
                     currPar.Properties.TextAlignment.LocalValue = Alignment.Left;
                     currPar.Spacing.LineSpacing = 1;
                     editor.MoveToInlineStart(((Paragraph)currCell.Blocks.First()).Inlines.First());
-                    for (int i = 0; i < arrText.Length; i++)
-                    {
-                        if (!string.IsNullOrEmpty(arrText[i]))
-                        {
+                    for (int i = 0; i < arrText.Length; i++) {
+                        if (!string.IsNullOrEmpty(arrText[i])) {
                             currRun = editor.InsertLine(arrText[i]);
                             currRun.Paragraph.ContextualSpacing = true;
                             currRun.Paragraph.Spacing.LineSpacing = 1;
@@ -1924,8 +1919,7 @@ namespace OTERT.Pages.Administrator {
                             currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                         }
                     }
-                    for (int i = 0; i < 2; i++)
-                    {
+                    for (int i = 0; i < 2; i++) {
                         currRun = editor.InsertLine(" ");
                         currRun.Paragraph.ContextualSpacing = true;
                         currRun.Paragraph.Spacing.LineSpacing = 1;
@@ -1945,10 +1939,8 @@ namespace OTERT.Pages.Administrator {
                     currPar.Properties.TextAlignment.LocalValue = Alignment.Left;
                     currPar.Spacing.LineSpacing = 1;
                     editor.MoveToInlineStart(((Paragraph)currCell.Blocks.First()).Inlines.First());
-                    for (int i = 0; i < arrText.Length; i++)
-                    {
-                        if (!string.IsNullOrEmpty(arrText[i]))
-                        {
+                    for (int i = 0; i < arrText.Length; i++) {
+                        if (!string.IsNullOrEmpty(arrText[i])) {
                             currRun = editor.InsertLine(arrText[i]);
                             currRun.Paragraph.ContextualSpacing = true;
                             currRun.Paragraph.Spacing.LineSpacing = 1;
@@ -1968,8 +1960,7 @@ namespace OTERT.Pages.Administrator {
                     currPar.Properties.TextAlignment.LocalValue = Alignment.Left;
                     currPar.Spacing.LineSpacing = 1;
                     editor.MoveToInlineStart(((Paragraph)currCell.Blocks.First()).Inlines.First());
-                    for (int i = 0; i < arrText.Length; i++)
-                    {
+                    for (int i = 0; i < arrText.Length; i++) {
                         if (string.IsNullOrEmpty(arrText[i])) { arrText[i] = " "; }
                         currRun = editor.InsertLine(arrText[i]);
                         currRun.Paragraph.ContextualSpacing = true;
@@ -2002,10 +1993,8 @@ namespace OTERT.Pages.Administrator {
                     currPar.Properties.TextAlignment.LocalValue = Alignment.Left;
                     currPar.Spacing.LineSpacing = 1;
                     editor.MoveToInlineStart(((Paragraph)currCell.Blocks.First()).Inlines.First());
-                    for (int i = 0; i < arrText.Length; i++)
-                    {
-                        if (!string.IsNullOrEmpty(arrText[i]))
-                        {
+                    for (int i = 0; i < arrText.Length; i++) {
+                        if (!string.IsNullOrEmpty(arrText[i])) {
                             currRun = editor.InsertLine(arrText[i]);
                             currRun.Paragraph.ContextualSpacing = true;
                             currRun.Paragraph.Spacing.LineSpacing = 1;
@@ -2143,26 +2132,19 @@ namespace OTERT.Pages.Administrator {
                     editor.MoveToInlineEnd(bookmarkRangeStart);
                     curRep = reps.Find(o => o.UniqueName == "PTStoAbroadOrders_Main_Text");
                     arrText = curRep.Text.Replace("\r\n", "#").Replace("\n", "#").Split(new char[] { '#' }, StringSplitOptions.None);
-                    for (int i = 0; i < arrText.Length; i++)
-                    {
+                    for (int i = 0; i < arrText.Length; i++) {
                         if (string.IsNullOrEmpty(arrText[i])) { arrText[i] = "   "; }
                         string[] arrTextBold = arrText[i].Split(new string[] { "/b/" }, StringSplitOptions.RemoveEmptyEntries);
-                        if (arrTextBold.Length > 1)
-                        {
-                            for (int k = 0; k < arrTextBold.Length; k++)
-                            {
+                        if (arrTextBold.Length > 1) {
+                            for (int k = 0; k < arrTextBold.Length; k++) {
                                 bool isBlue = false;
-                                if (arrTextBold[k].StartsWith("isBlue") && arrTextBold[k].EndsWith("isBlue"))
-                                {
+                                if (arrTextBold[k].StartsWith("isBlue") && arrTextBold[k].EndsWith("isBlue")) {
                                     arrTextBold[k] = arrTextBold[k].Replace("isBlue", "");
                                     isBlue = true;
                                 }
-                                if (k == arrTextBold.Length - 1)
-                                {
+                                if (k == arrTextBold.Length - 1) {
                                     currRun = editor.InsertLine(arrTextBold[k]);
-                                }
-                                else
-                                {
+                                } else {
                                     currRun = editor.InsertText(arrTextBold[k]);
                                 }
                                 currRun.Paragraph.ContextualSpacing = true;
@@ -2171,31 +2153,23 @@ namespace OTERT.Pages.Administrator {
                                 currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                                 if (isBlue == true) { currRun.Properties.ForegroundColor.LocalValue = new ThemableColor(System.Windows.Media.Color.FromRgb(0, 0, 255)); }
                                 currRun.Properties.FontSize.LocalValue = 12.0;
-                                if (k % 2 == 1)
-                                {
+                                if (k % 2 == 1) {
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
-                                }
-                                else
-                                {
+                                } else {
                                     currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                                 }
                                 currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             currRun = editor.InsertLine(arrText[i]);
                             currRun.Paragraph.ContextualSpacing = true;
                             currRun.Paragraph.Spacing.LineSpacing = 1;
                             currRun.Paragraph.Properties.TextAlignment.LocalValue = Alignment.Justified;
                             currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                             currRun.Properties.FontSize.LocalValue = 12.0;
-                            if (i == 0)
-                            {
+                            if (i == 0) {
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Bold;
-                            }
-                            else
-                            {
+                            } else {
                                 currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                             }
                             currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;

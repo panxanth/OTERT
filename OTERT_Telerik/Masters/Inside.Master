@@ -98,6 +98,7 @@
                 <div class="arrow"><a class="button_2">Εκτυπωτικά</a></div>
             </div>
             <ul class="gradient_menu gradient99">
+                <li class="gradient_menuitem gradient27"><a href="/Pages/Printouts/PTSToGRTransmit.aspx" title="">ΠΤΣ προς Ελλάδα - Λογαριασμοί από Ανταποκρίσεις Πελατών Εξωτερικου</a></li>
                 <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/Printouts/PTSToAbroadSummaryDebtTable.aspx" title="">ΠΤΣ προς Εξωτερικό - Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες</a></li>
                 <!-- 
                 <li class="gradient_menuitem gradient27"><a href="/Pages/Printouts/PTSToAbroadChargesReport.aspx" title="">ΠΤΣ προς Εξωτερικό - Αναφορά Χρεώσεων</a></li>
@@ -185,7 +186,7 @@
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/InvoiceDetailed.aspx">Τιμολόγιο (Αναλυτικό)</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/InvoiceMail.aspx">Τιμολόγιο (Email)</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoGRInvoices.aspx">ΠΤΣ προς Ελλάδα - Αποδείξεις</a></li>
-                        <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoGROTEGLOBE.aspx">ΠΤΣ προς Ελλάδα - Επιστολή Οφειλών προς OTEGLOBE</a></li>
+                        <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoGRTransmit.aspx">ΠΤΣ προς Ελλάδα - Λογαριασμοί από Ανταποκρίσεις Πελατών Εξωτερικου</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoAbroadCharges.aspx">ΠΤΣ προς Εξωτερικό - Χρεωπιστωτικό</a></li>
                         <li class="gradient_menuitem gradient27"><a href="/Pages/PrintTemplates/PTStoAbroadOrders.aspx">ΠΤΣ προς Εξωτερικό - Παραγγελίες</a></li>
                         <li class="gradient_menuitem gradient27 last_item"><a href="/Pages/PrintTemplates/PTSToAbroadSummaryDebtTable.aspx">ΠΤΣ προς Εξωτερικό - Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες</a></li>

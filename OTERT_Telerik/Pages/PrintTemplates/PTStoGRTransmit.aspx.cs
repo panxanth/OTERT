@@ -21,7 +21,7 @@ using OTERT_Entity;
 
 namespace OTERT.Pages.PrintTemplates {
 
-    public partial class PTStoGROTEGLOBE : Page {
+    public partial class PTStoGRTransmit : Page {
 
         protected RadGrid gridMain;
         protected RadAjaxManager RadAjaxManager1;
@@ -31,12 +31,12 @@ namespace OTERT.Pages.PrintTemplates {
         protected UserB loggedUser;
         const string templatesFolder = "~/Templates/";
         const string fileUploadFolder = "~/UploadedFiles/";
-        const string pageUniqueName = "PTStoGRPTStoGROTEGLOBE_";
+        const string pageUniqueName = "PTStoGRTransmit_";
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
-                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Εκτυπώσεων > ΠΤΣ προς Ελλάδα - Επιστολή Οφειλών προς OTEGLOBE";
-                gridMain.MasterTableView.Caption = "Διαχείριση Εκτυπώσεων > ΠΤΣ προς Ελλάδα - Επιστολή Οφειλών προς OTEGLOBE";
+                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Διαχείριση Εκτυπώσεων > ΠΤΣ προς Ελλάδα - Λογαριασμοί από Ανταποκρίσεις Πελατών Εξωτερικου";
+                gridMain.MasterTableView.Caption = "Διαχείριση Εκτυπώσεων > ΠΤΣ προς Ελλάδα - Λογαριασμοί από Ανταποκρίσεις Πελατών Εξωτερικου";
                 textFromSession = "";
                 Session.Remove("textFromSession");
             }

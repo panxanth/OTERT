@@ -286,6 +286,10 @@
       <DependentUpon>PTSToAbroadChargesReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Pages\Printouts\PTSToGRTransmit.aspx.cs">
+      <DependentUpon>PTSToGRTransmit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pages\Printouts\PTSToAbroadSummaryDebtTable.aspx.cs">
       <DependentUpon>PTSToAbroadSummaryDebtTable.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -298,8 +302,8 @@
       <DependentUpon>PTSToAbroadChargesReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\PrintTemplates\PTStoGROTEGLOBE.aspx.cs">
-      <DependentUpon>PTStoGROTEGLOBE.aspx</DependentUpon>
+    <Compile Include="Pages\PrintTemplates\PTStoGRTransmit.aspx.cs">
+      <DependentUpon>PTStoGRTransmit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\PrintTemplates\PTStoGRInvoices.aspx.cs">
@@ -508,10 +512,11 @@
     <Content Include="Pages\Password\ChangePassword.aspx" />
     <Content Include="Pages\Printouts\PTSToAbroadExpectedInvoices.aspx" />
     <Content Include="Pages\Printouts\PTSToAbroadChargesReport.aspx" />
+    <Content Include="Pages\Printouts\PTSToGRTransmit.aspx" />
     <Content Include="Pages\Printouts\PTSToAbroadSummaryDebtTable.aspx" />
     <Content Include="Pages\PrintTemplates\PTSToAbroadExpectedInvoices.aspx" />
     <Content Include="Pages\PrintTemplates\PTSToAbroadChargesReport.aspx" />
-    <Content Include="Pages\PrintTemplates\PTStoGROTEGLOBE.aspx" />
+    <Content Include="Pages\PrintTemplates\PTStoGRTransmit.aspx" />
     <Content Include="Pages\PrintTemplates\PTStoGRInvoices.aspx" />
     <Content Include="Pages\PrintTemplates\PTSToAbroadSummaryDebtTable.aspx" />
     <Content Include="Pages\PrintTemplates\PTStoAbroadOrders.aspx" />
@@ -612,6 +617,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
+    <Content Include="Templates\PTStoGROTEGLOBE.docx" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

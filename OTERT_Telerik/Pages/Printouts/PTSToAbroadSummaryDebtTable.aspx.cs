@@ -37,7 +37,7 @@ namespace OTERT.Pages.Printouts {
 
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
-                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Εκτυπωτικά > Συγκεντρωτικός Πίνακας Οφειλών σε Ξένες Τηλεπ/κες Υπηρεσίες";
+                pageTitle = ConfigurationManager.AppSettings["AppTitle"].ToString() + "Εκτυπωτικά > ΠΤΣ προς Ελλάδα - Λογαριασμοί από Ανταποκρίσεις Πελατών Εξωτερικου";
                 dpDateFrom.SelectedDate = DateTime.Today.AddMonths(-1).Date;
                 dpDateTo.SelectedDate = DateTime.Today.Date;
             }
@@ -268,7 +268,7 @@ namespace OTERT.Pages.Printouts {
                         totalCostPerOrder = 0.0M;
                         OrderB curOrder = oc.GetOrder(orderID);
                         string InoiceProtocol = curOrder.InoiceProtocol;
-                        string PaymentDateOrder = tasksForOrderID[0].PaymentDateOrder.GetValueOrDefault().ToString("dd/MM/yyyy");
+                        string PaymentDateActual = tasksForOrderID[0].PaymentDateActual.GetValueOrDefault().ToString("dd/MM/yyyy");
                         foreach (TaskB curTask in tasksForOrderID) {
                             decimal combinedCost = curTask.InvoiceCost.GetValueOrDefault() + curTask.AddedCharges.GetValueOrDefault();
                             totalEuroCostPerOrder += curTask.InvoiceCost.GetValueOrDefault();
@@ -289,7 +289,7 @@ namespace OTERT.Pages.Printouts {
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
                         currRun.Properties.FontStyle.LocalValue = FontStyles.Normal;
                         curCell = curRow.Cells.AddTableCell();
-                        currRun = curCell.Blocks.AddParagraph().Inlines.AddRun(PaymentDateOrder);
+                        currRun = curCell.Blocks.AddParagraph().Inlines.AddRun(PaymentDateActual);
                         currRun.Properties.FontFamily.LocalValue = new ThemableFontFamily("Arial");
                         currRun.Properties.FontSize.LocalValue = 12.0;
                         currRun.Properties.FontWeight.LocalValue = FontWeights.Normal;
